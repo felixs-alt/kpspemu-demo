@@ -29,49 +29,52 @@
   var AsyncInjector = $module$korio_js.com.soywiz.korio.inject.AsyncInjector;
   var getKClass = Kotlin.getKClass;
   var CoroutineImpl = Kotlin.kotlin.coroutines.experimental.CoroutineImpl;
+  var COROUTINE_SUSPENDED = Kotlin.kotlin.coroutines.experimental.intrinsics.COROUTINE_SUSPENDED;
   var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var SizeInt = $module$korma_js.com.soywiz.korma.geom.SizeInt;
   var Module = $module$korge_js.com.soywiz.korge.scene.Module;
-  var crypto = $module$korio_js.com.soywiz.korio.crypto;
-  var lazy = Kotlin.kotlin.lazy_klfg04$;
-  var PropertyMetadata = Kotlin.PropertyMetadata;
-  var sliceWithSize = $module$korio_js.com.soywiz.korio.stream.sliceWithSize_1r8368$;
-  var readAll = $module$korio_js.com.soywiz.korio.stream.readAll_ucmi9i$;
-  var throwNPE = Kotlin.throwNPE;
-  var Unit = Kotlin.kotlin.Unit;
-  var color = $module$korim_js.com.soywiz.korim.color;
-  var image = $module$korge_js.com.soywiz.korge.view.image_knk7mb$;
-  var Scene = $module$korge_js.com.soywiz.korge.scene.Scene;
+  var vfs = $module$korio_js.com.soywiz.korio.vfs;
+  var util = $module$korio_js.com.soywiz.korio.util;
   var openSync = $module$korio_js.com.soywiz.korio.stream.openSync_m1iwyb$;
+  var Unit = Kotlin.kotlin.Unit;
   var Bitmap32 = $module$korim_js.com.soywiz.korim.bitmap.Bitmap32;
   var texture = $module$korge_js.com.soywiz.korge.view.texture_q2u7nr$;
+  var lazy = Kotlin.kotlin.lazy_klfg04$;
+  var PropertyMetadata = Kotlin.PropertyMetadata;
+  var printStackTrace = $module$korio_js.com.soywiz.korio.lang.printStackTrace_dbl4o4$;
+  var Throwable = Error;
+  var image = $module$korge_js.com.soywiz.korge.view.image_knk7mb$;
+  var Scene = $module$korge_js.com.soywiz.korge.scene.Scene;
   var defineInlineFunction = Kotlin.defineInlineFunction;
   var wrapFunction = Kotlin.wrapFunction;
+  var extract = $module$korio_js.com.soywiz.korio.util.extract_e4yvb3$;
   var format = $module$korio_js.com.soywiz.korio.lang.format_e33kwl$;
   var Exception = Kotlin.kotlin.Exception;
   var toString = Kotlin.toString;
+  var listOf = Kotlin.kotlin.collections.listOf_i5x0yv$;
   var to = Kotlin.kotlin.to_ujzrz7$;
+  var toMap = Kotlin.kotlin.collections.toMap_6hr0sd$;
   var mapOf = Kotlin.kotlin.collections.mapOf_qfcya0$;
   var split = Kotlin.kotlin.text.split_o64adg$;
   var Regex = Kotlin.kotlin.text.Regex_61zpoe$;
   var iterator = Kotlin.kotlin.text.iterator_gw00vp$;
   var unboxChar = Kotlin.unboxChar;
-  var listOf = Kotlin.kotlin.collections.listOf_i5x0yv$;
-  var toMap = Kotlin.kotlin.collections.toMap_6hr0sd$;
   var equals = Kotlin.equals;
   var replace = Kotlin.kotlin.text.replace_r2fvfm$;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
-  var getCallableRef = Kotlin.getCallableRef;
-  var lmapOf = $module$korio_js.com.soywiz.korio.ds.lmapOf_qfcya0$;
+  var IllegalStateException = Kotlin.kotlin.IllegalStateException;
   var udiv = $module$korio_js.com.soywiz.korio.util.udiv_dqglrj$;
   var urem = $module$korio_js.com.soywiz.korio.util.urem_dqglrj$;
-  var util = $module$korio_js.com.soywiz.korio.util;
+  var color = $module$korim_js.com.soywiz.korim.color;
   var throwUPAE = Kotlin.throwUPAE;
+  var invalidOp = $module$korio_js.com.soywiz.korio.error.invalidOp_61zpoe$;
+  var sliceWithSize = $module$korio_js.com.soywiz.korio.stream.sliceWithSize_1r8368$;
   var until = Kotlin.kotlin.ranges.until_dqglrj$;
+  var lmapOf = $module$korio_js.com.soywiz.korio.ds.lmapOf_qfcya0$;
+  var sliceWithSize_0 = $module$korio_js.com.soywiz.korio.stream.sliceWithSize_acdave$;
   var readStringz = $module$korio_js.com.soywiz.korio.stream.readStringz_4zsegu$;
   var readStringz_0 = $module$korio_js.com.soywiz.korio.stream.readStringz_6ey4ts$;
-  var invalidOp = $module$korio_js.com.soywiz.korio.error.invalidOp_61zpoe$;
   var readU8 = $module$korio_js.com.soywiz.korio.stream.readU8_p2awyq$;
   var readUByteArray = $module$korio_js.com.soywiz.korio.stream.readUByteArray_xpzb7k$;
   var readU16_le = $module$korio_js.com.soywiz.korio.stream.readU16_le_p2awyq$;
@@ -79,58 +82,60 @@
   var readS16_le = $module$korio_js.com.soywiz.korio.stream.readS16_le_p2awyq$;
   var Enum = Kotlin.kotlin.Enum;
   var throwISE = Kotlin.throwISE;
-  var Annotation = Kotlin.kotlin.Annotation;
+  var last = Kotlin.kotlin.collections.last_2p1efm$;
+  var numberToInt = Kotlin.numberToInt;
+  var nextAlignedTo = $module$korma_js.com.soywiz.korma.numeric.nextAlignedTo_dqglrj$;
+  var until_0 = Kotlin.kotlin.ranges.until_ebnic$;
+  var Error_0 = Kotlin.kotlin.Error;
+  var copyTo = $module$korio_js.com.soywiz.korio.stream.copyTo_y2f6oo$;
+  var readAll = $module$korio_js.com.soywiz.korio.stream.readAll_ucmi9i$;
+  var slice = $module$korio_js.com.soywiz.korio.stream.slice_i2r7m7$;
+  var lang = $module$korio_js.com.soywiz.korio.lang;
+  var write32_le = $module$korio_js.com.soywiz.korio.stream.write32_le_n5df9z$;
+  var insert = $module$korio_js.com.soywiz.korio.util.insert_4684dr$;
+  var throwNPE = Kotlin.throwNPE;
+  var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_q3lmfv$;
+  var getCallableRef = Kotlin.getCallableRef;
   var MtRand_init = $module$korma_js.com.soywiz.korma.random.MtRand_init_za3lpa$;
   var toByte = Kotlin.toByte;
+  var sliceWithStart = $module$korio_js.com.soywiz.korio.stream.sliceWithStart_gezhyr$;
   var error = $module$korio_js.com.soywiz.korio.error;
   var SyncStreamBase = $module$korio_js.com.soywiz.korio.stream.SyncStreamBase;
   var SyncStream = $module$korio_js.com.soywiz.korio.stream.SyncStream;
   var toShort = Kotlin.toShort;
   var KorioNative$FastMemory = $module$korio_js.com.soywiz.korio.KorioNative.FastMemory;
+  var LocalVfs = $module$korio_js.com.soywiz.korio.vfs.LocalVfs_61zpoe$;
+  var toStringUnsigned = $module$korio_js.com.soywiz.korio.util.toStringUnsigned_dqglrj$;
   KpspemuModule.prototype = Object.create(Module.prototype);
   KpspemuModule.prototype.constructor = KpspemuModule;
   KpspemuMainScene.prototype = Object.create(Scene.prototype);
   KpspemuMainScene.prototype.constructor = KpspemuMainScene;
   InstructionEvaluator.prototype = Object.create(InstructionDecoder.prototype);
   InstructionEvaluator.prototype.constructor = InstructionEvaluator;
-  InstructionOpcodeDecoder$evaluator$ObjectLiteral.prototype = Object.create(InstructionEvaluator.prototype);
-  InstructionOpcodeDecoder$evaluator$ObjectLiteral.prototype.constructor = InstructionOpcodeDecoder$evaluator$ObjectLiteral;
+  InstructionOpcodeDecoder$ResultInstructionEvaluator.prototype = Object.create(InstructionEvaluator.prototype);
+  InstructionOpcodeDecoder$ResultInstructionEvaluator.prototype.constructor = InstructionOpcodeDecoder$ResultInstructionEvaluator;
   Disassembler.prototype = Object.create(InstructionDecoder.prototype);
   Disassembler.prototype.constructor = Disassembler;
   InstructionInterpreter.prototype = Object.create(InstructionEvaluator.prototype);
   InstructionInterpreter.prototype.constructor = InstructionInterpreter;
-  ElfSectionHeaderType$Companion.prototype = Object.create(BaseEnum.prototype);
-  ElfSectionHeaderType$Companion.prototype.constructor = ElfSectionHeaderType$Companion;
-  ElfSectionHeaderType.prototype = Object.create(Enum.prototype);
-  ElfSectionHeaderType.prototype.constructor = ElfSectionHeaderType;
-  ElfSectionHeaderFlags$Companion.prototype = Object.create(BaseEnum.prototype);
-  ElfSectionHeaderFlags$Companion.prototype.constructor = ElfSectionHeaderFlags$Companion;
-  ElfSectionHeaderFlags.prototype = Object.create(Enum.prototype);
-  ElfSectionHeaderFlags.prototype.constructor = ElfSectionHeaderFlags;
-  ElfType$Companion.prototype = Object.create(BaseEnum.prototype);
-  ElfType$Companion.prototype.constructor = ElfType$Companion;
   ElfType.prototype = Object.create(Enum.prototype);
   ElfType.prototype.constructor = ElfType;
-  ElfMachine$Companion.prototype = Object.create(BaseEnum.prototype);
-  ElfMachine$Companion.prototype.constructor = ElfMachine$Companion;
   ElfMachine.prototype = Object.create(Enum.prototype);
   ElfMachine.prototype.constructor = ElfMachine;
-  ElfPspModuleFlags$Companion.prototype = Object.create(BaseEnum.prototype);
-  ElfPspModuleFlags$Companion.prototype.constructor = ElfPspModuleFlags$Companion;
   ElfPspModuleFlags.prototype = Object.create(Enum.prototype);
   ElfPspModuleFlags.prototype.constructor = ElfPspModuleFlags;
-  ElfPspLibFlags$Companion.prototype = Object.create(BaseEnum.prototype);
-  ElfPspLibFlags$Companion.prototype.constructor = ElfPspLibFlags$Companion;
   ElfPspLibFlags.prototype = Object.create(Enum.prototype);
   ElfPspLibFlags.prototype.constructor = ElfPspLibFlags;
-  ElfPspModuleNids$Companion.prototype = Object.create(BaseEnum.prototype);
-  ElfPspModuleNids$Companion.prototype.constructor = ElfPspModuleNids$Companion;
   ElfPspModuleNids.prototype = Object.create(Enum.prototype);
   ElfPspModuleNids.prototype.constructor = ElfPspModuleNids;
-  ElfRelocType$Companion.prototype = Object.create(BaseEnum.prototype);
-  ElfRelocType$Companion.prototype.constructor = ElfRelocType$Companion;
   ElfRelocType.prototype = Object.create(Enum.prototype);
   ElfRelocType.prototype.constructor = ElfRelocType;
+  PixelFormat.prototype = Object.create(Enum.prototype);
+  PixelFormat.prototype.constructor = PixelFormat;
+  MemoryAnchor.prototype = Object.create(Enum.prototype);
+  MemoryAnchor.prototype.constructor = MemoryAnchor;
+  OutOfMemoryError.prototype = Object.create(Exception.prototype);
+  OutOfMemoryError.prototype.constructor = OutOfMemoryError;
   UtilsForUser.prototype = Object.create(SceModule.prototype);
   UtilsForUser.prototype.constructor = UtilsForUser;
   sceCtrl.prototype = Object.create(SceModule.prototype);
@@ -159,7 +164,7 @@
   };
   function Emulator(syscalls, mem, display) {
     if (syscalls === void 0)
-      syscalls = new RegistrableSyscallHandler();
+      syscalls = new SyscallManager();
     if (mem === void 0)
       mem = Memory$Companion_getInstance().invoke();
     if (display === void 0)
@@ -167,15 +172,24 @@
     this.syscalls = syscalls;
     this.mem = mem;
     this.display = display;
+    this.memoryManager = new MemoryManager();
+    this.moduleManager = new ModuleManager(this);
     this.mainThread = new PspThread(this.mem, this.syscalls);
     this.cpu = this.mainThread.cpu;
     this.interpreter = new CpuInterpreter(this.cpu);
   }
+  Emulator.prototype.frameStep = function () {
+    this.display.dispatchVsync();
+    this.interpreter.steps_za3lpa$(1000000);
+  };
   Emulator.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'Emulator',
     interfaces: []
   };
+  function main(args) {
+    Main_getInstance().main_kand9s$(args);
+  }
   function Main() {
     Main_instance = this;
   }
@@ -266,67 +280,148 @@
     }
     return KpspemuModule_instance;
   }
-  function MinifireElf$lambda() {
-    return crypto.Base64.decode_61zpoe$('f0VMRgEBAQAAAAAAAAAAAAIACAABAAAACACQCDwAAAA0AAAAATCiEDQAIAABACgA\n' + 'AwACAAAAAAAAAAAAAQAAALAAAAAAAJAIAACQCNgBAADYAQAABwAAABAAAAABAAAA\n' + 'AQAAAAIAAAAAAJAIsAAAANgBAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAMAAAAAAAAA\n' + 'AAAAAIgCAAAXAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAEBVU5QAJAIEDwEAAQm\n' + 'UAAFJhQABiQCAAc8AIAIPCFIAAAAAAAAAAAAAAAAAAAAAAAATBsIACEgQAAhKAAA\n' + 'ITAAAMwbCAAhIAAATBwIACD2vSchIKADzC8IAKAIETywCBI8AEQQPCEgAADgAQUk\n' + 'EAEGJIxOCAAhECACALYINAAAQKD//wgl/f8BBQEAQiQAtDQ2/wGTJiEgoAMMMAgA\n' + 'AQCUJisYkwL7/2AUAACCov4BFSQhIKADDDAIAFkAAyQCAGAUGwBDAA0ABwASEAAA\n' + 'EBgAAAEAYyRAGgMAIKBxACQQVQABAEIkIKCCAgAAlaJZAAgkALIpNgCySzb+ASol\n' + 'AAIkkQECJZEhIIUAAgIlkSEghQABACWRISCFAIIgBAABAIBc//+EJAEAZKEBACkl\n' + 'KxAqAfL/QBQBAGsl//8IJQL8ayXt/wAdAvwpJRAACDwmgAgCIRAAAiFAAAAhUEAC\n' + 'ISAAAgACSyUAAEKRAACCrAAIgqwAEIKsAQBKJSsYSwH5/2AUBACEJAEACCVaAAIt\n' + '9P9AFAAQhCTQCaQnAQAFJAxUCADUCaiPAQAAVcw6CADMUQgAISAAAgACBSQDAAYk\n' + 'AQAHJMxPCAAhQCACIYhAAiQAJAohkAABAC5yb2RhdGEuc2NlTW9kdWxlSW5mbwA=');
-  }
-  var MinifireElf;
-  function get_MinifireElf() {
-    new PropertyMetadata('MinifireElf');
-    return MinifireElf.value;
-  }
   function KpspemuMainScene() {
     Scene.call(this);
-    this.elf = Elf$Companion_getInstance().read_39qel5$(openSync(get_MinifireElf()));
-    this.emu = new Emulator(void 0, Memory$Companion_getInstance().invoke());
-    this.bmp = new Bitmap32(512, 272);
-    this.temp = new Int8Array((512 * 272 | 0) * 4 | 0);
-    this.tex_t00rkw$_0 = lazy(KpspemuMainScene$tex$lambda(this));
   }
-  Object.defineProperty(KpspemuMainScene.prototype, 'tex', {
-    get: function () {
-      var $receiver = this.tex_t00rkw$_0;
-      new PropertyMetadata('tex');
-      return $receiver.value;
-    }
-  });
-  function KpspemuMainScene$sceneInit$lambda(this$KpspemuMainScene) {
+  function KpspemuMainScene$sceneInit$lambda(this$KpspemuMainScene, closure$bmp) {
+    return function () {
+      return texture(this$KpspemuMainScene.views, closure$bmp);
+    };
+  }
+  function KpspemuMainScene$sceneInit$lambda_0(closure$emu, closure$running, closure$bmp, closure$tex) {
     return function (it) {
-      this$KpspemuMainScene.emu.interpreter.steps_za3lpa$(1000000);
-      this$KpspemuMainScene.emu.mem.read_3fge6q$(this$KpspemuMainScene.emu.display.address, this$KpspemuMainScene.temp, 0, this$KpspemuMainScene.temp.length);
-      color.RGBA.decodeToBitmap32_131o2$(this$KpspemuMainScene.bmp, this$KpspemuMainScene.temp);
-      var bmpData = this$KpspemuMainScene.bmp.data;
-      for (var n = 0; n < bmpData.length; n++)
-        bmpData[n] = bmpData[n] & 16777215 | (new Kotlin.Long(-16777216, 0)).toInt();
-      this$KpspemuMainScene.tex.update_hi0ws4$(this$KpspemuMainScene.bmp);
+      var $receiver = closure$emu;
+      var closure$running_0 = closure$running;
+      var closure$bmp_0 = closure$bmp;
+      var closure$tex_0 = closure$tex;
+      if (closure$running_0.v) {
+        try {
+          $receiver.frameStep();
+          if ($receiver.display.rawDisplay) {
+            $receiver.display.decodeToBitmap32_59u9qz$(closure$bmp_0);
+            new PropertyMetadata('tex');
+            closure$tex_0.value.update_hi0ws4$(closure$bmp_0);
+          }
+        }
+         catch (e) {
+          if (Kotlin.isType(e, Throwable)) {
+            printStackTrace(e);
+            closure$running_0.v = false;
+          }
+           else
+            throw e;
+        }
+      }
       return Unit;
     };
   }
-  KpspemuMainScene.prototype.sceneInit_f3yb8w$ = function (sceneView, continuation) {
-    var $receiver = this.emu;
-    var tmp$;
-    var ph = this.elf.programHeaders.get_za3lpa$(0);
-    var programBytes = readAll(sliceWithSize(this.elf.stream, Kotlin.Long.fromInt(ph.offset), Kotlin.Long.fromInt(ph.fileSize)));
-    $receiver.mem.write_3fge6q$(ph.virtualAddress, programBytes);
-    var moduleInfo = ElfPspModuleInfo$Companion_getInstance().invoke_39qel5$(((tmp$ = this.elf.sectionHeadersByName.get_11rb$('.rodata.sceModuleInfo')) != null ? tmp$ : throwNPE()).stream.clone());
-    $receiver.interpreter.trace = false;
-    (new UtilsForUser()).registerPspModule_egl5qq$(this.emu);
-    (new sceCtrl()).registerPspModule_egl5qq$(this.emu);
-    (new sceDisplay()).registerPspModule_egl5qq$(this.emu);
-    $receiver.cpu.GPR.set_vux9f0$(29, 167772160);
-    $receiver.cpu.setPC_za3lpa$(143654920);
-    sceneView.addUpdatable_b4k9x1$(KpspemuMainScene$sceneInit$lambda(this));
-    sceneView.plusAssign_l5rad2$(image(this.views, this.tex));
+  KpspemuMainScene.prototype.sceneInit_f3yb8w$ = function (sceneView_0, continuation_0, suspended) {
+    var instance = new Coroutine$sceneInit_f3yb8w$(this, sceneView_0, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
   };
-  function KpspemuMainScene$tex$lambda(this$KpspemuMainScene) {
-    return function () {
-      return texture(this$KpspemuMainScene.views, this$KpspemuMainScene.bmp);
-    };
+  function Coroutine$sceneInit_f3yb8w$($this, sceneView_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.$this = $this;
+    this.local$sceneView = sceneView_0;
   }
+  Coroutine$sceneInit_f3yb8w$.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$sceneInit_f3yb8w$.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$sceneInit_f3yb8w$.prototype.constructor = Coroutine$sceneInit_f3yb8w$;
+  Coroutine$sceneInit_f3yb8w$.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            var tmp$;
+            if (util.OS.isJs)
+              tmp$ = vfs.applicationVfs;
+            else
+              tmp$ = vfs.applicationVfs.get_61zpoe$('samples').jail();
+            var samplesFolder = tmp$;
+            this.state_0 = 2;
+            this.result_0 = samplesFolder.get_61zpoe$('HelloWorldPSP.elf').readAll(this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            var elfBytes = this.result_0;
+            var $receiver = new Emulator(void 0, Memory$Companion_getInstance().invoke());
+            registerNativeModules($receiver);
+            loadElfAndSetRegisters($receiver, openSync(elfBytes));
+            set_SP($receiver.cpu, 167772160);
+            var emu = $receiver;
+            var bmp = new Bitmap32(512, 272);
+            var tex = lazy(KpspemuMainScene$sceneInit$lambda(this.$this, bmp));
+            emu.interpreter.trace = false;
+            var running = {v: true};
+            this.local$sceneView.addUpdatable_b4k9x1$(KpspemuMainScene$sceneInit$lambda_0(emu, running, bmp, tex));
+            var tmp$_0 = this.$this.views;
+            new PropertyMetadata('tex');
+            this.local$sceneView.plusAssign_l5rad2$(image(tmp$_0, tex.value));
+            return;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
   KpspemuMainScene.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'KpspemuMainScene',
     interfaces: [Scene]
   };
+  function get_K0($receiver) {
+    return $receiver.r26;
+  }
+  function set_K0($receiver, value) {
+    $receiver.r26 = value;
+  }
+  function get_K1($receiver) {
+    return $receiver.r27;
+  }
+  function set_K1($receiver, value) {
+    $receiver.r27 = value;
+  }
+  function get_GP($receiver) {
+    return $receiver.r28;
+  }
+  function set_GP($receiver, value) {
+    $receiver.r28 = value;
+  }
+  function get_SP($receiver) {
+    return $receiver.r29;
+  }
+  function set_SP($receiver, value) {
+    $receiver.r29 = value;
+  }
+  function get_FP($receiver) {
+    return $receiver.r30;
+  }
+  function set_FP($receiver, value) {
+    $receiver.r30 = value;
+  }
+  function get_RA($receiver) {
+    return $receiver.r31;
+  }
+  function set_RA($receiver, value) {
+    $receiver.r31 = value;
+  }
   function CpuState(mem, syscalls) {
     if (syscalls === void 0)
       syscalls = new TraceSyscallHandler();
@@ -673,6 +768,18 @@
   InstructionDecoder.prototype.get_u_imm16_s8ev3n$ = defineInlineFunction('kpspemu.com.soywiz.kpspemu.cpu.InstructionDecoder.get_u_imm16_s8ev3n$', function ($receiver) {
     return $receiver & 65535;
   });
+  InstructionDecoder.prototype.get_u_imm26_s8ev3n$ = defineInlineFunction('kpspemu.com.soywiz.kpspemu.cpu.InstructionDecoder.get_u_imm26_s8ev3n$', wrapFunction(function () {
+    var extract = _.$$importsForInline$$['korio-js'].com.soywiz.korio.util.extract_e4yvb3$;
+    return function ($receiver) {
+      return extract($receiver, 0, 26);
+    };
+  }));
+  InstructionDecoder.prototype.get_jump_address_s8ev3n$ = defineInlineFunction('kpspemu.com.soywiz.kpspemu.cpu.InstructionDecoder.get_jump_address_s8ev3n$', wrapFunction(function () {
+    var extract = _.$$importsForInline$$['korio-js'].com.soywiz.korio.util.extract_e4yvb3$;
+    return function ($receiver) {
+      return extract($receiver, 0, 26) * 4 | 0;
+    };
+  }));
   InstructionDecoder.prototype.invoke_6rdgz4$ = defineInlineFunction('kpspemu.com.soywiz.kpspemu.cpu.InstructionDecoder.invoke_6rdgz4$', function ($receiver, callback) {
     callback($receiver);
     $receiver.advance_pc_za3lpa$(4);
@@ -1494,778 +1601,778 @@
     throw new NotImplementedError_init('An operation is not implemented: ' + ('unimplemented: ' + i.name + ' : ' + toString(i)));
   };
   InstructionEvaluator.prototype.add_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().add);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().add);
   };
   InstructionEvaluator.prototype.addu_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().addu);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().addu);
   };
   InstructionEvaluator.prototype.addi_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().addi);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().addi);
   };
   InstructionEvaluator.prototype.addiu_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().addiu);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().addiu);
   };
   InstructionEvaluator.prototype.sub_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sub);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sub);
   };
   InstructionEvaluator.prototype.subu_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().subu);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().subu);
   };
   InstructionEvaluator.prototype.and_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().and);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().and);
   };
   InstructionEvaluator.prototype.andi_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().andi);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().andi);
   };
   InstructionEvaluator.prototype.nor_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().nor);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().nor);
   };
   InstructionEvaluator.prototype.or_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().or);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().or);
   };
   InstructionEvaluator.prototype.ori_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().ori);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().ori);
   };
   InstructionEvaluator.prototype.xor_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().xor);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().xor);
   };
   InstructionEvaluator.prototype.xori_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().xori);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().xori);
   };
   InstructionEvaluator.prototype.sll_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sll);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sll);
   };
   InstructionEvaluator.prototype.sllv_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sllv);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sllv);
   };
   InstructionEvaluator.prototype.sra_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sra);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sra);
   };
   InstructionEvaluator.prototype.srav_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().srav);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().srav);
   };
   InstructionEvaluator.prototype.srl_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().srl);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().srl);
   };
   InstructionEvaluator.prototype.srlv_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().srlv);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().srlv);
   };
   InstructionEvaluator.prototype.rotr_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().rotr);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().rotr);
   };
   InstructionEvaluator.prototype.rotrv_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().rotrv);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().rotrv);
   };
   InstructionEvaluator.prototype.slt_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().slt);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().slt);
   };
   InstructionEvaluator.prototype.slti_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().slti);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().slti);
   };
   InstructionEvaluator.prototype.sltu_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sltu);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sltu);
   };
   InstructionEvaluator.prototype.sltiu_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sltiu);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sltiu);
   };
   InstructionEvaluator.prototype.lui_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().lui);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().lui);
   };
   InstructionEvaluator.prototype.seb_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().seb);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().seb);
   };
   InstructionEvaluator.prototype.seh_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().seh);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().seh);
   };
   InstructionEvaluator.prototype.bitrev_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bitrev);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bitrev);
   };
   InstructionEvaluator.prototype.max_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().max);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().max);
   };
   InstructionEvaluator.prototype.min_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().min);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().min);
   };
   InstructionEvaluator.prototype.div_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().div);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().div);
   };
   InstructionEvaluator.prototype.divu_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().divu);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().divu);
   };
   InstructionEvaluator.prototype.mult_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mult);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mult);
   };
   InstructionEvaluator.prototype.multu_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().multu);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().multu);
   };
   InstructionEvaluator.prototype.madd_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().madd);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().madd);
   };
   InstructionEvaluator.prototype.maddu_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().maddu);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().maddu);
   };
   InstructionEvaluator.prototype.msub_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().msub);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().msub);
   };
   InstructionEvaluator.prototype.msubu_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().msubu);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().msubu);
   };
   InstructionEvaluator.prototype.mfhi_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mfhi);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mfhi);
   };
   InstructionEvaluator.prototype.mflo_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mflo);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mflo);
   };
   InstructionEvaluator.prototype.mthi_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mthi);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mthi);
   };
   InstructionEvaluator.prototype.mtlo_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mtlo);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mtlo);
   };
   InstructionEvaluator.prototype.movz_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().movz);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().movz);
   };
   InstructionEvaluator.prototype.movn_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().movn);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().movn);
   };
   InstructionEvaluator.prototype.ext_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().ext);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().ext);
   };
   InstructionEvaluator.prototype.ins_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().ins);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().ins);
   };
   InstructionEvaluator.prototype.clz_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().clz);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().clz);
   };
   InstructionEvaluator.prototype.clo_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().clo);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().clo);
   };
   InstructionEvaluator.prototype.wsbh_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().wsbh);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().wsbh);
   };
   InstructionEvaluator.prototype.wsbw_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().wsbw);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().wsbw);
   };
   InstructionEvaluator.prototype.beq_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().beq);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().beq);
   };
   InstructionEvaluator.prototype.beql_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().beql);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().beql);
   };
   InstructionEvaluator.prototype.bgez_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bgez);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bgez);
   };
   InstructionEvaluator.prototype.bgezl_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bgezl);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bgezl);
   };
   InstructionEvaluator.prototype.bgezal_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bgezal);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bgezal);
   };
   InstructionEvaluator.prototype.bgezall_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bgezall);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bgezall);
   };
   InstructionEvaluator.prototype.bltz_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bltz);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bltz);
   };
   InstructionEvaluator.prototype.bltzl_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bltzl);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bltzl);
   };
   InstructionEvaluator.prototype.bltzal_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bltzal);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bltzal);
   };
   InstructionEvaluator.prototype.bltzall_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bltzall);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bltzall);
   };
   InstructionEvaluator.prototype.blez_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().blez);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().blez);
   };
   InstructionEvaluator.prototype.blezl_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().blezl);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().blezl);
   };
   InstructionEvaluator.prototype.bgtz_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bgtz);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bgtz);
   };
   InstructionEvaluator.prototype.bgtzl_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bgtzl);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bgtzl);
   };
   InstructionEvaluator.prototype.bne_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bne);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bne);
   };
   InstructionEvaluator.prototype.bnel_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bnel);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bnel);
   };
   InstructionEvaluator.prototype.j_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().j);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().j);
   };
   InstructionEvaluator.prototype.jr_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().jr);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().jr);
   };
   InstructionEvaluator.prototype.jalr_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().jalr);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().jalr);
   };
   InstructionEvaluator.prototype.jal_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().jal);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().jal);
   };
   InstructionEvaluator.prototype.bc1f_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bc1f);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bc1f);
   };
   InstructionEvaluator.prototype.bc1t_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bc1t);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bc1t);
   };
   InstructionEvaluator.prototype.bc1fl_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bc1fl);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bc1fl);
   };
   InstructionEvaluator.prototype.bc1tl_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bc1tl);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bc1tl);
   };
   InstructionEvaluator.prototype.lb_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().lb);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().lb);
   };
   InstructionEvaluator.prototype.lh_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().lh);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().lh);
   };
   InstructionEvaluator.prototype.lw_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().lw);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().lw);
   };
   InstructionEvaluator.prototype.lwl_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().lwl);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().lwl);
   };
   InstructionEvaluator.prototype.lwr_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().lwr);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().lwr);
   };
   InstructionEvaluator.prototype.lbu_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().lbu);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().lbu);
   };
   InstructionEvaluator.prototype.lhu_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().lhu);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().lhu);
   };
   InstructionEvaluator.prototype.sb_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sb);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sb);
   };
   InstructionEvaluator.prototype.sh_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sh);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sh);
   };
   InstructionEvaluator.prototype.sw_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sw);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sw);
   };
   InstructionEvaluator.prototype.swl_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().swl);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().swl);
   };
   InstructionEvaluator.prototype.swr_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().swr);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().swr);
   };
   InstructionEvaluator.prototype.ll_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().ll);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().ll);
   };
   InstructionEvaluator.prototype.sc_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sc);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sc);
   };
   InstructionEvaluator.prototype.lwc1_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().lwc1);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().lwc1);
   };
   InstructionEvaluator.prototype.swc1_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().swc1);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().swc1);
   };
   InstructionEvaluator.prototype.add_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().add_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().add_s);
   };
   InstructionEvaluator.prototype.sub_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sub_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sub_s);
   };
   InstructionEvaluator.prototype.mul_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mul_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mul_s);
   };
   InstructionEvaluator.prototype.div_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().div_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().div_s);
   };
   InstructionEvaluator.prototype.sqrt_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sqrt_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sqrt_s);
   };
   InstructionEvaluator.prototype.abs_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().abs_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().abs_s);
   };
   InstructionEvaluator.prototype.mov_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mov_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mov_s);
   };
   InstructionEvaluator.prototype.neg_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().neg_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().neg_s);
   };
   InstructionEvaluator.prototype.round_w_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().round_w_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().round_w_s);
   };
   InstructionEvaluator.prototype.trunc_w_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().trunc_w_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().trunc_w_s);
   };
   InstructionEvaluator.prototype.ceil_w_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().ceil_w_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().ceil_w_s);
   };
   InstructionEvaluator.prototype.floor_w_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().floor_w_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().floor_w_s);
   };
   InstructionEvaluator.prototype.cvt_s_w_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().cvt_s_w);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().cvt_s_w);
   };
   InstructionEvaluator.prototype.cvt_w_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().cvt_w_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().cvt_w_s);
   };
   InstructionEvaluator.prototype.mfc1_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mfc1);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mfc1);
   };
   InstructionEvaluator.prototype.mtc1_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mtc1);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mtc1);
   };
   InstructionEvaluator.prototype.cfc1_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().cfc1);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().cfc1);
   };
   InstructionEvaluator.prototype.ctc1_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().ctc1);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().ctc1);
   };
   InstructionEvaluator.prototype.c_f_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_f_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_f_s);
   };
   InstructionEvaluator.prototype.c_un_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_un_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_un_s);
   };
   InstructionEvaluator.prototype.c_eq_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_eq_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_eq_s);
   };
   InstructionEvaluator.prototype.c_ueq_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_ueq_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_ueq_s);
   };
   InstructionEvaluator.prototype.c_olt_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_olt_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_olt_s);
   };
   InstructionEvaluator.prototype.c_ult_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_ult_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_ult_s);
   };
   InstructionEvaluator.prototype.c_ole_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_ole_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_ole_s);
   };
   InstructionEvaluator.prototype.c_ule_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_ule_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_ule_s);
   };
   InstructionEvaluator.prototype.c_sf_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_sf_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_sf_s);
   };
   InstructionEvaluator.prototype.c_ngle_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_ngle_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_ngle_s);
   };
   InstructionEvaluator.prototype.c_seq_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_seq_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_seq_s);
   };
   InstructionEvaluator.prototype.c_ngl_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_ngl_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_ngl_s);
   };
   InstructionEvaluator.prototype.c_lt_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_lt_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_lt_s);
   };
   InstructionEvaluator.prototype.c_nge_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_nge_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_nge_s);
   };
   InstructionEvaluator.prototype.c_le_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_le_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_le_s);
   };
   InstructionEvaluator.prototype.c_ngt_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().c_ngt_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().c_ngt_s);
   };
   InstructionEvaluator.prototype.syscall_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().syscall);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().syscall);
   };
   InstructionEvaluator.prototype.cache_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().cache);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().cache);
   };
   InstructionEvaluator.prototype.sync_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sync);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sync);
   };
   InstructionEvaluator.prototype._break_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance()._break);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance()._break);
   };
   InstructionEvaluator.prototype.dbreak_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().dbreak);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().dbreak);
   };
   InstructionEvaluator.prototype.halt_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().halt);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().halt);
   };
   InstructionEvaluator.prototype.dret_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().dret);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().dret);
   };
   InstructionEvaluator.prototype.eret_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().eret);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().eret);
   };
   InstructionEvaluator.prototype.mfic_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mfic);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mfic);
   };
   InstructionEvaluator.prototype.mtic_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mtic);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mtic);
   };
   InstructionEvaluator.prototype.mfdr_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mfdr);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mfdr);
   };
   InstructionEvaluator.prototype.mtdr_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mtdr);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mtdr);
   };
   InstructionEvaluator.prototype.cfc0_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().cfc0);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().cfc0);
   };
   InstructionEvaluator.prototype.ctc0_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().ctc0);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().ctc0);
   };
   InstructionEvaluator.prototype.mfc0_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mfc0);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mfc0);
   };
   InstructionEvaluator.prototype.mtc0_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mtc0);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mtc0);
   };
   InstructionEvaluator.prototype.mfv_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mfv);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mfv);
   };
   InstructionEvaluator.prototype.mfvc_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mfvc);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mfvc);
   };
   InstructionEvaluator.prototype.mtv_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mtv);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mtv);
   };
   InstructionEvaluator.prototype.mtvc_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mtvc);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mtvc);
   };
   InstructionEvaluator.prototype.lv_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().lv_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().lv_s);
   };
   InstructionEvaluator.prototype.lv_q_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().lv_q);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().lv_q);
   };
   InstructionEvaluator.prototype.lvl_q_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().lvl_q);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().lvl_q);
   };
   InstructionEvaluator.prototype.lvr_q_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().lvr_q);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().lvr_q);
   };
   InstructionEvaluator.prototype.sv_q_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sv_q);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sv_q);
   };
   InstructionEvaluator.prototype.vdot_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vdot);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vdot);
   };
   InstructionEvaluator.prototype.vscl_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vscl);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vscl);
   };
   InstructionEvaluator.prototype.vsge_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsge);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsge);
   };
   InstructionEvaluator.prototype.vslt_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vslt);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vslt);
   };
   InstructionEvaluator.prototype.vrot_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vrot);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vrot);
   };
   InstructionEvaluator.prototype.vzero_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vzero);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vzero);
   };
   InstructionEvaluator.prototype.vone_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vone);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vone);
   };
   InstructionEvaluator.prototype.vmov_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vmov);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vmov);
   };
   InstructionEvaluator.prototype.vabs_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vabs);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vabs);
   };
   InstructionEvaluator.prototype.vneg_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vneg);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vneg);
   };
   InstructionEvaluator.prototype.vocp_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vocp);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vocp);
   };
   InstructionEvaluator.prototype.vsgn_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsgn);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsgn);
   };
   InstructionEvaluator.prototype.vrcp_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vrcp);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vrcp);
   };
   InstructionEvaluator.prototype.vrsq_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vrsq);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vrsq);
   };
   InstructionEvaluator.prototype.vsin_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsin);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsin);
   };
   InstructionEvaluator.prototype.vcos_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vcos);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vcos);
   };
   InstructionEvaluator.prototype.vexp2_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vexp2);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vexp2);
   };
   InstructionEvaluator.prototype.vlog2_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vlog2);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vlog2);
   };
   InstructionEvaluator.prototype.vsqrt_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsqrt);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsqrt);
   };
   InstructionEvaluator.prototype.vasin_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vasin);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vasin);
   };
   InstructionEvaluator.prototype.vnrcp_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vnrcp);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vnrcp);
   };
   InstructionEvaluator.prototype.vnsin_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vnsin);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vnsin);
   };
   InstructionEvaluator.prototype.vrexp2_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vrexp2);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vrexp2);
   };
   InstructionEvaluator.prototype.vsat0_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsat0);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsat0);
   };
   InstructionEvaluator.prototype.vsat1_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsat1);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsat1);
   };
   InstructionEvaluator.prototype.vcst_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vcst);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vcst);
   };
   InstructionEvaluator.prototype.vmmul_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vmmul);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vmmul);
   };
   InstructionEvaluator.prototype.vhdp_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vhdp);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vhdp);
   };
   InstructionEvaluator.prototype.vcrs_t_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vcrs_t);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vcrs_t);
   };
   InstructionEvaluator.prototype.vcrsp_t_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vcrsp_t);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vcrsp_t);
   };
   InstructionEvaluator.prototype.vi2c_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vi2c);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vi2c);
   };
   InstructionEvaluator.prototype.vi2uc_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vi2uc);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vi2uc);
   };
   InstructionEvaluator.prototype.vtfm2_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vtfm2);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vtfm2);
   };
   InstructionEvaluator.prototype.vtfm3_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vtfm3);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vtfm3);
   };
   InstructionEvaluator.prototype.vtfm4_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vtfm4);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vtfm4);
   };
   InstructionEvaluator.prototype.vhtfm2_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vhtfm2);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vhtfm2);
   };
   InstructionEvaluator.prototype.vhtfm3_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vhtfm3);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vhtfm3);
   };
   InstructionEvaluator.prototype.vhtfm4_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vhtfm4);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vhtfm4);
   };
   InstructionEvaluator.prototype.vsrt3_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsrt3);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsrt3);
   };
   InstructionEvaluator.prototype.vfad_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vfad);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vfad);
   };
   InstructionEvaluator.prototype.vmin_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vmin);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vmin);
   };
   InstructionEvaluator.prototype.vmax_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vmax);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vmax);
   };
   InstructionEvaluator.prototype.vadd_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vadd);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vadd);
   };
   InstructionEvaluator.prototype.vsub_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsub);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsub);
   };
   InstructionEvaluator.prototype.vdiv_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vdiv);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vdiv);
   };
   InstructionEvaluator.prototype.vmul_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vmul);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vmul);
   };
   InstructionEvaluator.prototype.vidt_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vidt);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vidt);
   };
   InstructionEvaluator.prototype.vmidt_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vmidt);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vmidt);
   };
   InstructionEvaluator.prototype.viim_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().viim);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().viim);
   };
   InstructionEvaluator.prototype.vmmov_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vmmov);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vmmov);
   };
   InstructionEvaluator.prototype.vmzero_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vmzero);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vmzero);
   };
   InstructionEvaluator.prototype.vmone_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vmone);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vmone);
   };
   InstructionEvaluator.prototype.vnop_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vnop);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vnop);
   };
   InstructionEvaluator.prototype.vsync_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsync);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsync);
   };
   InstructionEvaluator.prototype.vflush_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vflush);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vflush);
   };
   InstructionEvaluator.prototype.vpfxd_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vpfxd);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vpfxd);
   };
   InstructionEvaluator.prototype.vpfxs_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vpfxs);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vpfxs);
   };
   InstructionEvaluator.prototype.vpfxt_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vpfxt);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vpfxt);
   };
   InstructionEvaluator.prototype.vdet_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vdet);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vdet);
   };
   InstructionEvaluator.prototype.vrnds_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vrnds);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vrnds);
   };
   InstructionEvaluator.prototype.vrndi_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vrndi);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vrndi);
   };
   InstructionEvaluator.prototype.vrndf1_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vrndf1);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vrndf1);
   };
   InstructionEvaluator.prototype.vrndf2_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vrndf2);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vrndf2);
   };
   InstructionEvaluator.prototype.vcmp_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vcmp);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vcmp);
   };
   InstructionEvaluator.prototype.vcmovf_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vcmovf);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vcmovf);
   };
   InstructionEvaluator.prototype.vcmovt_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vcmovt);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vcmovt);
   };
   InstructionEvaluator.prototype.vavg_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vavg);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vavg);
   };
   InstructionEvaluator.prototype.vf2id_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vf2id);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vf2id);
   };
   InstructionEvaluator.prototype.vf2in_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vf2in);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vf2in);
   };
   InstructionEvaluator.prototype.vf2iu_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vf2iu);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vf2iu);
   };
   InstructionEvaluator.prototype.vf2iz_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vf2iz);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vf2iz);
   };
   InstructionEvaluator.prototype.vi2f_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vi2f);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vi2f);
   };
   InstructionEvaluator.prototype.vscmp_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vscmp);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vscmp);
   };
   InstructionEvaluator.prototype.vmscl_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vmscl);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vmscl);
   };
   InstructionEvaluator.prototype.vt4444_q_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vt4444_q);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vt4444_q);
   };
   InstructionEvaluator.prototype.vt5551_q_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vt5551_q);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vt5551_q);
   };
   InstructionEvaluator.prototype.vt5650_q_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vt5650_q);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vt5650_q);
   };
   InstructionEvaluator.prototype.vmfvc_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vmfvc);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vmfvc);
   };
   InstructionEvaluator.prototype.vmtvc_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vmtvc);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vmtvc);
   };
   InstructionEvaluator.prototype.mfvme_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mfvme);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mfvme);
   };
   InstructionEvaluator.prototype.mtvme_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().mtvme);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().mtvme);
   };
   InstructionEvaluator.prototype.sv_s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().sv_s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().sv_s);
   };
   InstructionEvaluator.prototype.vfim_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vfim);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vfim);
   };
   InstructionEvaluator.prototype.svl_q_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().svl_q);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().svl_q);
   };
   InstructionEvaluator.prototype.svr_q_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().svr_q);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().svr_q);
   };
   InstructionEvaluator.prototype.vbfy1_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vbfy1);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vbfy1);
   };
   InstructionEvaluator.prototype.vbfy2_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vbfy2);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vbfy2);
   };
   InstructionEvaluator.prototype.vf2h_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vf2h);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vf2h);
   };
   InstructionEvaluator.prototype.vh2f_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vh2f);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vh2f);
   };
   InstructionEvaluator.prototype.vi2s_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vi2s);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vi2s);
   };
   InstructionEvaluator.prototype.vi2us_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vi2us);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vi2us);
   };
   InstructionEvaluator.prototype.vlgb_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vlgb);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vlgb);
   };
   InstructionEvaluator.prototype.vqmul_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vqmul);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vqmul);
   };
   InstructionEvaluator.prototype.vs2i_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vs2i);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vs2i);
   };
   InstructionEvaluator.prototype.vc2i_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vc2i);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vc2i);
   };
   InstructionEvaluator.prototype.vuc2i_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vuc2i);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vuc2i);
   };
   InstructionEvaluator.prototype.vsbn_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsbn);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsbn);
   };
   InstructionEvaluator.prototype.vsbz_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsbz);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsbz);
   };
   InstructionEvaluator.prototype.vsocp_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsocp);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsocp);
   };
   InstructionEvaluator.prototype.vsrt1_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsrt1);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsrt1);
   };
   InstructionEvaluator.prototype.vsrt2_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsrt2);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsrt2);
   };
   InstructionEvaluator.prototype.vsrt4_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vsrt4);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vsrt4);
   };
   InstructionEvaluator.prototype.vus2i_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vus2i);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vus2i);
   };
   InstructionEvaluator.prototype.vwbn_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().vwbn);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().vwbn);
   };
   InstructionEvaluator.prototype.bvf_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bvf);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bvf);
   };
   InstructionEvaluator.prototype.bvt_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bvt);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bvt);
   };
   InstructionEvaluator.prototype.bvfl_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bvfl);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bvfl);
   };
   InstructionEvaluator.prototype.bvtl_11rb$ = function (s) {
-    this.unimplemented_1wp5la$(s, InstructionTable_getInstance().bvtl);
+    this.unimplemented_1wp5la$(s, Instructions_getInstance().bvtl);
   };
   InstructionEvaluator.$metadata$ = {
     kind: Kind_CLASS,
@@ -2274,12 +2381,12 @@
   };
   function InstructionOpcodeDecoder() {
     InstructionOpcodeDecoder_instance = this;
-    this.evaluator_0 = new InstructionOpcodeDecoder$evaluator$ObjectLiteral();
+    this.evaluator_0 = new InstructionOpcodeDecoder$ResultInstructionEvaluator();
     this.dispatcher_0 = new InstructionDispatcher(this.evaluator_0);
   }
   function InstructionOpcodeDecoder$Result(result) {
     if (result === void 0)
-      result = InstructionTable_getInstance().add;
+      result = Instructions_getInstance().add;
     this.result = result;
   }
   InstructionOpcodeDecoder$Result.$metadata$ = {
@@ -2304,20 +2411,21 @@
   InstructionOpcodeDecoder$Result.prototype.equals = function (other) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && Kotlin.equals(this.result, other.result))));
   };
+  function InstructionOpcodeDecoder$ResultInstructionEvaluator() {
+    InstructionEvaluator.call(this);
+  }
+  InstructionOpcodeDecoder$ResultInstructionEvaluator.prototype.unimplemented_1wp5la$ = function (s, i) {
+    s.result = i;
+  };
+  InstructionOpcodeDecoder$ResultInstructionEvaluator.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'ResultInstructionEvaluator',
+    interfaces: [InstructionEvaluator]
+  };
   InstructionOpcodeDecoder.prototype.invoke_za3lpa$ = function (i) {
     var $receiver = new InstructionOpcodeDecoder$Result();
     this.dispatcher_0.dispatch_8olpll$($receiver, 0, i);
     return $receiver.result;
-  };
-  function InstructionOpcodeDecoder$evaluator$ObjectLiteral() {
-    InstructionEvaluator.call(this);
-  }
-  InstructionOpcodeDecoder$evaluator$ObjectLiteral.prototype.unimplemented_1wp5la$ = function (s, i) {
-    s.result = i;
-  };
-  InstructionOpcodeDecoder$evaluator$ObjectLiteral.$metadata$ = {
-    kind: Kind_CLASS,
-    interfaces: [InstructionEvaluator]
   };
   InstructionOpcodeDecoder.$metadata$ = {
     kind: Kind_OBJECT,
@@ -2333,277 +2441,266 @@
   }
   var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
   var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
-  function InstructionTable() {
-    InstructionTable_instance = this;
-    this.ADDR_TYPE_NONE = 0;
-    this.ADDR_TYPE_REG = 1;
-    this.ADDR_TYPE_16 = 2;
-    this.ADDR_TYPE_26 = 3;
-    this.INSTR_TYPE_PSP = 1 << 0;
-    this.INSTR_TYPE_SYSCALL = 1 << 1;
-    this.INSTR_TYPE_B = 1 << 2;
-    this.INSTR_TYPE_LIKELY = 1 << 3;
-    this.INSTR_TYPE_JAL = 1 << 4;
-    this.INSTR_TYPE_JUMP = 1 << 5;
-    this.INSTR_TYPE_BREAK = 1 << 6;
-    this.add = this.ID_hht69y$('add', new InstructionTable$VM('000000:rs:rt:rd:00000:100000'), '%d, %s, %t', this.ADDR_TYPE_NONE, 0);
-    this.addu = this.ID_hht69y$('addu', new InstructionTable$VM('000000:rs:rt:rd:00000:100001'), '%d, %s, %t', this.ADDR_TYPE_NONE, 0);
-    this.addi = this.ID_hht69y$('addi', new InstructionTable$VM('001000:rs:rt:imm16'), '%t, %s, %i', this.ADDR_TYPE_NONE, 0);
-    this.addiu = this.ID_hht69y$('addiu', new InstructionTable$VM('001001:rs:rt:imm16'), '%t, %s, %i', this.ADDR_TYPE_NONE, 0);
-    this.sub = this.ID_hht69y$('sub', new InstructionTable$VM('000000:rs:rt:rd:00000:100010'), '%d, %s, %t', this.ADDR_TYPE_NONE, 0);
-    this.subu = this.ID_hht69y$('subu', new InstructionTable$VM('000000:rs:rt:rd:00000:100011'), '%d, %s, %t', this.ADDR_TYPE_NONE, 0);
-    this.and = this.ID_hht69y$('and', new InstructionTable$VM('000000:rs:rt:rd:00000:100100'), '%d, %s, %t', this.ADDR_TYPE_NONE, 0);
-    this.andi = this.ID_hht69y$('andi', new InstructionTable$VM('001100:rs:rt:imm16'), '%t, %s, %I', this.ADDR_TYPE_NONE, 0);
-    this.nor = this.ID_hht69y$('nor', new InstructionTable$VM('000000:rs:rt:rd:00000:100111'), '%d, %s, %t', this.ADDR_TYPE_NONE, 0);
-    this.or = this.ID_hht69y$('or', new InstructionTable$VM('000000:rs:rt:rd:00000:100101'), '%d, %s, %t', this.ADDR_TYPE_NONE, 0);
-    this.ori = this.ID_hht69y$('ori', new InstructionTable$VM('001101:rs:rt:imm16'), '%t, %s, %I', this.ADDR_TYPE_NONE, 0);
-    this.xor = this.ID_hht69y$('xor', new InstructionTable$VM('000000:rs:rt:rd:00000:100110'), '%d, %s, %t', this.ADDR_TYPE_NONE, 0);
-    this.xori = this.ID_hht69y$('xori', new InstructionTable$VM('001110:rs:rt:imm16'), '%t, %s, %I', this.ADDR_TYPE_NONE, 0);
-    this.sll = this.ID_hht69y$('sll', new InstructionTable$VM('000000:00000:rt:rd:sa:000000'), '%d, %t, %a', this.ADDR_TYPE_NONE, 0);
-    this.sllv = this.ID_hht69y$('sllv', new InstructionTable$VM('000000:rs:rt:rd:00000:000100'), '%d, %t, %s', this.ADDR_TYPE_NONE, 0);
-    this.sra = this.ID_hht69y$('sra', new InstructionTable$VM('000000:00000:rt:rd:sa:000011'), '%d, %t, %a', this.ADDR_TYPE_NONE, 0);
-    this.srav = this.ID_hht69y$('srav', new InstructionTable$VM('000000:rs:rt:rd:00000:000111'), '%d, %t, %s', this.ADDR_TYPE_NONE, 0);
-    this.srl = this.ID_hht69y$('srl', new InstructionTable$VM('000000:00000:rt:rd:sa:000010'), '%d, %t, %a', this.ADDR_TYPE_NONE, 0);
-    this.srlv = this.ID_hht69y$('srlv', new InstructionTable$VM('000000:rs:rt:rd:00000:000110'), '%d, %t, %s', this.ADDR_TYPE_NONE, 0);
-    this.rotr = this.ID_hht69y$('rotr', new InstructionTable$VM('000000:00001:rt:rd:sa:000010'), '%d, %t, %a', this.ADDR_TYPE_NONE, 0);
-    this.rotrv = this.ID_hht69y$('rotrv', new InstructionTable$VM('000000:rs:rt:rd:00001:000110'), '%d, %t, %s', this.ADDR_TYPE_NONE, 0);
-    this.slt = this.ID_hht69y$('slt', new InstructionTable$VM('000000:rs:rt:rd:00000:101010'), '%d, %s, %t', this.ADDR_TYPE_NONE, 0);
-    this.slti = this.ID_hht69y$('slti', new InstructionTable$VM('001010:rs:rt:imm16'), '%t, %s, %i', this.ADDR_TYPE_NONE, 0);
-    this.sltu = this.ID_hht69y$('sltu', new InstructionTable$VM('000000:rs:rt:rd:00000:101011'), '%d, %s, %t', this.ADDR_TYPE_NONE, 0);
-    this.sltiu = this.ID_hht69y$('sltiu', new InstructionTable$VM('001011:rs:rt:imm16'), '%t, %s, %i', this.ADDR_TYPE_NONE, 0);
-    this.lui = this.ID_hht69y$('lui', new InstructionTable$VM('001111:00000:rt:imm16'), '%t, %I', this.ADDR_TYPE_NONE, 0);
-    this.seb = this.ID_hht69y$('seb', new InstructionTable$VM('011111:00000:rt:rd:10000:100000'), '%d, %t', this.ADDR_TYPE_NONE, 0);
-    this.seh = this.ID_hht69y$('seh', new InstructionTable$VM('011111:00000:rt:rd:11000:100000'), '%d, %t', this.ADDR_TYPE_NONE, 0);
-    this.bitrev = this.ID_hht69y$('bitrev', new InstructionTable$VM('011111:00000:rt:rd:10100:100000'), '%d, %t', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.max = this.ID_hht69y$('max', new InstructionTable$VM('000000:rs:rt:rd:00000:101100'), '%d, %s, %t', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.min = this.ID_hht69y$('min', new InstructionTable$VM('000000:rs:rt:rd:00000:101101'), '%d, %s, %t', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.div = this.ID_hht69y$('div', new InstructionTable$VM('000000:rs:rt:00000:00000:011010'), '%s, %t', this.ADDR_TYPE_NONE, 0);
-    this.divu = this.ID_hht69y$('divu', new InstructionTable$VM('000000:rs:rt:00000:00000:011011'), '%s, %t', this.ADDR_TYPE_NONE, 0);
-    this.mult = this.ID_hht69y$('mult', new InstructionTable$VM('000000:rs:rt:00000:00000:011000'), '%s, %t', this.ADDR_TYPE_NONE, 0);
-    this.multu = this.ID_hht69y$('multu', new InstructionTable$VM('000000:rs:rt:00000:00000:011001'), '%s, %t', this.ADDR_TYPE_NONE, 0);
-    this.madd = this.ID_hht69y$('madd', new InstructionTable$VM('000000:rs:rt:00000:00000:011100'), '%s, %t', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.maddu = this.ID_hht69y$('maddu', new InstructionTable$VM('000000:rs:rt:00000:00000:011101'), '%s, %t', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.msub = this.ID_hht69y$('msub', new InstructionTable$VM('000000:rs:rt:00000:00000:101110'), '%s, %t', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.msubu = this.ID_hht69y$('msubu', new InstructionTable$VM('000000:rs:rt:00000:00000:101111'), '%s, %t', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.mfhi = this.ID_hht69y$('mfhi', new InstructionTable$VM('000000:00000:00000:rd:00000:010000'), '%d', this.ADDR_TYPE_NONE, 0);
-    this.mflo = this.ID_hht69y$('mflo', new InstructionTable$VM('000000:00000:00000:rd:00000:010010'), '%d', this.ADDR_TYPE_NONE, 0);
-    this.mthi = this.ID_hht69y$('mthi', new InstructionTable$VM('000000:rs:00000:00000:00000:010001'), '%s', this.ADDR_TYPE_NONE, 0);
-    this.mtlo = this.ID_hht69y$('mtlo', new InstructionTable$VM('000000:rs:00000:00000:00000:010011'), '%s', this.ADDR_TYPE_NONE, 0);
-    this.movz = this.ID_hht69y$('movz', new InstructionTable$VM('000000:rs:rt:rd:00000:001010'), '%d, %s, %t', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.movn = this.ID_hht69y$('movn', new InstructionTable$VM('000000:rs:rt:rd:00000:001011'), '%d, %s, %t', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.ext = this.ID_hht69y$('ext', new InstructionTable$VM('011111:rs:rt:msb:lsb:000000'), '%t, %s, %a, %ne', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.ins = this.ID_hht69y$('ins', new InstructionTable$VM('011111:rs:rt:msb:lsb:000100'), '%t, %s, %a, %ni', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.clz = this.ID_hht69y$('clz', new InstructionTable$VM('000000:rs:00000:rd:00000:010110'), '%d, %s', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.clo = this.ID_hht69y$('clo', new InstructionTable$VM('000000:rs:00000:rd:00000:010111'), '%d, %s', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.wsbh = this.ID_hht69y$('wsbh', new InstructionTable$VM('011111:00000:rt:rd:00010:100000'), '%d, %t', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.wsbw = this.ID_hht69y$('wsbw', new InstructionTable$VM('011111:00000:rt:rd:00011:100000'), '%d, %t', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.beq = this.ID_hht69y$('beq', new InstructionTable$VM('000100:rs:rt:imm16'), '%s, %t, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_B);
-    this.beql = this.ID_hht69y$('beql', new InstructionTable$VM('010100:rs:rt:imm16'), '%s, %t, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_B | this.INSTR_TYPE_LIKELY);
-    this.bgez = this.ID_hht69y$('bgez', new InstructionTable$VM('000001:rs:00001:imm16'), '%s, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_B);
-    this.bgezl = this.ID_hht69y$('bgezl', new InstructionTable$VM('000001:rs:00011:imm16'), '%s, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_B | this.INSTR_TYPE_LIKELY);
-    this.bgezal = this.ID_hht69y$('bgezal', new InstructionTable$VM('000001:rs:10001:imm16'), '%s, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_JAL);
-    this.bgezall = this.ID_hht69y$('bgezall', new InstructionTable$VM('000001:rs:10011:imm16'), '%s, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_LIKELY | this.INSTR_TYPE_JAL);
-    this.bltz = this.ID_hht69y$('bltz', new InstructionTable$VM('000001:rs:00000:imm16'), '%s, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_B);
-    this.bltzl = this.ID_hht69y$('bltzl', new InstructionTable$VM('000001:rs:00010:imm16'), '%s, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_B | this.INSTR_TYPE_LIKELY);
-    this.bltzal = this.ID_hht69y$('bltzal', new InstructionTable$VM('000001:rs:10000:imm16'), '%s, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_JAL);
-    this.bltzall = this.ID_hht69y$('bltzall', new InstructionTable$VM('000001:rs:10010:imm16'), '%s, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_LIKELY | this.INSTR_TYPE_JAL);
-    this.blez = this.ID_hht69y$('blez', new InstructionTable$VM('000110:rs:00000:imm16'), '%s, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_B);
-    this.blezl = this.ID_hht69y$('blezl', new InstructionTable$VM('010110:rs:00000:imm16'), '%s, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_B | this.INSTR_TYPE_LIKELY);
-    this.bgtz = this.ID_hht69y$('bgtz', new InstructionTable$VM('000111:rs:00000:imm16'), '%s, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_B);
-    this.bgtzl = this.ID_hht69y$('bgtzl', new InstructionTable$VM('010111:rs:00000:imm16'), '%s, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_B | this.INSTR_TYPE_LIKELY);
-    this.bne = this.ID_hht69y$('bne', new InstructionTable$VM('000101:rs:rt:imm16'), '%s, %t, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_B);
-    this.bnel = this.ID_hht69y$('bnel', new InstructionTable$VM('010101:rs:rt:imm16'), '%s, %t, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_B | this.INSTR_TYPE_LIKELY);
-    this.j = this.ID_hht69y$('j', new InstructionTable$VM('000010:imm26'), '%j', this.ADDR_TYPE_26, this.INSTR_TYPE_JUMP);
-    this.jr = this.ID_hht69y$('jr', new InstructionTable$VM('000000:rs:00000:00000:00000:001000'), '%J', this.ADDR_TYPE_REG, this.INSTR_TYPE_JUMP);
-    this.jalr = this.ID_hht69y$('jalr', new InstructionTable$VM('000000:rs:00000:rd:00000:001001'), '%J, %d', this.ADDR_TYPE_REG, this.INSTR_TYPE_JAL);
-    this.jal = this.ID_hht69y$('jal', new InstructionTable$VM('000011:imm26'), '%j', this.ADDR_TYPE_26, this.INSTR_TYPE_JAL);
-    this.bc1f = this.ID_hht69y$('bc1f', new InstructionTable$VM('010001:01000:00000:imm16'), '%O', this.ADDR_TYPE_16, this.INSTR_TYPE_B);
-    this.bc1t = this.ID_hht69y$('bc1t', new InstructionTable$VM('010001:01000:00001:imm16'), '%O', this.ADDR_TYPE_16, this.INSTR_TYPE_B);
-    this.bc1fl = this.ID_hht69y$('bc1fl', new InstructionTable$VM('010001:01000:00010:imm16'), '%O', this.ADDR_TYPE_16, this.INSTR_TYPE_B | this.INSTR_TYPE_LIKELY);
-    this.bc1tl = this.ID_hht69y$('bc1tl', new InstructionTable$VM('010001:01000:00011:imm16'), '%O', this.ADDR_TYPE_16, this.INSTR_TYPE_B | this.INSTR_TYPE_LIKELY);
-    this.lb = this.ID_hht69y$('lb', new InstructionTable$VM('100000:rs:rt:imm16'), '%t, %i(%s)', this.ADDR_TYPE_NONE, 0);
-    this.lh = this.ID_hht69y$('lh', new InstructionTable$VM('100001:rs:rt:imm16'), '%t, %i(%s)', this.ADDR_TYPE_NONE, 0);
-    this.lw = this.ID_hht69y$('lw', new InstructionTable$VM('100011:rs:rt:imm16'), '%t, %i(%s)', this.ADDR_TYPE_NONE, 0);
-    this.lwl = this.ID_hht69y$('lwl', new InstructionTable$VM('100010:rs:rt:imm16'), '%t, %i(%s)', this.ADDR_TYPE_NONE, 0);
-    this.lwr = this.ID_hht69y$('lwr', new InstructionTable$VM('100110:rs:rt:imm16'), '%t, %i(%s)', this.ADDR_TYPE_NONE, 0);
-    this.lbu = this.ID_hht69y$('lbu', new InstructionTable$VM('100100:rs:rt:imm16'), '%t, %i(%s)', this.ADDR_TYPE_NONE, 0);
-    this.lhu = this.ID_hht69y$('lhu', new InstructionTable$VM('100101:rs:rt:imm16'), '%t, %i(%s)', this.ADDR_TYPE_NONE, 0);
-    this.sb = this.ID_hht69y$('sb', new InstructionTable$VM('101000:rs:rt:imm16'), '%t, %i(%s)', this.ADDR_TYPE_NONE, 0);
-    this.sh = this.ID_hht69y$('sh', new InstructionTable$VM('101001:rs:rt:imm16'), '%t, %i(%s)', this.ADDR_TYPE_NONE, 0);
-    this.sw = this.ID_hht69y$('sw', new InstructionTable$VM('101011:rs:rt:imm16'), '%t, %i(%s)', this.ADDR_TYPE_NONE, 0);
-    this.swl = this.ID_hht69y$('swl', new InstructionTable$VM('101010:rs:rt:imm16'), '%t, %i(%s)', this.ADDR_TYPE_NONE, 0);
-    this.swr = this.ID_hht69y$('swr', new InstructionTable$VM('101110:rs:rt:imm16'), '%t, %i(%s)', this.ADDR_TYPE_NONE, 0);
-    this.ll = this.ID_hht69y$('ll', new InstructionTable$VM('110000:rs:rt:imm16'), '%t, %O', this.ADDR_TYPE_NONE, 0);
-    this.sc = this.ID_hht69y$('sc', new InstructionTable$VM('111000:rs:rt:imm16'), '%t, %O', this.ADDR_TYPE_NONE, 0);
-    this.lwc1 = this.ID_hht69y$('lwc1', new InstructionTable$VM('110001:rs:ft:imm16'), '%T, %i(%s)', this.ADDR_TYPE_NONE, 0);
-    this.swc1 = this.ID_hht69y$('swc1', new InstructionTable$VM('111001:rs:ft:imm16'), '%T, %i(%s)', this.ADDR_TYPE_NONE, 0);
-    this.add_s = this.ID_hht69y$('add.s', new InstructionTable$VM('010001:10000:ft:fs:fd:000000'), '%D, %S, %T', this.ADDR_TYPE_NONE, 0);
-    this.sub_s = this.ID_hht69y$('sub.s', new InstructionTable$VM('010001:10000:ft:fs:fd:000001'), '%D, %S, %T', this.ADDR_TYPE_NONE, 0);
-    this.mul_s = this.ID_hht69y$('mul.s', new InstructionTable$VM('010001:10000:ft:fs:fd:000010'), '%D, %S, %T', this.ADDR_TYPE_NONE, 0);
-    this.div_s = this.ID_hht69y$('div.s', new InstructionTable$VM('010001:10000:ft:fs:fd:000011'), '%D, %S, %T', this.ADDR_TYPE_NONE, 0);
-    this.sqrt_s = this.ID_hht69y$('sqrt.s', new InstructionTable$VM('010001:10000:00000:fs:fd:000100'), '%D, %S', this.ADDR_TYPE_NONE, 0);
-    this.abs_s = this.ID_hht69y$('abs.s', new InstructionTable$VM('010001:10000:00000:fs:fd:000101'), '%D, %S', this.ADDR_TYPE_NONE, 0);
-    this.mov_s = this.ID_hht69y$('mov.s', new InstructionTable$VM('010001:10000:00000:fs:fd:000110'), '%D, %S', this.ADDR_TYPE_NONE, 0);
-    this.neg_s = this.ID_hht69y$('neg.s', new InstructionTable$VM('010001:10000:00000:fs:fd:000111'), '%D, %S', this.ADDR_TYPE_NONE, 0);
-    this.round_w_s = this.ID_hht69y$('round.w.s', new InstructionTable$VM('010001:10000:00000:fs:fd:001100'), '%D, %S', this.ADDR_TYPE_NONE, 0);
-    this.trunc_w_s = this.ID_hht69y$('trunc.w.s', new InstructionTable$VM('010001:10000:00000:fs:fd:001101'), '%D, %S', this.ADDR_TYPE_NONE, 0);
-    this.ceil_w_s = this.ID_hht69y$('ceil.w.s', new InstructionTable$VM('010001:10000:00000:fs:fd:001110'), '%D, %S', this.ADDR_TYPE_NONE, 0);
-    this.floor_w_s = this.ID_hht69y$('floor.w.s', new InstructionTable$VM('010001:10000:00000:fs:fd:001111'), '%D, %S', this.ADDR_TYPE_NONE, 0);
-    this.cvt_s_w = this.ID_hht69y$('cvt.s.w', new InstructionTable$VM('010001:10100:00000:fs:fd:100000'), '%D, %S', this.ADDR_TYPE_NONE, 0);
-    this.cvt_w_s = this.ID_hht69y$('cvt.w.s', new InstructionTable$VM('010001:10000:00000:fs:fd:100100'), '%D, %S', this.ADDR_TYPE_NONE, 0);
-    this.mfc1 = this.ID_hht69y$('mfc1', new InstructionTable$VM('010001:00000:rt:c1dr:00000:000000'), '%t, %S', this.ADDR_TYPE_NONE, 0);
-    this.mtc1 = this.ID_hht69y$('mtc1', new InstructionTable$VM('010001:00100:rt:c1dr:00000:000000'), '%t, %S', this.ADDR_TYPE_NONE, 0);
-    this.cfc1 = this.ID_hht69y$('cfc1', new InstructionTable$VM('010001:00010:rt:c1cr:00000:000000'), '%t, %p', this.ADDR_TYPE_NONE, 0);
-    this.ctc1 = this.ID_hht69y$('ctc1', new InstructionTable$VM('010001:00110:rt:c1cr:00000:000000'), '%t, %p', this.ADDR_TYPE_NONE, 0);
-    this.c_f_s = this.ID_hht69y$('c.f.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:0000'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_un_s = this.ID_hht69y$('c.un.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:0001'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_eq_s = this.ID_hht69y$('c.eq.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:0010'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_ueq_s = this.ID_hht69y$('c.ueq.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:0011'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_olt_s = this.ID_hht69y$('c.olt.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:0100'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_ult_s = this.ID_hht69y$('c.ult.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:0101'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_ole_s = this.ID_hht69y$('c.ole.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:0110'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_ule_s = this.ID_hht69y$('c.ule.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:0111'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_sf_s = this.ID_hht69y$('c.sf.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:1000'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_ngle_s = this.ID_hht69y$('c.ngle.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:1001'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_seq_s = this.ID_hht69y$('c.seq.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:1010'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_ngl_s = this.ID_hht69y$('c.ngl.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:1011'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_lt_s = this.ID_hht69y$('c.lt.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:1100'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_nge_s = this.ID_hht69y$('c.nge.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:1101'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_le_s = this.ID_hht69y$('c.le.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:1110'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.c_ngt_s = this.ID_hht69y$('c.ngt.s', new InstructionTable$VM('010001:10000:ft:fs:00000:11:1111'), '%S, %T', this.ADDR_TYPE_NONE, 0);
-    this.syscall = this.ID_hht69y$('syscall', new InstructionTable$VM('000000:imm20:001100'), '%C', this.ADDR_TYPE_NONE, this.INSTR_TYPE_SYSCALL);
-    this.cache = this.ID_hht69y$('cache', new InstructionTable$VM('101111:rs:-----:imm16'), '%k, %o', this.ADDR_TYPE_NONE, 0);
-    this.sync = this.ID_hht69y$('sync', new InstructionTable$VM('000000:00000:00000:00000:00000:001111'), '', this.ADDR_TYPE_NONE, 0);
-    this._break = this.ID_hht69y$('break', new InstructionTable$VM('000000:imm20:001101'), '%c', this.ADDR_TYPE_NONE, this.INSTR_TYPE_BREAK);
-    this.dbreak = this.ID_hht69y$('dbreak', new InstructionTable$VM('011100:00000:00000:00000:00000:111111'), '', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP | this.INSTR_TYPE_BREAK);
-    this.halt = this.ID_hht69y$('halt', new InstructionTable$VM('011100:00000:00000:00000:00000:000000'), '', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.dret = this.ID_hht69y$('dret', new InstructionTable$VM('011100:00000:00000:00000:00000:111110'), '', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.eret = this.ID_hht69y$('eret', new InstructionTable$VM('010000:10000:00000:00000:00000:011000'), '', this.ADDR_TYPE_NONE, 0);
-    this.mfic = this.ID_hht69y$('mfic', new InstructionTable$VM('011100:rt:00000:00000:00000:100100'), '%t, %p', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.mtic = this.ID_hht69y$('mtic', new InstructionTable$VM('011100:rt:00000:00000:00000:100110'), '%t, %p', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.mfdr = this.ID_hht69y$('mfdr', new InstructionTable$VM('011100:00000:----------:00000:111101'), '%t, %r', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.mtdr = this.ID_hht69y$('mtdr', new InstructionTable$VM('011100:00100:----------:00000:111101'), '%t, %r', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.cfc0 = this.ID_hht69y$('cfc0', new InstructionTable$VM('010000:00010:----------:00000:000000'), '%t, %p', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.ctc0 = this.ID_hht69y$('ctc0', new InstructionTable$VM('010000:00110:----------:00000:000000'), '%t, %p', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.mfc0 = this.ID_hht69y$('mfc0', new InstructionTable$VM('010000:00000:----------:00000:000000'), '%t, %0', this.ADDR_TYPE_NONE, 0);
-    this.mtc0 = this.ID_hht69y$('mtc0', new InstructionTable$VM('010000:00100:----------:00000:000000'), '%t, %0', this.ADDR_TYPE_NONE, 0);
-    this.mfv = this.ID_hht69y$('mfv', new InstructionTable$VM('010010:00:011:rt:0:0000000:0:vd'), '%t, %zs', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.mfvc = this.ID_hht69y$('mfvc', new InstructionTable$VM('010010:00:011:rt:0:0000000:1:vd'), '%t, %2d', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.mtv = this.ID_hht69y$('mtv', new InstructionTable$VM('010010:00:111:rt:0:0000000:0:vd'), '%t, %zs', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.mtvc = this.ID_hht69y$('mtvc', new InstructionTable$VM('010010:00:111:rt:0:0000000:1:vd'), '%t, %2d', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.lv_s = this.ID_hht69y$('lv.s', new InstructionTable$VM('110010:rs:vt5:imm14:vt2'), '%Xs, %Y', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.lv_q = this.ID_hht69y$('lv.q', new InstructionTable$VM('110110:rs:vt5:imm14:0:vt1'), '%Xq, %Y', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.lvl_q = this.ID_hht69y$('lvl.q', new InstructionTable$VM('110101:rs:vt5:imm14:0:vt1'), '%Xq, %Y', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.lvr_q = this.ID_hht69y$('lvr.q', new InstructionTable$VM('110101:rs:vt5:imm14:1:vt1'), '%Xq, %Y', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.sv_q = this.ID_hht69y$('sv.q', new InstructionTable$VM('111110:rs:vt5:imm14:0:vt1'), '%Xq, %Y', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vdot = this.ID_hht69y$('vdot', new InstructionTable$VM('011001:001:vt:two:vs:one:vd'), '%zs, %yp, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vscl = this.ID_hht69y$('vscl', new InstructionTable$VM('011001:010:vt:two:vs:one:vd'), '%zp, %yp, %xs', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsge = this.ID_hht69y$('vsge', new InstructionTable$VM('011011:110:vt:two:vs:one:vd'), '%zp, %yp, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vslt = this.ID_hht69y$('vslt', new InstructionTable$VM('011011:111:vt:two:vs:one:vd'), '%zp, %yp, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vrot = this.ID_hht69y$('vrot', new InstructionTable$VM('111100:111:01:imm5:two:vs:one:vd'), '%zp, %ys, %vr', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vzero = this.ID_hht69y$('vzero', new InstructionTable$VM('110100:00:000:0:0110:two:0000000:one:vd'), '%zp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vone = this.ID_hht69y$('vone', new InstructionTable$VM('110100:00:000:0:0111:two:0000000:one:vd'), '%zp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vmov = this.ID_hht69y$('vmov', new InstructionTable$VM('110100:00:000:0:0000:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vabs = this.ID_hht69y$('vabs', new InstructionTable$VM('110100:00:000:0:0001:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vneg = this.ID_hht69y$('vneg', new InstructionTable$VM('110100:00:000:0:0010:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vocp = this.ID_hht69y$('vocp', new InstructionTable$VM('110100:00:010:0:0100:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsgn = this.ID_hht69y$('vsgn', new InstructionTable$VM('110100:00:010:0:1010:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vrcp = this.ID_hht69y$('vrcp', new InstructionTable$VM('110100:00:000:1:0000:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vrsq = this.ID_hht69y$('vrsq', new InstructionTable$VM('110100:00:000:1:0001:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsin = this.ID_hht69y$('vsin', new InstructionTable$VM('110100:00:000:1:0010:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vcos = this.ID_hht69y$('vcos', new InstructionTable$VM('110100:00:000:1:0011:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vexp2 = this.ID_hht69y$('vexp2', new InstructionTable$VM('110100:00:000:1:0100:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vlog2 = this.ID_hht69y$('vlog2', new InstructionTable$VM('110100:00:000:1:0101:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsqrt = this.ID_hht69y$('vsqrt', new InstructionTable$VM('110100:00:000:1:0110:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vasin = this.ID_hht69y$('vasin', new InstructionTable$VM('110100:00:000:1:0111:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vnrcp = this.ID_hht69y$('vnrcp', new InstructionTable$VM('110100:00:000:1:1000:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vnsin = this.ID_hht69y$('vnsin', new InstructionTable$VM('110100:00:000:1:1010:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vrexp2 = this.ID_hht69y$('vrexp2', new InstructionTable$VM('110100:00:000:1:1100:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsat0 = this.ID_hht69y$('vsat0', new InstructionTable$VM('110100:00:000:0:0100:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsat1 = this.ID_hht69y$('vsat1', new InstructionTable$VM('110100:00:000:0:0101:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vcst = this.ID_hht69y$('vcst', new InstructionTable$VM('110100:00:011:imm5:two:0000000:one:vd'), '%zp, %vk', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vmmul = this.ID_hht69y$('vmmul', new InstructionTable$VM('111100:000:vt:two:vs:one:vd'), '%zm, %tym, %xm', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vhdp = this.ID_hht69y$('vhdp', new InstructionTable$VM('011001:100:vt:two:vs:one:vd'), '%zs, %yp, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vcrs_t = this.ID_hht69y$('vcrs.t', new InstructionTable$VM('011001:101:vt:1:vs:0:vd'), '%zt, %yt, %xt', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vcrsp_t = this.ID_hht69y$('vcrsp.t', new InstructionTable$VM('111100:101:vt:1:vs:0:vd'), '%zt, %yt, %xt', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vi2c = this.ID_hht69y$('vi2c', new InstructionTable$VM('110100:00:001:11:101:two:vs:one:vd'), '%zs, %yq', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vi2uc = this.ID_hht69y$('vi2uc', new InstructionTable$VM('110100:00:001:11:100:two:vs:one:vd'), '%zq, %yq', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vtfm2 = this.ID_hht69y$('vtfm2', new InstructionTable$VM('111100:001:vt:0:vs:1:vd'), '%zp, %ym, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vtfm3 = this.ID_hht69y$('vtfm3', new InstructionTable$VM('111100:010:vt:1:vs:0:vd'), '%zt, %yn, %xt', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vtfm4 = this.ID_hht69y$('vtfm4', new InstructionTable$VM('111100:011:vt:1:vs:1:vd'), '%zq, %yo, %xq', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vhtfm2 = this.ID_hht69y$('vhtfm2', new InstructionTable$VM('111100:001:vt:0:vs:0:vd'), '%zp, %ym, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vhtfm3 = this.ID_hht69y$('vhtfm3', new InstructionTable$VM('111100:010:vt:0:vs:1:vd'), '%zt, %yn, %xt', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vhtfm4 = this.ID_hht69y$('vhtfm4', new InstructionTable$VM('111100:011:vt:1:vs:0:vd'), '%zq, %yo, %xq', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsrt3 = this.ID_hht69y$('vsrt3', new InstructionTable$VM('110100:00:010:01000:two:vs:one:vd'), '%zq, %yq', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vfad = this.ID_hht69y$('vfad', new InstructionTable$VM('110100:00:010:00110:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vmin = this.ID_hht69y$('vmin', new InstructionTable$VM('011011:010:vt:two:vs:one:vd'), '%zp, %yp, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vmax = this.ID_hht69y$('vmax', new InstructionTable$VM('011011:011:vt:two:vs:one:vd'), '%zp, %yp, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vadd = this.ID_hht69y$('vadd', new InstructionTable$VM('011000:000:vt:two:vs:one:vd'), '%zp, %yp, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsub = this.ID_hht69y$('vsub', new InstructionTable$VM('011000:001:vt:two:vs:one:vd'), '%zp, %yp, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vdiv = this.ID_hht69y$('vdiv', new InstructionTable$VM('011000:111:vt:two:vs:one:vd'), '%zp, %yp, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vmul = this.ID_hht69y$('vmul', new InstructionTable$VM('011001:000:vt:two:vs:one:vd'), '%zp, %yp, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vidt = this.ID_hht69y$('vidt', new InstructionTable$VM('110100:00:000:0:0011:two:0000000:one:vd'), '%zp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vmidt = this.ID_hht69y$('vmidt', new InstructionTable$VM('111100:111:00:00011:two:0000000:one:vd'), '%zm', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.viim = this.ID_hht69y$('viim', new InstructionTable$VM('110111:11:0:vd:imm16'), '%xs, %vi', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vmmov = this.ID_hht69y$('vmmov', new InstructionTable$VM('111100:111:00:00000:two:vs:one:vd'), '%zm, %ym', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vmzero = this.ID_hht69y$('vmzero', new InstructionTable$VM('111100:111:00:00110:two:0000000:one:vd'), '%zm', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vmone = this.ID_hht69y$('vmone', new InstructionTable$VM('111100:111:00:00111:two:0000000:one:vd'), '%zp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vnop = this.ID_hht69y$('vnop', new InstructionTable$VM('111111:1111111111:00000:00000000000'), '', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsync = this.ID_hht69y$('vsync', new InstructionTable$VM('111111:1111111111:00000:01100100000'), '', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vflush = this.ID_hht69y$('vflush', new InstructionTable$VM('111111:1111111111:00000:10000001101'), '', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vpfxd = this.ID_hht69y$('vpfxd', new InstructionTable$VM('110111:10:------------:mskw:mskz:msky:mskx:satw:satz:saty:satx'), '[%vp4, %vp5, %vp6, %vp7]', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vpfxs = this.ID_hht69y$('vpfxs', new InstructionTable$VM('110111:00:----:negw:negz:negy:negx:cstw:cstz:csty:cstx:absw:absz:absy:absx:swzw:swzz:swzy:swzx'), '[%vp0, %vp1, %vp2, %vp3]', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vpfxt = this.ID_hht69y$('vpfxt', new InstructionTable$VM('110111:01:----:negw:negz:negy:negx:cstw:cstz:csty:cstx:absw:absz:absy:absx:swzw:swzz:swzy:swzx'), '[%vp0, %vp1, %vp2, %vp3]', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vdet = this.ID_hht69y$('vdet', new InstructionTable$VM('011001:110:vt:two:vs:one:vd'), '%zs, %yp, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vrnds = this.ID_hht69y$('vrnds', new InstructionTable$VM('110100:00:001:00:000:two:vs:one:0000000'), '%ys', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vrndi = this.ID_hht69y$('vrndi', new InstructionTable$VM('110100:00:001:00:001:two:0000000:one:vd'), '%zp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vrndf1 = this.ID_hht69y$('vrndf1', new InstructionTable$VM('110100:00:001:00:010:two:0000000:one:vd'), '%zp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vrndf2 = this.ID_hht69y$('vrndf2', new InstructionTable$VM('110100:00:001:00:011:two:0000000:one:vd'), '%zp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vcmp = this.ID_hht69y$('vcmp', new InstructionTable$VM('011011:000:vt:two:vs:one:000:imm4'), '%Zn, %yp, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vcmovf = this.ID_hht69y$('vcmovf', new InstructionTable$VM('110100:10:101:01:imm3:two:vs:one:vd'), '%zp, %yp, %v3', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vcmovt = this.ID_hht69y$('vcmovt', new InstructionTable$VM('110100:10:101:00:imm3:two:vs:one:vd'), '%zp, %yp, %v3', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vavg = this.ID_hht69y$('vavg', new InstructionTable$VM('110100:00:010:00111:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vf2id = this.ID_hht69y$('vf2id', new InstructionTable$VM('110100:10:011:imm5:two:vs:one:vd'), '%zp, %yp, %v5', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vf2in = this.ID_hht69y$('vf2in', new InstructionTable$VM('110100:10:000:imm5:two:vs:one:vd'), '%zp, %yp, %v5', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vf2iu = this.ID_hht69y$('vf2iu', new InstructionTable$VM('110100:10:010:imm5:two:vs:one:vd'), '%zp, %yp, %v5', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vf2iz = this.ID_hht69y$('vf2iz', new InstructionTable$VM('110100:10:001:imm5:two:vs:one:vd'), '%zp, %yp, %v5', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vi2f = this.ID_hht69y$('vi2f', new InstructionTable$VM('110100:10:100:imm5:two:vs:one:vd'), '%zp, %yp, %v5', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vscmp = this.ID_hht69y$('vscmp', new InstructionTable$VM('011011:101:vt:two:vs:one:vd'), '%zp, %yp, %xp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vmscl = this.ID_hht69y$('vmscl', new InstructionTable$VM('111100:100:vt:two:vs:one:vd'), '%zm, %ym, %xs', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vt4444_q = this.ID_hht69y$('vt4444.q', new InstructionTable$VM('110100:00:010:11001:two:vs:one:vd'), '%zq, %yq', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vt5551_q = this.ID_hht69y$('vt5551.q', new InstructionTable$VM('110100:00:010:11010:two:vs:one:vd'), '%zq, %yq', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vt5650_q = this.ID_hht69y$('vt5650.q', new InstructionTable$VM('110100:00:010:11011:two:vs:one:vd'), '%zq, %yq', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vmfvc = this.ID_hht69y$('vmfvc', new InstructionTable$VM('110100:00:010:10000:1:imm7:0:vd'), '%zs, %2s', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vmtvc = this.ID_hht69y$('vmtvc', new InstructionTable$VM('110100:00:010:10001:0:vs:1:imm7'), '%2d, %ys', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.mfvme = this.ID_hht69y$('mfvme', new InstructionTable$VM('011010--------------------------'), '%t, %i', this.ADDR_TYPE_NONE, 0);
-    this.mtvme = this.ID_hht69y$('mtvme', new InstructionTable$VM('101100--------------------------'), '%t, %i', this.ADDR_TYPE_NONE, 0);
-    this.sv_s = this.ID_hht69y$('sv.s', new InstructionTable$VM('111010:rs:vt5:imm14:vt2'), '%Xs, %Y', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vfim = this.ID_hht69y$('vfim', new InstructionTable$VM('110111:11:1:vt:imm16'), '%xs, %vh', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.svl_q = this.ID_hht69y$('svl.q', new InstructionTable$VM('111101:rs:vt5:imm14:0:vt1'), '%Xq, %Y', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.svr_q = this.ID_hht69y$('svr.q', new InstructionTable$VM('111101:rs:vt5:imm14:1:vt1'), '%Xq, %Y', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vbfy1 = this.ID_hht69y$('vbfy1', new InstructionTable$VM('110100:00:010:00010:two:vs:one:vd'), '%zp, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vbfy2 = this.ID_hht69y$('vbfy2', new InstructionTable$VM('110100:00:010:00011:two:vs:one:vd'), '%zq, %yq', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vf2h = this.ID_hht69y$('vf2h', new InstructionTable$VM('110100:00:001:10:010:two:vs:one:vd'), '%zs, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vh2f = this.ID_hht69y$('vh2f', new InstructionTable$VM('110100:00:001:10:011:two:vs:one:vd'), '%zq, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vi2s = this.ID_hht69y$('vi2s', new InstructionTable$VM('110100:00:001:11:111:two:vs:one:vd'), '%zs, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vi2us = this.ID_hht69y$('vi2us', new InstructionTable$VM('110100:00:001:11:110:two:vs:one:vd'), '%zq, %yq', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vlgb = this.ID_hht69y$('vlgb', new InstructionTable$VM('110100:00:001:10:111:two:vs:one:vd'), '%zs, %ys', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vqmul = this.ID_hht69y$('vqmul', new InstructionTable$VM('111100:101:vt:1:vs:1:vd'), '%zq, %yq, %xq', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vs2i = this.ID_hht69y$('vs2i', new InstructionTable$VM('110100:00:001:11:011:two:vs:one:vd'), '%zq, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vc2i = this.ID_hht69y$('vc2i', new InstructionTable$VM('110100:00:001:11:001:two:vs:one:vd'), '%zs, %ys, %xs', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vuc2i = this.ID_hht69y$('vuc2i', new InstructionTable$VM('110100:00:001:11:000:two:vs:one:vd'), '%zq, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsbn = this.ID_hht69y$('vsbn', new InstructionTable$VM('011000:010:vt:two:vs:one:vd'), '%zs, %ys, %xs', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsbz = this.ID_hht69y$('vsbz', new InstructionTable$VM('110100:00:001:10110:two:vs:one:vd'), '%zs, %ys', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsocp = this.ID_hht69y$('vsocp', new InstructionTable$VM('110100:00:010:00101:two:vs:one:vd'), '%zq, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsrt1 = this.ID_hht69y$('vsrt1', new InstructionTable$VM('110100:00:010:00000:two:vs:one:vd'), '%zq, %yq', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsrt2 = this.ID_hht69y$('vsrt2', new InstructionTable$VM('110100:00:010:00001:two:vs:one:vd'), '%zq, %yq', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vsrt4 = this.ID_hht69y$('vsrt4', new InstructionTable$VM('110100:00:010:01001:two:vs:one:vd'), '%zq, %yq', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vus2i = this.ID_hht69y$('vus2i', new InstructionTable$VM('110100:00:001:11010:two:vs:one:vd'), '%zq, %yp', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.vwbn = this.ID_hht69y$('vwbn', new InstructionTable$VM('110100:11:imm8:two:vs:one:vd'), '%zs, %xs, %I', this.ADDR_TYPE_NONE, this.INSTR_TYPE_PSP);
-    this.bvf = this.ID_hht69y$('bvf', new InstructionTable$VM('010010:01:000:imm3:00:imm16'), '%Zc, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_PSP | this.INSTR_TYPE_B);
-    this.bvt = this.ID_hht69y$('bvt', new InstructionTable$VM('010010:01:000:imm3:01:imm16'), '%Zc, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_PSP | this.INSTR_TYPE_B);
-    this.bvfl = this.ID_hht69y$('bvfl', new InstructionTable$VM('010010:01:000:imm3:10:imm16'), '%Zc, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_PSP | this.INSTR_TYPE_B | this.INSTR_TYPE_LIKELY);
-    this.bvtl = this.ID_hht69y$('bvtl', new InstructionTable$VM('010010:01:000:imm3:11:imm16'), '%Zc, %O', this.ADDR_TYPE_16, this.INSTR_TYPE_PSP | this.INSTR_TYPE_B | this.INSTR_TYPE_LIKELY);
+  function Instructions() {
+    Instructions_instance = this;
+    this.add = ID('add', VM('000000:rs:rt:rd:00000:100000'), '%d, %s, %t', ADDR_TYPE_NONE, 0);
+    this.addu = ID('addu', VM('000000:rs:rt:rd:00000:100001'), '%d, %s, %t', ADDR_TYPE_NONE, 0);
+    this.addi = ID('addi', VM('001000:rs:rt:imm16'), '%t, %s, %i', ADDR_TYPE_NONE, 0);
+    this.addiu = ID('addiu', VM('001001:rs:rt:imm16'), '%t, %s, %i', ADDR_TYPE_NONE, 0);
+    this.sub = ID('sub', VM('000000:rs:rt:rd:00000:100010'), '%d, %s, %t', ADDR_TYPE_NONE, 0);
+    this.subu = ID('subu', VM('000000:rs:rt:rd:00000:100011'), '%d, %s, %t', ADDR_TYPE_NONE, 0);
+    this.and = ID('and', VM('000000:rs:rt:rd:00000:100100'), '%d, %s, %t', ADDR_TYPE_NONE, 0);
+    this.andi = ID('andi', VM('001100:rs:rt:imm16'), '%t, %s, %I', ADDR_TYPE_NONE, 0);
+    this.nor = ID('nor', VM('000000:rs:rt:rd:00000:100111'), '%d, %s, %t', ADDR_TYPE_NONE, 0);
+    this.or = ID('or', VM('000000:rs:rt:rd:00000:100101'), '%d, %s, %t', ADDR_TYPE_NONE, 0);
+    this.ori = ID('ori', VM('001101:rs:rt:imm16'), '%t, %s, %I', ADDR_TYPE_NONE, 0);
+    this.xor = ID('xor', VM('000000:rs:rt:rd:00000:100110'), '%d, %s, %t', ADDR_TYPE_NONE, 0);
+    this.xori = ID('xori', VM('001110:rs:rt:imm16'), '%t, %s, %I', ADDR_TYPE_NONE, 0);
+    this.sll = ID('sll', VM('000000:00000:rt:rd:sa:000000'), '%d, %t, %a', ADDR_TYPE_NONE, 0);
+    this.sllv = ID('sllv', VM('000000:rs:rt:rd:00000:000100'), '%d, %t, %s', ADDR_TYPE_NONE, 0);
+    this.sra = ID('sra', VM('000000:00000:rt:rd:sa:000011'), '%d, %t, %a', ADDR_TYPE_NONE, 0);
+    this.srav = ID('srav', VM('000000:rs:rt:rd:00000:000111'), '%d, %t, %s', ADDR_TYPE_NONE, 0);
+    this.srl = ID('srl', VM('000000:00000:rt:rd:sa:000010'), '%d, %t, %a', ADDR_TYPE_NONE, 0);
+    this.srlv = ID('srlv', VM('000000:rs:rt:rd:00000:000110'), '%d, %t, %s', ADDR_TYPE_NONE, 0);
+    this.rotr = ID('rotr', VM('000000:00001:rt:rd:sa:000010'), '%d, %t, %a', ADDR_TYPE_NONE, 0);
+    this.rotrv = ID('rotrv', VM('000000:rs:rt:rd:00001:000110'), '%d, %t, %s', ADDR_TYPE_NONE, 0);
+    this.slt = ID('slt', VM('000000:rs:rt:rd:00000:101010'), '%d, %s, %t', ADDR_TYPE_NONE, 0);
+    this.slti = ID('slti', VM('001010:rs:rt:imm16'), '%t, %s, %i', ADDR_TYPE_NONE, 0);
+    this.sltu = ID('sltu', VM('000000:rs:rt:rd:00000:101011'), '%d, %s, %t', ADDR_TYPE_NONE, 0);
+    this.sltiu = ID('sltiu', VM('001011:rs:rt:imm16'), '%t, %s, %i', ADDR_TYPE_NONE, 0);
+    this.lui = ID('lui', VM('001111:00000:rt:imm16'), '%t, %I', ADDR_TYPE_NONE, 0);
+    this.seb = ID('seb', VM('011111:00000:rt:rd:10000:100000'), '%d, %t', ADDR_TYPE_NONE, 0);
+    this.seh = ID('seh', VM('011111:00000:rt:rd:11000:100000'), '%d, %t', ADDR_TYPE_NONE, 0);
+    this.bitrev = ID('bitrev', VM('011111:00000:rt:rd:10100:100000'), '%d, %t', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.max = ID('max', VM('000000:rs:rt:rd:00000:101100'), '%d, %s, %t', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.min = ID('min', VM('000000:rs:rt:rd:00000:101101'), '%d, %s, %t', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.div = ID('div', VM('000000:rs:rt:00000:00000:011010'), '%s, %t', ADDR_TYPE_NONE, 0);
+    this.divu = ID('divu', VM('000000:rs:rt:00000:00000:011011'), '%s, %t', ADDR_TYPE_NONE, 0);
+    this.mult = ID('mult', VM('000000:rs:rt:00000:00000:011000'), '%s, %t', ADDR_TYPE_NONE, 0);
+    this.multu = ID('multu', VM('000000:rs:rt:00000:00000:011001'), '%s, %t', ADDR_TYPE_NONE, 0);
+    this.madd = ID('madd', VM('000000:rs:rt:00000:00000:011100'), '%s, %t', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.maddu = ID('maddu', VM('000000:rs:rt:00000:00000:011101'), '%s, %t', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.msub = ID('msub', VM('000000:rs:rt:00000:00000:101110'), '%s, %t', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.msubu = ID('msubu', VM('000000:rs:rt:00000:00000:101111'), '%s, %t', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.mfhi = ID('mfhi', VM('000000:00000:00000:rd:00000:010000'), '%d', ADDR_TYPE_NONE, 0);
+    this.mflo = ID('mflo', VM('000000:00000:00000:rd:00000:010010'), '%d', ADDR_TYPE_NONE, 0);
+    this.mthi = ID('mthi', VM('000000:rs:00000:00000:00000:010001'), '%s', ADDR_TYPE_NONE, 0);
+    this.mtlo = ID('mtlo', VM('000000:rs:00000:00000:00000:010011'), '%s', ADDR_TYPE_NONE, 0);
+    this.movz = ID('movz', VM('000000:rs:rt:rd:00000:001010'), '%d, %s, %t', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.movn = ID('movn', VM('000000:rs:rt:rd:00000:001011'), '%d, %s, %t', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.ext = ID('ext', VM('011111:rs:rt:msb:lsb:000000'), '%t, %s, %a, %ne', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.ins = ID('ins', VM('011111:rs:rt:msb:lsb:000100'), '%t, %s, %a, %ni', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.clz = ID('clz', VM('000000:rs:00000:rd:00000:010110'), '%d, %s', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.clo = ID('clo', VM('000000:rs:00000:rd:00000:010111'), '%d, %s', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.wsbh = ID('wsbh', VM('011111:00000:rt:rd:00010:100000'), '%d, %t', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.wsbw = ID('wsbw', VM('011111:00000:rt:rd:00011:100000'), '%d, %t', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.beq = ID('beq', VM('000100:rs:rt:imm16'), '%s, %t, %O', ADDR_TYPE_16, INSTR_TYPE_B);
+    this.beql = ID('beql', VM('010100:rs:rt:imm16'), '%s, %t, %O', ADDR_TYPE_16, INSTR_TYPE_B | INSTR_TYPE_LIKELY);
+    this.bgez = ID('bgez', VM('000001:rs:00001:imm16'), '%s, %O', ADDR_TYPE_16, INSTR_TYPE_B);
+    this.bgezl = ID('bgezl', VM('000001:rs:00011:imm16'), '%s, %O', ADDR_TYPE_16, INSTR_TYPE_B | INSTR_TYPE_LIKELY);
+    this.bgezal = ID('bgezal', VM('000001:rs:10001:imm16'), '%s, %O', ADDR_TYPE_16, INSTR_TYPE_JAL);
+    this.bgezall = ID('bgezall', VM('000001:rs:10011:imm16'), '%s, %O', ADDR_TYPE_16, INSTR_TYPE_LIKELY | INSTR_TYPE_JAL);
+    this.bltz = ID('bltz', VM('000001:rs:00000:imm16'), '%s, %O', ADDR_TYPE_16, INSTR_TYPE_B);
+    this.bltzl = ID('bltzl', VM('000001:rs:00010:imm16'), '%s, %O', ADDR_TYPE_16, INSTR_TYPE_B | INSTR_TYPE_LIKELY);
+    this.bltzal = ID('bltzal', VM('000001:rs:10000:imm16'), '%s, %O', ADDR_TYPE_16, INSTR_TYPE_JAL);
+    this.bltzall = ID('bltzall', VM('000001:rs:10010:imm16'), '%s, %O', ADDR_TYPE_16, INSTR_TYPE_LIKELY | INSTR_TYPE_JAL);
+    this.blez = ID('blez', VM('000110:rs:00000:imm16'), '%s, %O', ADDR_TYPE_16, INSTR_TYPE_B);
+    this.blezl = ID('blezl', VM('010110:rs:00000:imm16'), '%s, %O', ADDR_TYPE_16, INSTR_TYPE_B | INSTR_TYPE_LIKELY);
+    this.bgtz = ID('bgtz', VM('000111:rs:00000:imm16'), '%s, %O', ADDR_TYPE_16, INSTR_TYPE_B);
+    this.bgtzl = ID('bgtzl', VM('010111:rs:00000:imm16'), '%s, %O', ADDR_TYPE_16, INSTR_TYPE_B | INSTR_TYPE_LIKELY);
+    this.bne = ID('bne', VM('000101:rs:rt:imm16'), '%s, %t, %O', ADDR_TYPE_16, INSTR_TYPE_B);
+    this.bnel = ID('bnel', VM('010101:rs:rt:imm16'), '%s, %t, %O', ADDR_TYPE_16, INSTR_TYPE_B | INSTR_TYPE_LIKELY);
+    this.j = ID('j', VM('000010:imm26'), '%j', ADDR_TYPE_26, INSTR_TYPE_JUMP);
+    this.jr = ID('jr', VM('000000:rs:00000:00000:00000:001000'), '%J', ADDR_TYPE_REG, INSTR_TYPE_JUMP);
+    this.jalr = ID('jalr', VM('000000:rs:00000:rd:00000:001001'), '%J, %d', ADDR_TYPE_REG, INSTR_TYPE_JAL);
+    this.jal = ID('jal', VM('000011:imm26'), '%j', ADDR_TYPE_26, INSTR_TYPE_JAL);
+    this.bc1f = ID('bc1f', VM('010001:01000:00000:imm16'), '%O', ADDR_TYPE_16, INSTR_TYPE_B);
+    this.bc1t = ID('bc1t', VM('010001:01000:00001:imm16'), '%O', ADDR_TYPE_16, INSTR_TYPE_B);
+    this.bc1fl = ID('bc1fl', VM('010001:01000:00010:imm16'), '%O', ADDR_TYPE_16, INSTR_TYPE_B | INSTR_TYPE_LIKELY);
+    this.bc1tl = ID('bc1tl', VM('010001:01000:00011:imm16'), '%O', ADDR_TYPE_16, INSTR_TYPE_B | INSTR_TYPE_LIKELY);
+    this.lb = ID('lb', VM('100000:rs:rt:imm16'), '%t, %i(%s)', ADDR_TYPE_NONE, 0);
+    this.lh = ID('lh', VM('100001:rs:rt:imm16'), '%t, %i(%s)', ADDR_TYPE_NONE, 0);
+    this.lw = ID('lw', VM('100011:rs:rt:imm16'), '%t, %i(%s)', ADDR_TYPE_NONE, 0);
+    this.lwl = ID('lwl', VM('100010:rs:rt:imm16'), '%t, %i(%s)', ADDR_TYPE_NONE, 0);
+    this.lwr = ID('lwr', VM('100110:rs:rt:imm16'), '%t, %i(%s)', ADDR_TYPE_NONE, 0);
+    this.lbu = ID('lbu', VM('100100:rs:rt:imm16'), '%t, %i(%s)', ADDR_TYPE_NONE, 0);
+    this.lhu = ID('lhu', VM('100101:rs:rt:imm16'), '%t, %i(%s)', ADDR_TYPE_NONE, 0);
+    this.sb = ID('sb', VM('101000:rs:rt:imm16'), '%t, %i(%s)', ADDR_TYPE_NONE, 0);
+    this.sh = ID('sh', VM('101001:rs:rt:imm16'), '%t, %i(%s)', ADDR_TYPE_NONE, 0);
+    this.sw = ID('sw', VM('101011:rs:rt:imm16'), '%t, %i(%s)', ADDR_TYPE_NONE, 0);
+    this.swl = ID('swl', VM('101010:rs:rt:imm16'), '%t, %i(%s)', ADDR_TYPE_NONE, 0);
+    this.swr = ID('swr', VM('101110:rs:rt:imm16'), '%t, %i(%s)', ADDR_TYPE_NONE, 0);
+    this.ll = ID('ll', VM('110000:rs:rt:imm16'), '%t, %O', ADDR_TYPE_NONE, 0);
+    this.sc = ID('sc', VM('111000:rs:rt:imm16'), '%t, %O', ADDR_TYPE_NONE, 0);
+    this.lwc1 = ID('lwc1', VM('110001:rs:ft:imm16'), '%T, %i(%s)', ADDR_TYPE_NONE, 0);
+    this.swc1 = ID('swc1', VM('111001:rs:ft:imm16'), '%T, %i(%s)', ADDR_TYPE_NONE, 0);
+    this.add_s = ID('add.s', VM('010001:10000:ft:fs:fd:000000'), '%D, %S, %T', ADDR_TYPE_NONE, 0);
+    this.sub_s = ID('sub.s', VM('010001:10000:ft:fs:fd:000001'), '%D, %S, %T', ADDR_TYPE_NONE, 0);
+    this.mul_s = ID('mul.s', VM('010001:10000:ft:fs:fd:000010'), '%D, %S, %T', ADDR_TYPE_NONE, 0);
+    this.div_s = ID('div.s', VM('010001:10000:ft:fs:fd:000011'), '%D, %S, %T', ADDR_TYPE_NONE, 0);
+    this.sqrt_s = ID('sqrt.s', VM('010001:10000:00000:fs:fd:000100'), '%D, %S', ADDR_TYPE_NONE, 0);
+    this.abs_s = ID('abs.s', VM('010001:10000:00000:fs:fd:000101'), '%D, %S', ADDR_TYPE_NONE, 0);
+    this.mov_s = ID('mov.s', VM('010001:10000:00000:fs:fd:000110'), '%D, %S', ADDR_TYPE_NONE, 0);
+    this.neg_s = ID('neg.s', VM('010001:10000:00000:fs:fd:000111'), '%D, %S', ADDR_TYPE_NONE, 0);
+    this.round_w_s = ID('round.w.s', VM('010001:10000:00000:fs:fd:001100'), '%D, %S', ADDR_TYPE_NONE, 0);
+    this.trunc_w_s = ID('trunc.w.s', VM('010001:10000:00000:fs:fd:001101'), '%D, %S', ADDR_TYPE_NONE, 0);
+    this.ceil_w_s = ID('ceil.w.s', VM('010001:10000:00000:fs:fd:001110'), '%D, %S', ADDR_TYPE_NONE, 0);
+    this.floor_w_s = ID('floor.w.s', VM('010001:10000:00000:fs:fd:001111'), '%D, %S', ADDR_TYPE_NONE, 0);
+    this.cvt_s_w = ID('cvt.s.w', VM('010001:10100:00000:fs:fd:100000'), '%D, %S', ADDR_TYPE_NONE, 0);
+    this.cvt_w_s = ID('cvt.w.s', VM('010001:10000:00000:fs:fd:100100'), '%D, %S', ADDR_TYPE_NONE, 0);
+    this.mfc1 = ID('mfc1', VM('010001:00000:rt:c1dr:00000:000000'), '%t, %S', ADDR_TYPE_NONE, 0);
+    this.mtc1 = ID('mtc1', VM('010001:00100:rt:c1dr:00000:000000'), '%t, %S', ADDR_TYPE_NONE, 0);
+    this.cfc1 = ID('cfc1', VM('010001:00010:rt:c1cr:00000:000000'), '%t, %p', ADDR_TYPE_NONE, 0);
+    this.ctc1 = ID('ctc1', VM('010001:00110:rt:c1cr:00000:000000'), '%t, %p', ADDR_TYPE_NONE, 0);
+    this.c_f_s = ID('c.f.s', VM('010001:10000:ft:fs:00000:11:0000'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_un_s = ID('c.un.s', VM('010001:10000:ft:fs:00000:11:0001'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_eq_s = ID('c.eq.s', VM('010001:10000:ft:fs:00000:11:0010'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_ueq_s = ID('c.ueq.s', VM('010001:10000:ft:fs:00000:11:0011'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_olt_s = ID('c.olt.s', VM('010001:10000:ft:fs:00000:11:0100'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_ult_s = ID('c.ult.s', VM('010001:10000:ft:fs:00000:11:0101'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_ole_s = ID('c.ole.s', VM('010001:10000:ft:fs:00000:11:0110'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_ule_s = ID('c.ule.s', VM('010001:10000:ft:fs:00000:11:0111'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_sf_s = ID('c.sf.s', VM('010001:10000:ft:fs:00000:11:1000'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_ngle_s = ID('c.ngle.s', VM('010001:10000:ft:fs:00000:11:1001'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_seq_s = ID('c.seq.s', VM('010001:10000:ft:fs:00000:11:1010'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_ngl_s = ID('c.ngl.s', VM('010001:10000:ft:fs:00000:11:1011'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_lt_s = ID('c.lt.s', VM('010001:10000:ft:fs:00000:11:1100'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_nge_s = ID('c.nge.s', VM('010001:10000:ft:fs:00000:11:1101'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_le_s = ID('c.le.s', VM('010001:10000:ft:fs:00000:11:1110'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.c_ngt_s = ID('c.ngt.s', VM('010001:10000:ft:fs:00000:11:1111'), '%S, %T', ADDR_TYPE_NONE, 0);
+    this.syscall = ID('syscall', VM('000000:imm20:001100'), '%C', ADDR_TYPE_NONE, INSTR_TYPE_SYSCALL);
+    this.cache = ID('cache', VM('101111:rs:-----:imm16'), '%k, %o', ADDR_TYPE_NONE, 0);
+    this.sync = ID('sync', VM('000000:00000:00000:00000:00000:001111'), '', ADDR_TYPE_NONE, 0);
+    this._break = ID('break', VM('000000:imm20:001101'), '%c', ADDR_TYPE_NONE, INSTR_TYPE_BREAK);
+    this.dbreak = ID('dbreak', VM('011100:00000:00000:00000:00000:111111'), '', ADDR_TYPE_NONE, INSTR_TYPE_PSP | INSTR_TYPE_BREAK);
+    this.halt = ID('halt', VM('011100:00000:00000:00000:00000:000000'), '', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.dret = ID('dret', VM('011100:00000:00000:00000:00000:111110'), '', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.eret = ID('eret', VM('010000:10000:00000:00000:00000:011000'), '', ADDR_TYPE_NONE, 0);
+    this.mfic = ID('mfic', VM('011100:rt:00000:00000:00000:100100'), '%t, %p', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.mtic = ID('mtic', VM('011100:rt:00000:00000:00000:100110'), '%t, %p', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.mfdr = ID('mfdr', VM('011100:00000:----------:00000:111101'), '%t, %r', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.mtdr = ID('mtdr', VM('011100:00100:----------:00000:111101'), '%t, %r', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.cfc0 = ID('cfc0', VM('010000:00010:----------:00000:000000'), '%t, %p', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.ctc0 = ID('ctc0', VM('010000:00110:----------:00000:000000'), '%t, %p', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.mfc0 = ID('mfc0', VM('010000:00000:----------:00000:000000'), '%t, %0', ADDR_TYPE_NONE, 0);
+    this.mtc0 = ID('mtc0', VM('010000:00100:----------:00000:000000'), '%t, %0', ADDR_TYPE_NONE, 0);
+    this.mfv = ID('mfv', VM('010010:00:011:rt:0:0000000:0:vd'), '%t, %zs', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.mfvc = ID('mfvc', VM('010010:00:011:rt:0:0000000:1:vd'), '%t, %2d', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.mtv = ID('mtv', VM('010010:00:111:rt:0:0000000:0:vd'), '%t, %zs', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.mtvc = ID('mtvc', VM('010010:00:111:rt:0:0000000:1:vd'), '%t, %2d', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.lv_s = ID('lv.s', VM('110010:rs:vt5:imm14:vt2'), '%Xs, %Y', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.lv_q = ID('lv.q', VM('110110:rs:vt5:imm14:0:vt1'), '%Xq, %Y', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.lvl_q = ID('lvl.q', VM('110101:rs:vt5:imm14:0:vt1'), '%Xq, %Y', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.lvr_q = ID('lvr.q', VM('110101:rs:vt5:imm14:1:vt1'), '%Xq, %Y', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.sv_q = ID('sv.q', VM('111110:rs:vt5:imm14:0:vt1'), '%Xq, %Y', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vdot = ID('vdot', VM('011001:001:vt:two:vs:one:vd'), '%zs, %yp, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vscl = ID('vscl', VM('011001:010:vt:two:vs:one:vd'), '%zp, %yp, %xs', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsge = ID('vsge', VM('011011:110:vt:two:vs:one:vd'), '%zp, %yp, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vslt = ID('vslt', VM('011011:111:vt:two:vs:one:vd'), '%zp, %yp, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vrot = ID('vrot', VM('111100:111:01:imm5:two:vs:one:vd'), '%zp, %ys, %vr', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vzero = ID('vzero', VM('110100:00:000:0:0110:two:0000000:one:vd'), '%zp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vone = ID('vone', VM('110100:00:000:0:0111:two:0000000:one:vd'), '%zp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vmov = ID('vmov', VM('110100:00:000:0:0000:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vabs = ID('vabs', VM('110100:00:000:0:0001:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vneg = ID('vneg', VM('110100:00:000:0:0010:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vocp = ID('vocp', VM('110100:00:010:0:0100:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsgn = ID('vsgn', VM('110100:00:010:0:1010:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vrcp = ID('vrcp', VM('110100:00:000:1:0000:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vrsq = ID('vrsq', VM('110100:00:000:1:0001:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsin = ID('vsin', VM('110100:00:000:1:0010:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vcos = ID('vcos', VM('110100:00:000:1:0011:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vexp2 = ID('vexp2', VM('110100:00:000:1:0100:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vlog2 = ID('vlog2', VM('110100:00:000:1:0101:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsqrt = ID('vsqrt', VM('110100:00:000:1:0110:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vasin = ID('vasin', VM('110100:00:000:1:0111:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vnrcp = ID('vnrcp', VM('110100:00:000:1:1000:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vnsin = ID('vnsin', VM('110100:00:000:1:1010:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vrexp2 = ID('vrexp2', VM('110100:00:000:1:1100:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsat0 = ID('vsat0', VM('110100:00:000:0:0100:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsat1 = ID('vsat1', VM('110100:00:000:0:0101:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vcst = ID('vcst', VM('110100:00:011:imm5:two:0000000:one:vd'), '%zp, %vk', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vmmul = ID('vmmul', VM('111100:000:vt:two:vs:one:vd'), '%zm, %tym, %xm', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vhdp = ID('vhdp', VM('011001:100:vt:two:vs:one:vd'), '%zs, %yp, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vcrs_t = ID('vcrs.t', VM('011001:101:vt:1:vs:0:vd'), '%zt, %yt, %xt', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vcrsp_t = ID('vcrsp.t', VM('111100:101:vt:1:vs:0:vd'), '%zt, %yt, %xt', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vi2c = ID('vi2c', VM('110100:00:001:11:101:two:vs:one:vd'), '%zs, %yq', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vi2uc = ID('vi2uc', VM('110100:00:001:11:100:two:vs:one:vd'), '%zq, %yq', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vtfm2 = ID('vtfm2', VM('111100:001:vt:0:vs:1:vd'), '%zp, %ym, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vtfm3 = ID('vtfm3', VM('111100:010:vt:1:vs:0:vd'), '%zt, %yn, %xt', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vtfm4 = ID('vtfm4', VM('111100:011:vt:1:vs:1:vd'), '%zq, %yo, %xq', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vhtfm2 = ID('vhtfm2', VM('111100:001:vt:0:vs:0:vd'), '%zp, %ym, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vhtfm3 = ID('vhtfm3', VM('111100:010:vt:0:vs:1:vd'), '%zt, %yn, %xt', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vhtfm4 = ID('vhtfm4', VM('111100:011:vt:1:vs:0:vd'), '%zq, %yo, %xq', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsrt3 = ID('vsrt3', VM('110100:00:010:01000:two:vs:one:vd'), '%zq, %yq', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vfad = ID('vfad', VM('110100:00:010:00110:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vmin = ID('vmin', VM('011011:010:vt:two:vs:one:vd'), '%zp, %yp, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vmax = ID('vmax', VM('011011:011:vt:two:vs:one:vd'), '%zp, %yp, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vadd = ID('vadd', VM('011000:000:vt:two:vs:one:vd'), '%zp, %yp, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsub = ID('vsub', VM('011000:001:vt:two:vs:one:vd'), '%zp, %yp, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vdiv = ID('vdiv', VM('011000:111:vt:two:vs:one:vd'), '%zp, %yp, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vmul = ID('vmul', VM('011001:000:vt:two:vs:one:vd'), '%zp, %yp, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vidt = ID('vidt', VM('110100:00:000:0:0011:two:0000000:one:vd'), '%zp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vmidt = ID('vmidt', VM('111100:111:00:00011:two:0000000:one:vd'), '%zm', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.viim = ID('viim', VM('110111:11:0:vd:imm16'), '%xs, %vi', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vmmov = ID('vmmov', VM('111100:111:00:00000:two:vs:one:vd'), '%zm, %ym', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vmzero = ID('vmzero', VM('111100:111:00:00110:two:0000000:one:vd'), '%zm', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vmone = ID('vmone', VM('111100:111:00:00111:two:0000000:one:vd'), '%zp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vnop = ID('vnop', VM('111111:1111111111:00000:00000000000'), '', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsync = ID('vsync', VM('111111:1111111111:00000:01100100000'), '', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vflush = ID('vflush', VM('111111:1111111111:00000:10000001101'), '', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vpfxd = ID('vpfxd', VM('110111:10:------------:mskw:mskz:msky:mskx:satw:satz:saty:satx'), '[%vp4, %vp5, %vp6, %vp7]', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vpfxs = ID('vpfxs', VM('110111:00:----:negw:negz:negy:negx:cstw:cstz:csty:cstx:absw:absz:absy:absx:swzw:swzz:swzy:swzx'), '[%vp0, %vp1, %vp2, %vp3]', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vpfxt = ID('vpfxt', VM('110111:01:----:negw:negz:negy:negx:cstw:cstz:csty:cstx:absw:absz:absy:absx:swzw:swzz:swzy:swzx'), '[%vp0, %vp1, %vp2, %vp3]', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vdet = ID('vdet', VM('011001:110:vt:two:vs:one:vd'), '%zs, %yp, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vrnds = ID('vrnds', VM('110100:00:001:00:000:two:vs:one:0000000'), '%ys', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vrndi = ID('vrndi', VM('110100:00:001:00:001:two:0000000:one:vd'), '%zp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vrndf1 = ID('vrndf1', VM('110100:00:001:00:010:two:0000000:one:vd'), '%zp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vrndf2 = ID('vrndf2', VM('110100:00:001:00:011:two:0000000:one:vd'), '%zp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vcmp = ID('vcmp', VM('011011:000:vt:two:vs:one:000:imm4'), '%Zn, %yp, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vcmovf = ID('vcmovf', VM('110100:10:101:01:imm3:two:vs:one:vd'), '%zp, %yp, %v3', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vcmovt = ID('vcmovt', VM('110100:10:101:00:imm3:two:vs:one:vd'), '%zp, %yp, %v3', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vavg = ID('vavg', VM('110100:00:010:00111:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vf2id = ID('vf2id', VM('110100:10:011:imm5:two:vs:one:vd'), '%zp, %yp, %v5', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vf2in = ID('vf2in', VM('110100:10:000:imm5:two:vs:one:vd'), '%zp, %yp, %v5', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vf2iu = ID('vf2iu', VM('110100:10:010:imm5:two:vs:one:vd'), '%zp, %yp, %v5', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vf2iz = ID('vf2iz', VM('110100:10:001:imm5:two:vs:one:vd'), '%zp, %yp, %v5', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vi2f = ID('vi2f', VM('110100:10:100:imm5:two:vs:one:vd'), '%zp, %yp, %v5', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vscmp = ID('vscmp', VM('011011:101:vt:two:vs:one:vd'), '%zp, %yp, %xp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vmscl = ID('vmscl', VM('111100:100:vt:two:vs:one:vd'), '%zm, %ym, %xs', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vt4444_q = ID('vt4444.q', VM('110100:00:010:11001:two:vs:one:vd'), '%zq, %yq', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vt5551_q = ID('vt5551.q', VM('110100:00:010:11010:two:vs:one:vd'), '%zq, %yq', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vt5650_q = ID('vt5650.q', VM('110100:00:010:11011:two:vs:one:vd'), '%zq, %yq', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vmfvc = ID('vmfvc', VM('110100:00:010:10000:1:imm7:0:vd'), '%zs, %2s', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vmtvc = ID('vmtvc', VM('110100:00:010:10001:0:vs:1:imm7'), '%2d, %ys', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.mfvme = ID('mfvme', VM('011010--------------------------'), '%t, %i', ADDR_TYPE_NONE, 0);
+    this.mtvme = ID('mtvme', VM('101100--------------------------'), '%t, %i', ADDR_TYPE_NONE, 0);
+    this.sv_s = ID('sv.s', VM('111010:rs:vt5:imm14:vt2'), '%Xs, %Y', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vfim = ID('vfim', VM('110111:11:1:vt:imm16'), '%xs, %vh', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.svl_q = ID('svl.q', VM('111101:rs:vt5:imm14:0:vt1'), '%Xq, %Y', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.svr_q = ID('svr.q', VM('111101:rs:vt5:imm14:1:vt1'), '%Xq, %Y', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vbfy1 = ID('vbfy1', VM('110100:00:010:00010:two:vs:one:vd'), '%zp, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vbfy2 = ID('vbfy2', VM('110100:00:010:00011:two:vs:one:vd'), '%zq, %yq', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vf2h = ID('vf2h', VM('110100:00:001:10:010:two:vs:one:vd'), '%zs, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vh2f = ID('vh2f', VM('110100:00:001:10:011:two:vs:one:vd'), '%zq, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vi2s = ID('vi2s', VM('110100:00:001:11:111:two:vs:one:vd'), '%zs, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vi2us = ID('vi2us', VM('110100:00:001:11:110:two:vs:one:vd'), '%zq, %yq', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vlgb = ID('vlgb', VM('110100:00:001:10:111:two:vs:one:vd'), '%zs, %ys', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vqmul = ID('vqmul', VM('111100:101:vt:1:vs:1:vd'), '%zq, %yq, %xq', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vs2i = ID('vs2i', VM('110100:00:001:11:011:two:vs:one:vd'), '%zq, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vc2i = ID('vc2i', VM('110100:00:001:11:001:two:vs:one:vd'), '%zs, %ys, %xs', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vuc2i = ID('vuc2i', VM('110100:00:001:11:000:two:vs:one:vd'), '%zq, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsbn = ID('vsbn', VM('011000:010:vt:two:vs:one:vd'), '%zs, %ys, %xs', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsbz = ID('vsbz', VM('110100:00:001:10110:two:vs:one:vd'), '%zs, %ys', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsocp = ID('vsocp', VM('110100:00:010:00101:two:vs:one:vd'), '%zq, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsrt1 = ID('vsrt1', VM('110100:00:010:00000:two:vs:one:vd'), '%zq, %yq', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsrt2 = ID('vsrt2', VM('110100:00:010:00001:two:vs:one:vd'), '%zq, %yq', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vsrt4 = ID('vsrt4', VM('110100:00:010:01001:two:vs:one:vd'), '%zq, %yq', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vus2i = ID('vus2i', VM('110100:00:001:11010:two:vs:one:vd'), '%zq, %yp', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.vwbn = ID('vwbn', VM('110100:11:imm8:two:vs:one:vd'), '%zs, %xs, %I', ADDR_TYPE_NONE, INSTR_TYPE_PSP);
+    this.bvf = ID('bvf', VM('010010:01:000:imm3:00:imm16'), '%Zc, %O', ADDR_TYPE_16, INSTR_TYPE_PSP | INSTR_TYPE_B);
+    this.bvt = ID('bvt', VM('010010:01:000:imm3:01:imm16'), '%Zc, %O', ADDR_TYPE_16, INSTR_TYPE_PSP | INSTR_TYPE_B);
+    this.bvfl = ID('bvfl', VM('010010:01:000:imm3:10:imm16'), '%Zc, %O', ADDR_TYPE_16, INSTR_TYPE_PSP | INSTR_TYPE_B | INSTR_TYPE_LIKELY);
+    this.bvtl = ID('bvtl', VM('010010:01:000:imm3:11:imm16'), '%Zc, %O', ADDR_TYPE_16, INSTR_TYPE_PSP | INSTR_TYPE_B | INSTR_TYPE_LIKELY);
     this.instructions = listOf([this.add, this.addu, this.addi, this.addiu, this.sub, this.subu, this.and, this.andi, this.nor, this.or, this.ori, this.xor, this.xori, this.sll, this.sllv, this.sra, this.srav, this.srl, this.srlv, this.rotr, this.rotrv, this.slt, this.slti, this.sltu, this.sltiu, this.lui, this.seb, this.seh, this.bitrev, this.max, this.min, this.div, this.divu, this.mult, this.multu, this.madd, this.maddu, this.msub, this.msubu, this.mfhi, this.mflo, this.mthi, this.mtlo, this.movz, this.movn, this.ext, this.ins, this.clz, this.clo, this.wsbh, this.wsbw, this.beq, this.beql, this.bgez, this.bgezl, this.bgezal, this.bgezall, this.bltz, this.bltzl, this.bltzal, this.bltzall, this.blez, this.blezl, this.bgtz, this.bgtzl, this.bne, this.bnel, this.j, this.jr, this.jalr, this.jal, this.bc1f, this.bc1t, this.bc1fl, this.bc1tl, this.lb, this.lh, this.lw, this.lwl, this.lwr, this.lbu, this.lhu, this.sb, this.sh, this.sw, this.swl, this.swr, this.ll, this.sc, this.lwc1, this.swc1, this.add_s, this.sub_s, this.mul_s, this.div_s, this.sqrt_s, this.abs_s, this.mov_s, this.neg_s, this.round_w_s, this.trunc_w_s, this.ceil_w_s, this.floor_w_s, this.cvt_s_w, this.cvt_w_s, this.mfc1, this.mtc1, this.cfc1, this.ctc1, this.c_f_s, this.c_un_s, this.c_eq_s, this.c_ueq_s, this.c_olt_s, this.c_ult_s, this.c_ole_s, this.c_ule_s, this.c_sf_s, this.c_ngle_s, this.c_seq_s, this.c_ngl_s, this.c_lt_s, this.c_nge_s, this.c_le_s, this.c_ngt_s, this.syscall, this.cache, this.sync, this._break, this.dbreak, this.halt, this.dret, this.eret, this.mfic, this.mtic, this.mfdr, this.mtdr, this.cfc0, this.ctc0, this.mfc0, this.mtc0, this.mfv, this.mfvc, this.mtv, this.mtvc, this.lv_s, this.lv_q, this.lvl_q, this.lvr_q, this.sv_q, this.vdot, this.vscl, this.vsge, this.vslt, this.vrot, this.vzero, this.vone, this.vmov, this.vabs, this.vneg, this.vocp, this.vsgn, this.vrcp, this.vrsq, this.vsin, this.vcos, this.vexp2, this.vlog2, this.vsqrt, this.vasin, this.vnrcp, this.vnsin, this.vrexp2, this.vsat0, this.vsat1, this.vcst, this.vmmul, this.vhdp, this.vcrs_t, this.vcrsp_t, this.vi2c, this.vi2uc, this.vtfm2, this.vtfm3, this.vtfm4, this.vhtfm2, this.vhtfm3, this.vhtfm4, this.vsrt3, this.vfad, this.vmin, this.vmax, this.vadd, this.vsub, this.vdiv, this.vmul, this.vidt, this.vmidt, this.viim, this.vmmov, this.vmzero, this.vmone, this.vnop, this.vsync, this.vflush, this.vpfxd, this.vpfxs, this.vpfxt, this.vdet, this.vrnds, this.vrndi, this.vrndf1, this.vrndf2, this.vcmp, this.vcmovf, this.vcmovt, this.vavg, this.vf2id, this.vf2in, this.vf2iu, this.vf2iz, this.vi2f, this.vscmp, this.vmscl, this.vt4444_q, this.vt5551_q, this.vt5650_q, this.vmfvc, this.vmtvc, this.mfvme, this.mtvme, this.sv_s, this.vfim, this.svl_q, this.svr_q, this.vbfy1, this.vbfy2, this.vf2h, this.vh2f, this.vi2s, this.vi2us, this.vlgb, this.vqmul, this.vs2i, this.vc2i, this.vuc2i, this.vsbn, this.vsbz, this.vsocp, this.vsrt1, this.vsrt2, this.vsrt4, this.vus2i, this.vwbn, this.bvf, this.bvt, this.bvfl, this.bvtl]);
     var $receiver = this.instructions;
     var destination = ArrayList_init(collectionSizeOrDefault($receiver, 10));
@@ -2615,7 +2712,36 @@
     }
     this.instructionsByName = toMap(destination);
   }
-  function InstructionTable$VM(format) {
+  Instructions.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Instructions',
+    interfaces: []
+  };
+  var Instructions_instance = null;
+  function Instructions_getInstance() {
+    if (Instructions_instance === null) {
+      new Instructions();
+    }
+    return Instructions_instance;
+  }
+  var ADDR_TYPE_NONE;
+  var ADDR_TYPE_REG;
+  var ADDR_TYPE_16;
+  var ADDR_TYPE_26;
+  var INSTR_TYPE_PSP;
+  var INSTR_TYPE_SYSCALL;
+  var INSTR_TYPE_B;
+  var INSTR_TYPE_LIKELY;
+  var INSTR_TYPE_JAL;
+  var INSTR_TYPE_JUMP;
+  var INSTR_TYPE_BREAK;
+  function VM(format) {
+    return new ValueMask(format);
+  }
+  function ID(name, vm, format, addressType, instructionType) {
+    return new InstructionType(name, vm, format, addressType, instructionType);
+  }
+  function ValueMask(format) {
     this.format = format;
     this.value = 0;
     this.mask = 0;
@@ -2659,43 +2785,28 @@
     this.value = value;
     this.mask = mask;
   }
-  InstructionTable$VM.$metadata$ = {
+  ValueMask.$metadata$ = {
     kind: Kind_CLASS,
-    simpleName: 'VM',
+    simpleName: 'ValueMask',
     interfaces: []
   };
-  InstructionTable$VM.prototype.component1 = function () {
+  ValueMask.prototype.component1 = function () {
     return this.format;
   };
-  InstructionTable$VM.prototype.copy_61zpoe$ = function (format) {
-    return new InstructionTable$VM(format === void 0 ? this.format : format);
+  ValueMask.prototype.copy_61zpoe$ = function (format) {
+    return new ValueMask(format === void 0 ? this.format : format);
   };
-  InstructionTable$VM.prototype.toString = function () {
-    return 'VM(format=' + Kotlin.toString(this.format) + ')';
+  ValueMask.prototype.toString = function () {
+    return 'ValueMask(format=' + Kotlin.toString(this.format) + ')';
   };
-  InstructionTable$VM.prototype.hashCode = function () {
+  ValueMask.prototype.hashCode = function () {
     var result = 0;
     result = result * 31 + Kotlin.hashCode(this.format) | 0;
     return result;
   };
-  InstructionTable$VM.prototype.equals = function (other) {
+  ValueMask.prototype.equals = function (other) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && Kotlin.equals(this.format, other.format))));
   };
-  InstructionTable.prototype.ID_hht69y$ = function (name, vm, format, addressType, instructionType) {
-    return new InstructionType(name, vm, format, addressType, instructionType);
-  };
-  InstructionTable.$metadata$ = {
-    kind: Kind_OBJECT,
-    simpleName: 'InstructionTable',
-    interfaces: []
-  };
-  var InstructionTable_instance = null;
-  function InstructionTable_getInstance() {
-    if (InstructionTable_instance === null) {
-      new InstructionTable();
-    }
-    return InstructionTable_instance;
-  }
   function InstructionType(name, vm, format, addressType, instructionType) {
     this.name = name;
     this.vm = vm;
@@ -2711,37 +2822,37 @@
   };
   Object.defineProperty(InstructionType.prototype, 'isSyscall', {
     get: function () {
-      return this.isInstructionType_0(InstructionTable_getInstance().INSTR_TYPE_SYSCALL);
+      return this.isInstructionType_0(INSTR_TYPE_SYSCALL);
     }
   });
   Object.defineProperty(InstructionType.prototype, 'isBreak', {
     get: function () {
-      return this.isInstructionType_0(InstructionTable_getInstance().INSTR_TYPE_BREAK);
+      return this.isInstructionType_0(INSTR_TYPE_BREAK);
     }
   });
   Object.defineProperty(InstructionType.prototype, 'isBranch', {
     get: function () {
-      return this.isInstructionType_0(InstructionTable_getInstance().INSTR_TYPE_B);
+      return this.isInstructionType_0(INSTR_TYPE_B);
     }
   });
   Object.defineProperty(InstructionType.prototype, 'isCall', {
     get: function () {
-      return this.isInstructionType_0(InstructionTable_getInstance().INSTR_TYPE_JAL);
+      return this.isInstructionType_0(INSTR_TYPE_JAL);
     }
   });
   Object.defineProperty(InstructionType.prototype, 'isJump', {
     get: function () {
-      return this.isInstructionType_0(InstructionTable_getInstance().INSTR_TYPE_JAL) || this.isInstructionType_0(InstructionTable_getInstance().INSTR_TYPE_JUMP);
+      return this.isInstructionType_0(INSTR_TYPE_JAL) || this.isInstructionType_0(INSTR_TYPE_JUMP);
     }
   });
   Object.defineProperty(InstructionType.prototype, 'isJumpNoLink', {
     get: function () {
-      return this.isInstructionType_0(InstructionTable_getInstance().INSTR_TYPE_JUMP);
+      return this.isInstructionType_0(INSTR_TYPE_JUMP);
     }
   });
   Object.defineProperty(InstructionType.prototype, 'isJal', {
     get: function () {
-      return this.isInstructionType_0(InstructionTable_getInstance().INSTR_TYPE_JAL);
+      return this.isInstructionType_0(INSTR_TYPE_JAL);
     }
   });
   Object.defineProperty(InstructionType.prototype, 'isJumpOrBranch', {
@@ -2751,12 +2862,12 @@
   });
   Object.defineProperty(InstructionType.prototype, 'isLikely', {
     get: function () {
-      return this.isInstructionType_0(InstructionTable_getInstance().INSTR_TYPE_LIKELY);
+      return this.isInstructionType_0(INSTR_TYPE_LIKELY);
     }
   });
   Object.defineProperty(InstructionType.prototype, 'isRegister', {
     get: function () {
-      return this.addressType === InstructionTable_getInstance().ADDR_TYPE_REG;
+      return this.addressType === ADDR_TYPE_REG;
     }
   });
   Object.defineProperty(InstructionType.prototype, 'isFixedAddressJump', {
@@ -2792,7 +2903,7 @@
   InstructionType.prototype.component5 = function () {
     return this.instructionType;
   };
-  InstructionType.prototype.copy_hht69y$ = function (name, vm, format, addressType, instructionType) {
+  InstructionType.prototype.copy_9bnh32$ = function (name, vm, format, addressType, instructionType) {
     return new InstructionType(name === void 0 ? this.name : name, vm === void 0 ? this.vm : vm, format === void 0 ? this.format : format, addressType === void 0 ? this.addressType : addressType, instructionType === void 0 ? this.instructionType : instructionType);
   };
   InstructionType.prototype.hashCode = function () {
@@ -2830,27 +2941,6 @@
     simpleName: 'TraceSyscallHandler',
     interfaces: [Syscalls]
   };
-  function RegistrableSyscallHandler() {
-    this.ids = lmapOf([]);
-  }
-  RegistrableSyscallHandler.prototype.register_p42kcx$ = function (id, handler) {
-    this.ids.put_xwzc9p$(id, handler);
-  };
-  RegistrableSyscallHandler.prototype.unhandled_acv9wa$ = function (state, id) {
-    println(format('%08X: Called syscall: ### %04X', [state.getPC(), id]));
-  };
-  RegistrableSyscallHandler.prototype.syscall_acv9wa$ = function (state, id) {
-    var tmp$;
-    var handler = (tmp$ = this.ids.get_11rb$(id)) != null ? tmp$ : getCallableRef('unhandled', function ($receiver, state, id) {
-      return $receiver.unhandled_acv9wa$(state, id), Unit;
-    }.bind(null, this));
-    handler(state, id);
-  };
-  RegistrableSyscallHandler.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'RegistrableSyscallHandler',
-    interfaces: [Syscalls]
-  };
   function Disassembler() {
     Disassembler_instance = this;
     InstructionDecoder.call(this);
@@ -2871,7 +2961,6 @@
   Disassembler.prototype.disasm_vux9f0$ = function (pc, i) {
     return this.disasm_w87lk9$(InstructionOpcodeDecoder_getInstance().invoke_za3lpa$(i), pc, i);
   };
-  var extract = $module$korio_js.com.soywiz.korio.util.extract_e4yvb3$;
   var StringBuilder_init = Kotlin.kotlin.text.StringBuilder_init_za3lpa$;
   Disassembler.prototype.disasm_w87lk9$ = function (op, pc, i) {
     var $receiver = op.format;
@@ -2892,7 +2981,13 @@
         var tmp$ = sb.append_gw00v9$;
         var transform$result;
         var type = foundMatch.groupValues.get_za3lpa$(0);
-        if (equals(type, '%d')) {
+        if (equals(type, '%j')) {
+          transform$result = format('0x%08X', [pc & (new Kotlin.Long(-268435456, 0)).toInt() | (extract(i, 0, 26) * 4 | 0)]);
+        }
+         else if (equals(type, '%J')) {
+          transform$result = this.gprStr_za3lpa$(i >>> 21 & 31);
+        }
+         else if (equals(type, '%d')) {
           transform$result = this.gprStr_za3lpa$(i >>> 11 & 31);
         }
          else if (equals(type, '%s')) {
@@ -2959,6 +3054,8 @@
     this.dispatcher = new InstructionDispatcher(InstructionInterpreter_getInstance());
   }
   CpuInterpreter.prototype.step = function () {
+    if (this.cpu._PC === 0)
+      throw new IllegalStateException('Trying to execute PC=0');
     if (this.trace)
       println(format('%08X: %s', [this.cpu._PC, disasmMacro(this.cpu.mem, this.cpu._PC)]));
     dispatch(this.dispatcher, this.cpu);
@@ -3234,6 +3331,15 @@
     s._PC = s._nPC;
     s._nPC = s._PC & (new Kotlin.Long(-268435456, 0)).toInt() | (extract(s.IR, 0, 26) * 4 | 0);
   };
+  InstructionInterpreter.prototype.jal_11rb$ = function (s) {
+    set_RA(s, s._nPC + 4 | 0);
+    s._PC = s._nPC;
+    s._nPC = s._PC & (new Kotlin.Long(-268435456, 0)).toInt() | (extract(s.IR, 0, 26) * 4 | 0);
+  };
+  InstructionInterpreter.prototype.jr_11rb$ = function (s) {
+    s._PC = s._nPC;
+    s._nPC = s.getGpr_za3lpa$(s.IR >>> 21 & 31);
+  };
   InstructionInterpreter.$metadata$ = {
     kind: Kind_OBJECT,
     simpleName: 'InstructionInterpreter',
@@ -3248,14 +3354,31 @@
   }
   function PspDisplay(mem) {
     this.mem = mem;
+    this.rawDisplay = true;
     this.address = 1140850688;
     this.bufferWidth = 512;
-    this.pixelFormat = 0;
+    this.pixelFormat = PixelFormat$RGBA_8888_getInstance();
     this.sync = 0;
     this.displayMode = 0;
     this.displayWidth = 480;
     this.displayHeight = 272;
+    this.temp_0 = new Int8Array((512 * 272 | 0) * 4 | 0);
   }
+  PspDisplay.prototype.dispatchVsync = function () {
+  };
+  PspDisplay.prototype.decodeToBitmap32_59u9qz$ = function (out) {
+    var tmp$;
+    this.mem.read_3fge6q$(this.address, this.temp_0, 0, this.temp_0.length);
+    if (equals(this.pixelFormat, PixelFormat$RGBA_5551_getInstance()))
+      tmp$ = color.RGBA_5551;
+    else
+      tmp$ = color.RGBA;
+    var color_0 = tmp$;
+    color_0.decodeToBitmap32_131o2$(out, this.temp_0);
+    var bmpData = out.data;
+    for (var n = 0; n < bmpData.length; n++)
+      bmpData[n] = bmpData[n] & 16777215 | (new Kotlin.Long(-16777216, 0)).toInt();
+  };
   PspDisplay.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'PspDisplay',
@@ -3264,14 +3387,14 @@
   function Elf(stream) {
     Elf$Companion_getInstance();
     this.stream = stream;
-    this.header_hvuwf4$_0 = this.header_hvuwf4$_0;
-    this.programHeadersStream_tagowb$_0 = this.programHeadersStream_tagowb$_0;
-    this.sectionHeadersStream_pqjbo$_0 = this.sectionHeadersStream_pqjbo$_0;
-    this.programHeaders_7tbd05$_0 = this.programHeaders_7tbd05$_0;
-    this.sectionHeaders_rjk72k$_0 = this.sectionHeaders_rjk72k$_0;
-    this.sectionHeaderStringTable_mpgna6$_0 = this.sectionHeaderStringTable_mpgna6$_0;
-    this.stringTableStream_48yrue$_0 = this.stringTableStream_48yrue$_0;
-    this.sectionHeadersByName_zbrzti$_0 = this.sectionHeadersByName_zbrzti$_0;
+    this.header_zcfiun$_0 = this.header_zcfiun$_0;
+    this.programHeadersStream_n6lbb0$_0 = this.programHeadersStream_n6lbb0$_0;
+    this.sectionHeadersStream_6tlwwz$_0 = this.sectionHeadersStream_6tlwwz$_0;
+    this.programHeaders_4fs524$_0 = this.programHeaders_4fs524$_0;
+    this.sectionHeaders_v8gcub$_0 = this.sectionHeaders_v8gcub$_0;
+    this.sectionHeaderStringTable_p15lw3$_0 = this.sectionHeaderStringTable_p15lw3$_0;
+    this.stringTableStream_bu0j0n$_0 = this.stringTableStream_bu0j0n$_0;
+    this.sectionHeadersByName_tlgokb$_0 = this.sectionHeadersByName_tlgokb$_0;
   }
   function Elf$Companion() {
     Elf$Companion_instance = this;
@@ -3280,6 +3403,9 @@
     var $receiver = new Elf(stream);
     $receiver.read_0();
     return $receiver;
+  };
+  Elf$Companion.prototype.fromStream_39qel5$ = function (stream) {
+    return this.read_39qel5$(stream);
   };
   Elf$Companion.$metadata$ = {
     kind: Kind_OBJECT,
@@ -3295,104 +3421,108 @@
   }
   Object.defineProperty(Elf.prototype, 'header', {
     get: function () {
-      if (this.header_hvuwf4$_0 == null)
+      if (this.header_zcfiun$_0 == null)
         return throwUPAE('header');
-      return this.header_hvuwf4$_0;
+      return this.header_zcfiun$_0;
     },
     set: function (header) {
-      this.header_hvuwf4$_0 = header;
+      this.header_zcfiun$_0 = header;
     }
   });
   Object.defineProperty(Elf.prototype, 'programHeadersStream', {
     get: function () {
-      if (this.programHeadersStream_tagowb$_0 == null)
+      if (this.programHeadersStream_n6lbb0$_0 == null)
         return throwUPAE('programHeadersStream');
-      return this.programHeadersStream_tagowb$_0;
+      return this.programHeadersStream_n6lbb0$_0;
     },
     set: function (programHeadersStream) {
-      this.programHeadersStream_tagowb$_0 = programHeadersStream;
+      this.programHeadersStream_n6lbb0$_0 = programHeadersStream;
     }
   });
   Object.defineProperty(Elf.prototype, 'sectionHeadersStream', {
     get: function () {
-      if (this.sectionHeadersStream_pqjbo$_0 == null)
+      if (this.sectionHeadersStream_6tlwwz$_0 == null)
         return throwUPAE('sectionHeadersStream');
-      return this.sectionHeadersStream_pqjbo$_0;
+      return this.sectionHeadersStream_6tlwwz$_0;
     },
     set: function (sectionHeadersStream) {
-      this.sectionHeadersStream_pqjbo$_0 = sectionHeadersStream;
+      this.sectionHeadersStream_6tlwwz$_0 = sectionHeadersStream;
     }
   });
   Object.defineProperty(Elf.prototype, 'programHeaders', {
     get: function () {
-      if (this.programHeaders_7tbd05$_0 == null)
+      if (this.programHeaders_4fs524$_0 == null)
         return throwUPAE('programHeaders');
-      return this.programHeaders_7tbd05$_0;
+      return this.programHeaders_4fs524$_0;
     },
     set: function (programHeaders) {
-      this.programHeaders_7tbd05$_0 = programHeaders;
+      this.programHeaders_4fs524$_0 = programHeaders;
     }
   });
   Object.defineProperty(Elf.prototype, 'sectionHeaders', {
     get: function () {
-      if (this.sectionHeaders_rjk72k$_0 == null)
+      if (this.sectionHeaders_v8gcub$_0 == null)
         return throwUPAE('sectionHeaders');
-      return this.sectionHeaders_rjk72k$_0;
+      return this.sectionHeaders_v8gcub$_0;
     },
     set: function (sectionHeaders) {
-      this.sectionHeaders_rjk72k$_0 = sectionHeaders;
+      this.sectionHeaders_v8gcub$_0 = sectionHeaders;
     }
   });
   Object.defineProperty(Elf.prototype, 'sectionHeaderStringTable', {
     get: function () {
-      if (this.sectionHeaderStringTable_mpgna6$_0 == null)
+      if (this.sectionHeaderStringTable_p15lw3$_0 == null)
         return throwUPAE('sectionHeaderStringTable');
-      return this.sectionHeaderStringTable_mpgna6$_0;
+      return this.sectionHeaderStringTable_p15lw3$_0;
     },
     set: function (sectionHeaderStringTable) {
-      this.sectionHeaderStringTable_mpgna6$_0 = sectionHeaderStringTable;
+      this.sectionHeaderStringTable_p15lw3$_0 = sectionHeaderStringTable;
     }
   });
   Object.defineProperty(Elf.prototype, 'stringTableStream', {
     get: function () {
-      if (this.stringTableStream_48yrue$_0 == null)
+      if (this.stringTableStream_bu0j0n$_0 == null)
         return throwUPAE('stringTableStream');
-      return this.stringTableStream_48yrue$_0;
+      return this.stringTableStream_bu0j0n$_0;
     },
     set: function (stringTableStream) {
-      this.stringTableStream_48yrue$_0 = stringTableStream;
+      this.stringTableStream_bu0j0n$_0 = stringTableStream;
     }
   });
   Object.defineProperty(Elf.prototype, 'sectionHeadersByName', {
     get: function () {
-      if (this.sectionHeadersByName_zbrzti$_0 == null)
+      if (this.sectionHeadersByName_tlgokb$_0 == null)
         return throwUPAE('sectionHeadersByName');
-      return this.sectionHeadersByName_zbrzti$_0;
+      return this.sectionHeadersByName_tlgokb$_0;
     },
     set: function (sectionHeadersByName) {
-      this.sectionHeadersByName_zbrzti$_0 = sectionHeadersByName;
+      this.sectionHeadersByName_tlgokb$_0 = sectionHeadersByName;
     }
   });
-  Elf.prototype.read_0 = function () {
+  Elf.prototype.getSectionHeader_61zpoe$ = function (name) {
     var tmp$;
+    return (tmp$ = this.sectionHeadersByName.get_11rb$(name)) != null ? tmp$ : invalidOp("Can't find section header '" + name + "'");
+  };
+  Elf.prototype.read_0 = function () {
+    var tmp$, tmp$_0;
     this.header = Elf$Header$Companion_getInstance().invoke_39qel5$(this.stream);
     this.programHeadersStream = sliceWithSize(this.stream, Kotlin.Long.fromInt(this.header.programHeaderOffset), Kotlin.Long.fromInt(Kotlin.imul(this.header.programHeaderCount, this.header.programHeaderEntrySize)));
     this.sectionHeadersStream = sliceWithSize(this.stream, Kotlin.Long.fromInt(this.header.sectionHeaderOffset), Kotlin.Long.fromInt(Kotlin.imul(this.header.sectionHeaderCount, this.header.sectionHeaderEntrySize)));
     var $receiver = until(0, this.header.programHeaderCount);
     var destination = ArrayList_init(collectionSizeOrDefault($receiver, 10));
-    var tmp$_0;
-    tmp$_0 = $receiver.iterator();
-    while (tmp$_0.hasNext()) {
-      var item = tmp$_0.next();
+    var tmp$_1;
+    tmp$_1 = $receiver.iterator();
+    while (tmp$_1.hasNext()) {
+      var item = tmp$_1.next();
       destination.add_11rb$(ElfProgramHeader$Companion_getInstance().invoke_39qel5$(this.programHeadersStream));
     }
     this.programHeaders = destination;
     var $receiver_0 = until(0, this.header.sectionHeaderCount);
     var destination_0 = ArrayList_init(collectionSizeOrDefault($receiver_0, 10));
-    var tmp$_1;
-    tmp$_1 = $receiver_0.iterator();
-    while (tmp$_1.hasNext()) {
-      var item_0 = tmp$_1.next();
+    var tmp$_2;
+    tmp$_2 = $receiver_0.iterator();
+    while (tmp$_2.hasNext()) {
+      var item_0 = tmp$_2.next();
       destination_0.add_11rb$(ElfSectionHeader$Companion_getInstance().invoke_39qel5$(this.sectionHeadersStream));
     }
     this.sectionHeaders = destination_0;
@@ -3404,7 +3534,7 @@
       var sectionHeader = tmp$.next();
       var name = this.getStringFromStringTable_0(sectionHeader.nameOffset);
       sectionHeader.name = name;
-      if (sectionHeader.type !== ElfSectionHeaderType$Null_getInstance()) {
+      if (!((tmp$_0 = sectionHeader.type) != null ? tmp$_0.equals(ElfSectionHeaderType$Companion_getInstance().Null) : null)) {
         sectionHeader.stream = this.getSectionHeaderFileStream_0(sectionHeader);
       }
       this.sectionHeadersByName.put_xwzc9p$(name, sectionHeader);
@@ -3413,8 +3543,8 @@
   Elf.prototype.getSectionHeaderFileStream_0 = function (sectionHeader) {
     var tmp$, tmp$_0;
     tmp$ = sectionHeader.type;
-    if (equals(tmp$, ElfSectionHeaderType$NoBits_getInstance()) || equals(tmp$, ElfSectionHeaderType$Null_getInstance()))
-      tmp$_0 = sliceWithSize(this.stream, Kotlin.Long.ZERO, Kotlin.Long.ZERO);
+    if (equals(tmp$, ElfSectionHeaderType$Companion_getInstance().NoBits) || equals(tmp$, ElfSectionHeaderType$Companion_getInstance().Null))
+      tmp$_0 = sliceWithSize_0(this.stream, 0, 0);
     else
       tmp$_0 = sliceWithSize(this.stream, Kotlin.Long.fromInt(sectionHeader.offset), Kotlin.Long.fromInt(sectionHeader.size));
     return tmp$_0;
@@ -3576,56 +3706,36 @@
   Elf$Header.prototype.equals = function (other) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.magic, other.magic) && Kotlin.equals(this.clazz, other.clazz) && Kotlin.equals(this.data, other.data) && Kotlin.equals(this.idVersion, other.idVersion) && Kotlin.equals(this.padding, other.padding) && Kotlin.equals(this.type, other.type) && Kotlin.equals(this.machine, other.machine) && Kotlin.equals(this.version, other.version) && Kotlin.equals(this.entryPoint, other.entryPoint) && Kotlin.equals(this.programHeaderOffset, other.programHeaderOffset) && Kotlin.equals(this.sectionHeaderOffset, other.sectionHeaderOffset) && Kotlin.equals(this.flags, other.flags) && Kotlin.equals(this.elfHeaderSize, other.elfHeaderSize) && Kotlin.equals(this.programHeaderEntrySize, other.programHeaderEntrySize) && Kotlin.equals(this.programHeaderCount, other.programHeaderCount) && Kotlin.equals(this.sectionHeaderEntrySize, other.sectionHeaderEntrySize) && Kotlin.equals(this.sectionHeaderCount, other.sectionHeaderCount) && Kotlin.equals(this.sectionHeaderStringTable, other.sectionHeaderStringTable)))));
   };
+  Object.defineProperty(Elf.prototype, 'isPrx', {
+    get: function () {
+      return (this.header.type & ElfType$Prx_getInstance().id) !== 0;
+    }
+  });
+  Object.defineProperty(Elf.prototype, 'needsRelocation', {
+    get: function () {
+      return this.isPrx || this.header.entryPoint < Memory$Companion_getInstance().MAIN_OFFSET;
+    }
+  });
   Elf.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'Elf',
     interfaces: []
   };
-  function BaseEnum(values) {
-    this.values = values;
-    var $receiver = this.values;
-    var destination = ArrayList_init($receiver.length);
-    var tmp$;
-    for (tmp$ = 0; tmp$ !== $receiver.length; ++tmp$) {
-      var item = $receiver[tmp$];
-      destination.add_11rb$(to(item.id, item));
-    }
-    this.BY_ID = toMap(destination);
-  }
-  function BaseEnum$Id() {
-  }
-  BaseEnum$Id.$metadata$ = {
-    kind: Kind_INTERFACE,
-    simpleName: 'Id',
-    interfaces: []
-  };
-  BaseEnum.prototype.get_za3lpa$ = function (index) {
-    var tmp$;
-    return (tmp$ = this.BY_ID.get_11rb$(index)) != null ? tmp$ : invalidOp("Can't find index " + index + ' in class');
-  };
-  BaseEnum.prototype.invoke_za3lpa$ = function (index) {
-    return this.get_za3lpa$(index);
-  };
-  BaseEnum.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'BaseEnum',
-    interfaces: []
-  };
   function ElfProgramHeaderType(id) {
     ElfProgramHeaderType$Companion_getInstance();
-    this.id_hu8r4r$_0 = id;
+    this.id_pw4186$_0 = id;
   }
   Object.defineProperty(ElfProgramHeaderType.prototype, 'id', {
     get: function () {
-      return this.id_hu8r4r$_0;
+      return this.id_pw4186$_0;
     }
   });
   function ElfProgramHeaderType$Companion() {
     ElfProgramHeaderType$Companion_instance = this;
-    this.NoLoad = 0;
-    this.Load = 1;
-    this.Reloc1 = 1879048352;
-    this.Reloc2 = 1879048353;
+    this.NoLoad = new ElfProgramHeaderType(0);
+    this.Load = new ElfProgramHeaderType(1);
+    this.Reloc1 = new ElfProgramHeaderType(1879048352);
+    this.Reloc2 = new ElfProgramHeaderType(1879048353);
   }
   ElfProgramHeaderType$Companion.$metadata$ = {
     kind: Kind_OBJECT,
@@ -3642,7 +3752,7 @@
   ElfProgramHeaderType.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'ElfProgramHeaderType',
-    interfaces: [BaseEnum$Id]
+    interfaces: [Flags]
   };
   ElfProgramHeaderType.prototype.component1 = function () {
     return this.id;
@@ -3661,142 +3771,43 @@
   ElfProgramHeaderType.prototype.equals = function (other) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && Kotlin.equals(this.id, other.id))));
   };
-  function ElfSectionHeaderType(name, ordinal, id) {
-    Enum.call(this);
-    this.id_c5yh38$_0 = id;
-    this.name$ = name;
-    this.ordinal$ = ordinal;
-  }
-  function ElfSectionHeaderType_initFields() {
-    ElfSectionHeaderType_initFields = function () {
-    };
-    ElfSectionHeaderType$Null_instance = new ElfSectionHeaderType('Null', 0, 0);
-    ElfSectionHeaderType$ProgramBits_instance = new ElfSectionHeaderType('ProgramBits', 1, 1);
-    ElfSectionHeaderType$SYMTAB_instance = new ElfSectionHeaderType('SYMTAB', 2, 2);
-    ElfSectionHeaderType$STRTAB_instance = new ElfSectionHeaderType('STRTAB', 3, 3);
-    ElfSectionHeaderType$RELA_instance = new ElfSectionHeaderType('RELA', 4, 4);
-    ElfSectionHeaderType$HASH_instance = new ElfSectionHeaderType('HASH', 5, 5);
-    ElfSectionHeaderType$DYNAMIC_instance = new ElfSectionHeaderType('DYNAMIC', 6, 6);
-    ElfSectionHeaderType$NOTE_instance = new ElfSectionHeaderType('NOTE', 7, 7);
-    ElfSectionHeaderType$NoBits_instance = new ElfSectionHeaderType('NoBits', 8, 8);
-    ElfSectionHeaderType$Relocation_instance = new ElfSectionHeaderType('Relocation', 9, 9);
-    ElfSectionHeaderType$SHLIB_instance = new ElfSectionHeaderType('SHLIB', 10, 10);
-    ElfSectionHeaderType$DYNSYM_instance = new ElfSectionHeaderType('DYNSYM', 11, 11);
-    ElfSectionHeaderType$LOPROC_instance = new ElfSectionHeaderType('LOPROC', 12, 1879048192);
-    ElfSectionHeaderType$HIPROC_instance = new ElfSectionHeaderType('HIPROC', 13, 2147483647);
-    ElfSectionHeaderType$LOUSER_instance = new ElfSectionHeaderType('LOUSER', 14, (new Kotlin.Long(-2147483648, 0)).toInt());
-    ElfSectionHeaderType$HIUSER_instance = new ElfSectionHeaderType('HIUSER', 15, (new Kotlin.Long(-1, 0)).toInt());
-    ElfSectionHeaderType$PrxRelocation_instance = new ElfSectionHeaderType('PrxRelocation', 16, ElfSectionHeaderType$LOPROC_getInstance().id | 160);
-    ElfSectionHeaderType$PrxRelocation_FW5_instance = new ElfSectionHeaderType('PrxRelocation_FW5', 17, ElfSectionHeaderType$LOPROC_getInstance().id | 161);
+  function ElfSectionHeaderType(id) {
     ElfSectionHeaderType$Companion_getInstance();
+    this.id_f4ssiz$_0 = id;
   }
   Object.defineProperty(ElfSectionHeaderType.prototype, 'id', {
     get: function () {
-      return this.id_c5yh38$_0;
+      return this.id_f4ssiz$_0;
     }
   });
-  var ElfSectionHeaderType$Null_instance;
-  function ElfSectionHeaderType$Null_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$Null_instance;
-  }
-  var ElfSectionHeaderType$ProgramBits_instance;
-  function ElfSectionHeaderType$ProgramBits_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$ProgramBits_instance;
-  }
-  var ElfSectionHeaderType$SYMTAB_instance;
-  function ElfSectionHeaderType$SYMTAB_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$SYMTAB_instance;
-  }
-  var ElfSectionHeaderType$STRTAB_instance;
-  function ElfSectionHeaderType$STRTAB_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$STRTAB_instance;
-  }
-  var ElfSectionHeaderType$RELA_instance;
-  function ElfSectionHeaderType$RELA_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$RELA_instance;
-  }
-  var ElfSectionHeaderType$HASH_instance;
-  function ElfSectionHeaderType$HASH_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$HASH_instance;
-  }
-  var ElfSectionHeaderType$DYNAMIC_instance;
-  function ElfSectionHeaderType$DYNAMIC_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$DYNAMIC_instance;
-  }
-  var ElfSectionHeaderType$NOTE_instance;
-  function ElfSectionHeaderType$NOTE_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$NOTE_instance;
-  }
-  var ElfSectionHeaderType$NoBits_instance;
-  function ElfSectionHeaderType$NoBits_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$NoBits_instance;
-  }
-  var ElfSectionHeaderType$Relocation_instance;
-  function ElfSectionHeaderType$Relocation_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$Relocation_instance;
-  }
-  var ElfSectionHeaderType$SHLIB_instance;
-  function ElfSectionHeaderType$SHLIB_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$SHLIB_instance;
-  }
-  var ElfSectionHeaderType$DYNSYM_instance;
-  function ElfSectionHeaderType$DYNSYM_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$DYNSYM_instance;
-  }
-  var ElfSectionHeaderType$LOPROC_instance;
-  function ElfSectionHeaderType$LOPROC_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$LOPROC_instance;
-  }
-  var ElfSectionHeaderType$HIPROC_instance;
-  function ElfSectionHeaderType$HIPROC_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$HIPROC_instance;
-  }
-  var ElfSectionHeaderType$LOUSER_instance;
-  function ElfSectionHeaderType$LOUSER_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$LOUSER_instance;
-  }
-  var ElfSectionHeaderType$HIUSER_instance;
-  function ElfSectionHeaderType$HIUSER_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$HIUSER_instance;
-  }
-  var ElfSectionHeaderType$PrxRelocation_instance;
-  function ElfSectionHeaderType$PrxRelocation_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$PrxRelocation_instance;
-  }
-  var ElfSectionHeaderType$PrxRelocation_FW5_instance;
-  function ElfSectionHeaderType$PrxRelocation_FW5_getInstance() {
-    ElfSectionHeaderType_initFields();
-    return ElfSectionHeaderType$PrxRelocation_FW5_instance;
-  }
   function ElfSectionHeaderType$Companion() {
     ElfSectionHeaderType$Companion_instance = this;
-    BaseEnum.call(this, ElfSectionHeaderType$values());
+    this.Null = new ElfSectionHeaderType(0);
+    this.ProgramBits = new ElfSectionHeaderType(1);
+    this.SYMTAB = new ElfSectionHeaderType(2);
+    this.STRTAB = new ElfSectionHeaderType(3);
+    this.RELA = new ElfSectionHeaderType(4);
+    this.HASH = new ElfSectionHeaderType(5);
+    this.DYNAMIC = new ElfSectionHeaderType(6);
+    this.NOTE = new ElfSectionHeaderType(7);
+    this.NoBits = new ElfSectionHeaderType(8);
+    this.Relocation = new ElfSectionHeaderType(9);
+    this.SHLIB = new ElfSectionHeaderType(10);
+    this.DYNSYM = new ElfSectionHeaderType(11);
+    this.LOPROC = new ElfSectionHeaderType(1879048192);
+    this.HIPROC = new ElfSectionHeaderType(2147483647);
+    this.LOUSER = new ElfSectionHeaderType((new Kotlin.Long(-2147483648, 0)).toInt());
+    this.HIUSER = new ElfSectionHeaderType((new Kotlin.Long(-1, 0)).toInt());
+    this.PrxRelocation = new ElfSectionHeaderType(this.LOPROC.id | 160);
+    this.PrxRelocation_FW5 = new ElfSectionHeaderType(this.LOPROC.id | 161);
   }
   ElfSectionHeaderType$Companion.$metadata$ = {
     kind: Kind_OBJECT,
     simpleName: 'Companion',
-    interfaces: [BaseEnum]
+    interfaces: []
   };
   var ElfSectionHeaderType$Companion_instance = null;
   function ElfSectionHeaderType$Companion_getInstance() {
-    ElfSectionHeaderType_initFields();
     if (ElfSectionHeaderType$Companion_instance === null) {
       new ElfSectionHeaderType$Companion();
     }
@@ -3805,106 +3816,48 @@
   ElfSectionHeaderType.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'ElfSectionHeaderType',
-    interfaces: [BaseEnum$Id, Enum]
+    interfaces: [Flags]
   };
-  function ElfSectionHeaderType$values() {
-    return [ElfSectionHeaderType$Null_getInstance(), ElfSectionHeaderType$ProgramBits_getInstance(), ElfSectionHeaderType$SYMTAB_getInstance(), ElfSectionHeaderType$STRTAB_getInstance(), ElfSectionHeaderType$RELA_getInstance(), ElfSectionHeaderType$HASH_getInstance(), ElfSectionHeaderType$DYNAMIC_getInstance(), ElfSectionHeaderType$NOTE_getInstance(), ElfSectionHeaderType$NoBits_getInstance(), ElfSectionHeaderType$Relocation_getInstance(), ElfSectionHeaderType$SHLIB_getInstance(), ElfSectionHeaderType$DYNSYM_getInstance(), ElfSectionHeaderType$LOPROC_getInstance(), ElfSectionHeaderType$HIPROC_getInstance(), ElfSectionHeaderType$LOUSER_getInstance(), ElfSectionHeaderType$HIUSER_getInstance(), ElfSectionHeaderType$PrxRelocation_getInstance(), ElfSectionHeaderType$PrxRelocation_FW5_getInstance()];
-  }
-  ElfSectionHeaderType.values = ElfSectionHeaderType$values;
-  function ElfSectionHeaderType$valueOf(name) {
-    switch (name) {
-      case 'Null':
-        return ElfSectionHeaderType$Null_getInstance();
-      case 'ProgramBits':
-        return ElfSectionHeaderType$ProgramBits_getInstance();
-      case 'SYMTAB':
-        return ElfSectionHeaderType$SYMTAB_getInstance();
-      case 'STRTAB':
-        return ElfSectionHeaderType$STRTAB_getInstance();
-      case 'RELA':
-        return ElfSectionHeaderType$RELA_getInstance();
-      case 'HASH':
-        return ElfSectionHeaderType$HASH_getInstance();
-      case 'DYNAMIC':
-        return ElfSectionHeaderType$DYNAMIC_getInstance();
-      case 'NOTE':
-        return ElfSectionHeaderType$NOTE_getInstance();
-      case 'NoBits':
-        return ElfSectionHeaderType$NoBits_getInstance();
-      case 'Relocation':
-        return ElfSectionHeaderType$Relocation_getInstance();
-      case 'SHLIB':
-        return ElfSectionHeaderType$SHLIB_getInstance();
-      case 'DYNSYM':
-        return ElfSectionHeaderType$DYNSYM_getInstance();
-      case 'LOPROC':
-        return ElfSectionHeaderType$LOPROC_getInstance();
-      case 'HIPROC':
-        return ElfSectionHeaderType$HIPROC_getInstance();
-      case 'LOUSER':
-        return ElfSectionHeaderType$LOUSER_getInstance();
-      case 'HIUSER':
-        return ElfSectionHeaderType$HIUSER_getInstance();
-      case 'PrxRelocation':
-        return ElfSectionHeaderType$PrxRelocation_getInstance();
-      case 'PrxRelocation_FW5':
-        return ElfSectionHeaderType$PrxRelocation_FW5_getInstance();
-      default:throwISE('No enum constant com.soywiz.kpspemu.format.ElfSectionHeaderType.' + name);
-    }
-  }
-  ElfSectionHeaderType.valueOf_61zpoe$ = ElfSectionHeaderType$valueOf;
-  function ElfSectionHeaderFlags(name, ordinal, id) {
-    Enum.call(this);
-    this.id_gpp47b$_0 = id;
-    this.name$ = name;
-    this.ordinal$ = ordinal;
-  }
-  function ElfSectionHeaderFlags_initFields() {
-    ElfSectionHeaderFlags_initFields = function () {
-    };
-    ElfSectionHeaderFlags$None_instance = new ElfSectionHeaderFlags('None', 0, 0);
-    ElfSectionHeaderFlags$Write_instance = new ElfSectionHeaderFlags('Write', 1, 1);
-    ElfSectionHeaderFlags$Allocate_instance = new ElfSectionHeaderFlags('Allocate', 2, 2);
-    ElfSectionHeaderFlags$Execute_instance = new ElfSectionHeaderFlags('Execute', 3, 4);
+  ElfSectionHeaderType.prototype.component1 = function () {
+    return this.id;
+  };
+  ElfSectionHeaderType.prototype.copy_za3lpa$ = function (id) {
+    return new ElfSectionHeaderType(id === void 0 ? this.id : id);
+  };
+  ElfSectionHeaderType.prototype.toString = function () {
+    return 'ElfSectionHeaderType(id=' + Kotlin.toString(this.id) + ')';
+  };
+  ElfSectionHeaderType.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.id) | 0;
+    return result;
+  };
+  ElfSectionHeaderType.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && Kotlin.equals(this.id, other.id))));
+  };
+  function ElfSectionHeaderFlags(id) {
     ElfSectionHeaderFlags$Companion_getInstance();
+    this.id_altqm0$_0 = id;
   }
   Object.defineProperty(ElfSectionHeaderFlags.prototype, 'id', {
     get: function () {
-      return this.id_gpp47b$_0;
+      return this.id_altqm0$_0;
     }
   });
-  var ElfSectionHeaderFlags$None_instance;
-  function ElfSectionHeaderFlags$None_getInstance() {
-    ElfSectionHeaderFlags_initFields();
-    return ElfSectionHeaderFlags$None_instance;
-  }
-  var ElfSectionHeaderFlags$Write_instance;
-  function ElfSectionHeaderFlags$Write_getInstance() {
-    ElfSectionHeaderFlags_initFields();
-    return ElfSectionHeaderFlags$Write_instance;
-  }
-  var ElfSectionHeaderFlags$Allocate_instance;
-  function ElfSectionHeaderFlags$Allocate_getInstance() {
-    ElfSectionHeaderFlags_initFields();
-    return ElfSectionHeaderFlags$Allocate_instance;
-  }
-  var ElfSectionHeaderFlags$Execute_instance;
-  function ElfSectionHeaderFlags$Execute_getInstance() {
-    ElfSectionHeaderFlags_initFields();
-    return ElfSectionHeaderFlags$Execute_instance;
-  }
   function ElfSectionHeaderFlags$Companion() {
     ElfSectionHeaderFlags$Companion_instance = this;
-    BaseEnum.call(this, ElfSectionHeaderFlags$values());
+    this.None = new ElfSectionHeaderFlags(0);
+    this.Write = new ElfSectionHeaderFlags(1);
+    this.Allocate = new ElfSectionHeaderFlags(2);
+    this.Execute = new ElfSectionHeaderFlags(4);
   }
   ElfSectionHeaderFlags$Companion.$metadata$ = {
     kind: Kind_OBJECT,
     simpleName: 'Companion',
-    interfaces: [BaseEnum]
+    interfaces: []
   };
   var ElfSectionHeaderFlags$Companion_instance = null;
   function ElfSectionHeaderFlags$Companion_getInstance() {
-    ElfSectionHeaderFlags_initFields();
     if (ElfSectionHeaderFlags$Companion_instance === null) {
       new ElfSectionHeaderFlags$Companion();
     }
@@ -3913,26 +3866,25 @@
   ElfSectionHeaderFlags.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'ElfSectionHeaderFlags',
-    interfaces: [BaseEnum$Id, Enum]
+    interfaces: [Flags]
   };
-  function ElfSectionHeaderFlags$values() {
-    return [ElfSectionHeaderFlags$None_getInstance(), ElfSectionHeaderFlags$Write_getInstance(), ElfSectionHeaderFlags$Allocate_getInstance(), ElfSectionHeaderFlags$Execute_getInstance()];
-  }
-  ElfSectionHeaderFlags.values = ElfSectionHeaderFlags$values;
-  function ElfSectionHeaderFlags$valueOf(name) {
-    switch (name) {
-      case 'None':
-        return ElfSectionHeaderFlags$None_getInstance();
-      case 'Write':
-        return ElfSectionHeaderFlags$Write_getInstance();
-      case 'Allocate':
-        return ElfSectionHeaderFlags$Allocate_getInstance();
-      case 'Execute':
-        return ElfSectionHeaderFlags$Execute_getInstance();
-      default:throwISE('No enum constant com.soywiz.kpspemu.format.ElfSectionHeaderFlags.' + name);
-    }
-  }
-  ElfSectionHeaderFlags.valueOf_61zpoe$ = ElfSectionHeaderFlags$valueOf;
+  ElfSectionHeaderFlags.prototype.component1 = function () {
+    return this.id;
+  };
+  ElfSectionHeaderFlags.prototype.copy_za3lpa$ = function (id) {
+    return new ElfSectionHeaderFlags(id === void 0 ? this.id : id);
+  };
+  ElfSectionHeaderFlags.prototype.toString = function () {
+    return 'ElfSectionHeaderFlags(id=' + Kotlin.toString(this.id) + ')';
+  };
+  ElfSectionHeaderFlags.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.id) | 0;
+    return result;
+  };
+  ElfSectionHeaderFlags.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && Kotlin.equals(this.id, other.id))));
+  };
   function ElfProgramHeaderFlags(id) {
     ElfProgramHeaderFlags$Companion_getInstance();
     this.id = id;
@@ -3979,7 +3931,7 @@
   };
   function ElfType(name, ordinal, id) {
     Enum.call(this);
-    this.id_ibxb1o$_0 = id;
+    this.id_ywd483$_0 = id;
     this.name$ = name;
     this.ordinal$ = ordinal;
   }
@@ -3992,7 +3944,7 @@
   }
   Object.defineProperty(ElfType.prototype, 'id', {
     get: function () {
-      return this.id_ibxb1o$_0;
+      return this.id_ywd483$_0;
     }
   });
   var ElfType$Executable_instance;
@@ -4007,12 +3959,23 @@
   }
   function ElfType$Companion() {
     ElfType$Companion_instance = this;
-    BaseEnum.call(this, ElfType$values());
+    var $receiver = ElfType$values();
+    var destination = ArrayList_init($receiver.length);
+    var tmp$;
+    for (tmp$ = 0; tmp$ !== $receiver.length; ++tmp$) {
+      var item = $receiver[tmp$];
+      destination.add_11rb$(to(item.id, item));
+    }
+    this.BY_ID = toMap(destination);
   }
+  ElfType$Companion.prototype.invoke_za3lpa$ = function (index) {
+    var tmp$;
+    return (tmp$ = this.BY_ID.get_11rb$(index)) != null ? tmp$ : invalidOp("Can't find index " + index + ' in class');
+  };
   ElfType$Companion.$metadata$ = {
     kind: Kind_OBJECT,
     simpleName: 'Companion',
-    interfaces: [BaseEnum]
+    interfaces: []
   };
   var ElfType$Companion_instance = null;
   function ElfType$Companion_getInstance() {
@@ -4025,7 +3988,7 @@
   ElfType.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'ElfType',
-    interfaces: [BaseEnum$Id, Enum]
+    interfaces: [NumericEnum, Enum]
   };
   function ElfType$values() {
     return [ElfType$Executable_getInstance(), ElfType$Prx_getInstance()];
@@ -4037,13 +4000,13 @@
         return ElfType$Executable_getInstance();
       case 'Prx':
         return ElfType$Prx_getInstance();
-      default:throwISE('No enum constant com.soywiz.kpspemu.format.ElfType.' + name);
+      default:throwISE('No enum constant com.soywiz.kpspemu.format.elf.ElfType.' + name);
     }
   }
   ElfType.valueOf_61zpoe$ = ElfType$valueOf;
   function ElfMachine(name, ordinal, id) {
     Enum.call(this);
-    this.id_gk5h07$_0 = id;
+    this.id_1aklmi$_0 = id;
     this.name$ = name;
     this.ordinal$ = ordinal;
   }
@@ -4055,7 +4018,7 @@
   }
   Object.defineProperty(ElfMachine.prototype, 'id', {
     get: function () {
-      return this.id_gk5h07$_0;
+      return this.id_1aklmi$_0;
     }
   });
   var ElfMachine$ALLEGREX_instance;
@@ -4065,12 +4028,23 @@
   }
   function ElfMachine$Companion() {
     ElfMachine$Companion_instance = this;
-    BaseEnum.call(this, ElfMachine$values());
+    var $receiver = ElfMachine$values();
+    var destination = ArrayList_init($receiver.length);
+    var tmp$;
+    for (tmp$ = 0; tmp$ !== $receiver.length; ++tmp$) {
+      var item = $receiver[tmp$];
+      destination.add_11rb$(to(item.id, item));
+    }
+    this.BY_ID = toMap(destination);
   }
+  ElfMachine$Companion.prototype.invoke_za3lpa$ = function (index) {
+    var tmp$;
+    return (tmp$ = this.BY_ID.get_11rb$(index)) != null ? tmp$ : invalidOp("Can't find index " + index + ' in class');
+  };
   ElfMachine$Companion.$metadata$ = {
     kind: Kind_OBJECT,
     simpleName: 'Companion',
-    interfaces: [BaseEnum]
+    interfaces: []
   };
   var ElfMachine$Companion_instance = null;
   function ElfMachine$Companion_getInstance() {
@@ -4083,7 +4057,7 @@
   ElfMachine.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'ElfMachine',
-    interfaces: [BaseEnum$Id, Enum]
+    interfaces: [NumericEnum, Enum]
   };
   function ElfMachine$values() {
     return [ElfMachine$ALLEGREX_getInstance()];
@@ -4093,13 +4067,13 @@
     switch (name) {
       case 'ALLEGREX':
         return ElfMachine$ALLEGREX_getInstance();
-      default:throwISE('No enum constant com.soywiz.kpspemu.format.ElfMachine.' + name);
+      default:throwISE('No enum constant com.soywiz.kpspemu.format.elf.ElfMachine.' + name);
     }
   }
   ElfMachine.valueOf_61zpoe$ = ElfMachine$valueOf;
   function ElfPspModuleFlags(name, ordinal, id) {
     Enum.call(this);
-    this.id_h9p6ao$_0 = id;
+    this.id_zh8gh$_0 = id;
     this.name$ = name;
     this.ordinal$ = ordinal;
   }
@@ -4112,7 +4086,7 @@
   }
   Object.defineProperty(ElfPspModuleFlags.prototype, 'id', {
     get: function () {
-      return this.id_h9p6ao$_0;
+      return this.id_zh8gh$_0;
     }
   });
   var ElfPspModuleFlags$User_instance;
@@ -4127,12 +4101,23 @@
   }
   function ElfPspModuleFlags$Companion() {
     ElfPspModuleFlags$Companion_instance = this;
-    BaseEnum.call(this, ElfPspModuleFlags$values());
+    var $receiver = ElfPspModuleFlags$values();
+    var destination = ArrayList_init($receiver.length);
+    var tmp$;
+    for (tmp$ = 0; tmp$ !== $receiver.length; ++tmp$) {
+      var item = $receiver[tmp$];
+      destination.add_11rb$(to(item.id, item));
+    }
+    this.BY_ID = toMap(destination);
   }
+  ElfPspModuleFlags$Companion.prototype.invoke_za3lpa$ = function (index) {
+    var tmp$;
+    return (tmp$ = this.BY_ID.get_11rb$(index)) != null ? tmp$ : invalidOp("Can't find index " + index + ' in class');
+  };
   ElfPspModuleFlags$Companion.$metadata$ = {
     kind: Kind_OBJECT,
     simpleName: 'Companion',
-    interfaces: [BaseEnum]
+    interfaces: []
   };
   var ElfPspModuleFlags$Companion_instance = null;
   function ElfPspModuleFlags$Companion_getInstance() {
@@ -4145,7 +4130,7 @@
   ElfPspModuleFlags.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'ElfPspModuleFlags',
-    interfaces: [BaseEnum$Id, Enum]
+    interfaces: [NumericEnum, Enum]
   };
   function ElfPspModuleFlags$values() {
     return [ElfPspModuleFlags$User_getInstance(), ElfPspModuleFlags$Kernel_getInstance()];
@@ -4157,13 +4142,13 @@
         return ElfPspModuleFlags$User_getInstance();
       case 'Kernel':
         return ElfPspModuleFlags$Kernel_getInstance();
-      default:throwISE('No enum constant com.soywiz.kpspemu.format.ElfPspModuleFlags.' + name);
+      default:throwISE('No enum constant com.soywiz.kpspemu.format.elf.ElfPspModuleFlags.' + name);
     }
   }
   ElfPspModuleFlags.valueOf_61zpoe$ = ElfPspModuleFlags$valueOf;
   function ElfPspLibFlags(name, ordinal, id) {
     Enum.call(this);
-    this.id_hf9ym7$_0 = id;
+    this.id_t9xycu$_0 = id;
     this.name$ = name;
     this.ordinal$ = ordinal;
   }
@@ -4177,7 +4162,7 @@
   }
   Object.defineProperty(ElfPspLibFlags.prototype, 'id', {
     get: function () {
-      return this.id_hf9ym7$_0;
+      return this.id_t9xycu$_0;
     }
   });
   var ElfPspLibFlags$DirectJump_instance;
@@ -4197,12 +4182,23 @@
   }
   function ElfPspLibFlags$Companion() {
     ElfPspLibFlags$Companion_instance = this;
-    BaseEnum.call(this, ElfPspLibFlags$values());
+    var $receiver = ElfPspLibFlags$values();
+    var destination = ArrayList_init($receiver.length);
+    var tmp$;
+    for (tmp$ = 0; tmp$ !== $receiver.length; ++tmp$) {
+      var item = $receiver[tmp$];
+      destination.add_11rb$(to(item.id, item));
+    }
+    this.BY_ID = toMap(destination);
   }
+  ElfPspLibFlags$Companion.prototype.invoke_za3lpa$ = function (index) {
+    var tmp$;
+    return (tmp$ = this.BY_ID.get_11rb$(index)) != null ? tmp$ : invalidOp("Can't find index " + index + ' in class');
+  };
   ElfPspLibFlags$Companion.$metadata$ = {
     kind: Kind_OBJECT,
     simpleName: 'Companion',
-    interfaces: [BaseEnum]
+    interfaces: []
   };
   var ElfPspLibFlags$Companion_instance = null;
   function ElfPspLibFlags$Companion_getInstance() {
@@ -4215,7 +4211,7 @@
   ElfPspLibFlags.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'ElfPspLibFlags',
-    interfaces: [BaseEnum$Id, Enum]
+    interfaces: [NumericEnum, Enum]
   };
   function ElfPspLibFlags$values() {
     return [ElfPspLibFlags$DirectJump_getInstance(), ElfPspLibFlags$Syscall_getInstance(), ElfPspLibFlags$SysLib_getInstance()];
@@ -4229,13 +4225,13 @@
         return ElfPspLibFlags$Syscall_getInstance();
       case 'SysLib':
         return ElfPspLibFlags$SysLib_getInstance();
-      default:throwISE('No enum constant com.soywiz.kpspemu.format.ElfPspLibFlags.' + name);
+      default:throwISE('No enum constant com.soywiz.kpspemu.format.elf.ElfPspLibFlags.' + name);
     }
   }
   ElfPspLibFlags.valueOf_61zpoe$ = ElfPspLibFlags$valueOf;
   function ElfPspModuleNids(name, ordinal, id) {
     Enum.call(this);
-    this.id_5deg7n$_0 = id;
+    this.id_u1uq9u$_0 = id;
     this.name$ = name;
     this.ordinal$ = ordinal;
   }
@@ -4253,7 +4249,7 @@
   }
   Object.defineProperty(ElfPspModuleNids.prototype, 'id', {
     get: function () {
-      return this.id_5deg7n$_0;
+      return this.id_u1uq9u$_0;
     }
   });
   var ElfPspModuleNids$MODULE_INFO_instance;
@@ -4293,12 +4289,23 @@
   }
   function ElfPspModuleNids$Companion() {
     ElfPspModuleNids$Companion_instance = this;
-    BaseEnum.call(this, ElfPspModuleNids$values());
+    var $receiver = ElfPspModuleNids$values();
+    var destination = ArrayList_init($receiver.length);
+    var tmp$;
+    for (tmp$ = 0; tmp$ !== $receiver.length; ++tmp$) {
+      var item = $receiver[tmp$];
+      destination.add_11rb$(to(item.id, item));
+    }
+    this.BY_ID = toMap(destination);
   }
+  ElfPspModuleNids$Companion.prototype.invoke_za3lpa$ = function (index) {
+    var tmp$;
+    return (tmp$ = this.BY_ID.get_11rb$(index)) != null ? tmp$ : invalidOp("Can't find index " + index + ' in class');
+  };
   ElfPspModuleNids$Companion.$metadata$ = {
     kind: Kind_OBJECT,
     simpleName: 'Companion',
-    interfaces: [BaseEnum]
+    interfaces: []
   };
   var ElfPspModuleNids$Companion_instance = null;
   function ElfPspModuleNids$Companion_getInstance() {
@@ -4311,7 +4318,7 @@
   ElfPspModuleNids.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'ElfPspModuleNids',
-    interfaces: [BaseEnum$Id, Enum]
+    interfaces: [NumericEnum, Enum]
   };
   function ElfPspModuleNids$values() {
     return [ElfPspModuleNids$MODULE_INFO_getInstance(), ElfPspModuleNids$MODULE_BOOTSTART_getInstance(), ElfPspModuleNids$MODULE_REBOOT_BEFORE_getInstance(), ElfPspModuleNids$MODULE_START_getInstance(), ElfPspModuleNids$MODULE_START_THREAD_PARAMETER_getInstance(), ElfPspModuleNids$MODULE_STOP_getInstance(), ElfPspModuleNids$MODULE_STOP_THREAD_PARAMETER_getInstance()];
@@ -4333,13 +4340,13 @@
         return ElfPspModuleNids$MODULE_STOP_getInstance();
       case 'MODULE_STOP_THREAD_PARAMETER':
         return ElfPspModuleNids$MODULE_STOP_THREAD_PARAMETER_getInstance();
-      default:throwISE('No enum constant com.soywiz.kpspemu.format.ElfPspModuleNids.' + name);
+      default:throwISE('No enum constant com.soywiz.kpspemu.format.elf.ElfPspModuleNids.' + name);
     }
   }
   ElfPspModuleNids.valueOf_61zpoe$ = ElfPspModuleNids$valueOf;
   function ElfRelocType(name, ordinal, id) {
     Enum.call(this);
-    this.id_k08nrr$_0 = id;
+    this.id_ipmbzu$_0 = id;
     this.name$ = name;
     this.ordinal$ = ordinal;
   }
@@ -4364,7 +4371,7 @@
   }
   Object.defineProperty(ElfRelocType.prototype, 'id', {
     get: function () {
-      return this.id_k08nrr$_0;
+      return this.id_ipmbzu$_0;
     }
   });
   var ElfRelocType$None_instance;
@@ -4439,12 +4446,23 @@
   }
   function ElfRelocType$Companion() {
     ElfRelocType$Companion_instance = this;
-    BaseEnum.call(this, ElfRelocType$values());
+    var $receiver = ElfRelocType$values();
+    var destination = ArrayList_init($receiver.length);
+    var tmp$;
+    for (tmp$ = 0; tmp$ !== $receiver.length; ++tmp$) {
+      var item = $receiver[tmp$];
+      destination.add_11rb$(to(item.id, item));
+    }
+    this.BY_ID = toMap(destination);
   }
+  ElfRelocType$Companion.prototype.invoke_za3lpa$ = function (index) {
+    var tmp$;
+    return (tmp$ = this.BY_ID.get_11rb$(index)) != null ? tmp$ : invalidOp("Can't find index " + index + ' in class');
+  };
   ElfRelocType$Companion.$metadata$ = {
     kind: Kind_OBJECT,
     simpleName: 'Companion',
-    interfaces: [BaseEnum]
+    interfaces: []
   };
   var ElfRelocType$Companion_instance = null;
   function ElfRelocType$Companion_getInstance() {
@@ -4457,7 +4475,7 @@
   ElfRelocType.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'ElfRelocType',
-    interfaces: [BaseEnum$Id, Enum]
+    interfaces: [NumericEnum, Enum]
   };
   function ElfRelocType$values() {
     return [ElfRelocType$None_getInstance(), ElfRelocType$Mips16_getInstance(), ElfRelocType$Mips32_getInstance(), ElfRelocType$MipsRel32_getInstance(), ElfRelocType$Mips26_getInstance(), ElfRelocType$MipsHi16_getInstance(), ElfRelocType$MipsLo16_getInstance(), ElfRelocType$MipsGpRel16_getInstance(), ElfRelocType$MipsLiteral_getInstance(), ElfRelocType$MipsGot16_getInstance(), ElfRelocType$MipsPc16_getInstance(), ElfRelocType$MipsCall16_getInstance(), ElfRelocType$MipsGpRel32_getInstance(), ElfRelocType$StopRelocation_getInstance()];
@@ -4493,7 +4511,7 @@
         return ElfRelocType$MipsGpRel32_getInstance();
       case 'StopRelocation':
         return ElfRelocType$StopRelocation_getInstance();
-      default:throwISE('No enum constant com.soywiz.kpspemu.format.ElfRelocType.' + name);
+      default:throwISE('No enum constant com.soywiz.kpspemu.format.elf.ElfRelocType.' + name);
     }
   }
   ElfRelocType.valueOf_61zpoe$ = ElfRelocType$valueOf;
@@ -4514,11 +4532,12 @@
   });
   Object.defineProperty(ElfReloc.prototype, 'type', {
     get: function () {
-      return ElfRelocType$Companion_getInstance().get_za3lpa$(this.info >>> 0 & 255);
+      return ElfRelocType$Companion_getInstance().invoke_za3lpa$(this.info >>> 0 & 255);
     }
   });
   function ElfReloc$Companion() {
     ElfReloc$Companion_instance = this;
+    this.SIZE = 8;
   }
   ElfReloc$Companion.prototype.invoke_39qel5$ = function (s) {
     return new ElfReloc(readS32_le(s), readS32_le(s));
@@ -4598,7 +4617,7 @@
   ElfProgramHeader.prototype.component8 = function () {
     return this.alignment;
   };
-  ElfProgramHeader.prototype.copy_cng25b$ = function (type, offset, virtualAddress, psysicalAddress, fileSize, memorySize, flags, alignment) {
+  ElfProgramHeader.prototype.copy_fo9t6r$ = function (type, offset, virtualAddress, psysicalAddress, fileSize, memorySize, flags, alignment) {
     return new ElfProgramHeader(type === void 0 ? this.type : type, offset === void 0 ? this.offset : offset, virtualAddress === void 0 ? this.virtualAddress : virtualAddress, psysicalAddress === void 0 ? this.psysicalAddress : psysicalAddress, fileSize === void 0 ? this.fileSize : fileSize, memorySize === void 0 ? this.memorySize : memorySize, flags === void 0 ? this.flags : flags, alignment === void 0 ? this.alignment : alignment);
   };
   ElfProgramHeader.prototype.toString = function () {
@@ -4632,23 +4651,23 @@
     this.info = info;
     this.addressAlign = addressAlign;
     this.entitySize = entitySize;
-    this.stream_e55iot$_0 = this.stream_e55iot$_0;
+    this.stream_tl79o4$_0 = this.stream_tl79o4$_0;
   }
   Object.defineProperty(ElfSectionHeader.prototype, 'stream', {
     get: function () {
-      if (this.stream_e55iot$_0 == null)
+      if (this.stream_tl79o4$_0 == null)
         return throwUPAE('stream');
-      return this.stream_e55iot$_0;
+      return this.stream_tl79o4$_0;
     },
     set: function (stream) {
-      this.stream_e55iot$_0 = stream;
+      this.stream_tl79o4$_0 = stream;
     }
   });
   function ElfSectionHeader$Companion() {
     ElfSectionHeader$Companion_instance = this;
   }
   ElfSectionHeader$Companion.prototype.invoke_39qel5$ = function (s) {
-    return new ElfSectionHeader(readS32_le(s), '...', ElfSectionHeaderType$Companion_getInstance().get_za3lpa$(readS32_le(s)), ElfSectionHeaderFlags$Companion_getInstance().get_za3lpa$(readS32_le(s)), readS32_le(s), readS32_le(s), readS32_le(s), readS32_le(s), readS32_le(s), readS32_le(s), readS32_le(s));
+    return new ElfSectionHeader(readS32_le(s), '...', new ElfSectionHeaderType(readS32_le(s)), new ElfSectionHeaderFlags(readS32_le(s)), readS32_le(s), readS32_le(s), readS32_le(s), readS32_le(s), readS32_le(s), readS32_le(s), readS32_le(s));
   };
   ElfSectionHeader$Companion.$metadata$ = {
     kind: Kind_OBJECT,
@@ -4700,7 +4719,7 @@
   ElfSectionHeader.prototype.component11 = function () {
     return this.entitySize;
   };
-  ElfSectionHeader.prototype.copy_4mgpoh$ = function (nameOffset, name, type, flags, address, offset, size, link, info, addressAlign, entitySize) {
+  ElfSectionHeader.prototype.copy_1jye5d$ = function (nameOffset, name, type, flags, address, offset, size, link, info, addressAlign, entitySize) {
     return new ElfSectionHeader(nameOffset === void 0 ? this.nameOffset : nameOffset, name === void 0 ? this.name : name, type === void 0 ? this.type : type, flags === void 0 ? this.flags : flags, address === void 0 ? this.address : address, offset === void 0 ? this.offset : offset, size === void 0 ? this.size : size, link === void 0 ? this.link : link, info === void 0 ? this.info : info, addressAlign === void 0 ? this.addressAlign : addressAlign, entitySize === void 0 ? this.entitySize : entitySize);
   };
   ElfSectionHeader.prototype.toString = function () {
@@ -4724,23 +4743,37 @@
   ElfSectionHeader.prototype.equals = function (other) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.nameOffset, other.nameOffset) && Kotlin.equals(this.name, other.name) && Kotlin.equals(this.type, other.type) && Kotlin.equals(this.flags, other.flags) && Kotlin.equals(this.address, other.address) && Kotlin.equals(this.offset, other.offset) && Kotlin.equals(this.size, other.size) && Kotlin.equals(this.link, other.link) && Kotlin.equals(this.info, other.info) && Kotlin.equals(this.addressAlign, other.addressAlign) && Kotlin.equals(this.entitySize, other.entitySize)))));
   };
-  function ElfPspModuleInfo(moduleAtributes, moduleVersion, name, gp, exportsStart, exportsEnd, importsStart, importsEnd) {
+  function ElfDwarf() {
+  }
+  ElfDwarf.prototype.parseElfLoader_xqzwj6$ = function (elfLoader) {
+    println('ElfDwarfLoader.parseElfLoader: Not implemented');
+  };
+  ElfDwarf.prototype.getSymbolAt_za3lpa$ = function (address) {
+  };
+  ElfDwarf.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'ElfDwarf',
+    interfaces: []
+  };
+  function ElfPspModuleInfo(moduleAtributes, moduleVersion, name, GP, exportsStart, exportsEnd, importsStart, importsEnd, PC) {
     ElfPspModuleInfo$Companion_getInstance();
+    if (PC === void 0)
+      PC = 0;
     this.moduleAtributes = moduleAtributes;
     this.moduleVersion = moduleVersion;
     this.name = name;
-    this.gp = gp;
+    this.GP = GP;
     this.exportsStart = exportsStart;
     this.exportsEnd = exportsEnd;
     this.importsStart = importsStart;
     this.importsEnd = importsEnd;
-    this.pc = 0;
+    this.PC = PC;
   }
   function ElfPspModuleInfo$Companion() {
     ElfPspModuleInfo$Companion_instance = this;
   }
   ElfPspModuleInfo$Companion.prototype.invoke_39qel5$ = function (s) {
-    return new ElfPspModuleInfo(readU16_le(s), readU16_le(s), readStringz_0(s, 28), readS32_le(s), readS32_le(s), readS32_le(s), readS32_le(s), readS32_le(s));
+    return new ElfPspModuleInfo(readU16_le(s), readU16_le(s), readStringz_0(s, 28), readS32_le(s), readS32_le(s), readS32_le(s), readS32_le(s), readS32_le(s), 0);
   };
   ElfPspModuleInfo$Companion.$metadata$ = {
     kind: Kind_OBJECT,
@@ -4769,7 +4802,7 @@
     return this.name;
   };
   ElfPspModuleInfo.prototype.component4 = function () {
-    return this.gp;
+    return this.GP;
   };
   ElfPspModuleInfo.prototype.component5 = function () {
     return this.exportsStart;
@@ -4783,26 +4816,30 @@
   ElfPspModuleInfo.prototype.component8 = function () {
     return this.importsEnd;
   };
-  ElfPspModuleInfo.prototype.copy_dcsci8$ = function (moduleAtributes, moduleVersion, name, gp, exportsStart, exportsEnd, importsStart, importsEnd) {
-    return new ElfPspModuleInfo(moduleAtributes === void 0 ? this.moduleAtributes : moduleAtributes, moduleVersion === void 0 ? this.moduleVersion : moduleVersion, name === void 0 ? this.name : name, gp === void 0 ? this.gp : gp, exportsStart === void 0 ? this.exportsStart : exportsStart, exportsEnd === void 0 ? this.exportsEnd : exportsEnd, importsStart === void 0 ? this.importsStart : importsStart, importsEnd === void 0 ? this.importsEnd : importsEnd);
+  ElfPspModuleInfo.prototype.component9 = function () {
+    return this.PC;
+  };
+  ElfPspModuleInfo.prototype.copy_qoc76$ = function (moduleAtributes, moduleVersion, name, GP, exportsStart, exportsEnd, importsStart, importsEnd, PC) {
+    return new ElfPspModuleInfo(moduleAtributes === void 0 ? this.moduleAtributes : moduleAtributes, moduleVersion === void 0 ? this.moduleVersion : moduleVersion, name === void 0 ? this.name : name, GP === void 0 ? this.GP : GP, exportsStart === void 0 ? this.exportsStart : exportsStart, exportsEnd === void 0 ? this.exportsEnd : exportsEnd, importsStart === void 0 ? this.importsStart : importsStart, importsEnd === void 0 ? this.importsEnd : importsEnd, PC === void 0 ? this.PC : PC);
   };
   ElfPspModuleInfo.prototype.toString = function () {
-    return 'ElfPspModuleInfo(moduleAtributes=' + Kotlin.toString(this.moduleAtributes) + (', moduleVersion=' + Kotlin.toString(this.moduleVersion)) + (', name=' + Kotlin.toString(this.name)) + (', gp=' + Kotlin.toString(this.gp)) + (', exportsStart=' + Kotlin.toString(this.exportsStart)) + (', exportsEnd=' + Kotlin.toString(this.exportsEnd)) + (', importsStart=' + Kotlin.toString(this.importsStart)) + (', importsEnd=' + Kotlin.toString(this.importsEnd)) + ')';
+    return 'ElfPspModuleInfo(moduleAtributes=' + Kotlin.toString(this.moduleAtributes) + (', moduleVersion=' + Kotlin.toString(this.moduleVersion)) + (', name=' + Kotlin.toString(this.name)) + (', GP=' + Kotlin.toString(this.GP)) + (', exportsStart=' + Kotlin.toString(this.exportsStart)) + (', exportsEnd=' + Kotlin.toString(this.exportsEnd)) + (', importsStart=' + Kotlin.toString(this.importsStart)) + (', importsEnd=' + Kotlin.toString(this.importsEnd)) + (', PC=' + Kotlin.toString(this.PC)) + ')';
   };
   ElfPspModuleInfo.prototype.hashCode = function () {
     var result = 0;
     result = result * 31 + Kotlin.hashCode(this.moduleAtributes) | 0;
     result = result * 31 + Kotlin.hashCode(this.moduleVersion) | 0;
     result = result * 31 + Kotlin.hashCode(this.name) | 0;
-    result = result * 31 + Kotlin.hashCode(this.gp) | 0;
+    result = result * 31 + Kotlin.hashCode(this.GP) | 0;
     result = result * 31 + Kotlin.hashCode(this.exportsStart) | 0;
     result = result * 31 + Kotlin.hashCode(this.exportsEnd) | 0;
     result = result * 31 + Kotlin.hashCode(this.importsStart) | 0;
     result = result * 31 + Kotlin.hashCode(this.importsEnd) | 0;
+    result = result * 31 + Kotlin.hashCode(this.PC) | 0;
     return result;
   };
   ElfPspModuleInfo.prototype.equals = function (other) {
-    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.moduleAtributes, other.moduleAtributes) && Kotlin.equals(this.moduleVersion, other.moduleVersion) && Kotlin.equals(this.name, other.name) && Kotlin.equals(this.gp, other.gp) && Kotlin.equals(this.exportsStart, other.exportsStart) && Kotlin.equals(this.exportsEnd, other.exportsEnd) && Kotlin.equals(this.importsStart, other.importsStart) && Kotlin.equals(this.importsEnd, other.importsEnd)))));
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.moduleAtributes, other.moduleAtributes) && Kotlin.equals(this.moduleVersion, other.moduleVersion) && Kotlin.equals(this.name, other.name) && Kotlin.equals(this.GP, other.GP) && Kotlin.equals(this.exportsStart, other.exportsStart) && Kotlin.equals(this.exportsEnd, other.exportsEnd) && Kotlin.equals(this.importsStart, other.importsStart) && Kotlin.equals(this.importsEnd, other.importsEnd) && Kotlin.equals(this.PC, other.PC)))));
   };
   function ElfPspModuleImport(nameOffset, version, flags, entrySize, functionCount, variableCount, nidAddress, callAddress) {
     ElfPspModuleImport$Companion_getInstance();
@@ -4818,6 +4855,7 @@
   }
   function ElfPspModuleImport$Companion() {
     ElfPspModuleImport$Companion_instance = this;
+    this.SIZE = 20;
   }
   ElfPspModuleImport$Companion.prototype.invoke_39qel5$ = function (s) {
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3;
@@ -4890,6 +4928,1268 @@
   ElfPspModuleImport.prototype.equals = function (other) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.nameOffset, other.nameOffset) && Kotlin.equals(this.version, other.version) && Kotlin.equals(this.flags, other.flags) && Kotlin.equals(this.entrySize, other.entrySize) && Kotlin.equals(this.functionCount, other.functionCount) && Kotlin.equals(this.variableCount, other.variableCount) && Kotlin.equals(this.nidAddress, other.nidAddress) && Kotlin.equals(this.callAddress, other.callAddress)))));
   };
+  function ElfPspModuleExport(name, version, flags, entrySize, variableCount, functionCount, exports) {
+    ElfPspModuleExport$Companion_getInstance();
+    this.name = name;
+    this.version = version;
+    this.flags = flags;
+    this.entrySize = entrySize;
+    this.variableCount = variableCount;
+    this.functionCount = functionCount;
+    this.exports = exports;
+  }
+  function ElfPspModuleExport$Companion() {
+    ElfPspModuleExport$Companion_instance = this;
+  }
+  ElfPspModuleExport$Companion.prototype.invoke_39qel5$ = function (s) {
+    return new ElfPspModuleExport(readS32_le(s), readU16_le(s), readU16_le(s), readU8(s), readU8(s), readU16_le(s), readS32_le(s));
+  };
+  ElfPspModuleExport$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: []
+  };
+  var ElfPspModuleExport$Companion_instance = null;
+  function ElfPspModuleExport$Companion_getInstance() {
+    if (ElfPspModuleExport$Companion_instance === null) {
+      new ElfPspModuleExport$Companion();
+    }
+    return ElfPspModuleExport$Companion_instance;
+  }
+  ElfPspModuleExport.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'ElfPspModuleExport',
+    interfaces: []
+  };
+  function ElfPspModuleInfoAtributesEnum(id) {
+    ElfPspModuleInfoAtributesEnum$Companion_getInstance();
+    this.id = id;
+  }
+  function ElfPspModuleInfoAtributesEnum$Companion() {
+    ElfPspModuleInfoAtributesEnum$Companion_instance = this;
+    this.UserMode = 0;
+    this.KernelMode = 256;
+  }
+  ElfPspModuleInfoAtributesEnum$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: []
+  };
+  var ElfPspModuleInfoAtributesEnum$Companion_instance = null;
+  function ElfPspModuleInfoAtributesEnum$Companion_getInstance() {
+    if (ElfPspModuleInfoAtributesEnum$Companion_instance === null) {
+      new ElfPspModuleInfoAtributesEnum$Companion();
+    }
+    return ElfPspModuleInfoAtributesEnum$Companion_instance;
+  }
+  ElfPspModuleInfoAtributesEnum.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'ElfPspModuleInfoAtributesEnum',
+    interfaces: []
+  };
+  ElfPspModuleInfoAtributesEnum.prototype.component1 = function () {
+    return this.id;
+  };
+  ElfPspModuleInfoAtributesEnum.prototype.copy_za3lpa$ = function (id) {
+    return new ElfPspModuleInfoAtributesEnum(id === void 0 ? this.id : id);
+  };
+  ElfPspModuleInfoAtributesEnum.prototype.toString = function () {
+    return 'ElfPspModuleInfoAtributesEnum(id=' + Kotlin.toString(this.id) + ')';
+  };
+  ElfPspModuleInfoAtributesEnum.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.id) | 0;
+    return result;
+  };
+  ElfPspModuleInfoAtributesEnum.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && Kotlin.equals(this.id, other.id))));
+  };
+  function InstructionReader(memory) {
+    this.memory_0 = memory;
+  }
+  InstructionReader.prototype.read_za3lpa$ = function (address) {
+    return new Instruction(address, this.memory_0.lw_za3lpa$(address));
+  };
+  InstructionReader.prototype.write_7xc7mf$ = function (address, instruction) {
+    this.memory_0.sw_vux9f0$(address, instruction.data);
+  };
+  InstructionReader.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'InstructionReader',
+    interfaces: []
+  };
+  function loadElf($receiver, file) {
+    return PspElf$Companion_getInstance().loadInto_fyu811$(file, $receiver);
+  }
+  function loadElfAndSetRegisters($receiver, file) {
+    var elf = loadElf($receiver, file);
+    $receiver.cpu.setPC_za3lpa$(elf.moduleInfo.PC);
+    set_GP($receiver.cpu, elf.moduleInfo.GP);
+    return elf;
+  }
+  function PspElf(memory, memoryManager, moduleManager, syscallManager) {
+    PspElf$Companion_getInstance();
+    this.memory_0 = memory;
+    this.memoryManager_0 = memoryManager;
+    this.moduleManager_0 = moduleManager;
+    this.syscallManager_0 = syscallManager;
+    this.elf_xm4kwm$_0 = this.elf_xm4kwm$_0;
+    this.moduleInfo_qarplb$_0 = this.moduleInfo_qarplb$_0;
+    this.dwarf_f2x1fr$_0 = this.dwarf_f2x1fr$_0;
+    this.baseAddress_qvceca$_0 = 0;
+  }
+  Object.defineProperty(PspElf.prototype, 'elf', {
+    get: function () {
+      if (this.elf_xm4kwm$_0 == null)
+        return throwUPAE('elf');
+      return this.elf_xm4kwm$_0;
+    },
+    set: function (elf) {
+      this.elf_xm4kwm$_0 = elf;
+    }
+  });
+  Object.defineProperty(PspElf.prototype, 'moduleInfo', {
+    get: function () {
+      if (this.moduleInfo_qarplb$_0 == null)
+        return throwUPAE('moduleInfo');
+      return this.moduleInfo_qarplb$_0;
+    },
+    set: function (moduleInfo) {
+      this.moduleInfo_qarplb$_0 = moduleInfo;
+    }
+  });
+  Object.defineProperty(PspElf.prototype, 'dwarf', {
+    get: function () {
+      if (this.dwarf_f2x1fr$_0 == null)
+        return throwUPAE('dwarf');
+      return this.dwarf_f2x1fr$_0;
+    },
+    set: function (dwarf) {
+      this.dwarf_f2x1fr$_0 = dwarf;
+    }
+  });
+  Object.defineProperty(PspElf.prototype, 'baseAddress', {
+    get: function () {
+      return this.baseAddress_qvceca$_0;
+    },
+    set: function (baseAddress) {
+      this.baseAddress_qvceca$_0 = baseAddress;
+    }
+  });
+  function PspElf$Companion() {
+    PspElf$Companion_instance = this;
+  }
+  PspElf$Companion.prototype.loadInto_fyu811$ = function (stream, emulator) {
+    var loader = new PspElf(emulator.mem, emulator.memoryManager, emulator.moduleManager, emulator.syscalls);
+    loader.load_39qel5$(stream);
+    return loader;
+  };
+  PspElf$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: []
+  };
+  var PspElf$Companion_instance = null;
+  function PspElf$Companion_getInstance() {
+    if (PspElf$Companion_instance === null) {
+      new PspElf$Companion();
+    }
+    return PspElf$Companion_instance;
+  }
+  PspElf.prototype.load_39qel5$ = function (stream) {
+    this.elf = Elf$Companion_getInstance().read_39qel5$(stream);
+    this.allocateMemory_0();
+    this.writeToMemory_0();
+    this.relocateFromHeaders_0();
+    this.readModuleInfo_0();
+    this.updateModuleImports_0();
+    this.dwarf = new ElfDwarf();
+    this.dwarf.parseElfLoader_xqzwj6$(this.elf);
+  };
+  PspElf.prototype.getSymbolAt_za3lpa$ = function (address) {
+    this.dwarf.getSymbolAt_za3lpa$(address);
+  };
+  PspElf.prototype.getSectionHeaderMemoryStream_0 = function (sectionHeader) {
+    return this.memory_0.getPointerStream_vux9f0$(this.baseAddress + sectionHeader.address | 0, sectionHeader.size);
+  };
+  PspElf.prototype.readModuleInfo_0 = function () {
+    this.moduleInfo = ElfPspModuleInfo$Companion_getInstance().invoke_39qel5$(this.getSectionHeaderMemoryStream_0(this.elf.getSectionHeader_61zpoe$('.rodata.sceModuleInfo')));
+    this.moduleInfo.PC = this.baseAddress + this.elf.header.entryPoint | 0;
+  };
+  function PspElf$allocateMemory$lambda(it) {
+    return it.size;
+  }
+  var sortedWith = Kotlin.kotlin.collections.sortedWith_eknfly$;
+  var compareBy$lambda = wrapFunction(function () {
+    var compareValues = Kotlin.kotlin.comparisons.compareValues_s00gnj$;
+    return function (closure$selector) {
+      return function (a, b) {
+        var selector = closure$selector;
+        return compareValues(selector(a), selector(b));
+      };
+    };
+  });
+  var Comparator = Kotlin.kotlin.Comparator;
+  function Comparator$ObjectLiteral(closure$comparison) {
+    this.closure$comparison = closure$comparison;
+  }
+  Comparator$ObjectLiteral.prototype.compare = function (a, b) {
+    return this.closure$comparison(a, b);
+  };
+  Comparator$ObjectLiteral.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
+  var Math_0 = Math;
+  var min = Kotlin.kotlin.js.min_bug313$;
+  var max = Kotlin.kotlin.js.max_bug313$;
+  var numberToDouble = Kotlin.numberToDouble;
+  PspElf.prototype.allocateMemory_0 = function () {
+    var tmp$, tmp$_0;
+    this.baseAddress = 0;
+    if (this.elf.needsRelocation) {
+      this.baseAddress = numberToInt(last(sortedWith(this.memoryManager_0.userPartition.childPartitions, new Comparator$ObjectLiteral(compareBy$lambda(PspElf$allocateMemory$lambda)))).low);
+      this.baseAddress = nextAlignedTo(this.baseAddress, 4096);
+    }
+    var lowest = new Kotlin.Long(-1, 0);
+    var highest = Kotlin.Long.ZERO;
+    var $receiver = this.elf.sectionHeaders;
+    var destination = ArrayList_init();
+    var tmp$_1;
+    tmp$_1 = $receiver.iterator();
+    while (tmp$_1.hasNext()) {
+      var element = tmp$_1.next();
+      if (element.flags.hasFlag_fzutc1$(ElfSectionHeaderFlags$Companion_getInstance().Allocate))
+        destination.add_11rb$(element);
+    }
+    tmp$ = destination.iterator();
+    while (tmp$.hasNext()) {
+      var section = tmp$.next();
+      lowest = min(Math_0, lowest, Kotlin.Long.fromInt(this.baseAddress).add(Kotlin.Long.fromInt(section.address)));
+      highest = max(Math_0, highest, Kotlin.Long.fromInt(this.baseAddress).add(Kotlin.Long.fromInt(section.address)).add(Kotlin.Long.fromInt(section.size)));
+    }
+    tmp$_0 = this.elf.programHeaders.iterator();
+    while (tmp$_0.hasNext()) {
+      var program = tmp$_0.next();
+      lowest = min(Math_0, lowest, Kotlin.Long.fromInt(this.baseAddress).add(Kotlin.Long.fromInt(program.virtualAddress)));
+      highest = max(Math_0, highest, Kotlin.Long.fromInt(this.baseAddress).add(Kotlin.Long.fromInt(program.virtualAddress)).add(Kotlin.Long.fromInt(program.memorySize)));
+    }
+    var $this = this.memoryManager_0.userPartition;
+    var size = highest.subtract(lowest);
+    var addressLow = lowest;
+    var memorySegment = $this.allocateSet_rpaqe6$(numberToDouble(size), numberToDouble(addressLow), 'Elf');
+  };
+  PspElf.prototype.relocateFromHeaders_0 = function () {
+    var tmp$, tmp$_0, tmp$_1, tmp$_2;
+    var RelocProgramIndex = 0;
+    tmp$ = this.elf.programHeaders.iterator();
+    while (tmp$.hasNext()) {
+      var programHeader = tmp$.next();
+      tmp$_0 = programHeader.type;
+      if (equals(tmp$_0, ElfProgramHeaderType$Companion_getInstance().Reloc1))
+        println('SKIPPING Elf.ProgramHeader.TypeEnum.Reloc1!');
+      else if (equals(tmp$_0, ElfProgramHeaderType$Companion_getInstance().Reloc2))
+        throw new Exception('Not implemented');
+    }
+    var RelocSectionIndex = 0;
+    tmp$_1 = this.elf.sectionHeaders.iterator();
+    while (tmp$_1.hasNext()) {
+      var sectionHeader = tmp$_1.next();
+      tmp$_2 = sectionHeader.type;
+      if (equals(tmp$_2, ElfSectionHeaderType$Companion_getInstance().Relocation)) {
+        println('sectionHeader: ' + sectionHeader);
+        println('Not implemented ElfSectionHeaderType.Relocation');
+      }
+       else if (equals(tmp$_2, ElfSectionHeaderType$Companion_getInstance().PrxRelocation)) {
+        var $receiver = until_0(0, sectionHeader.stream.length.div(Kotlin.Long.fromInt(ElfReloc$Companion_getInstance().SIZE)));
+        var destination = ArrayList_init(collectionSizeOrDefault($receiver, 10));
+        var tmp$_3;
+        tmp$_3 = $receiver.iterator();
+        while (tmp$_3.hasNext()) {
+          var item = tmp$_3.next();
+          destination.add_11rb$(ElfReloc$Companion_getInstance().invoke_39qel5$(sectionHeader.stream));
+        }
+        var relocs = destination;
+        this.relocateRelocs_0(relocs);
+      }
+       else if (equals(tmp$_2, ElfSectionHeaderType$Companion_getInstance().PrxRelocation_FW5))
+        throw new Error_0('Not implemented ElfSectionHeader.Type.PrxRelocation_FW5');
+    }
+  };
+  PspElf.prototype.relocateRelocs_0 = function (relocs) {
+    var tmp$, tmp$_0, tmp$_1;
+    var baseAddress = this.baseAddress;
+    var hiValue = 0;
+    var deferredHi16 = ArrayList_init();
+    var instructionReader = new InstructionReader(this.memory_0);
+    tmp$ = relocs.size;
+    for (var index = 0; index < tmp$; index++) {
+      var reloc = relocs.get_za3lpa$(index);
+      if (reloc.type === ElfRelocType$StopRelocation_getInstance())
+        break;
+      var pointerBaseOffset = this.elf.programHeaders.get_za3lpa$(reloc.pointerSectionHeaderBase).virtualAddress;
+      var pointeeBaseOffset = this.elf.programHeaders.get_za3lpa$(reloc.pointeeSectionHeaderBase).virtualAddress;
+      var RelocatedPointerAddress = baseAddress + reloc.pointerAddress + pointerBaseOffset | 0;
+      var instruction = instructionReader.read_za3lpa$(RelocatedPointerAddress);
+      var S = baseAddress + pointeeBaseOffset | 0;
+      var GP_ADDR = baseAddress + reloc.pointerAddress | 0;
+      var GP_OFFSET = GP_ADDR - (baseAddress & (new Kotlin.Long(-65536, 0)).toInt()) | 0;
+      tmp$_0 = reloc.type;
+      if (!equals(tmp$_0, ElfRelocType$None_getInstance()))
+        if (equals(tmp$_0, ElfRelocType$Mips16_getInstance()))
+          instruction.u_imm16 = instruction.u_imm16 + S | 0;
+        else if (equals(tmp$_0, ElfRelocType$Mips32_getInstance()))
+          instruction.data = instruction.data + S | 0;
+        else if (equals(tmp$_0, ElfRelocType$MipsRel32_getInstance()))
+          throw new Exception('Not implemented MipsRel32');
+        else if (equals(tmp$_0, ElfRelocType$Mips26_getInstance()))
+          instruction.jump_real = instruction.jump_real + S | 0;
+        else if (equals(tmp$_0, ElfRelocType$MipsHi16_getInstance())) {
+          hiValue = instruction.u_imm16;
+          deferredHi16.add_11rb$(RelocatedPointerAddress);
+        }
+         else if (equals(tmp$_0, ElfRelocType$MipsLo16_getInstance())) {
+          var A = instruction.u_imm16;
+          instruction.u_imm16 = (hiValue << 16 | A & 65535) + S | 0;
+          tmp$_1 = deferredHi16.iterator();
+          while (tmp$_1.hasNext()) {
+            var data_addr2 = tmp$_1.next();
+            var data2 = instructionReader.read_za3lpa$(data_addr2);
+            var result = ((data2.data & 65535) << 16) + A + S | 0;
+            if ((A & 32768) !== 0) {
+              result = result - 65536 | 0;
+            }
+            if ((result & 32768) !== 0) {
+              result = result + 65536 | 0;
+            }
+            data2.u_imm16 = result >>> 16;
+            instructionReader.write_7xc7mf$(data_addr2, data2);
+          }
+          deferredHi16 = ArrayList_init();
+        }
+         else if (!equals(tmp$_0, ElfRelocType$MipsGpRel16_getInstance()))
+          throw new Error_0(format('RelocType %d not implemented', [reloc.type]));
+      instructionReader.write_7xc7mf$(RelocatedPointerAddress, instruction);
+    }
+  };
+  PspElf.prototype.writeToMemory_0 = function () {
+    var tmp$, tmp$_0, tmp$_1, tmp$_2;
+    var needsRelocate = this.elf.needsRelocation;
+    var loadAddress = this.baseAddress;
+    println(format('PspElfLoader: needsRelocate=%s, loadAddress=%08X', [needsRelocate, loadAddress]));
+    var $receiver = this.elf.programHeaders;
+    var destination = ArrayList_init();
+    var tmp$_3;
+    tmp$_3 = $receiver.iterator();
+    while (tmp$_3.hasNext()) {
+      var element = tmp$_3.next();
+      var tmp$_4;
+      if ((tmp$_4 = element.type) != null ? tmp$_4.equals(ElfProgramHeaderType$Companion_getInstance().Load) : null)
+        destination.add_11rb$(element);
+    }
+    tmp$ = destination.iterator();
+    while (tmp$.hasNext()) {
+      var programHeader = tmp$.next();
+      var fileOffset = programHeader.offset;
+      var memOffset = this.baseAddress + programHeader.virtualAddress | 0;
+      var fileSize = programHeader.fileSize;
+      var memSize = programHeader.memorySize;
+      copyTo(sliceWithSize_0(this.elf.stream, fileOffset, fileSize), this.memory_0.getPointerStream_vux9f0$(memOffset, fileSize));
+      this.memory_0.memset_qt1dr2$(memOffset + fileSize | 0, 0, memSize - fileSize | 0);
+      println('Program Header: ' + format('%08X:%08X, %08X:%08X', [fileOffset, fileSize, memOffset, memSize]));
+    }
+    var $receiver_0 = this.elf.sectionHeaders;
+    var destination_0 = ArrayList_init();
+    var tmp$_5;
+    tmp$_5 = $receiver_0.iterator();
+    while (tmp$_5.hasNext()) {
+      var element_0 = tmp$_5.next();
+      if (element_0.flags.hasFlag_fzutc1$(ElfSectionHeaderFlags$Companion_getInstance().Allocate))
+        destination_0.add_11rb$(element_0);
+    }
+    tmp$_0 = destination_0.iterator();
+    while (tmp$_0.hasNext()) {
+      var sectionHeader = tmp$_0.next();
+      var low = loadAddress + sectionHeader.address | 0;
+      println(format('Section Header: %s LOW:%08X, SIZE:%08X', [sectionHeader.toString(), low, sectionHeader.size]));
+      tmp$_1 = sectionHeader.type;
+      if (equals(tmp$_1, ElfSectionHeaderType$Companion_getInstance().NoBits)) {
+        tmp$_2 = sectionHeader.size;
+        for (var n = 0; n < tmp$_2; n++)
+          this.memory_0.sb_vux9f0$(low + n | 0, 0);
+      }
+       else if (equals(tmp$_1, ElfSectionHeaderType$Companion_getInstance().ProgramBits)) {
+        var stream = sectionHeader.stream;
+        var length = stream.length;
+        this.memory_0.write_3fge6q$(low, readAll(stream));
+      }
+    }
+  };
+  PspElf.prototype.updateModuleImports_0 = function () {
+    var tmp$;
+    var moduleInfo = this.moduleInfo;
+    println('updateModuleImports.moduleInfo: ' + moduleInfo);
+    var importsBytesSize = moduleInfo.importsEnd - moduleInfo.importsStart | 0;
+    var importsStream = slice(openSync_0(this.memory_0), until(moduleInfo.importsStart, moduleInfo.importsEnd));
+    var importsCount = importsBytesSize / ElfPspModuleImport$Companion_getInstance().SIZE | 0;
+    var $receiver = until(0, importsCount);
+    var destination = ArrayList_init(collectionSizeOrDefault($receiver, 10));
+    var tmp$_0;
+    tmp$_0 = $receiver.iterator();
+    while (tmp$_0.hasNext()) {
+      var item = tmp$_0.next();
+      destination.add_11rb$(ElfPspModuleImport$Companion_getInstance().invoke_39qel5$(importsStream));
+    }
+    var imports = destination;
+    tmp$ = imports.iterator();
+    while (tmp$.hasNext()) {
+      var _import = tmp$.next();
+      _import.name = this.memory_0.readStringz_za3lpa$(_import.nameOffset);
+      var imported = this.updateModuleFunctions_0(_import);
+      this.updateModuleVars_0(_import);
+      var tmp$_1 = 'Imported: ' + imported.name + ' ';
+      var $receiver_0 = imported.registeredNativeFunctions;
+      var destination_0 = ArrayList_init(collectionSizeOrDefault($receiver_0, 10));
+      var tmp$_2;
+      tmp$_2 = $receiver_0.iterator();
+      while (tmp$_2.hasNext()) {
+        var item_0 = tmp$_2.next();
+        destination_0.add_11rb$(item_0.name);
+      }
+      println(tmp$_1 + destination_0);
+    }
+  };
+  function PspElf$updateModuleFunctions$lambda$lambda(closure$_module, closure$nfunc) {
+    return function (state) {
+      var tmp$, tmp$_0;
+      println(closure$_module);
+      println("updateModuleFunctions: Not implemented '" + toString((tmp$ = closure$nfunc.v) != null ? tmp$.name : null) + "'");
+      lang.Debugger.enterDebugger();
+      throw new Error_0("updateModuleFunctions: Not implemented '" + toString((tmp$_0 = closure$nfunc.v) != null ? tmp$_0.name : null) + "'");
+    };
+  }
+  function PspElf$updateModuleFunctions$lambda(closure$_module, closure$unknownFunctions, closure$moduleImport, closure$registeredNativeFunctions, this$PspElf) {
+    return function (nid, n) {
+      var nfunc = {v: closure$_module.getByNidOrNull_za3lpa$(nid)};
+      if (nfunc.v == null) {
+        closure$unknownFunctions.add_11rb$(format("'%s':0x%08X", [closure$_module.name, nid]));
+        nfunc.v = new NativeFunction(format('%s:0x%08X', [closure$moduleImport.name, nid]), Kotlin.Long.fromInt(nid), 150, -1, PspElf$updateModuleFunctions$lambda$lambda(closure$_module, nfunc));
+      }
+      closure$registeredNativeFunctions.add_11rb$(nfunc.v);
+      var syscallId = this$PspElf.syscallManager_0.register_3px1e6$(nfunc.v);
+      return syscallId;
+    };
+  }
+  PspElf.prototype.updateModuleFunctions_0 = function (moduleImport) {
+    var tmp$;
+    var _module = this.moduleManager_0.getByName_61zpoe$(moduleImport.name);
+    var nidsStream = sliceWithSize_0(openSync_0(this.memory_0), moduleImport.nidAddress, moduleImport.functionCount * 4 | 0);
+    var callStream = sliceWithSize_0(openSync_0(this.memory_0), moduleImport.callAddress, moduleImport.functionCount * 8 | 0);
+    var registeredNativeFunctions = ArrayList_init();
+    var unknownFunctions = ArrayList_init();
+    var registerN = PspElf$updateModuleFunctions$lambda(_module, unknownFunctions, moduleImport, registeredNativeFunctions, this);
+    tmp$ = moduleImport.functionCount;
+    for (var n = 0; n < tmp$; n++) {
+      var nid = readS32_le(nidsStream);
+      var syscall = registerN(nid, n);
+      write32_le(callStream, 65011720);
+      write32_le(callStream, 12 | syscall << 6);
+    }
+    if (unknownFunctions.size > 0) {
+      println("Can't find functions: " + toString(unknownFunctions));
+    }
+    return new PspElf$Res1(moduleImport.name, registeredNativeFunctions);
+  };
+  function PspElf$Res1(name, registeredNativeFunctions) {
+    this.name = name;
+    this.registeredNativeFunctions = registeredNativeFunctions;
+  }
+  PspElf$Res1.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'Res1',
+    interfaces: []
+  };
+  PspElf.prototype.updateModuleVars_0 = function (moduleImport) {
+  };
+  PspElf.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PspElf',
+    interfaces: []
+  };
+  function Bits(offset, size) {
+    this.offset = offset;
+    this.size = size;
+  }
+  Bits.prototype.getValue_qkrva5$ = function (i, p) {
+    return extract(i.data, this.offset, this.size);
+  };
+  Bits.prototype.setValue_445zcl$ = function (i, p, value) {
+    i.data = insert(i.data, value, this.offset, this.size);
+  };
+  Bits.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'Bits',
+    interfaces: []
+  };
+  function Instruction(address, data) {
+    this.address = address;
+    this.data = data;
+    this.u_imm16_u2rt4z$_0 = new Bits(0, 16);
+    this.jump_bits_n8rtjk$_0 = new Bits(0, 26);
+  }
+  Object.defineProperty(Instruction.prototype, 'u_imm16', {
+    get: function () {
+      return this.u_imm16_u2rt4z$_0.getValue_qkrva5$(this, new PropertyMetadata('u_imm16'));
+    },
+    set: function (u_imm16) {
+      this.u_imm16_u2rt4z$_0.setValue_445zcl$(this, new PropertyMetadata('u_imm16'), u_imm16);
+    }
+  });
+  Object.defineProperty(Instruction.prototype, 'jump_bits', {
+    get: function () {
+      return this.jump_bits_n8rtjk$_0.getValue_qkrva5$(this, new PropertyMetadata('jump_bits'));
+    },
+    set: function (jump_bits) {
+      this.jump_bits_n8rtjk$_0.setValue_445zcl$(this, new PropertyMetadata('jump_bits'), jump_bits);
+    }
+  });
+  Object.defineProperty(Instruction.prototype, 'jump_real', {
+    get: function () {
+      return this.jump_bits * 4 | 0;
+    },
+    set: function (value) {
+      this.jump_bits = value / 4 | 0;
+    }
+  });
+  Instruction.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'Instruction',
+    interfaces: []
+  };
+  Instruction.prototype.component1 = function () {
+    return this.address;
+  };
+  Instruction.prototype.component2 = function () {
+    return this.data;
+  };
+  Instruction.prototype.copy_vux9f0$ = function (address, data) {
+    return new Instruction(address === void 0 ? this.address : address, data === void 0 ? this.data : data);
+  };
+  Instruction.prototype.toString = function () {
+    return 'Instruction(address=' + Kotlin.toString(this.address) + (', data=' + Kotlin.toString(this.data)) + ')';
+  };
+  Instruction.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.address) | 0;
+    result = result * 31 + Kotlin.hashCode(this.data) | 0;
+    return result;
+  };
+  Instruction.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.address, other.address) && Kotlin.equals(this.data, other.data)))));
+  };
+  function PixelFormat(name, ordinal, id) {
+    Enum.call(this);
+    this.id_va3z88$_0 = id;
+    this.name$ = name;
+    this.ordinal$ = ordinal;
+  }
+  function PixelFormat_initFields() {
+    PixelFormat_initFields = function () {
+    };
+    PixelFormat$RGBA_5650_instance = new PixelFormat('RGBA_5650', 0, 0);
+    PixelFormat$RGBA_5551_instance = new PixelFormat('RGBA_5551', 1, 1);
+    PixelFormat$RGBA_4444_instance = new PixelFormat('RGBA_4444', 2, 2);
+    PixelFormat$RGBA_8888_instance = new PixelFormat('RGBA_8888', 3, 3);
+    PixelFormat$PALETTE_T4_instance = new PixelFormat('PALETTE_T4', 4, 4);
+    PixelFormat$PALETTE_T8_instance = new PixelFormat('PALETTE_T8', 5, 5);
+    PixelFormat$PALETTE_T16_instance = new PixelFormat('PALETTE_T16', 6, 6);
+    PixelFormat$PALETTE_T32_instance = new PixelFormat('PALETTE_T32', 7, 7);
+    PixelFormat$COMPRESSED_DXT1_instance = new PixelFormat('COMPRESSED_DXT1', 8, 8);
+    PixelFormat$COMPRESSED_DXT3_instance = new PixelFormat('COMPRESSED_DXT3', 9, 9);
+    PixelFormat$COMPRESSED_DXT5_instance = new PixelFormat('COMPRESSED_DXT5', 10, 10);
+    PixelFormat$Companion_getInstance();
+  }
+  Object.defineProperty(PixelFormat.prototype, 'id', {
+    get: function () {
+      return this.id_va3z88$_0;
+    }
+  });
+  var PixelFormat$RGBA_5650_instance;
+  function PixelFormat$RGBA_5650_getInstance() {
+    PixelFormat_initFields();
+    return PixelFormat$RGBA_5650_instance;
+  }
+  var PixelFormat$RGBA_5551_instance;
+  function PixelFormat$RGBA_5551_getInstance() {
+    PixelFormat_initFields();
+    return PixelFormat$RGBA_5551_instance;
+  }
+  var PixelFormat$RGBA_4444_instance;
+  function PixelFormat$RGBA_4444_getInstance() {
+    PixelFormat_initFields();
+    return PixelFormat$RGBA_4444_instance;
+  }
+  var PixelFormat$RGBA_8888_instance;
+  function PixelFormat$RGBA_8888_getInstance() {
+    PixelFormat_initFields();
+    return PixelFormat$RGBA_8888_instance;
+  }
+  var PixelFormat$PALETTE_T4_instance;
+  function PixelFormat$PALETTE_T4_getInstance() {
+    PixelFormat_initFields();
+    return PixelFormat$PALETTE_T4_instance;
+  }
+  var PixelFormat$PALETTE_T8_instance;
+  function PixelFormat$PALETTE_T8_getInstance() {
+    PixelFormat_initFields();
+    return PixelFormat$PALETTE_T8_instance;
+  }
+  var PixelFormat$PALETTE_T16_instance;
+  function PixelFormat$PALETTE_T16_getInstance() {
+    PixelFormat_initFields();
+    return PixelFormat$PALETTE_T16_instance;
+  }
+  var PixelFormat$PALETTE_T32_instance;
+  function PixelFormat$PALETTE_T32_getInstance() {
+    PixelFormat_initFields();
+    return PixelFormat$PALETTE_T32_instance;
+  }
+  var PixelFormat$COMPRESSED_DXT1_instance;
+  function PixelFormat$COMPRESSED_DXT1_getInstance() {
+    PixelFormat_initFields();
+    return PixelFormat$COMPRESSED_DXT1_instance;
+  }
+  var PixelFormat$COMPRESSED_DXT3_instance;
+  function PixelFormat$COMPRESSED_DXT3_getInstance() {
+    PixelFormat_initFields();
+    return PixelFormat$COMPRESSED_DXT3_instance;
+  }
+  var PixelFormat$COMPRESSED_DXT5_instance;
+  function PixelFormat$COMPRESSED_DXT5_getInstance() {
+    PixelFormat_initFields();
+    return PixelFormat$COMPRESSED_DXT5_instance;
+  }
+  function PixelFormat$Companion() {
+    PixelFormat$Companion_instance = this;
+    this.values = PixelFormat$values();
+  }
+  PixelFormat$Companion.prototype.invoke_za3lpa$ = function (id) {
+    return this.values[id];
+  };
+  PixelFormat$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: []
+  };
+  var PixelFormat$Companion_instance = null;
+  function PixelFormat$Companion_getInstance() {
+    PixelFormat_initFields();
+    if (PixelFormat$Companion_instance === null) {
+      new PixelFormat$Companion();
+    }
+    return PixelFormat$Companion_instance;
+  }
+  PixelFormat.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PixelFormat',
+    interfaces: [NumericEnum, Enum]
+  };
+  function PixelFormat$values() {
+    return [PixelFormat$RGBA_5650_getInstance(), PixelFormat$RGBA_5551_getInstance(), PixelFormat$RGBA_4444_getInstance(), PixelFormat$RGBA_8888_getInstance(), PixelFormat$PALETTE_T4_getInstance(), PixelFormat$PALETTE_T8_getInstance(), PixelFormat$PALETTE_T16_getInstance(), PixelFormat$PALETTE_T32_getInstance(), PixelFormat$COMPRESSED_DXT1_getInstance(), PixelFormat$COMPRESSED_DXT3_getInstance(), PixelFormat$COMPRESSED_DXT5_getInstance()];
+  }
+  PixelFormat.values = PixelFormat$values;
+  function PixelFormat$valueOf(name) {
+    switch (name) {
+      case 'RGBA_5650':
+        return PixelFormat$RGBA_5650_getInstance();
+      case 'RGBA_5551':
+        return PixelFormat$RGBA_5551_getInstance();
+      case 'RGBA_4444':
+        return PixelFormat$RGBA_4444_getInstance();
+      case 'RGBA_8888':
+        return PixelFormat$RGBA_8888_getInstance();
+      case 'PALETTE_T4':
+        return PixelFormat$PALETTE_T4_getInstance();
+      case 'PALETTE_T8':
+        return PixelFormat$PALETTE_T8_getInstance();
+      case 'PALETTE_T16':
+        return PixelFormat$PALETTE_T16_getInstance();
+      case 'PALETTE_T32':
+        return PixelFormat$PALETTE_T32_getInstance();
+      case 'COMPRESSED_DXT1':
+        return PixelFormat$COMPRESSED_DXT1_getInstance();
+      case 'COMPRESSED_DXT3':
+        return PixelFormat$COMPRESSED_DXT3_getInstance();
+      case 'COMPRESSED_DXT5':
+        return PixelFormat$COMPRESSED_DXT5_getInstance();
+      default:throwISE('No enum constant com.soywiz.kpspemu.hle.PixelFormat.' + name);
+    }
+  }
+  PixelFormat.valueOf_61zpoe$ = PixelFormat$valueOf;
+  function MemoryManager() {
+    this.memoryPartitionsUid = LinkedHashMap_init();
+    var tmp$ = this.memoryPartitionsUid;
+    var tmp$_0 = MemoryPartitions$Companion_getInstance().Kernel0;
+    var name = 'Kernel Partition 1';
+    var low = new Kotlin.Long(-2013265920, 0);
+    var high = new Kotlin.Long(-2010120192, 0);
+    var value = new MemoryPartition(name, numberToDouble(low), numberToDouble(high), false, null);
+    tmp$.put_xwzc9p$(tmp$_0, value);
+    var tmp$_1 = this.memoryPartitionsUid;
+    var tmp$_2 = MemoryPartitions$Companion_getInstance().User;
+    var name_0 = 'User Partition';
+    var high_0 = 142606336 + (1048576 * 24 | 0) | 0;
+    var value_0 = new MemoryPartition(name_0, numberToDouble(142606336), numberToDouble(high_0), false, null);
+    tmp$_1.put_xwzc9p$(tmp$_2, value_0);
+    var tmp$_3 = this.memoryPartitionsUid;
+    var tmp$_4 = MemoryPartitions$Companion_getInstance().UserStacks;
+    var name_1 = 'User Stacks Partition';
+    var high_1 = 142606336 + (1048576 * 24 | 0) | 0;
+    var value_1 = new MemoryPartition(name_1, numberToDouble(142606336), numberToDouble(high_1), false, null);
+    tmp$_3.put_xwzc9p$(tmp$_4, value_1);
+    var tmp$_5 = this.memoryPartitionsUid;
+    var tmp$_6 = MemoryPartitions$Companion_getInstance().VolatilePartition;
+    var value_2 = new MemoryPartition('Volatile Partition', numberToDouble(138412032), numberToDouble(142606336), false, null);
+    tmp$_5.put_xwzc9p$(tmp$_6, value_2);
+  }
+  Object.defineProperty(MemoryManager.prototype, 'kernelPartition', {
+    get: function () {
+      var tmp$;
+      return (tmp$ = this.memoryPartitionsUid.get_11rb$(MemoryPartitions$Companion_getInstance().Kernel0)) != null ? tmp$ : throwNPE();
+    }
+  });
+  Object.defineProperty(MemoryManager.prototype, 'userPartition', {
+    get: function () {
+      var tmp$;
+      return (tmp$ = this.memoryPartitionsUid.get_11rb$(MemoryPartitions$Companion_getInstance().User)) != null ? tmp$ : throwNPE();
+    }
+  });
+  Object.defineProperty(MemoryManager.prototype, 'stackPartition', {
+    get: function () {
+      var tmp$;
+      return (tmp$ = this.memoryPartitionsUid.get_11rb$(MemoryPartitions$Companion_getInstance().UserStacks)) != null ? tmp$ : throwNPE();
+    }
+  });
+  MemoryManager.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'MemoryManager',
+    interfaces: []
+  };
+  function MemoryPartitions(id) {
+    MemoryPartitions$Companion_getInstance();
+    this.id = id;
+  }
+  function MemoryPartitions$Companion() {
+    MemoryPartitions$Companion_instance = this;
+    this.Kernel0 = 0;
+    this.User = 2;
+    this.VolatilePartition = 5;
+    this.UserStacks = 6;
+  }
+  MemoryPartitions$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: []
+  };
+  var MemoryPartitions$Companion_instance = null;
+  function MemoryPartitions$Companion_getInstance() {
+    if (MemoryPartitions$Companion_instance === null) {
+      new MemoryPartitions$Companion();
+    }
+    return MemoryPartitions$Companion_instance;
+  }
+  MemoryPartitions.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'MemoryPartitions',
+    interfaces: []
+  };
+  function MemoryAnchor(name, ordinal, id) {
+    Enum.call(this);
+    this.id = id;
+    this.name$ = name;
+    this.ordinal$ = ordinal;
+  }
+  function MemoryAnchor_initFields() {
+    MemoryAnchor_initFields = function () {
+    };
+    MemoryAnchor$Low_instance = new MemoryAnchor('Low', 0, 0);
+    MemoryAnchor$High_instance = new MemoryAnchor('High', 1, 1);
+    MemoryAnchor$Address_instance = new MemoryAnchor('Address', 2, 2);
+    MemoryAnchor$LowAligned_instance = new MemoryAnchor('LowAligned', 3, 3);
+    MemoryAnchor$HighAligned_instance = new MemoryAnchor('HighAligned', 4, 4);
+  }
+  var MemoryAnchor$Low_instance;
+  function MemoryAnchor$Low_getInstance() {
+    MemoryAnchor_initFields();
+    return MemoryAnchor$Low_instance;
+  }
+  var MemoryAnchor$High_instance;
+  function MemoryAnchor$High_getInstance() {
+    MemoryAnchor_initFields();
+    return MemoryAnchor$High_instance;
+  }
+  var MemoryAnchor$Address_instance;
+  function MemoryAnchor$Address_getInstance() {
+    MemoryAnchor_initFields();
+    return MemoryAnchor$Address_instance;
+  }
+  var MemoryAnchor$LowAligned_instance;
+  function MemoryAnchor$LowAligned_getInstance() {
+    MemoryAnchor_initFields();
+    return MemoryAnchor$LowAligned_instance;
+  }
+  var MemoryAnchor$HighAligned_instance;
+  function MemoryAnchor$HighAligned_getInstance() {
+    MemoryAnchor_initFields();
+    return MemoryAnchor$HighAligned_instance;
+  }
+  MemoryAnchor.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'MemoryAnchor',
+    interfaces: [Enum]
+  };
+  function MemoryAnchor$values() {
+    return [MemoryAnchor$Low_getInstance(), MemoryAnchor$High_getInstance(), MemoryAnchor$Address_getInstance(), MemoryAnchor$LowAligned_getInstance(), MemoryAnchor$HighAligned_getInstance()];
+  }
+  MemoryAnchor.values = MemoryAnchor$values;
+  function MemoryAnchor$valueOf(name) {
+    switch (name) {
+      case 'Low':
+        return MemoryAnchor$Low_getInstance();
+      case 'High':
+        return MemoryAnchor$High_getInstance();
+      case 'Address':
+        return MemoryAnchor$Address_getInstance();
+      case 'LowAligned':
+        return MemoryAnchor$LowAligned_getInstance();
+      case 'HighAligned':
+        return MemoryAnchor$HighAligned_getInstance();
+      default:throwISE('No enum constant com.soywiz.kpspemu.hle.manager.MemoryAnchor.' + name);
+    }
+  }
+  MemoryAnchor.valueOf_61zpoe$ = MemoryAnchor$valueOf;
+  function OutOfMemoryError(message) {
+    Exception.call(this, message);
+    this.name = 'OutOfMemoryError';
+  }
+  OutOfMemoryError.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'OutOfMemoryError',
+    interfaces: [Exception]
+  };
+  function MemoryPartition(name, low, high, allocated, parent) {
+    MemoryPartition$Companion_getInstance();
+    if (parent === void 0)
+      parent = null;
+    this.name = name;
+    this.low = low;
+    this.high = high;
+    this.allocated = allocated;
+    this.parent = parent;
+    this.address = this.low;
+    this._childPartitions_0 = ArrayList_init();
+  }
+  function MemoryPartition$Companion() {
+    MemoryPartition$Companion_instance = this;
+  }
+  MemoryPartition$Companion.prototype.invoke_irad7e$ = defineInlineFunction('kpspemu.com.soywiz.kpspemu.hle.manager.MemoryPartition.Companion.invoke_irad7e$', wrapFunction(function () {
+    var numberToDouble = Kotlin.numberToDouble;
+    var MemoryPartition_init = _.com.soywiz.kpspemu.hle.manager.MemoryPartition;
+    return function (name, low, high, allocated, parent) {
+      if (parent === void 0)
+        parent = null;
+      return new MemoryPartition_init(name, numberToDouble(low), numberToDouble(high), allocated, parent);
+    };
+  }));
+  MemoryPartition$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: []
+  };
+  var MemoryPartition$Companion_instance = null;
+  function MemoryPartition$Companion_getInstance() {
+    if (MemoryPartition$Companion_instance === null) {
+      new MemoryPartition$Companion();
+    }
+    return MemoryPartition$Companion_instance;
+  }
+  Object.defineProperty(MemoryPartition.prototype, 'free', {
+    get: function () {
+      return !this.allocated;
+    }
+  });
+  Object.defineProperty(MemoryPartition.prototype, 'size', {
+    get: function () {
+      return this.high - this.low;
+    }
+  });
+  Object.defineProperty(MemoryPartition.prototype, 'root', {
+    get: function () {
+      var tmp$, tmp$_0;
+      return (tmp$_0 = (tmp$ = this.parent) != null ? tmp$.root : null) != null ? tmp$_0 : this;
+    }
+  });
+  Object.defineProperty(MemoryPartition.prototype, 'childPartitions', {
+    get: function () {
+      if (this._childPartitions_0.isEmpty()) {
+        this._childPartitions_0.add_11rb$(new MemoryPartition('', this.low, this.high, false, this));
+      }
+      return this._childPartitions_0;
+    }
+  });
+  MemoryPartition.prototype.contains_14dthe$ = function (address) {
+    return address >= this.low && address < this.high;
+  };
+  MemoryPartition.prototype.deallocate = function () {
+    var tmp$;
+    this.allocated = false;
+    (tmp$ = this.parent) != null ? (tmp$.cleanup_0(), Unit) : null;
+  };
+  MemoryPartition.prototype.allocate_sin65v$ = function (size, anchor, address, name) {
+    if (address === void 0)
+      address = 0.0;
+    if (name === void 0)
+      name = '';
+    if (equals(anchor, MemoryAnchor$LowAligned_getInstance()) || equals(anchor, MemoryAnchor$Low_getInstance()))
+      return this.allocateLow_t0es5s$(size, name);
+    else if (equals(anchor, MemoryAnchor$High_getInstance()))
+      return this.allocateHigh_tdm7pe$(size, name);
+    else if (equals(anchor, MemoryAnchor$Address_getInstance()))
+      return this.allocateSet_rpaqe6$(size, address, name);
+    else
+      throw new Error_0(format('Not implemented anchor %d:%s', [anchor, anchor]));
+  };
+  MemoryPartition.prototype.allocateSet_7prga6$ = defineInlineFunction('kpspemu.com.soywiz.kpspemu.hle.manager.MemoryPartition.allocateSet_7prga6$', wrapFunction(function () {
+    var numberToDouble = Kotlin.numberToDouble;
+    return function (size, addressLow, name) {
+      if (name === void 0)
+        name = '';
+      return this.allocateSet_rpaqe6$(numberToDouble(size), numberToDouble(addressLow), name);
+    };
+  }));
+  MemoryPartition.prototype.allocateLow_xfy9o8$ = defineInlineFunction('kpspemu.com.soywiz.kpspemu.hle.manager.MemoryPartition.allocateLow_xfy9o8$', wrapFunction(function () {
+    var numberToDouble = Kotlin.numberToDouble;
+    return function (size, name) {
+      if (name === void 0)
+        name = '';
+      return this.allocateLow_t0es5s$(numberToDouble(size), name);
+    };
+  }));
+  MemoryPartition.prototype.allocateHigh_oj6pkq$ = defineInlineFunction('kpspemu.com.soywiz.kpspemu.hle.manager.MemoryPartition.allocateHigh_oj6pkq$', wrapFunction(function () {
+    var numberToDouble = Kotlin.numberToDouble;
+    return function (size, name, alignment) {
+      if (name === void 0)
+        name = '';
+      if (alignment === void 0)
+        alignment = 1;
+      return this.allocateHigh_tdm7pe$(numberToDouble(size), name);
+    };
+  }));
+  MemoryPartition.prototype.allocateSet_rpaqe6$ = function (size, addressLow, name) {
+    if (name === void 0)
+      name = '';
+    var childs = this.childPartitions;
+    var addressHigh = addressLow + size;
+    if (!this.contains_14dthe$(addressLow) || !this.contains_14dthe$(addressHigh)) {
+      throw new OutOfMemoryError(format("Can't allocate [%08X-%08X] in [%08X-%08X]", [addressLow, addressHigh, this.low, this.high]));
+    }
+    var indexOfFirst$result;
+    indexOfFirst$break: do {
+      var tmp$;
+      var index = 0;
+      tmp$ = childs.iterator();
+      while (tmp$.hasNext()) {
+        var item = tmp$.next();
+        if (item.contains_14dthe$(addressLow)) {
+          indexOfFirst$result = index;
+          break indexOfFirst$break;
+        }
+        index = index + 1 | 0;
+      }
+      indexOfFirst$result = -1;
+    }
+     while (false);
+    var index_0 = indexOfFirst$result;
+    if (index_0 < 0) {
+      println(format('address: %08X, size: %d', [addressLow, size]));
+      println(this);
+      throw new Error_0("Can't find the segment");
+    }
+    var child = childs.get_za3lpa$(index_0);
+    if (child.allocated)
+      throw new Error_0('Memory already allocated');
+    if (!child.contains_14dthe$(addressHigh - 1))
+      throw new Error_0("Can't fit memory");
+    var p1 = new MemoryPartition('', child.low, addressLow, false, this);
+    var p2 = new MemoryPartition(name, addressLow, addressHigh, true, this);
+    var p3 = new MemoryPartition('', addressHigh, child.high, false, this);
+    splice(childs, index_0, 1, [p1, p2, p3]);
+    this.cleanup_0();
+    return p2;
+  };
+  MemoryPartition.prototype.allocateLow_t0es5s$ = function (size, name) {
+    if (name === void 0)
+      name = '';
+    return this.allocateLowHigh_0(size, true, name);
+  };
+  MemoryPartition.prototype.allocateHigh_tdm7pe$ = function (size, name, alignment) {
+    if (name === void 0)
+      name = '';
+    if (alignment === void 0)
+      alignment = 1;
+    return this.allocateLowHigh_0(size, false, name);
+  };
+  MemoryPartition.prototype._validateChilds_0 = function () {
+    var tmp$;
+    var childs = this.childPartitions;
+    if (childs.get_za3lpa$(0).low !== this.low)
+      throw new Error_0("First child low doesn't match container low");
+    if (childs.get_za3lpa$(childs.size - 1 | 0).high !== this.high)
+      throw new Error_0("Last child high doesn't match container high");
+    tmp$ = childs.size - 1 | 0;
+    for (var n = 0; n < tmp$; n++) {
+      if (childs.get_za3lpa$(n + 0 | 0).high !== childs.get_za3lpa$(n + 1 | 0).low)
+        throw new Error_0('Children at ' + n + ' are not contiguous');
+    }
+  };
+  MemoryPartition.prototype.allocateLowHigh_0 = function (size, low, name) {
+    if (name === void 0)
+      name = '';
+    var childs = this.childPartitions;
+    var indexOfFirst$result;
+    indexOfFirst$break: do {
+      var tmp$;
+      var index = 0;
+      tmp$ = childs.iterator();
+      while (tmp$.hasNext()) {
+        var item = tmp$.next();
+        if (item.free && item.size >= size) {
+          indexOfFirst$result = index;
+          break indexOfFirst$break;
+        }
+        index = index + 1 | 0;
+      }
+      indexOfFirst$result = -1;
+    }
+     while (false);
+    var index_0 = indexOfFirst$result;
+    if (index_0 < 0)
+      throw new OutOfMemoryError("Can't find a partition with " + size + ' available');
+    var child = childs.get_za3lpa$(index_0);
+    var unallocatedChild;
+    var allocatedChild;
+    if (low) {
+      var p1 = child.low;
+      var p2 = child.low + size;
+      var p3 = child.high;
+      allocatedChild = new MemoryPartition(name, p1, p2, true, this);
+      unallocatedChild = new MemoryPartition('', p2, p3, false, this);
+      splice(childs, index_0, 1, [allocatedChild, unallocatedChild]);
+    }
+     else {
+      var p1_0 = child.low;
+      var p2_0 = child.high - size;
+      var p3_0 = child.high;
+      unallocatedChild = new MemoryPartition('', p1_0, p2_0, false, this);
+      allocatedChild = new MemoryPartition(name, p2_0, p3_0, true, this);
+      splice(childs, index_0, 1, [unallocatedChild, allocatedChild]);
+    }
+    this.cleanup_0();
+    return allocatedChild;
+  };
+  MemoryPartition.prototype.unallocate = function () {
+    var tmp$;
+    this.name = '';
+    this.allocated = false;
+    (tmp$ = this.parent) != null ? (tmp$.cleanup_0(), Unit) : null;
+  };
+  MemoryPartition.prototype.cleanup_0 = function () {
+    var startTotalFreeMemory = this.getTotalFreeMemory();
+    this._validateChilds_0();
+    var childs = {v: this.childPartitions};
+    if (childs.v.size >= 2) {
+      var n = 0;
+      while (n < (childs.v.size - 1 | 0)) {
+        var l = childs.v.get_za3lpa$(n + 0 | 0);
+        var r = childs.v.get_za3lpa$(n + 1 | 0);
+        if (!l.allocated && !r.allocated) {
+          var new_0 = new MemoryPartition('', l.low, r.high, false, this);
+          splice(childs.v, n, 2, [new_0]);
+        }
+         else {
+          n = n + 1 | 0;
+        }
+      }
+    }
+    var n_0 = 0;
+    while (n_0 < childs.v.size) {
+      var child = childs.v.get_za3lpa$(n_0);
+      if (!child.allocated && child.size === 0.0) {
+        splice(childs.v, n_0, 1, []);
+      }
+       else {
+        n_0 = n_0 + 1 | 0;
+      }
+    }
+    this._validateChilds_0();
+    var endTotalFreeMemory = this.getTotalFreeMemory();
+    if (endTotalFreeMemory !== startTotalFreeMemory) {
+      println('assertion failed [1]! : ' + startTotalFreeMemory + ',' + endTotalFreeMemory);
+    }
+  };
+  Object.defineProperty(MemoryPartition.prototype, 'nonAllocatedPartitions', {
+    get: function () {
+      var $receiver = this.childPartitions;
+      var destination = ArrayList_init();
+      var tmp$;
+      tmp$ = $receiver.iterator();
+      while (tmp$.hasNext()) {
+        var element = tmp$.next();
+        if (!element.allocated)
+          destination.add_11rb$(element);
+      }
+      return destination;
+    }
+  });
+  function MemoryPartition$getTotalFreeMemory$lambda(prev, item) {
+    return item.size + prev;
+  }
+  MemoryPartition.prototype.getTotalFreeMemory = function () {
+    return reduceAcumulate(this.nonAllocatedPartitions, 0.0, MemoryPartition$getTotalFreeMemory$lambda);
+  };
+  MemoryPartition.prototype.getMaxContiguousFreeMemory = function () {
+    var tmp$, tmp$_0;
+    var $receiver = this.nonAllocatedPartitions;
+    var maxBy$result;
+    maxBy$break: do {
+      var iterator = $receiver.iterator();
+      if (!iterator.hasNext()) {
+        maxBy$result = null;
+        break maxBy$break;
+      }
+      var maxElem = iterator.next();
+      var maxValue = maxElem.size;
+      while (iterator.hasNext()) {
+        var e = iterator.next();
+        var v = e.size;
+        if (Kotlin.compareTo(maxValue, v) < 0) {
+          maxElem = e;
+          maxValue = v;
+        }
+      }
+      maxBy$result = maxElem;
+    }
+     while (false);
+    return (tmp$_0 = (tmp$ = maxBy$result) != null ? tmp$.size : null) != null ? tmp$_0 : 0.0;
+  };
+  MemoryPartition.prototype.getTotalFreeMemoryInt = function () {
+    return numberToInt(this.getTotalFreeMemory());
+  };
+  MemoryPartition.prototype.getMaxContiguousFreeMemoryInt = function () {
+    return numberToInt(this.getMaxContiguousFreeMemory());
+  };
+  MemoryPartition.prototype.findFreeChildWithSize_0 = function (size) {
+  };
+  MemoryPartition.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'MemoryPartition',
+    interfaces: []
+  };
+  MemoryPartition.prototype.component1 = function () {
+    return this.name;
+  };
+  MemoryPartition.prototype.component2 = function () {
+    return this.low;
+  };
+  MemoryPartition.prototype.component3 = function () {
+    return this.high;
+  };
+  MemoryPartition.prototype.component4 = function () {
+    return this.allocated;
+  };
+  MemoryPartition.prototype.component5 = function () {
+    return this.parent;
+  };
+  MemoryPartition.prototype.copy_xwah62$ = function (name, low, high, allocated, parent) {
+    return new MemoryPartition(name === void 0 ? this.name : name, low === void 0 ? this.low : low, high === void 0 ? this.high : high, allocated === void 0 ? this.allocated : allocated, parent === void 0 ? this.parent : parent);
+  };
+  MemoryPartition.prototype.toString = function () {
+    return 'MemoryPartition(name=' + Kotlin.toString(this.name) + (', low=' + Kotlin.toString(this.low)) + (', high=' + Kotlin.toString(this.high)) + (', allocated=' + Kotlin.toString(this.allocated)) + (', parent=' + Kotlin.toString(this.parent)) + ')';
+  };
+  MemoryPartition.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.name) | 0;
+    result = result * 31 + Kotlin.hashCode(this.low) | 0;
+    result = result * 31 + Kotlin.hashCode(this.high) | 0;
+    result = result * 31 + Kotlin.hashCode(this.allocated) | 0;
+    result = result * 31 + Kotlin.hashCode(this.parent) | 0;
+    return result;
+  };
+  MemoryPartition.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.name, other.name) && Kotlin.equals(this.low, other.low) && Kotlin.equals(this.high, other.high) && Kotlin.equals(this.allocated, other.allocated) && Kotlin.equals(this.parent, other.parent)))));
+  };
+  function ModuleManager(e) {
+    this.e = e;
+    this.modules = LinkedHashMap_init();
+  }
+  ModuleManager.prototype.register_wfqky4$ = function (module_0) {
+    var $receiver = this.modules;
+    var key = module_0.name;
+    $receiver.put_xwzc9p$(key, module_0);
+    module_0.registerPspModule_egl5qq$(this.e);
+  };
+  ModuleManager.prototype.getByName_61zpoe$ = function (name) {
+    var tmp$;
+    return (tmp$ = this.modules.get_11rb$(name)) != null ? tmp$ : invalidOp("Can't find module '" + name + "'");
+  };
+  ModuleManager.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'ModuleManager',
+    interfaces: []
+  };
+  function SyscallManager() {
+    this.lasSyscallId = 1;
+    this.syscallToFunc = LinkedHashMap_init();
+  }
+  SyscallManager.prototype.unhandled_acv9wa$ = function (state, id) {
+    println(format('%08X: Called syscall: ### %04X', [state.getPC(), id]));
+  };
+  SyscallManager.prototype.register_p42kcx$ = function (id, callback) {
+    if (id === void 0)
+      id = -1;
+    var tmp$;
+    var syscallId = id < 0 ? (tmp$ = this.lasSyscallId, this.lasSyscallId = tmp$ + 1 | 0, tmp$) : id;
+    this.syscallToFunc.put_xwzc9p$(syscallId, callback);
+    return syscallId;
+  };
+  function SyscallManager$register$lambda(closure$nfunc) {
+    return function (cpu, f) {
+      closure$nfunc.function(cpu);
+      return Unit;
+    };
+  }
+  SyscallManager.prototype.register_3px1e6$ = function (nfunc, id) {
+    if (id === void 0)
+      id = -1;
+    return this.register_p42kcx$(id, SyscallManager$register$lambda(nfunc));
+  };
+  SyscallManager.prototype.syscall_acv9wa$ = function (state, id) {
+    var tmp$;
+    var func = (tmp$ = this.syscallToFunc.get_11rb$(id)) != null ? tmp$ : getCallableRef('unhandled', function ($receiver, state, id) {
+      return $receiver.unhandled_acv9wa$(state, id), Unit;
+    }.bind(null, this));
+    func(state, id);
+  };
+  SyscallManager.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'SyscallManager',
+    interfaces: [Syscalls]
+  };
+  function registerNativeModules($receiver) {
+    registerNativeModules_0($receiver.moduleManager);
+  }
+  function registerNativeModules_0($receiver) {
+    $receiver.register_wfqky4$(new sceCtrl());
+    $receiver.register_wfqky4$(new sceDisplay());
+    $receiver.register_wfqky4$(new UtilsForUser());
+  }
   function RegisterReader() {
     this.pos = 4;
     this.e_3kfihc$_0 = this.e_3kfihc$_0;
@@ -4945,10 +6245,56 @@
     simpleName: 'RegisterReader',
     interfaces: []
   };
-  function SceModule() {
+  function NativeFunction(name, nid, since, syscall, function_0) {
+    this.name = name;
+    this.nid = nid;
+    this.since = since;
+    this.syscall = syscall;
+    this.function = function_0;
+  }
+  NativeFunction.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'NativeFunction',
+    interfaces: []
+  };
+  NativeFunction.prototype.component1 = function () {
+    return this.name;
+  };
+  NativeFunction.prototype.component2 = function () {
+    return this.nid;
+  };
+  NativeFunction.prototype.component3 = function () {
+    return this.since;
+  };
+  NativeFunction.prototype.component4 = function () {
+    return this.syscall;
+  };
+  NativeFunction.prototype.component5 = function () {
+    return this.function;
+  };
+  NativeFunction.prototype.copy_gh35x6$ = function (name, nid, since, syscall, function_0) {
+    return new NativeFunction(name === void 0 ? this.name : name, nid === void 0 ? this.nid : nid, since === void 0 ? this.since : since, syscall === void 0 ? this.syscall : syscall, function_0 === void 0 ? this.function : function_0);
+  };
+  NativeFunction.prototype.toString = function () {
+    return 'NativeFunction(name=' + Kotlin.toString(this.name) + (', nid=' + Kotlin.toString(this.nid)) + (', since=' + Kotlin.toString(this.since)) + (', syscall=' + Kotlin.toString(this.syscall)) + (', function=' + Kotlin.toString(this.function)) + ')';
+  };
+  NativeFunction.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.name) | 0;
+    result = result * 31 + Kotlin.hashCode(this.nid) | 0;
+    result = result * 31 + Kotlin.hashCode(this.since) | 0;
+    result = result * 31 + Kotlin.hashCode(this.syscall) | 0;
+    result = result * 31 + Kotlin.hashCode(this.function) | 0;
+    return result;
+  };
+  NativeFunction.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.name, other.name) && Kotlin.equals(this.nid, other.nid) && Kotlin.equals(this.since, other.since) && Kotlin.equals(this.syscall, other.syscall) && Kotlin.equals(this.function, other.function)))));
+  };
+  function SceModule(name) {
+    this.name = name;
     this.e_vhx781$_0 = this.e_vhx781$_0;
     this.rr_hzzurk$_0 = new RegisterReader();
-    this.functions = lmapOf([]);
+    this.functions = LinkedHashMap_init();
   }
   Object.defineProperty(SceModule.prototype, 'e', {
     get: function () {
@@ -4964,50 +6310,12 @@
     this.e = e;
     this.registerModule();
   };
-  function SceModule$ModuleFunction(name, uid, since, syscall, function_0) {
-    this.name = name;
-    this.uid = uid;
-    this.since = since;
-    this.syscall = syscall;
-    this.function = function_0;
-  }
-  SceModule$ModuleFunction.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'ModuleFunction',
-    interfaces: []
+  SceModule.prototype.getByNidOrNull_za3lpa$ = function (nid) {
+    return this.functions.get_11rb$(nid);
   };
-  SceModule$ModuleFunction.prototype.component1 = function () {
-    return this.name;
-  };
-  SceModule$ModuleFunction.prototype.component2 = function () {
-    return this.uid;
-  };
-  SceModule$ModuleFunction.prototype.component3 = function () {
-    return this.since;
-  };
-  SceModule$ModuleFunction.prototype.component4 = function () {
-    return this.syscall;
-  };
-  SceModule$ModuleFunction.prototype.component5 = function () {
-    return this.function;
-  };
-  SceModule$ModuleFunction.prototype.copy_gh35x6$ = function (name, uid, since, syscall, function_0) {
-    return new SceModule$ModuleFunction(name === void 0 ? this.name : name, uid === void 0 ? this.uid : uid, since === void 0 ? this.since : since, syscall === void 0 ? this.syscall : syscall, function_0 === void 0 ? this.function : function_0);
-  };
-  SceModule$ModuleFunction.prototype.toString = function () {
-    return 'ModuleFunction(name=' + Kotlin.toString(this.name) + (', uid=' + Kotlin.toString(this.uid)) + (', since=' + Kotlin.toString(this.since)) + (', syscall=' + Kotlin.toString(this.syscall)) + (', function=' + Kotlin.toString(this.function)) + ')';
-  };
-  SceModule$ModuleFunction.prototype.hashCode = function () {
-    var result = 0;
-    result = result * 31 + Kotlin.hashCode(this.name) | 0;
-    result = result * 31 + Kotlin.hashCode(this.uid) | 0;
-    result = result * 31 + Kotlin.hashCode(this.since) | 0;
-    result = result * 31 + Kotlin.hashCode(this.syscall) | 0;
-    result = result * 31 + Kotlin.hashCode(this.function) | 0;
-    return result;
-  };
-  SceModule$ModuleFunction.prototype.equals = function (other) {
-    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.name, other.name) && Kotlin.equals(this.uid, other.uid) && Kotlin.equals(this.since, other.since) && Kotlin.equals(this.syscall, other.syscall) && Kotlin.equals(this.function, other.function)))));
+  SceModule.prototype.getByNid_za3lpa$ = function (nid) {
+    var tmp$;
+    return (tmp$ = this.getByNidOrNull_za3lpa$(nid)) != null ? tmp$ : invalidOp(format("Can't find NID 0x%08X in %s", [nid, this.name]));
   };
   function SceModule$registerFunctionRaw$lambda(closure$function) {
     return function (cpu, syscall) {
@@ -5015,9 +6323,9 @@
       return Unit;
     };
   }
-  SceModule.prototype.registerFunctionRaw_3nyq0u$ = function (function_0) {
+  SceModule.prototype.registerFunctionRaw_ux1oik$ = function (function_0) {
     var $receiver = this.functions;
-    var key = function_0.uid.toInt();
+    var key = function_0.nid.toInt();
     $receiver.put_xwzc9p$(key, function_0);
     if (function_0.syscall >= 0) {
       this.e.syscalls.register_p42kcx$(function_0.syscall, SceModule$registerFunctionRaw$lambda(function_0));
@@ -5028,7 +6336,7 @@
       since = 150;
     if (syscall === void 0)
       syscall = -1;
-    this.registerFunctionRaw_3nyq0u$(new SceModule$ModuleFunction(name, uid, since, syscall, function_0));
+    this.registerFunctionRaw_ux1oik$(new NativeFunction(name, uid, since, syscall, function_0));
   };
   function SceModule$registerFunctionRR$lambda(this$SceModule, closure$function) {
     return function (it) {
@@ -5069,17 +6377,8 @@
     simpleName: 'SceModule',
     interfaces: []
   };
-  function NativeFunction(uid, since) {
-    this.uid = uid;
-    this.since = since;
-  }
-  NativeFunction.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'NativeFunction',
-    interfaces: [Annotation]
-  };
   function UtilsForUser() {
-    SceModule.call(this);
+    SceModule.call(this, 'UtilsForUser');
     this.random = MtRand_init(0);
   }
   function UtilsForUser$registerModule$lambda(this$UtilsForUser) {
@@ -5110,7 +6409,7 @@
     interfaces: [SceModule]
   };
   function sceCtrl() {
-    SceModule.call(this);
+    SceModule.call(this, 'sceCtrl');
   }
   function sceCtrl$registerModule$lambda(this$sceCtrl) {
     return function ($receiver, it) {
@@ -5132,7 +6431,7 @@
     interfaces: [SceModule]
   };
   function sceDisplay() {
-    SceModule.call(this);
+    SceModule.call(this, 'sceDisplay');
     this.display_jcq7bg$_0 = lazy(sceDisplay$display$lambda(this));
   }
   Object.defineProperty(sceDisplay.prototype, 'display', {
@@ -5174,7 +6473,7 @@
   sceDisplay.prototype.sceDisplaySetFrameBuf_tjonv8$ = function (address, bufferWidth, pixelFormat, sync) {
     this.display.address = address;
     this.display.bufferWidth = bufferWidth;
-    this.display.pixelFormat = pixelFormat;
+    this.display.pixelFormat = PixelFormat$Companion_getInstance().invoke_za3lpa$(pixelFormat);
     this.display.sync = sync;
     return 0;
   };
@@ -5202,9 +6501,10 @@
   }
   function Memory$Companion() {
     Memory$Companion_instance = this;
+    this.MAIN_OFFSET = 134217728;
     this.SCRATCHPAD = new Memory$MemorySegment('scatchpad', until(0, 65536));
     this.VIDEOMEM = new Memory$MemorySegment('videomem', until(67108864, 69206016));
-    this.MAINMEM = new Memory$MemorySegment('mainmem', until(134217728, 167772160));
+    this.MAINMEM = new Memory$MemorySegment('mainmem', until(this.MAIN_OFFSET, 167772160));
   }
   Memory$Companion.prototype.invoke = function () {
     return new FastMemory();
@@ -5309,6 +6609,16 @@
   };
   Memory.prototype.lhu_za3lpa$ = function (address) {
     return this.lh_za3lpa$(address) & 65535;
+  };
+  Memory.prototype.memset_qt1dr2$ = function (address, value, size) {
+    for (var n = 0; n < size; n++)
+      this.sb_vux9f0$(address, value);
+  };
+  Memory.prototype.getPointerStream_vux9f0$ = function (address, size) {
+    return sliceWithSize_0(openSync_0(this), address, size);
+  };
+  Memory.prototype.readStringz_za3lpa$ = function (offset) {
+    return readStringz(sliceWithStart(openSync_0(this), Kotlin.Long.fromInt(offset)));
   };
   Memory.$metadata$ = {
     kind: Kind_CLASS,
@@ -5558,23 +6868,142 @@
   MemPtr.prototype.equals = function (other) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.mem, other.mem) && Kotlin.equals(this.addr, other.addr)))));
   };
+  function CurrentVfs$lambda() {
+    return LocalVfs(KPspEmuNative_getInstance().getCurrentDirectory());
+  }
+  var CurrentVfs;
+  function get_CurrentVfs() {
+    new PropertyMetadata('CurrentVfs');
+    return CurrentVfs.value;
+  }
+  function NumericEnum() {
+  }
+  NumericEnum.$metadata$ = {
+    kind: Kind_INTERFACE,
+    simpleName: 'NumericEnum',
+    interfaces: []
+  };
+  function Flags() {
+  }
+  Flags.prototype.hasFlag_fzutc1$ = function (item) {
+    return (this.id & item.id) === item.id;
+  };
+  Flags.$metadata$ = {
+    kind: Kind_INTERFACE,
+    simpleName: 'Flags',
+    interfaces: [NumericEnum]
+  };
+  function splice($receiver, removeOffset, removeCount, itemsToAdd) {
+    for (var n = 0; n < removeCount; n++)
+      $receiver.removeAt_za3lpa$(removeOffset);
+    for (var n_0 = 0; n_0 < itemsToAdd.length; n_0++) {
+      $receiver.add_wxm5ur$(removeOffset + n_0 | 0, itemsToAdd[n_0]);
+    }
+  }
+  function reduceAcumulate($receiver, init, reductor) {
+    var tmp$;
+    var acc = init;
+    tmp$ = $receiver.iterator();
+    while (tmp$.hasNext()) {
+      var item = tmp$.next();
+      acc = reductor(acc, item);
+    }
+    return acc;
+  }
+  function UnsignedInt(value) {
+    this.value = value;
+  }
+  UnsignedInt.prototype.plus_za3lpa$ = function (that) {
+    return new UnsignedInt(this.value + that | 0);
+  };
+  UnsignedInt.prototype.plus_hiuml5$ = function (that) {
+    return new UnsignedInt(this.value + that.value | 0);
+  };
+  UnsignedInt.prototype.times_za3lpa$ = function (that) {
+    return new UnsignedInt(this.value + that | 0);
+  };
+  UnsignedInt.prototype.times_hiuml5$ = function (that) {
+    return new UnsignedInt(this.value + that.value | 0);
+  };
+  UnsignedInt.prototype.toString = function () {
+    return toStringUnsigned(this.value, 10);
+  };
+  UnsignedInt.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'UnsignedInt',
+    interfaces: []
+  };
+  UnsignedInt.prototype.component1 = function () {
+    return this.value;
+  };
+  UnsignedInt.prototype.copy_za3lpa$ = function (value) {
+    return new UnsignedInt(value === void 0 ? this.value : value);
+  };
+  UnsignedInt.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.value) | 0;
+    return result;
+  };
+  UnsignedInt.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && Kotlin.equals(this.value, other.value))));
+  };
+  function ult($receiver, that) {
+    return util.IntEx.compareUnsigned_vux9f0$($receiver, that) < 0;
+  }
+  function ule($receiver, that) {
+    return util.IntEx.compareUnsigned_vux9f0$($receiver, that) <= 0;
+  }
+  function ugt($receiver, that) {
+    return util.IntEx.compareUnsigned_vux9f0$($receiver, that) > 0;
+  }
+  function uge($receiver, that) {
+    return util.IntEx.compareUnsigned_vux9f0$($receiver, that) >= 0;
+  }
+  function KPspEmuNative() {
+    KPspEmuNative_instance = this;
+  }
+  KPspEmuNative.prototype.getCurrentDirectory = function () {
+    return '.';
+  };
+  KPspEmuNative.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'KPspEmuNative',
+    interfaces: []
+  };
+  var KPspEmuNative_instance = null;
+  function KPspEmuNative_getInstance() {
+    if (KPspEmuNative_instance === null) {
+      new KPspEmuNative();
+    }
+    return KPspEmuNative_instance;
+  }
   var package$com = _.com || (_.com = {});
   var package$soywiz = package$com.soywiz || (package$com.soywiz = {});
   var package$kpspemu = package$soywiz.kpspemu || (package$soywiz.kpspemu = {});
   package$kpspemu.PspThread = PspThread;
   package$kpspemu.Emulator = Emulator;
+  package$kpspemu.main_kand9s$ = main;
   Object.defineProperty(package$kpspemu, 'Main', {
     get: Main_getInstance
   });
   Object.defineProperty(package$kpspemu, 'KpspemuModule', {
     get: KpspemuModule_getInstance
   });
-  Object.defineProperty(package$kpspemu, 'MinifireElf', {
-    get: get_MinifireElf
-  });
   package$kpspemu.KpspemuMainScene = KpspemuMainScene;
-  CpuState.Gpr = CpuState$Gpr;
   var package$cpu = package$kpspemu.cpu || (package$kpspemu.cpu = {});
+  package$cpu.get_K0_he8x89$ = get_K0;
+  package$cpu.set_K0_shbxjr$ = set_K0;
+  package$cpu.get_K1_he8x89$ = get_K1;
+  package$cpu.set_K1_shbxjr$ = set_K1;
+  package$cpu.get_GP_he8x89$ = get_GP;
+  package$cpu.set_GP_shbxjr$ = set_GP;
+  package$cpu.get_SP_he8x89$ = get_SP;
+  package$cpu.set_SP_shbxjr$ = set_SP;
+  package$cpu.get_FP_he8x89$ = get_FP;
+  package$cpu.set_FP_shbxjr$ = set_FP;
+  package$cpu.get_RA_he8x89$ = get_RA;
+  package$cpu.set_RA_shbxjr$ = set_RA;
+  CpuState.Gpr = CpuState$Gpr;
   package$cpu.CpuState = CpuState;
   $$importsForInline$$.kpspemu = _;
   $$importsForInline$$['korio-js'] = $module$korio_js;
@@ -5585,15 +7014,69 @@
   Object.defineProperty(package$cpu, 'InstructionOpcodeDecoder', {
     get: InstructionOpcodeDecoder_getInstance
   });
-  InstructionTable.prototype.VM = InstructionTable$VM;
-  Object.defineProperty(package$cpu, 'InstructionTable', {
-    get: InstructionTable_getInstance
+  Object.defineProperty(package$cpu, 'Instructions', {
+    get: Instructions_getInstance
   });
+  Object.defineProperty(package$cpu, 'ADDR_TYPE_NONE', {
+    get: function () {
+      return ADDR_TYPE_NONE;
+    }
+  });
+  Object.defineProperty(package$cpu, 'ADDR_TYPE_REG', {
+    get: function () {
+      return ADDR_TYPE_REG;
+    }
+  });
+  Object.defineProperty(package$cpu, 'ADDR_TYPE_16', {
+    get: function () {
+      return ADDR_TYPE_16;
+    }
+  });
+  Object.defineProperty(package$cpu, 'ADDR_TYPE_26', {
+    get: function () {
+      return ADDR_TYPE_26;
+    }
+  });
+  Object.defineProperty(package$cpu, 'INSTR_TYPE_PSP', {
+    get: function () {
+      return INSTR_TYPE_PSP;
+    }
+  });
+  Object.defineProperty(package$cpu, 'INSTR_TYPE_SYSCALL', {
+    get: function () {
+      return INSTR_TYPE_SYSCALL;
+    }
+  });
+  Object.defineProperty(package$cpu, 'INSTR_TYPE_B', {
+    get: function () {
+      return INSTR_TYPE_B;
+    }
+  });
+  Object.defineProperty(package$cpu, 'INSTR_TYPE_LIKELY', {
+    get: function () {
+      return INSTR_TYPE_LIKELY;
+    }
+  });
+  Object.defineProperty(package$cpu, 'INSTR_TYPE_JAL', {
+    get: function () {
+      return INSTR_TYPE_JAL;
+    }
+  });
+  Object.defineProperty(package$cpu, 'INSTR_TYPE_JUMP', {
+    get: function () {
+      return INSTR_TYPE_JUMP;
+    }
+  });
+  Object.defineProperty(package$cpu, 'INSTR_TYPE_BREAK', {
+    get: function () {
+      return INSTR_TYPE_BREAK;
+    }
+  });
+  package$cpu.ValueMask = ValueMask;
   package$cpu.InstructionType = InstructionType;
   package$cpu.kescape_pdl1vz$ = kescape;
   package$cpu.Syscalls = Syscalls;
   package$cpu.TraceSyscallHandler = TraceSyscallHandler;
-  package$cpu.RegistrableSyscallHandler = RegistrableSyscallHandler;
   var package$dis = package$cpu.dis || (package$cpu.dis = {});
   Object.defineProperty(package$dis, 'Disassembler', {
     get: Disassembler_getInstance
@@ -5615,91 +7098,24 @@
   });
   Elf.Header = Elf$Header;
   var package$format = package$kpspemu.format || (package$kpspemu.format = {});
-  package$format.Elf = Elf;
-  BaseEnum.Id = BaseEnum$Id;
-  package$format.BaseEnum = BaseEnum;
+  var package$elf = package$format.elf || (package$format.elf = {});
+  package$elf.Elf = Elf;
   Object.defineProperty(ElfProgramHeaderType, 'Companion', {
     get: ElfProgramHeaderType$Companion_getInstance
   });
-  package$format.ElfProgramHeaderType = ElfProgramHeaderType;
-  Object.defineProperty(ElfSectionHeaderType, 'Null', {
-    get: ElfSectionHeaderType$Null_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'ProgramBits', {
-    get: ElfSectionHeaderType$ProgramBits_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'SYMTAB', {
-    get: ElfSectionHeaderType$SYMTAB_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'STRTAB', {
-    get: ElfSectionHeaderType$STRTAB_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'RELA', {
-    get: ElfSectionHeaderType$RELA_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'HASH', {
-    get: ElfSectionHeaderType$HASH_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'DYNAMIC', {
-    get: ElfSectionHeaderType$DYNAMIC_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'NOTE', {
-    get: ElfSectionHeaderType$NOTE_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'NoBits', {
-    get: ElfSectionHeaderType$NoBits_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'Relocation', {
-    get: ElfSectionHeaderType$Relocation_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'SHLIB', {
-    get: ElfSectionHeaderType$SHLIB_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'DYNSYM', {
-    get: ElfSectionHeaderType$DYNSYM_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'LOPROC', {
-    get: ElfSectionHeaderType$LOPROC_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'HIPROC', {
-    get: ElfSectionHeaderType$HIPROC_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'LOUSER', {
-    get: ElfSectionHeaderType$LOUSER_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'HIUSER', {
-    get: ElfSectionHeaderType$HIUSER_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'PrxRelocation', {
-    get: ElfSectionHeaderType$PrxRelocation_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderType, 'PrxRelocation_FW5', {
-    get: ElfSectionHeaderType$PrxRelocation_FW5_getInstance
-  });
+  package$elf.ElfProgramHeaderType = ElfProgramHeaderType;
   Object.defineProperty(ElfSectionHeaderType, 'Companion', {
     get: ElfSectionHeaderType$Companion_getInstance
   });
-  package$format.ElfSectionHeaderType = ElfSectionHeaderType;
-  Object.defineProperty(ElfSectionHeaderFlags, 'None', {
-    get: ElfSectionHeaderFlags$None_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderFlags, 'Write', {
-    get: ElfSectionHeaderFlags$Write_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderFlags, 'Allocate', {
-    get: ElfSectionHeaderFlags$Allocate_getInstance
-  });
-  Object.defineProperty(ElfSectionHeaderFlags, 'Execute', {
-    get: ElfSectionHeaderFlags$Execute_getInstance
-  });
+  package$elf.ElfSectionHeaderType = ElfSectionHeaderType;
   Object.defineProperty(ElfSectionHeaderFlags, 'Companion', {
     get: ElfSectionHeaderFlags$Companion_getInstance
   });
-  package$format.ElfSectionHeaderFlags = ElfSectionHeaderFlags;
+  package$elf.ElfSectionHeaderFlags = ElfSectionHeaderFlags;
   Object.defineProperty(ElfProgramHeaderFlags, 'Companion', {
     get: ElfProgramHeaderFlags$Companion_getInstance
   });
-  package$format.ElfProgramHeaderFlags = ElfProgramHeaderFlags;
+  package$elf.ElfProgramHeaderFlags = ElfProgramHeaderFlags;
   Object.defineProperty(ElfType, 'Executable', {
     get: ElfType$Executable_getInstance
   });
@@ -5709,14 +7125,14 @@
   Object.defineProperty(ElfType, 'Companion', {
     get: ElfType$Companion_getInstance
   });
-  package$format.ElfType = ElfType;
+  package$elf.ElfType = ElfType;
   Object.defineProperty(ElfMachine, 'ALLEGREX', {
     get: ElfMachine$ALLEGREX_getInstance
   });
   Object.defineProperty(ElfMachine, 'Companion', {
     get: ElfMachine$Companion_getInstance
   });
-  package$format.ElfMachine = ElfMachine;
+  package$elf.ElfMachine = ElfMachine;
   Object.defineProperty(ElfPspModuleFlags, 'User', {
     get: ElfPspModuleFlags$User_getInstance
   });
@@ -5726,7 +7142,7 @@
   Object.defineProperty(ElfPspModuleFlags, 'Companion', {
     get: ElfPspModuleFlags$Companion_getInstance
   });
-  package$format.ElfPspModuleFlags = ElfPspModuleFlags;
+  package$elf.ElfPspModuleFlags = ElfPspModuleFlags;
   Object.defineProperty(ElfPspLibFlags, 'DirectJump', {
     get: ElfPspLibFlags$DirectJump_getInstance
   });
@@ -5739,7 +7155,7 @@
   Object.defineProperty(ElfPspLibFlags, 'Companion', {
     get: ElfPspLibFlags$Companion_getInstance
   });
-  package$format.ElfPspLibFlags = ElfPspLibFlags;
+  package$elf.ElfPspLibFlags = ElfPspLibFlags;
   Object.defineProperty(ElfPspModuleNids, 'MODULE_INFO', {
     get: ElfPspModuleNids$MODULE_INFO_getInstance
   });
@@ -5764,7 +7180,7 @@
   Object.defineProperty(ElfPspModuleNids, 'Companion', {
     get: ElfPspModuleNids$Companion_getInstance
   });
-  package$format.ElfPspModuleNids = ElfPspModuleNids;
+  package$elf.ElfPspModuleNids = ElfPspModuleNids;
   Object.defineProperty(ElfRelocType, 'None', {
     get: ElfRelocType$None_getInstance
   });
@@ -5810,81 +7226,127 @@
   Object.defineProperty(ElfRelocType, 'Companion', {
     get: ElfRelocType$Companion_getInstance
   });
-  package$format.ElfRelocType = ElfRelocType;
+  package$elf.ElfRelocType = ElfRelocType;
   Object.defineProperty(ElfReloc, 'Companion', {
     get: ElfReloc$Companion_getInstance
   });
-  package$format.ElfReloc = ElfReloc;
+  package$elf.ElfReloc = ElfReloc;
   Object.defineProperty(ElfProgramHeader, 'Companion', {
     get: ElfProgramHeader$Companion_getInstance
   });
-  package$format.ElfProgramHeader = ElfProgramHeader;
+  package$elf.ElfProgramHeader = ElfProgramHeader;
   Object.defineProperty(ElfSectionHeader, 'Companion', {
     get: ElfSectionHeader$Companion_getInstance
   });
-  package$format.ElfSectionHeader = ElfSectionHeader;
+  package$elf.ElfSectionHeader = ElfSectionHeader;
+  package$elf.ElfDwarf = ElfDwarf;
   Object.defineProperty(ElfPspModuleInfo, 'Companion', {
     get: ElfPspModuleInfo$Companion_getInstance
   });
-  package$format.ElfPspModuleInfo = ElfPspModuleInfo;
+  package$elf.ElfPspModuleInfo = ElfPspModuleInfo;
   Object.defineProperty(ElfPspModuleImport, 'Companion', {
     get: ElfPspModuleImport$Companion_getInstance
   });
-  package$format.ElfPspModuleImport = ElfPspModuleImport;
+  package$elf.ElfPspModuleImport = ElfPspModuleImport;
+  Object.defineProperty(ElfPspModuleExport, 'Companion', {
+    get: ElfPspModuleExport$Companion_getInstance
+  });
+  package$elf.ElfPspModuleExport = ElfPspModuleExport;
+  Object.defineProperty(ElfPspModuleInfoAtributesEnum, 'Companion', {
+    get: ElfPspModuleInfoAtributesEnum$Companion_getInstance
+  });
+  package$elf.ElfPspModuleInfoAtributesEnum = ElfPspModuleInfoAtributesEnum;
+  package$elf.InstructionReader = InstructionReader;
+  package$elf.loadElf_9qh7za$ = loadElf;
+  package$elf.loadElfAndSetRegisters_9qh7za$ = loadElfAndSetRegisters;
+  Object.defineProperty(PspElf, 'Companion', {
+    get: PspElf$Companion_getInstance
+  });
+  PspElf.Res1 = PspElf$Res1;
+  package$elf.PspElf = PspElf;
+  package$elf.Bits = Bits;
+  package$elf.Instruction = Instruction;
+  Object.defineProperty(PixelFormat, 'RGBA_5650', {
+    get: PixelFormat$RGBA_5650_getInstance
+  });
+  Object.defineProperty(PixelFormat, 'RGBA_5551', {
+    get: PixelFormat$RGBA_5551_getInstance
+  });
+  Object.defineProperty(PixelFormat, 'RGBA_4444', {
+    get: PixelFormat$RGBA_4444_getInstance
+  });
+  Object.defineProperty(PixelFormat, 'RGBA_8888', {
+    get: PixelFormat$RGBA_8888_getInstance
+  });
+  Object.defineProperty(PixelFormat, 'PALETTE_T4', {
+    get: PixelFormat$PALETTE_T4_getInstance
+  });
+  Object.defineProperty(PixelFormat, 'PALETTE_T8', {
+    get: PixelFormat$PALETTE_T8_getInstance
+  });
+  Object.defineProperty(PixelFormat, 'PALETTE_T16', {
+    get: PixelFormat$PALETTE_T16_getInstance
+  });
+  Object.defineProperty(PixelFormat, 'PALETTE_T32', {
+    get: PixelFormat$PALETTE_T32_getInstance
+  });
+  Object.defineProperty(PixelFormat, 'COMPRESSED_DXT1', {
+    get: PixelFormat$COMPRESSED_DXT1_getInstance
+  });
+  Object.defineProperty(PixelFormat, 'COMPRESSED_DXT3', {
+    get: PixelFormat$COMPRESSED_DXT3_getInstance
+  });
+  Object.defineProperty(PixelFormat, 'COMPRESSED_DXT5', {
+    get: PixelFormat$COMPRESSED_DXT5_getInstance
+  });
+  Object.defineProperty(PixelFormat, 'Companion', {
+    get: PixelFormat$Companion_getInstance
+  });
   var package$hle = package$kpspemu.hle || (package$kpspemu.hle = {});
+  package$hle.PixelFormat = PixelFormat;
+  var package$manager = package$hle.manager || (package$hle.manager = {});
+  package$manager.MemoryManager = MemoryManager;
+  Object.defineProperty(MemoryPartitions, 'Companion', {
+    get: MemoryPartitions$Companion_getInstance
+  });
+  package$manager.MemoryPartitions = MemoryPartitions;
+  Object.defineProperty(MemoryAnchor, 'Low', {
+    get: MemoryAnchor$Low_getInstance
+  });
+  Object.defineProperty(MemoryAnchor, 'High', {
+    get: MemoryAnchor$High_getInstance
+  });
+  Object.defineProperty(MemoryAnchor, 'Address', {
+    get: MemoryAnchor$Address_getInstance
+  });
+  Object.defineProperty(MemoryAnchor, 'LowAligned', {
+    get: MemoryAnchor$LowAligned_getInstance
+  });
+  Object.defineProperty(MemoryAnchor, 'HighAligned', {
+    get: MemoryAnchor$HighAligned_getInstance
+  });
+  package$manager.MemoryAnchor = MemoryAnchor;
+  package$manager.OutOfMemoryError = OutOfMemoryError;
+  Object.defineProperty(MemoryPartition, 'Companion', {
+    get: MemoryPartition$Companion_getInstance
+  });
+  package$manager.MemoryPartition = MemoryPartition;
+  package$manager.ModuleManager = ModuleManager;
+  package$manager.SyscallManager = SyscallManager;
   var package$modules = package$hle.modules || (package$hle.modules = {});
+  package$modules.registerNativeModules_m3jm4f$ = registerNativeModules;
+  package$modules.registerNativeModules_c03h7v$ = registerNativeModules_0;
   package$modules.RegisterReader = RegisterReader;
-  SceModule.ModuleFunction = SceModule$ModuleFunction;
-  package$modules.SceModule = SceModule;
   package$modules.NativeFunction = NativeFunction;
+  package$modules.SceModule = SceModule;
   package$modules.UtilsForUser = UtilsForUser;
   package$modules.sceCtrl = sceCtrl;
   package$modules.sceDisplay = sceDisplay;
-  var package$mem = package$kpspemu.mem || (package$kpspemu.mem = {});
-  Object.defineProperty(package$mem, 'LWR_MASK', {
-    get: function () {
-      return LWR_MASK;
-    }
-  });
-  Object.defineProperty(package$mem, 'LWR_SHIFT', {
-    get: function () {
-      return LWR_SHIFT;
-    }
-  });
-  Object.defineProperty(package$mem, 'LWL_MASK', {
-    get: function () {
-      return LWL_MASK;
-    }
-  });
-  Object.defineProperty(package$mem, 'LWL_SHIFT', {
-    get: function () {
-      return LWL_SHIFT;
-    }
-  });
-  Object.defineProperty(package$mem, 'SWL_MASK', {
-    get: function () {
-      return SWL_MASK;
-    }
-  });
-  Object.defineProperty(package$mem, 'SWL_SHIFT', {
-    get: function () {
-      return SWL_SHIFT;
-    }
-  });
-  Object.defineProperty(package$mem, 'SWR_MASK', {
-    get: function () {
-      return SWR_MASK;
-    }
-  });
-  Object.defineProperty(package$mem, 'SWR_SHIFT', {
-    get: function () {
-      return SWR_SHIFT;
-    }
-  });
   Object.defineProperty(Memory, 'Companion', {
     get: Memory$Companion_getInstance
   });
   Memory.MemorySegment = Memory$MemorySegment;
+  var package$mem = package$kpspemu.mem || (package$kpspemu.mem = {});
   package$mem.Memory = Memory;
   package$mem.DummyMemory = DummyMemory;
   package$mem.trace_w7fru8$ = trace;
@@ -5894,7 +7356,37 @@
   package$mem.SmallMemory = SmallMemory;
   package$mem.Ptr = Ptr;
   package$mem.MemPtr = MemPtr;
-  MinifireElf = lazy(MinifireElf$lambda);
+  var package$native = package$kpspemu.native || (package$kpspemu.native = {});
+  Object.defineProperty(package$native, 'CurrentVfs', {
+    get: get_CurrentVfs
+  });
+  var package$util = package$kpspemu.util || (package$kpspemu.util = {});
+  package$util.NumericEnum = NumericEnum;
+  package$util.Flags = Flags;
+  package$util.splice_b7gcku$ = splice;
+  package$util.reduceAcumulate_l1hrho$ = reduceAcumulate;
+  package$util.UnsignedInt = UnsignedInt;
+  package$util.ult_dqglrj$ = ult;
+  package$util.ule_dqglrj$ = ule;
+  package$util.ugt_dqglrj$ = ugt;
+  package$util.uge_dqglrj$ = uge;
+  Object.defineProperty(package$native, 'KPspEmuNative', {
+    get: KPspEmuNative_getInstance
+  });
+  ElfProgramHeaderType.prototype.hasFlag_fzutc1$ = Flags.prototype.hasFlag_fzutc1$;
+  ElfSectionHeaderType.prototype.hasFlag_fzutc1$ = Flags.prototype.hasFlag_fzutc1$;
+  ElfSectionHeaderFlags.prototype.hasFlag_fzutc1$ = Flags.prototype.hasFlag_fzutc1$;
+  ADDR_TYPE_NONE = 0;
+  ADDR_TYPE_REG = 1;
+  ADDR_TYPE_16 = 2;
+  ADDR_TYPE_26 = 3;
+  INSTR_TYPE_PSP = 1 << 0;
+  INSTR_TYPE_SYSCALL = 1 << 1;
+  INSTR_TYPE_B = 1 << 2;
+  INSTR_TYPE_LIKELY = 1 << 3;
+  INSTR_TYPE_JAL = 1 << 4;
+  INSTR_TYPE_JUMP = 1 << 5;
+  INSTR_TYPE_BREAK = 1 << 6;
   MASK = 268435455;
   LWR_MASK = new Int32Array([0, (new Kotlin.Long(-16777216, 0)).toInt(), (new Kotlin.Long(-65536, 0)).toInt(), (new Kotlin.Long(-256, 0)).toInt()]);
   LWR_SHIFT = new Int32Array([0, 8, 16, 24]);
@@ -5904,6 +7396,8 @@
   SWL_SHIFT = new Int32Array([24, 16, 8, 0]);
   SWR_MASK = new Int32Array([0, 255, 65535, 16777215]);
   SWR_SHIFT = new Int32Array([0, 8, 16, 24]);
+  CurrentVfs = lazy(CurrentVfs$lambda);
+  main([]);
   Kotlin.defineModule('kpspemu', _);
   return _;
 }));

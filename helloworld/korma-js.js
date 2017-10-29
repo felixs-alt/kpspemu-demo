@@ -32,7 +32,9 @@
   var print = Kotlin.kotlin.io.print_s8jyv4$;
   var println = Kotlin.kotlin.io.println;
   var until = Kotlin.kotlin.ranges.until_dqglrj$;
-  var joinToString = Kotlin.kotlin.collections.joinToString_fmv235$;
+  var toCharArray = Kotlin.kotlin.collections.toCharArray_rr68x$;
+  var joinToString = Kotlin.kotlin.collections.joinToString_xqrb1d$;
+  var joinToString_0 = Kotlin.kotlin.collections.joinToString_fmv235$;
   var unboxChar = Kotlin.unboxChar;
   var Iterable = Kotlin.kotlin.collections.Iterable;
   var copyOf = Kotlin.kotlin.collections.copyOf_xgrzbe$;
@@ -1872,14 +1874,14 @@
         var item_0 = tmp$_1.next();
         destination_0.add_11rb$(charMap(this.get_vux9f0$(item_0, item)));
       }
-      tmp$_0.call(destination, margin + joinToString(destination_0, ''));
+      tmp$_0.call(destination, margin + joinToString(toCharArray(destination_0), ''));
     }
     return destination;
   };
   Array2.prototype.toString_s6lhx2$ = function (margin, charMap) {
     if (margin === void 0)
       margin = '';
-    return joinToString(this.toStringList_9fqlme$(charMap, margin), '\n');
+    return joinToString_0(this.toStringList_9fqlme$(charMap, margin), '\n');
   };
   function Array2$toString$lambda(closure$map) {
     return function (it) {
