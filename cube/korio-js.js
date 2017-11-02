@@ -15,6 +15,7 @@
 }(this, function (_, Kotlin, $module$klock_js) {
   'use strict';
   var $$importsForInline$$ = _.$$importsForInline$$ || (_.$$importsForInline$$ = {});
+  var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var wrapFunction = Kotlin.wrapFunction;
   var Regex = Kotlin.kotlin.text.Regex_61zpoe$;
   var CoroutineImpl = Kotlin.kotlin.coroutines.experimental.CoroutineImpl;
@@ -27,7 +28,6 @@
   var Unit = Kotlin.kotlin.Unit;
   var StringBuilder = Kotlin.kotlin.text.StringBuilder;
   var Kind_CLASS = Kotlin.Kind.CLASS;
-  var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var Any = Object;
   var throwCCE = Kotlin.throwCCE;
   var defineInlineFunction = Kotlin.defineInlineFunction;
@@ -154,6 +154,7 @@
   var last_0 = Kotlin.kotlin.collections.last_964n91$;
   var Pair = Kotlin.kotlin.Pair;
   var indexOf = Kotlin.kotlin.collections.indexOf_jlnu8a$;
+  var mapOf = Kotlin.kotlin.collections.mapOf_x2b85n$;
   var arrayListOf = Kotlin.kotlin.collections.arrayListOf_i5x0yv$;
   var abs = Kotlin.kotlin.math.abs_s8cxhz$;
   var abs_0 = Kotlin.kotlin.math.abs_za3lpa$;
@@ -389,6 +390,22 @@
   NodeFDStream.prototype.constructor = NodeFDStream;
   function Korio(entry) {
     EventLoop$Companion_getInstance().main_6q182l$(entry);
+  }
+  function Korio_0() {
+    Korio_instance = this;
+    this.VERSION = KORIO_VERSION;
+  }
+  Korio_0.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Korio',
+    interfaces: []
+  };
+  var Korio_instance = null;
+  function Korio_getInstance() {
+    if (Korio_instance === null) {
+      new Korio_0();
+    }
+    return Korio_instance;
   }
   function KorioNativeDefaults() {
     KorioNativeDefaults_instance = this;
@@ -1090,6 +1107,7 @@
     }
     return KorioNativeDefaults_instance;
   }
+  var KORIO_VERSION;
   function AsyncQueue() {
     this.promise_0 = Promise$Companion_getInstance().resolved_mh5how$(Unit);
   }
@@ -2735,10 +2753,13 @@
   };
   function ExceptionHook() {
     ExceptionHook_instance = this;
+    this.show = false;
   }
   ExceptionHook.prototype.hook_849n7l$ = function (exception) {
-    Console_getInstance().error_s8jyv4$('ExceptionHook: ' + exception);
-    printStackTrace(exception);
+    if (this.show) {
+      Console_getInstance().error_s8jyv4$('ExceptionHook: ' + exception);
+      printStackTrace(exception);
+    }
     return exception;
   };
   ExceptionHook.$metadata$ = {
@@ -2926,8 +2947,10 @@
         tmp$ = this.rejectedHandlers_0.isEmpty();
       }
       if (tmp$ && !Kotlin.isType(error, CancellationException)) {
-        Console_getInstance().error_s8jyv4$('## Not handled Promise exception:');
-        printStackTrace(error);
+        if (!Kotlin.isType(error, CancellationException)) {
+          Console_getInstance().error_s8jyv4$('## Not handled Promise exception:');
+          printStackTrace(error);
+        }
       }
       this.flush_0();
     }
@@ -22355,6 +22378,11 @@
   function toAsyncOutputStream_0($receiver) {
     return new toAsyncOutputStream$ObjectLiteral($receiver);
   }
+  function asVfsFile($receiver, name) {
+    if (name === void 0)
+      name = 'unknown.bin';
+    return MemoryVfs(mapOf(to(name, $receiver))).get_61zpoe$(name);
+  }
   function FastByteArrayInputStream(ba, offset) {
     if (offset === void 0)
       offset = 0;
@@ -36173,8 +36201,15 @@
       }
      while (true);
   };
-  function ZipVfs$normalizeName($receiver) {
-    return trim($receiver, Kotlin.charArrayOf(47));
+  function ZipVfs(s, zipFile, continuation) {
+    if (zipFile === void 0)
+      zipFile = null;
+    return ZipVfs_0(s, zipFile, true, continuation);
+  }
+  function ZipVfs$normalizeName(closure$caseSensitive) {
+    return function ($receiver) {
+      return closure$caseSensitive ? trim($receiver, Kotlin.charArrayOf(47)) : trim($receiver, Kotlin.charArrayOf(47)).toLowerCase();
+    };
   }
   function ZipVfs$ZipEntry(path, compressionMethod, isDirectory, time, offset, inode, headerEntry, compressedSize, uncompressedSize) {
     this.path = path;
@@ -36569,14 +36604,14 @@
     interfaces: [Vfs]
   };
   var max = Kotlin.kotlin.js.max_bug313$;
-  function ZipVfs(s_0, zipFile_0, continuation_0, suspended) {
-    var instance = new Coroutine$ZipVfs(s_0, zipFile_0, continuation_0);
+  function ZipVfs_0(s_0, zipFile_0, caseSensitive_0, continuation_0, suspended) {
+    var instance = new Coroutine$ZipVfs(s_0, zipFile_0, caseSensitive_0, continuation_0);
     if (suspended)
       return instance;
     else
       return instance.doResume(null);
   }
-  function Coroutine$ZipVfs(s_0, zipFile_0, continuation_0) {
+  function Coroutine$ZipVfs(s_0, zipFile_0, caseSensitive_0, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
     this.exceptionState_0 = 1;
     this.local$tmp$ = void 0;
@@ -36606,6 +36641,7 @@
     this.local$folder = void 0;
     this.local$s = s_0;
     this.local$zipFile = zipFile_0;
+    this.local$caseSensitive = caseSensitive_0;
   }
   Coroutine$ZipVfs.$metadata$ = {
     kind: Kotlin.Kind.CLASS,
@@ -36621,6 +36657,8 @@
           case 0:
             if (this.local$zipFile === void 0)
               this.local$zipFile = null;
+            if (this.local$caseSensitive === void 0)
+              this.local$caseSensitive = true;
             this.local$endBytes = EMPTY_BYTE_ARRAY;
             this.local$PK_END = new Int8Array([80, 75, 5, 6]);
             this.local$pk_endIndex = -1;
@@ -36683,7 +36721,7 @@
             var fromIndex = this.local$pk_endIndex;
             var toIndex = this.local$endBytes.length;
             var data = openSync($receiver.slice(fromIndex, toIndex));
-            this.local$normalizeName = ZipVfs$normalizeName;
+            this.local$normalizeName = ZipVfs$normalizeName(this.local$caseSensitive);
             this.local$toStat = ZipVfs$toStat;
             this.local$files = lmapOf([]);
             this.local$filesPerFolder = lmapOf([]);
@@ -36930,8 +36968,63 @@
       }
      while (true);
   };
-  function openAsZip_0($receiver, continuation) {
+  function openAsZip_0($receiver_0, caseSensitive_0, continuation_0, suspended) {
+    var instance = new Coroutine$openAsZip_0($receiver_0, caseSensitive_0, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  }
+  function Coroutine$openAsZip_0($receiver_0, caseSensitive_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.local$$receiver = $receiver_0;
+    this.local$caseSensitive = caseSensitive_0;
+  }
+  Coroutine$openAsZip_0.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$openAsZip_0.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$openAsZip_0.prototype.constructor = Coroutine$openAsZip_0;
+  Coroutine$openAsZip_0.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 2;
+            this.result_0 = this.local$$receiver.open_7c7tmz$(VfsOpenMode$READ_getInstance(), this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            this.state_0 = 3;
+            this.result_0 = ZipVfs_0(this.result_0, this.local$$receiver, this.local$caseSensitive, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 3:
+            return this.result_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  function openAsZip_1($receiver, continuation) {
     return ZipVfs($receiver, void 0, continuation);
+  }
+  function openAsZip_2($receiver, caseSensitive, continuation) {
+    return ZipVfs_0($receiver, void 0, caseSensitive, continuation);
   }
   function InflateAsyncStream(base, inflater, uncompressedSize) {
     if (uncompressedSize === void 0)
@@ -39734,9 +39827,17 @@
   var package$soywiz = package$com.soywiz || (package$com.soywiz = {});
   var package$korio = package$soywiz.korio || (package$soywiz.korio = {});
   package$korio.Korio_6q182l$ = Korio;
+  Object.defineProperty(package$korio, 'Korio', {
+    get: Korio_getInstance
+  });
   $$importsForInline$$['korio-js'] = _;
   Object.defineProperty(package$korio, 'KorioNativeDefaults', {
     get: KorioNativeDefaults_getInstance
+  });
+  Object.defineProperty(package$korio, 'KORIO_VERSION', {
+    get: function () {
+      return KORIO_VERSION;
+    }
   });
   var package$async = package$korio.async || (package$korio.async = {});
   package$async.AsyncQueue = AsyncQueue;
@@ -40458,6 +40559,7 @@
   package$stream.readLine_kt587k$ = readLine;
   package$stream.toAsyncInputStream_p2awyq$ = toAsyncInputStream_0;
   package$stream.toAsyncOutputStream_tjlpjf$ = toAsyncOutputStream_0;
+  package$stream.asVfsFile_igl5gt$ = asVfsFile;
   package$stream.FastByteArrayInputStream = FastByteArrayInputStream;
   Object.defineProperty(SyncProduceConsumerByteBuffer, 'Companion', {
     get: SyncProduceConsumerByteBuffer$Companion_getInstance
@@ -41080,8 +41182,11 @@
   package$vfs.treeCreateZip_93ma6j$ = treeCreateZip;
   package$vfs.treeCreateZipTo_whpkrx$ = treeCreateZipTo;
   package$vfs.ZipVfs_960o6l$ = ZipVfs;
+  package$vfs.ZipVfs_jkqsl6$ = ZipVfs_0;
   package$vfs.openAsZip_93ma6j$ = openAsZip;
-  package$vfs.openAsZip_g5ykjz$ = openAsZip_0;
+  package$vfs.openAsZip_7vzkt6$ = openAsZip_0;
+  package$vfs.openAsZip_g5ykjz$ = openAsZip_1;
+  package$vfs.openAsZip_ysx5pw$ = openAsZip_2;
   package$vfs.InflateAsyncStream = InflateAsyncStream;
   package$korio.Synchronized = Synchronized;
   package$korio.JvmField = JvmField;
@@ -41191,6 +41296,7 @@
   toAsyncOutputStream$ObjectLiteral.prototype.write_mj6st8$ = AsyncOutputStream.prototype.write_mj6st8$;
   Cancellable$Companion$invoke$ObjectLiteral.prototype.cancel_tcv7n7$ = Cancellable.prototype.cancel_tcv7n7$;
   NodeJsAsyncClient.prototype.write_mj6st8$ = AsyncClient.prototype.write_mj6st8$;
+  KORIO_VERSION = '0.15.3';
   tasksInProgress = new AtomicInteger(0);
   COROUTINE_SUSPENDED_0 = COROUTINE_SUSPENDED;
   UTF8 = UTF8Charset_getInstance();

@@ -1,8 +1,8 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd)
-    define(['exports', 'kotlin', 'korio-js', 'korag-js', 'korim-js', 'korma-js', 'korui-js', 'korau-js'], factory);
+    define(['exports', 'kotlin', 'korio-js', 'korag-js', 'korui-js', 'korim-js', 'korma-js', 'korau-js'], factory);
   else if (typeof exports === 'object')
-    factory(module.exports, require('kotlin'), require('korio-js'), require('korag-js'), require('korim-js'), require('korma-js'), require('korui-js'), require('korau-js'));
+    factory(module.exports, require('kotlin'), require('korio-js'), require('korag-js'), require('korui-js'), require('korim-js'), require('korma-js'), require('korau-js'));
   else {
     if (typeof kotlin === 'undefined') {
       throw new Error("Error loading module 'korge-js'. Its dependency 'kotlin' was not found. Please, check whether 'kotlin' is loaded prior to 'korge-js'.");
@@ -13,31 +13,33 @@
     if (typeof this['korag-js'] === 'undefined') {
       throw new Error("Error loading module 'korge-js'. Its dependency 'korag-js' was not found. Please, check whether 'korag-js' is loaded prior to 'korge-js'.");
     }
+    if (typeof this['korui-js'] === 'undefined') {
+      throw new Error("Error loading module 'korge-js'. Its dependency 'korui-js' was not found. Please, check whether 'korui-js' is loaded prior to 'korge-js'.");
+    }
     if (typeof this['korim-js'] === 'undefined') {
       throw new Error("Error loading module 'korge-js'. Its dependency 'korim-js' was not found. Please, check whether 'korim-js' is loaded prior to 'korge-js'.");
     }
     if (typeof this['korma-js'] === 'undefined') {
       throw new Error("Error loading module 'korge-js'. Its dependency 'korma-js' was not found. Please, check whether 'korma-js' is loaded prior to 'korge-js'.");
     }
-    if (typeof this['korui-js'] === 'undefined') {
-      throw new Error("Error loading module 'korge-js'. Its dependency 'korui-js' was not found. Please, check whether 'korui-js' is loaded prior to 'korge-js'.");
-    }
     if (typeof this['korau-js'] === 'undefined') {
       throw new Error("Error loading module 'korge-js'. Its dependency 'korau-js' was not found. Please, check whether 'korau-js' is loaded prior to 'korge-js'.");
     }
-    root['korge-js'] = factory(typeof this['korge-js'] === 'undefined' ? {} : this['korge-js'], kotlin, this['korio-js'], this['korag-js'], this['korim-js'], this['korma-js'], this['korui-js'], this['korau-js']);
+    root['korge-js'] = factory(typeof this['korge-js'] === 'undefined' ? {} : this['korge-js'], kotlin, this['korio-js'], this['korag-js'], this['korui-js'], this['korim-js'], this['korma-js'], this['korau-js']);
   }
-}(this, function (_, Kotlin, $module$korio_js, $module$korag_js, $module$korim_js, $module$korma_js, $module$korui_js, $module$korau_js) {
+}(this, function (_, Kotlin, $module$korio_js, $module$korag_js, $module$korui_js, $module$korim_js, $module$korma_js, $module$korau_js) {
   'use strict';
   var $$importsForInline$$ = _.$$importsForInline$$ || (_.$$importsForInline$$ = {});
   var CoroutineImpl = Kotlin.kotlin.coroutines.experimental.CoroutineImpl;
   var COROUTINE_SUSPENDED = Kotlin.kotlin.coroutines.experimental.intrinsics.COROUTINE_SUSPENDED;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
+  var throwNPE = Kotlin.throwNPE;
   var getKClass = Kotlin.getKClass;
   var EventLoop = $module$korio_js.com.soywiz.korio.async.EventLoop;
   var AG = $module$korag_js.com.soywiz.korag.AG;
   var AsyncInjector = $module$korio_js.com.soywiz.korio.inject.AsyncInjector;
-  var throwNPE = Kotlin.throwNPE;
+  var AGContainer = $module$korag_js.com.soywiz.korag.AGContainer;
+  var Frame = $module$korui_js.com.soywiz.korui.ui.Frame;
   var korim = $module$korim_js.com.soywiz.korim;
   var register = $module$korio_js.com.soywiz.korio.vfs.register_rxeamr$;
   var toList = Kotlin.kotlin.collections.toList_us0mfu$;
@@ -51,9 +53,8 @@
   var readBitmap = $module$korim_js.com.soywiz.korim.format.readBitmap_ub4gzs$;
   var printStackTrace = $module$korio_js.com.soywiz.korio.lang.printStackTrace_dbl4o4$;
   var Throwable = Error;
-  var go = $module$korio_js.com.soywiz.korio.async.go_o1g0bv$;
-  var CanvasApplication = $module$korui_js.com.soywiz.korui.CanvasApplication_4lq8kv$;
-  var withCoroutineContext = $module$korio_js.com.soywiz.korio.coroutine.withCoroutineContext_3hy5wj$;
+  var go = $module$korio_js.com.soywiz.korio.async.go_3hy5wj$;
+  var CanvasApplicationEx = $module$korui_js.com.soywiz.korui.CanvasApplicationEx_ig5l1g$;
   var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
   var throwCCE = Kotlin.throwCCE;
@@ -63,6 +64,7 @@
   var getPropertyCallableRef = Kotlin.getPropertyCallableRef;
   var Extra = $module$korio_js.com.soywiz.korio.util.Extra;
   var Extra$Property = $module$korio_js.com.soywiz.korio.util.Extra.Property;
+  var go_0 = $module$korio_js.com.soywiz.korio.async.go_o1g0bv$;
   var Signal = $module$korio_js.com.soywiz.korio.async.Signal;
   var getOrNull = Kotlin.kotlin.collections.getOrNull_yzln2o$;
   var Anchor = $module$korma_js.com.soywiz.korma.geom.Anchor;
@@ -147,7 +149,7 @@
   var registerNativeSoundSpecialReader = $module$korau_js.com.soywiz.korau.sound.registerNativeSoundSpecialReader;
   var LinkedHashSet_init = Kotlin.kotlin.collections.LinkedHashSet_init_287e2$;
   var AsyncDependency = $module$korio_js.com.soywiz.korio.inject.AsyncDependency;
-  var go_0 = $module$korio_js.com.soywiz.korio.async.go_g3zeo5$;
+  var go_1 = $module$korio_js.com.soywiz.korio.async.go_g3zeo5$;
   var Extra$PropertyThis = $module$korio_js.com.soywiz.korio.util.Extra.PropertyThis;
   var color = $module$korim_js.com.soywiz.korim.color;
   var get_indices_1 = Kotlin.kotlin.text.get_indices_gw00vp$;
@@ -181,7 +183,7 @@
   var throwISE = Kotlin.throwISE;
   var copyRangeTo = $module$korio_js.com.soywiz.korio.typedarray.copyRangeTo_s7t09n$;
   var AsyncSignal = $module$korio_js.com.soywiz.korio.async.AsyncSignal;
-  var go_1 = $module$korio_js.com.soywiz.korio.async.go_n2b8nk$;
+  var go_2 = $module$korio_js.com.soywiz.korio.async.go_n2b8nk$;
   var toShort = Kotlin.toShort;
   var korag = $module$korag_js.com.soywiz.korag;
   var FragmentShader = $module$korag_js.com.soywiz.korag.shader.FragmentShader_8zzl3$;
@@ -213,7 +215,6 @@
   var sync = $module$korio_js.com.soywiz.korio.async.sync_7ntyfz$;
   var Any = Object;
   var AGInput = $module$korag_js.com.soywiz.korag.AGInput;
-  var AGContainer = $module$korag_js.com.soywiz.korag.AGContainer;
   var EventLoopTest = $module$korio_js.com.soywiz.korio.async.EventLoopTest;
   var interpolate_0 = $module$korma_js.com.soywiz.korma.interpolation.interpolate_i767ff$;
   var Interpolable = $module$korma_js.com.soywiz.korma.interpolation.Interpolable;
@@ -239,7 +240,6 @@
   var toDoubleOrNull = Kotlin.kotlin.text.toDoubleOrNull_pdl1vz$;
   var removeAll = Kotlin.kotlin.collections.removeAll_qafx1e$;
   var MustOverrideException = $module$korio_js.com.soywiz.korio.error.MustOverrideException;
-  var go_2 = $module$korio_js.com.soywiz.korio.async.go_3hy5wj$;
   var go_3 = $module$korio_js.com.soywiz.korio.async.go_nkciq8$;
   var ScaleMode = $module$korma_js.com.soywiz.korma.geom.ScaleMode;
   var LogAG = $module$korag_js.com.soywiz.korag.log.LogAG;
@@ -353,7 +353,7 @@
   TileMap.prototype.constructor = TileMap;
   function Korge() {
     Korge_instance = this;
-    this.VERSION = '0.14.0';
+    this.VERSION = KORGE_VERSION;
   }
   function Korge$setupCanvas$lambda($receiver_0, continuation_0, suspended) {
     var instance = new Coroutine$Korge$setupCanvas$lambda($receiver_0, this, continuation_0);
@@ -700,10 +700,14 @@
             if (this.local$config.trace)
               println('Korge.setupCanvas[1]');
             this.local$injector = this.local$config.injector;
-            this.local$injector.mapSingleton_7g6y7r$(getKClass(Views), Korge$setupCanvas$lambda).mapSingleton_7g6y7r$(getKClass(Input), Korge$setupCanvas$lambda_0).mapInstance_b1ce0a$(getKClass(KorgePlugins), defaultKorgePlugins).mapPrototype_7g6y7r$(getKClass(EmptyScene), Korge$setupCanvas$lambda_1).mapSingleton_7g6y7r$(getKClass(ResourcesRoot), Korge$setupCanvas$lambda_2);
             this.local$container = (tmp$ = this.local$config.container) != null ? tmp$ : throwNPE();
             this.local$ag = this.local$container.ag;
             var size = this.local$config.module.size;
+            this.local$injector.mapSingleton_7g6y7r$(getKClass(Views), Korge$setupCanvas$lambda).mapSingleton_7g6y7r$(getKClass(Input), Korge$setupCanvas$lambda_0).mapInstance_b1ce0a$(getKClass(KorgePlugins), defaultKorgePlugins).mapInstance_b1ce0a$(getKClass(Korge$Config), this.local$config).mapInstance_b1ce0a$(getKClass(AGContainer), this.local$container).mapInstance_b1ce0a$(getKClass(AG), this.local$ag).mapPrototype_7g6y7r$(getKClass(EmptyScene), Korge$setupCanvas$lambda_1).mapSingleton_7g6y7r$(getKClass(ResourcesRoot), Korge$setupCanvas$lambda_2);
+            if (this.local$config.frame != null) {
+              this.local$injector.mapInstance_b1ce0a$(getKClass(Frame), this.local$config.frame);
+            }
+
             tmp$_0 = this.local$config.module.plugins.iterator();
             while (tmp$_0.hasNext()) {
               var plugin = tmp$_0.next();
@@ -872,7 +876,7 @@
         switch (this.state_0) {
           case 0:
             this.state_0 = 2;
-            this.result_0 = this.local$this$Korge.test_dnucxw$(new Korge$Config(this.local$closure$module, this.local$closure$args, this.local$closure$container, this.local$closure$sceneClass, this.local$closure$sceneInjects, this.local$closure$timeProvider, this.local$closure$injector, this.local$closure$debug, this.local$closure$trace, this.local$closure$constructedViews), this);
+            this.result_0 = this.local$this$Korge.test_dnucxw$(new Korge$Config(this.local$closure$module, this.local$closure$args, this.local$closure$container, void 0, this.local$closure$sceneClass, this.local$closure$sceneInjects, this.local$closure$timeProvider, this.local$closure$injector, this.local$closure$debug, this.local$closure$trace, this.local$closure$constructedViews), this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -917,11 +921,13 @@
       eventLoop = korui.KoruiEventLoop.instance;
     EventLoop.Companion.main_3513f7$(eventLoop, Korge$invoke$lambda_0(module_0, args, container, sceneClass, sceneInjects, injector, timeProvider, debug, trace, constructedViews, this));
   };
-  function Korge$Config(module_0, args, container, sceneClass, sceneInjects, timeProvider, injector, debug, trace, constructedViews, eventLoop) {
+  function Korge$Config(module_0, args, container, frame, sceneClass, sceneInjects, timeProvider, injector, debug, trace, constructedViews, eventLoop) {
     if (args === void 0)
       args = [];
     if (container === void 0)
       container = null;
+    if (frame === void 0)
+      frame = null;
     if (sceneClass === void 0)
       sceneClass = module_0.mainScene;
     if (sceneInjects === void 0) {
@@ -942,6 +948,7 @@
     this.module = module_0;
     this.args = args;
     this.container = container;
+    this.frame = frame;
     this.sceneClass = sceneClass;
     this.sceneInjects = sceneInjects;
     this.timeProvider = timeProvider;
@@ -969,40 +976,44 @@
     return this.container;
   };
   Korge$Config.prototype.component4 = function () {
-    return this.sceneClass;
+    return this.frame;
   };
   Korge$Config.prototype.component5 = function () {
-    return this.sceneInjects;
+    return this.sceneClass;
   };
   Korge$Config.prototype.component6 = function () {
-    return this.timeProvider;
+    return this.sceneInjects;
   };
   Korge$Config.prototype.component7 = function () {
-    return this.injector;
+    return this.timeProvider;
   };
   Korge$Config.prototype.component8 = function () {
-    return this.debug;
+    return this.injector;
   };
   Korge$Config.prototype.component9 = function () {
-    return this.trace;
+    return this.debug;
   };
   Korge$Config.prototype.component10 = function () {
-    return this.constructedViews;
+    return this.trace;
   };
   Korge$Config.prototype.component11 = function () {
+    return this.constructedViews;
+  };
+  Korge$Config.prototype.component12 = function () {
     return this.eventLoop;
   };
-  Korge$Config.prototype.copy_lakzb2$ = function (module_0, args, container, sceneClass, sceneInjects, timeProvider, injector, debug, trace, constructedViews, eventLoop) {
-    return new Korge$Config(module_0 === void 0 ? this.module : module_0, args === void 0 ? this.args : args, container === void 0 ? this.container : container, sceneClass === void 0 ? this.sceneClass : sceneClass, sceneInjects === void 0 ? this.sceneInjects : sceneInjects, timeProvider === void 0 ? this.timeProvider : timeProvider, injector === void 0 ? this.injector : injector, debug === void 0 ? this.debug : debug, trace === void 0 ? this.trace : trace, constructedViews === void 0 ? this.constructedViews : constructedViews, eventLoop === void 0 ? this.eventLoop : eventLoop);
+  Korge$Config.prototype.copy_2efb1w$ = function (module_0, args, container, frame, sceneClass, sceneInjects, timeProvider, injector, debug, trace, constructedViews, eventLoop) {
+    return new Korge$Config(module_0 === void 0 ? this.module : module_0, args === void 0 ? this.args : args, container === void 0 ? this.container : container, frame === void 0 ? this.frame : frame, sceneClass === void 0 ? this.sceneClass : sceneClass, sceneInjects === void 0 ? this.sceneInjects : sceneInjects, timeProvider === void 0 ? this.timeProvider : timeProvider, injector === void 0 ? this.injector : injector, debug === void 0 ? this.debug : debug, trace === void 0 ? this.trace : trace, constructedViews === void 0 ? this.constructedViews : constructedViews, eventLoop === void 0 ? this.eventLoop : eventLoop);
   };
   Korge$Config.prototype.toString = function () {
-    return 'Config(module=' + Kotlin.toString(this.module) + (', args=' + Kotlin.toString(this.args)) + (', container=' + Kotlin.toString(this.container)) + (', sceneClass=' + Kotlin.toString(this.sceneClass)) + (', sceneInjects=' + Kotlin.toString(this.sceneInjects)) + (', timeProvider=' + Kotlin.toString(this.timeProvider)) + (', injector=' + Kotlin.toString(this.injector)) + (', debug=' + Kotlin.toString(this.debug)) + (', trace=' + Kotlin.toString(this.trace)) + (', constructedViews=' + Kotlin.toString(this.constructedViews)) + (', eventLoop=' + Kotlin.toString(this.eventLoop)) + ')';
+    return 'Config(module=' + Kotlin.toString(this.module) + (', args=' + Kotlin.toString(this.args)) + (', container=' + Kotlin.toString(this.container)) + (', frame=' + Kotlin.toString(this.frame)) + (', sceneClass=' + Kotlin.toString(this.sceneClass)) + (', sceneInjects=' + Kotlin.toString(this.sceneInjects)) + (', timeProvider=' + Kotlin.toString(this.timeProvider)) + (', injector=' + Kotlin.toString(this.injector)) + (', debug=' + Kotlin.toString(this.debug)) + (', trace=' + Kotlin.toString(this.trace)) + (', constructedViews=' + Kotlin.toString(this.constructedViews)) + (', eventLoop=' + Kotlin.toString(this.eventLoop)) + ')';
   };
   Korge$Config.prototype.hashCode = function () {
     var result = 0;
     result = result * 31 + Kotlin.hashCode(this.module) | 0;
     result = result * 31 + Kotlin.hashCode(this.args) | 0;
     result = result * 31 + Kotlin.hashCode(this.container) | 0;
+    result = result * 31 + Kotlin.hashCode(this.frame) | 0;
     result = result * 31 + Kotlin.hashCode(this.sceneClass) | 0;
     result = result * 31 + Kotlin.hashCode(this.sceneInjects) | 0;
     result = result * 31 + Kotlin.hashCode(this.timeProvider) | 0;
@@ -1014,40 +1025,41 @@
     return result;
   };
   Korge$Config.prototype.equals = function (other) {
-    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.module, other.module) && Kotlin.equals(this.args, other.args) && Kotlin.equals(this.container, other.container) && Kotlin.equals(this.sceneClass, other.sceneClass) && Kotlin.equals(this.sceneInjects, other.sceneInjects) && Kotlin.equals(this.timeProvider, other.timeProvider) && Kotlin.equals(this.injector, other.injector) && Kotlin.equals(this.debug, other.debug) && Kotlin.equals(this.trace, other.trace) && Kotlin.equals(this.constructedViews, other.constructedViews) && Kotlin.equals(this.eventLoop, other.eventLoop)))));
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.module, other.module) && Kotlin.equals(this.args, other.args) && Kotlin.equals(this.container, other.container) && Kotlin.equals(this.frame, other.frame) && Kotlin.equals(this.sceneClass, other.sceneClass) && Kotlin.equals(this.sceneInjects, other.sceneInjects) && Kotlin.equals(this.timeProvider, other.timeProvider) && Kotlin.equals(this.injector, other.injector) && Kotlin.equals(this.debug, other.debug) && Kotlin.equals(this.trace, other.trace) && Kotlin.equals(this.constructedViews, other.constructedViews) && Kotlin.equals(this.eventLoop, other.eventLoop)))));
   };
-  function Korge$test$lambda$lambda$lambda(closure$done_0, closure$config_0, closure$it_0, this$Korge_0) {
+  function Korge$test$lambda$lambda(closure$done_0, closure$config_0, closure$container_0, closure$frame_0, this$Korge_0) {
     return function ($receiver, continuation_0, suspended) {
-      var instance = new Coroutine$Korge$test$lambda$lambda$lambda(closure$done_0, closure$config_0, closure$it_0, this$Korge_0, $receiver, this, continuation_0);
+      var instance = new Coroutine$Korge$test$lambda$lambda(closure$done_0, closure$config_0, closure$container_0, closure$frame_0, this$Korge_0, $receiver, this, continuation_0);
       if (suspended)
         return instance;
       else
         return instance.doResume(null);
     };
   }
-  function Coroutine$Korge$test$lambda$lambda$lambda(closure$done_0, closure$config_0, closure$it_0, this$Korge_0, $receiver, controller, continuation_0) {
+  function Coroutine$Korge$test$lambda$lambda(closure$done_0, closure$config_0, closure$container_0, closure$frame_0, this$Korge_0, $receiver, controller, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
     this.$controller = controller;
     this.exceptionState_0 = 1;
     this.local$closure$done = closure$done_0;
     this.local$closure$config = closure$config_0;
-    this.local$closure$it = closure$it_0;
+    this.local$closure$container = closure$container_0;
+    this.local$closure$frame = closure$frame_0;
     this.local$this$Korge = this$Korge_0;
   }
-  Coroutine$Korge$test$lambda$lambda$lambda.$metadata$ = {
+  Coroutine$Korge$test$lambda$lambda.$metadata$ = {
     kind: Kotlin.Kind.CLASS,
     simpleName: null,
     interfaces: [CoroutineImpl]
   };
-  Coroutine$Korge$test$lambda$lambda$lambda.prototype = Object.create(CoroutineImpl.prototype);
-  Coroutine$Korge$test$lambda$lambda$lambda.prototype.constructor = Coroutine$Korge$test$lambda$lambda$lambda;
-  Coroutine$Korge$test$lambda$lambda$lambda.prototype.doResume = function () {
+  Coroutine$Korge$test$lambda$lambda.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$Korge$test$lambda$lambda.prototype.constructor = Coroutine$Korge$test$lambda$lambda;
+  Coroutine$Korge$test$lambda$lambda.prototype.doResume = function () {
     do
       try {
         switch (this.state_0) {
           case 0:
             this.state_0 = 2;
-            this.result_0 = this.local$this$Korge.setupCanvas_dnucxw$(this.local$closure$config.copy_lakzb2$(void 0, void 0, this.local$closure$it), this);
+            this.result_0 = this.local$this$Korge.setupCanvas_dnucxw$(this.local$closure$config.copy_2efb1w$(void 0, void 0, this.local$closure$container, this.local$closure$frame), this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -1067,69 +1079,23 @@
       }
      while (true);
   };
-  function Korge$test$lambda$lambda(closure$done_0, closure$config_0, this$Korge_0, this$_0) {
-    return function (it_0, continuation_0, suspended) {
-      var instance = new Coroutine$Korge$test$lambda$lambda(closure$done_0, closure$config_0, this$Korge_0, this$_0, it_0, continuation_0);
+  function Korge$test$lambda(closure$done_0, closure$config_0, this$Korge_0) {
+    return function (container_0, frame_0, continuation_0, suspended) {
+      var instance = new Coroutine$Korge$test$lambda(closure$done_0, closure$config_0, this$Korge_0, container_0, frame_0, continuation_0);
       if (suspended)
         return instance;
       else
         return instance.doResume(null);
     };
   }
-  function Coroutine$Korge$test$lambda$lambda(closure$done_0, closure$config_0, this$Korge_0, this$_0, it_0, continuation_0) {
+  function Coroutine$Korge$test$lambda(closure$done_0, closure$config_0, this$Korge_0, container_0, frame_0, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
     this.exceptionState_0 = 1;
     this.local$closure$done = closure$done_0;
     this.local$closure$config = closure$config_0;
     this.local$this$Korge = this$Korge_0;
-    this.local$this$ = this$_0;
-    this.local$it = it_0;
-  }
-  Coroutine$Korge$test$lambda$lambda.$metadata$ = {
-    kind: Kotlin.Kind.CLASS,
-    simpleName: null,
-    interfaces: [CoroutineImpl]
-  };
-  Coroutine$Korge$test$lambda$lambda.prototype = Object.create(CoroutineImpl.prototype);
-  Coroutine$Korge$test$lambda$lambda.prototype.constructor = Coroutine$Korge$test$lambda$lambda;
-  Coroutine$Korge$test$lambda$lambda.prototype.doResume = function () {
-    do
-      try {
-        switch (this.state_0) {
-          case 0:
-            return go(this.local$this$, Korge$test$lambda$lambda$lambda(this.local$closure$done, this.local$closure$config, this.local$it, this.local$this$Korge));
-          case 1:
-            throw this.exception_0;
-        }
-      }
-       catch (e) {
-        if (this.state_0 === 1)
-          throw e;
-        else {
-          this.state_0 = this.exceptionState_0;
-          this.exception_0 = e;
-        }
-      }
-     while (true);
-  };
-  function Korge$test$lambda(closure$config_0, this$Korge_0) {
-    return function ($receiver_0, continuation_0, suspended) {
-      var instance = new Coroutine$Korge$test$lambda(closure$config_0, this$Korge_0, $receiver_0, this, continuation_0);
-      if (suspended)
-        return instance;
-      else
-        return instance.doResume(null);
-    };
-  }
-  function Coroutine$Korge$test$lambda(closure$config_0, this$Korge_0, $receiver_0, controller, continuation_0) {
-    CoroutineImpl.call(this, continuation_0);
-    this.$controller = controller;
-    this.exceptionState_0 = 6;
-    this.local$closure$config = closure$config_0;
-    this.local$this$Korge = this$Korge_0;
-    this.local$tmp$_0 = void 0;
-    this.local$done = void 0;
-    this.local$$receiver = $receiver_0;
+    this.local$container = container_0;
+    this.local$frame = frame_0;
   }
   Coroutine$Korge$test$lambda.$metadata$ = {
     kind: Kotlin.Kind.CLASS,
@@ -1143,20 +1109,68 @@
       try {
         switch (this.state_0) {
           case 0:
+            this.state_0 = 2;
+            this.result_0 = go(Korge$test$lambda$lambda(this.local$closure$done, this.local$closure$config, this.local$container, this.local$frame, this.local$this$Korge), this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            return this.result_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  Korge.prototype.test_dnucxw$ = function (config_0, continuation_0, suspended) {
+    var instance = new Coroutine$test_dnucxw$(this, config_0, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  };
+  function Coroutine$test_dnucxw$($this, config_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 6;
+    this.$this = $this;
+    this.local$tmp$_0 = void 0;
+    this.local$done = void 0;
+    this.local$config = config_0;
+  }
+  Coroutine$test_dnucxw$.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$test_dnucxw$.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$test_dnucxw$.prototype.constructor = Coroutine$test_dnucxw$;
+  Coroutine$test_dnucxw$.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
             var tmp$;
             this.local$done = new Promise$Deferred();
-            if (this.local$closure$config.container != null) {
+            if (this.local$config.container != null) {
               this.state_0 = 7;
-              this.result_0 = this.local$this$Korge.setupCanvas_dnucxw$(this.local$closure$config, this);
+              this.result_0 = this.$this.setupCanvas_dnucxw$(this.local$config, this);
               if (this.result_0 === COROUTINE_SUSPENDED)
                 return COROUTINE_SUSPENDED;
               break;
             }
              else {
-              if (this.local$closure$config.module.icon != null) {
+              if (this.local$config.module.icon != null) {
                 this.exceptionState_0 = 2;
                 this.state_0 = 1;
-                this.result_0 = readBitmap(vfs.ResourcesVfs.get_61zpoe$((tmp$ = this.local$closure$config.module.icon) != null ? tmp$ : throwNPE()), void 0, void 0, this);
+                this.result_0 = readBitmap(vfs.ResourcesVfs.get_61zpoe$((tmp$ = this.local$config.module.icon) != null ? tmp$ : throwNPE()), void 0, void 0, this);
                 if (this.result_0 === COROUTINE_SUSPENDED)
                   return COROUTINE_SUSPENDED;
                 break;
@@ -1190,7 +1204,7 @@
           case 4:
             var icon = this.local$tmp$_0;
             this.state_0 = 5;
-            this.result_0 = CanvasApplication(this.local$closure$config.module.title, this.local$closure$config.module.windowSize.width, this.local$closure$config.module.windowSize.height, icon, void 0, Korge$test$lambda$lambda(this.local$done, this.local$closure$config, this.local$this$Korge, this.local$$receiver), this);
+            this.result_0 = CanvasApplicationEx(this.local$config.module.title, this.local$config.module.windowSize.width, this.local$config.module.windowSize.height, icon, void 0, Korge$test$lambda(this.local$done, this.local$config, this.$this), this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -1215,52 +1229,6 @@
       }
        catch (e) {
         if (this.state_0 === 6)
-          throw e;
-        else {
-          this.state_0 = this.exceptionState_0;
-          this.exception_0 = e;
-        }
-      }
-     while (true);
-  };
-  Korge.prototype.test_dnucxw$ = function (config_0, continuation_0, suspended) {
-    var instance = new Coroutine$test_dnucxw$(this, config_0, continuation_0);
-    if (suspended)
-      return instance;
-    else
-      return instance.doResume(null);
-  };
-  function Coroutine$test_dnucxw$($this, config_0, continuation_0) {
-    CoroutineImpl.call(this, continuation_0);
-    this.exceptionState_0 = 1;
-    this.$this = $this;
-    this.local$config = config_0;
-  }
-  Coroutine$test_dnucxw$.$metadata$ = {
-    kind: Kotlin.Kind.CLASS,
-    simpleName: null,
-    interfaces: [CoroutineImpl]
-  };
-  Coroutine$test_dnucxw$.prototype = Object.create(CoroutineImpl.prototype);
-  Coroutine$test_dnucxw$.prototype.constructor = Coroutine$test_dnucxw$;
-  Coroutine$test_dnucxw$.prototype.doResume = function () {
-    do
-      try {
-        switch (this.state_0) {
-          case 0:
-            this.state_0 = 2;
-            this.result_0 = withCoroutineContext(Korge$test$lambda(this.local$config, this.$this), this);
-            if (this.result_0 === COROUTINE_SUSPENDED)
-              return COROUTINE_SUSPENDED;
-            break;
-          case 1:
-            throw this.exception_0;
-          case 2:
-            return this.result_0;
-        }
-      }
-       catch (e) {
-        if (this.state_0 === 1)
           throw e;
         else {
           this.state_0 = this.exceptionState_0;
@@ -1306,6 +1274,7 @@
     }
     return Korge_instance;
   }
+  var KORGE_VERSION;
   function AnElement() {
   }
   AnElement.$metadata$ = {
@@ -1870,7 +1839,7 @@
     execution: for (var n = tmp$_1; n <= tmp$_2; n++) {
       var action = actionsTimeline.objects.get_za3lpa$(n);
       if (Kotlin.isType(action, AnPlaySoundAction))
-        go(this.library.views.coroutineContext, TimelineRunner$eval$lambda(this, action));
+        go_0(this.library.views.coroutineContext, TimelineRunner$eval$lambda(this, action));
       else if (Kotlin.isType(action, AnEventAction))
         this.onEvent.invoke_11rb$(action.event);
     }
@@ -6490,7 +6459,7 @@
       this.startedTime_0 = TimeProvider.Companion.now();
       this.length = sound.lengthInMs.toInt();
       this.playing = true;
-      this.promise_0 = go_0(this.soundSystem.views.coroutineContext, SoundChannel$play$lambda(sound, this));
+      this.promise_0 = go_1(this.soundSystem.views.coroutineContext, SoundChannel$play$lambda(sound, this));
       var tmp$;
       var $receiver = this.soundSystem.promises_8be2vx$;
       var element = (tmp$ = this.promise_0) != null ? tmp$ : throwNPE();
@@ -9330,7 +9299,7 @@
   };
   function KeysComponent_init$lambda(this$KeysComponent) {
     return function (it) {
-      go_1(this$KeysComponent, KeysComponent_init$lambda$lambda(this$KeysComponent, it));
+      go_2(this$KeysComponent, KeysComponent_init$lambda$lambda(this$KeysComponent, it));
       return Unit;
     };
   }
@@ -9384,7 +9353,7 @@
   };
   function KeysComponent_init$lambda_0(this$KeysComponent) {
     return function (it) {
-      go_1(this$KeysComponent, KeysComponent_init$lambda$lambda_0(this$KeysComponent, it));
+      go_2(this$KeysComponent, KeysComponent_init$lambda$lambda_0(this$KeysComponent, it));
       return Unit;
     };
   }
@@ -9438,7 +9407,7 @@
   };
   function KeysComponent_init$lambda_1(this$KeysComponent) {
     return function (it) {
-      go_1(this$KeysComponent, KeysComponent_init$lambda$lambda_1(this$KeysComponent, it));
+      go_2(this$KeysComponent, KeysComponent_init$lambda$lambda_1(this$KeysComponent, it));
       return Unit;
     };
   }
@@ -12141,8 +12110,8 @@
               return COROUTINE_SUSPENDED;
             break;
           case 7:
-            go_1(this.$this, SceneContainer$_changeTo$lambda(this.local$instance));
-            go_1(this.$this, SceneContainer$_changeTo$lambda_0(this.local$instance));
+            go_2(this.$this, SceneContainer$_changeTo$lambda(this.local$instance));
+            go_2(this.$this, SceneContainer$_changeTo$lambda_0(this.local$instance));
             return this.local$instance;
         }
       }
@@ -12264,10 +12233,71 @@
     simpleName: 'Analytics',
     interfaces: []
   };
-  function Browser() {
+  function Browser(injector) {
+    this.injector = injector;
   }
-  Browser.prototype.browse_61zpoe$ = function (url) {
+  Browser.prototype.browse_61zpoe$ = function (url, continuation) {
     light.defaultLight.openURL_61zpoe$(url.toString());
+  };
+  Browser.prototype.openFile_61zpoe$$default = function (filter_0, continuation_0, suspended) {
+    var instance = new Coroutine$openFile_61zpoe$$default(this, filter_0, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  };
+  function Coroutine$openFile_61zpoe$$default($this, filter_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.$this = $this;
+    this.local$filter = filter_0;
+  }
+  Coroutine$openFile_61zpoe$$default.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$openFile_61zpoe$$default.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$openFile_61zpoe$$default.prototype.constructor = Coroutine$openFile_61zpoe$$default;
+  Coroutine$openFile_61zpoe$$default.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            var tmp$;
+            this.state_0 = 2;
+            this.result_0 = this.$this.injector.getOrNull_esmw97$(getKClass(Frame), void 0, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            tmp$ = this.result_0;
+            var frame = tmp$ != null ? tmp$ : invalidOp('Frame not available at korge');
+            this.state_0 = 3;
+            this.result_0 = frame.dialogOpenFile_61zpoe$(this.local$filter, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 3:
+            return this.result_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  Browser.prototype.openFile_61zpoe$ = function (filter, continuation, callback$default) {
+    if (filter === void 0)
+      filter = '';
+    return callback$default ? callback$default(filter, continuation) : this.openFile_61zpoe$$default(filter, continuation);
   };
   Browser.$metadata$ = {
     kind: Kind_CLASS,
@@ -12475,7 +12505,7 @@
             tmp$_0 = this.local$this$KorgeTest.canvas;
             tmp$_1 = TimeProvider.Companion.invoke_nw7ga7$(KorgeTest$testScene$lambda$lambda(this.local$this$KorgeTest));
             this.state_0 = 2;
-            this.result_0 = tmp$_2.test_dnucxw$(new Korge$Config(this.local$closure$module, void 0, tmp$_0, this.local$closure$sceneClass, tmp$, tmp$_1), this);
+            this.result_0 = tmp$_2.test_dnucxw$(new Korge$Config(this.local$closure$module, void 0, tmp$_0, void 0, this.local$closure$sceneClass, tmp$, tmp$_1), this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -16160,13 +16190,13 @@
             var view = this.local$$receiver;
             this.local$done = {v: false};
             this.state_0 = 1;
-            this.result_0 = go_2(updateLoop$lambda(this.local$done, view, this.local$step, this.local$eventLoop), this);
+            this.result_0 = go(updateLoop$lambda(this.local$done, view, this.local$step, this.local$eventLoop), this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
           case 1:
             this.state_0 = 2;
-            this.result_0 = go_2(updateLoop$lambda_0(this.local$callback), this);
+            this.result_0 = go(updateLoop$lambda_0(this.local$callback), this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -17325,6 +17355,11 @@
   Object.defineProperty(package$korge, 'Korge', {
     get: Korge_getInstance
   });
+  Object.defineProperty(package$korge, 'KORGE_VERSION', {
+    get: function () {
+      return KORGE_VERSION;
+    }
+  });
   var package$animate = package$korge.animate || (package$korge.animate = {});
   package$animate.AnElement = AnElement;
   package$animate.createDuplicated_vkl01n$ = createDuplicated;
@@ -17839,6 +17874,7 @@
   CancellableGroup.prototype.cancel_tcv7n7$ = Cancellable.prototype.cancel_tcv7n7$;
   View$addUpdatable$ObjectLiteral.prototype.cancel_tcv7n7$ = Cancellable.prototype.cancel_tcv7n7$;
   Views.prototype.dispatch_gdt21f$ = EventDispatcher.prototype.dispatch_gdt21f$;
+  KORGE_VERSION = '0.15.8';
   stencilIndex = new Extra$Property(void 0, stencilIndex$lambda);
   animateLibraryLoaders = new Extra$Property(void 0, animateLibraryLoaders$lambda);
   soundSystem = new Extra$PropertyThis(void 0, soundSystem$lambda);

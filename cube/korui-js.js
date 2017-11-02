@@ -32,13 +32,14 @@
   var spawn = $module$korio_js.com.soywiz.korio.async.spawn_g3zeo5$;
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var await_0 = $module$korio_js.com.soywiz.korio.async.await_7zc599$;
+  var getCoroutineContext = $module$korio_js.com.soywiz.korio.coroutine.getCoroutineContext;
+  var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var defineInlineFunction = Kotlin.defineInlineFunction;
   var wrapFunction = Kotlin.wrapFunction;
   var numberToInt = Kotlin.numberToInt;
   var toString = Kotlin.toString;
   var kotlin_js_internal_IntCompanionObject = Kotlin.kotlin.js.internal.IntCompanionObject;
   var clamp = $module$korio_js.com.soywiz.korio.util.clamp_e4yvb3$;
-  var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
   var Extra = $module$korio_js.com.soywiz.korio.util.Extra;
   var Extra$Mixin = $module$korio_js.com.soywiz.korio.util.Extra.Mixin;
@@ -479,30 +480,30 @@
       }
      while (true);
   };
-  function CanvasApplication$lambda$lambda(closure$callback_0) {
+  function CanvasApplication$lambda_0(closure$callback_0) {
     return function ($receiver_0, continuation_0, suspended) {
-      var instance = new Coroutine$CanvasApplication$lambda$lambda(closure$callback_0, $receiver_0, this, continuation_0);
+      var instance = new Coroutine$CanvasApplication$lambda_0(closure$callback_0, $receiver_0, this, continuation_0);
       if (suspended)
         return instance;
       else
         return instance.doResume(null);
     };
   }
-  function Coroutine$CanvasApplication$lambda$lambda(closure$callback_0, $receiver_0, controller, continuation_0) {
+  function Coroutine$CanvasApplication$lambda_0(closure$callback_0, $receiver_0, controller, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
     this.$controller = controller;
     this.exceptionState_0 = 1;
     this.local$closure$callback = closure$callback_0;
     this.local$$receiver = $receiver_0;
   }
-  Coroutine$CanvasApplication$lambda$lambda.$metadata$ = {
+  Coroutine$CanvasApplication$lambda_0.$metadata$ = {
     kind: Kotlin.Kind.CLASS,
     simpleName: null,
     interfaces: [CoroutineImpl]
   };
-  Coroutine$CanvasApplication$lambda$lambda.prototype = Object.create(CoroutineImpl.prototype);
-  Coroutine$CanvasApplication$lambda$lambda.prototype.constructor = Coroutine$CanvasApplication$lambda$lambda;
-  Coroutine$CanvasApplication$lambda$lambda.prototype.doResume = function () {
+  Coroutine$CanvasApplication$lambda_0.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$CanvasApplication$lambda_0.prototype.constructor = Coroutine$CanvasApplication$lambda_0;
+  Coroutine$CanvasApplication$lambda_0.prototype.doResume = function () {
     do
       try {
         switch (this.state_0) {
@@ -519,60 +520,6 @@
             throw this.exception_0;
           case 2:
             return this.result_0;
-        }
-      }
-       catch (e) {
-        if (this.state_0 === 1)
-          throw e;
-        else {
-          this.state_0 = this.exceptionState_0;
-          this.exception_0 = e;
-        }
-      }
-     while (true);
-  };
-  function CanvasApplication$lambda_0(closure$light_0, closure$title_0, closure$width_0, closure$height_0, closure$icon_0, closure$callback_0) {
-    return function ($receiver_0, continuation_0, suspended) {
-      var instance = new Coroutine$CanvasApplication$lambda_0(closure$light_0, closure$title_0, closure$width_0, closure$height_0, closure$icon_0, closure$callback_0, $receiver_0, this, continuation_0);
-      if (suspended)
-        return instance;
-      else
-        return instance.doResume(null);
-    };
-  }
-  function Coroutine$CanvasApplication$lambda_0(closure$light_0, closure$title_0, closure$width_0, closure$height_0, closure$icon_0, closure$callback_0, $receiver_0, controller, continuation_0) {
-    CoroutineImpl.call(this, continuation_0);
-    this.$controller = controller;
-    this.exceptionState_0 = 1;
-    this.local$closure$light = closure$light_0;
-    this.local$closure$title = closure$title_0;
-    this.local$closure$width = closure$width_0;
-    this.local$closure$height = closure$height_0;
-    this.local$closure$icon = closure$icon_0;
-    this.local$closure$callback = closure$callback_0;
-    this.local$$receiver = $receiver_0;
-  }
-  Coroutine$CanvasApplication$lambda_0.$metadata$ = {
-    kind: Kotlin.Kind.CLASS,
-    simpleName: null,
-    interfaces: [CoroutineImpl]
-  };
-  Coroutine$CanvasApplication$lambda_0.prototype = Object.create(CoroutineImpl.prototype);
-  Coroutine$CanvasApplication$lambda_0.prototype.constructor = Coroutine$CanvasApplication$lambda_0;
-  Coroutine$CanvasApplication$lambda_0.prototype.doResume = function () {
-    do
-      try {
-        switch (this.state_0) {
-          case 0:
-            this.state_0 = 2;
-            this.result_0 = frame(new Application_0(this.local$$receiver, this.local$closure$light), this.local$closure$title, this.local$closure$width, this.local$closure$height, this.local$closure$icon, CanvasApplication$lambda$lambda(this.local$closure$callback), this);
-            if (this.result_0 === COROUTINE_SUSPENDED)
-              return COROUTINE_SUSPENDED;
-            break;
-          case 1:
-            throw this.exception_0;
-          case 2:
-            return Unit;
         }
       }
        catch (e) {
@@ -625,7 +572,104 @@
             if (this.local$callback === void 0)
               this.local$callback = CanvasApplication$lambda;
             this.state_0 = 2;
-            this.result_0 = withCoroutineContext(CanvasApplication$lambda_0(this.local$light, this.local$title, this.local$width, this.local$height, this.local$icon, this.local$callback), this);
+            this.result_0 = getCoroutineContext(this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            var application = new Application_0(this.result_0, this.local$light);
+            this.state_0 = 3;
+            this.result_0 = frame(application, this.local$title, this.local$width, this.local$height, this.local$icon, CanvasApplication$lambda_0(this.local$callback), this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 3:
+            return;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  function CanvasApplicationEx$lambda(c, f, continuation_0, suspended) {
+    var instance = new Coroutine$CanvasApplicationEx$lambda(c, f, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  }
+  function Coroutine$CanvasApplicationEx$lambda(c, f, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+  }
+  Coroutine$CanvasApplicationEx$lambda.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$CanvasApplicationEx$lambda.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$CanvasApplicationEx$lambda.prototype.constructor = Coroutine$CanvasApplicationEx$lambda;
+  Coroutine$CanvasApplicationEx$lambda.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            return Unit;
+          case 1:
+            throw this.exception_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  function CanvasApplicationEx$lambda_0(closure$callback_0) {
+    return function ($receiver_0, continuation_0, suspended) {
+      var instance = new Coroutine$CanvasApplicationEx$lambda_0(closure$callback_0, $receiver_0, this, continuation_0);
+      if (suspended)
+        return instance;
+      else
+        return instance.doResume(null);
+    };
+  }
+  function Coroutine$CanvasApplicationEx$lambda_0(closure$callback_0, $receiver_0, controller, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.$controller = controller;
+    this.exceptionState_0 = 1;
+    this.local$closure$callback = closure$callback_0;
+    this.local$$receiver = $receiver_0;
+  }
+  Coroutine$CanvasApplicationEx$lambda_0.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$CanvasApplicationEx$lambda_0.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$CanvasApplicationEx$lambda_0.prototype.constructor = Coroutine$CanvasApplicationEx$lambda_0;
+  Coroutine$CanvasApplicationEx$lambda_0.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            var tmp$ = this.local$closure$callback;
+            var $receiver = agCanvas(this.local$$receiver);
+            $receiver.focus();
+            this.state_0 = 2;
+            this.result_0 = tmp$($receiver, this.local$$receiver, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -645,6 +689,90 @@
       }
      while (true);
   };
+  function CanvasApplicationEx(title_0, width_0, height_0, icon_0, light_0, callback_0, continuation_0, suspended) {
+    var instance = new Coroutine$CanvasApplicationEx(title_0, width_0, height_0, icon_0, light_0, callback_0, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  }
+  function Coroutine$CanvasApplicationEx(title_0, width_0, height_0, icon_0, light_0, callback_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.local$title = title_0;
+    this.local$width = width_0;
+    this.local$height = height_0;
+    this.local$icon = icon_0;
+    this.local$light = light_0;
+    this.local$callback = callback_0;
+  }
+  Coroutine$CanvasApplicationEx.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$CanvasApplicationEx.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$CanvasApplicationEx.prototype.constructor = Coroutine$CanvasApplicationEx;
+  Coroutine$CanvasApplicationEx.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            if (this.local$width === void 0)
+              this.local$width = 640;
+            if (this.local$height === void 0)
+              this.local$height = 480;
+            if (this.local$icon === void 0)
+              this.local$icon = null;
+            if (this.local$light === void 0)
+              this.local$light = get_defaultLight();
+            if (this.local$callback === void 0)
+              this.local$callback = CanvasApplicationEx$lambda;
+            this.state_0 = 2;
+            this.result_0 = getCoroutineContext(this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            var application = new Application_0(this.result_0, this.local$light);
+            this.state_0 = 3;
+            this.result_0 = frame(application, this.local$title, this.local$width, this.local$height, this.local$icon, CanvasApplicationEx$lambda_0(this.local$callback), this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 3:
+            return;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  function Korui() {
+    Korui_instance = this;
+    this.VERSION = KORUI_VERSION;
+  }
+  Korui.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Korui',
+    interfaces: []
+  };
+  var Korui_instance = null;
+  function Korui_getInstance() {
+    if (Korui_instance === null) {
+      new Korui();
+    }
+    return Korui_instance;
+  }
+  var KORUI_VERSION;
   function Screen() {
   }
   Screen.$metadata$ = {
@@ -6447,12 +6575,8 @@
   }
   function SelectedFilesVfs$open$ObjectLiteral$_read$lambda$lambda(closure$reader, closure$c) {
     return function (it) {
-      var tmp$;
       var result = closure$reader.result;
-      var u8array = new Uint8Array(Kotlin.isType(tmp$ = result, Uint8Array) ? tmp$ : throwCCE());
-      var out = new Int8Array(u8array.length);
-      out.setArraySlice(0, u8array);
-      closure$c.resume_11rb$(out);
+      closure$c.resume_11rb$(new Int8Array(result));
       return Unit;
     };
   }
@@ -6661,6 +6785,15 @@
   package$korui.Application = Application_0;
   package$korui.frame_ag1eqq$ = frame;
   package$korui.CanvasApplication_4lq8kv$ = CanvasApplication;
+  package$korui.CanvasApplicationEx_ig5l1g$ = CanvasApplicationEx;
+  Object.defineProperty(package$korui, 'Korui', {
+    get: Korui_getInstance
+  });
+  Object.defineProperty(package$korui, 'KORUI_VERSION', {
+    get: function () {
+      return KORUI_VERSION;
+    }
+  });
   package$korui.Screen = Screen;
   Length.Fixed = Length$Fixed;
   Length.Variable = Length$Variable;
@@ -6938,6 +7071,7 @@
     get: SelectedFilesVfs_getInstance
   });
   package$light.JsStat = JsStat;
+  KORUI_VERSION = '0.15.7-SNAPSHOT';
   defaultLightFactory = lazy(defaultLightFactory$lambda);
   defaultLight = lazy(defaultLight$lambda);
   ag = new extraProperty('ag', null);
