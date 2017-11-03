@@ -15,6 +15,7 @@
 }(this, function (_, Kotlin, $module$korio_js) {
   'use strict';
   var $$importsForInline$$ = _.$$importsForInline$$ || (_.$$importsForInline$$ = {});
+  var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var copyOf = Kotlin.kotlin.collections.copyOf_m2jy6x$;
   var copyRangeTo = $module$korio_js.com.soywiz.korio.typedarray.copyRangeTo_4axpaz$;
   var Kind_CLASS = Kotlin.Kind.CLASS;
@@ -33,7 +34,6 @@
   var PathInfo = $module$korio_js.com.soywiz.korio.vfs.PathInfo;
   var UnsupportedOperationException = Kotlin.kotlin.UnsupportedOperationException;
   var LinkedList = $module$korio_js.com.soywiz.korio.ds.LinkedList;
-  var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var VfsOpenMode = $module$korio_js.com.soywiz.korio.vfs.VfsOpenMode;
   var await_0 = $module$korio_js.com.soywiz.korio.async.await_7zc599$;
   var coroutineReceiver = Kotlin.coroutineReceiver;
@@ -58,7 +58,7 @@
   var extract_0 = $module$korio_js.com.soywiz.korio.util.extract_e4yvb3$;
   var toInt = Kotlin.kotlin.text.toInt_pdl1vz$;
   var format = $module$korio_js.com.soywiz.korio.lang.format_e33kwl$;
-  var throwNPE = Kotlin.throwNPE;
+  var ensureNotNull = Kotlin.ensureNotNull;
   var mapOf = Kotlin.kotlin.collections.mapOf_qfcya0$;
   var hasAvailable = $module$korio_js.com.soywiz.korio.stream.hasAvailable_g5ykjz$;
   var readS8 = $module$korio_js.com.soywiz.korio.stream.readS8_yjldv$;
@@ -110,6 +110,23 @@
   HtmlNativeSound.prototype.constructor = HtmlNativeSound;
   HtmlNativeSoundSpecialReader.prototype = Object.create(VfsSpecialReader.prototype);
   HtmlNativeSoundSpecialReader.prototype.constructor = HtmlNativeSoundSpecialReader;
+  function Korau() {
+    Korau_instance = this;
+    this.VERSION = KORAU_VERSION;
+  }
+  Korau.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Korau',
+    interfaces: []
+  };
+  var Korau_instance = null;
+  function Korau_getInstance() {
+    if (Korau_instance === null) {
+      new Korau();
+    }
+    return Korau_instance;
+  }
+  var KORAU_VERSION;
   function AudioBuffer() {
     this.buffer = new Int16Array(0);
     this.bufferlen = 0;
@@ -2154,7 +2171,7 @@
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.version, other.version) && Kotlin.equals(this.layer, other.layer) && Kotlin.equals(this.bitrate, other.bitrate) && Kotlin.equals(this.samplingRate, other.samplingRate) && Kotlin.equals(this.channelMode, other.channelMode) && Kotlin.equals(this.frameSize, other.frameSize) && Kotlin.equals(this.samples, other.samples)))));
   };
   MP3Base$Parser$Companion.prototype.parseFrameHeader_fqrh44$ = function (f4, continuation) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
     var b0 = getu(f4, 0);
     var b1 = getu(f4, 1);
     var b2 = getu(f4, 2);
@@ -2171,12 +2188,12 @@
     var sample_rate = (tmp$_2 = (tmp$_1 = this.sampleRates.get_11rb$(version)) != null ? tmp$_1[extract_0(b2, 2, 2)] : null) != null ? tmp$_2 : 0;
     var padding_bit = extract_0(b2, 1, 1);
     var private_bit = extract_0(b2, 0, 1);
-    var channelMode = (tmp$_3 = MP3Base$Parser$Companion$ChannelMode$Companion_getInstance().BY_ID.get_11rb$(extract_0(b3, 6, 2))) != null ? tmp$_3 : throwNPE();
+    var channelMode = ensureNotNull(MP3Base$Parser$Companion$ChannelMode$Companion_getInstance().BY_ID.get_11rb$(extract_0(b3, 6, 2)));
     var mode_extension_bits = extract_0(b3, 4, 2);
     var copyright_bit = extract_0(b3, 3, 1);
     var original_bit = extract_0(b3, 2, 1);
     var emphasis = extract_0(b3, 0, 2);
-    return new MP3Base$Parser$Companion$Mp3Info(version, layer, bitrate, sample_rate, channelMode, this.framesize_0(layer, bitrate, sample_rate, padding_bit), (tmp$_5 = (tmp$_4 = this.samples.get_11rb$(simple_version)) != null ? tmp$_4.get_11rb$(layer) : null) != null ? tmp$_5 : 0);
+    return new MP3Base$Parser$Companion$Mp3Info(version, layer, bitrate, sample_rate, channelMode, this.framesize_0(layer, bitrate, sample_rate, padding_bit), (tmp$_4 = (tmp$_3 = this.samples.get_11rb$(simple_version)) != null ? tmp$_3.get_11rb$(layer) : null) != null ? tmp$_4 : 0);
   };
   MP3Base$Parser$Companion.prototype.framesize_0 = function (layer, bitrate, sample_rate, padding_bit) {
     var tmp$;
@@ -4080,6 +4097,14 @@
   var package$com = _.com || (_.com = {});
   var package$soywiz = package$com.soywiz || (package$com.soywiz = {});
   var package$korau = package$soywiz.korau || (package$soywiz.korau = {});
+  Object.defineProperty(package$korau, 'Korau', {
+    get: Korau_getInstance
+  });
+  Object.defineProperty(package$korau, 'KORAU_VERSION', {
+    get: function () {
+      return KORAU_VERSION;
+    }
+  });
   var package$format = package$korau.format || (package$korau.format = {});
   package$format.AudioBuffer = AudioBuffer;
   package$format.AudioData = AudioData;
@@ -4163,10 +4188,9 @@
     get: NativeNativeSoundProvider_getInstance
   });
   package$sound.registerNativeSoundSpecialReader = registerNativeSoundSpecialReader;
+  KORAU_VERSION = '0.16.0';
   defaultAudioFormats = new AudioFormats();
   nativeSoundProvider = lazy(nativeSoundProvider$lambda);
   Kotlin.defineModule('korau-js', _);
   return _;
 }));
-
-//# sourceMappingURL=korau-js.js.map

@@ -46,6 +46,7 @@
   Month.prototype.constructor = Month;
   DateException.prototype = Object.create(RuntimeException.prototype);
   DateException.prototype.constructor = DateException;
+  var KLOCK_VERSION;
   function DayOfWeek(name, ordinal, index) {
     Enum.call(this);
     this.index = index;
@@ -1430,6 +1431,14 @@
     }
     return Klock_instance;
   }
+  var package$com = _.com || (_.com = {});
+  var package$soywiz = package$com.soywiz || (package$com.soywiz = {});
+  var package$klock = package$soywiz.klock || (package$soywiz.klock = {});
+  Object.defineProperty(package$klock, 'KLOCK_VERSION', {
+    get: function () {
+      return KLOCK_VERSION;
+    }
+  });
   Object.defineProperty(DayOfWeek, 'Sunday', {
     get: DayOfWeek$Sunday_getInstance
   });
@@ -1454,9 +1463,6 @@
   Object.defineProperty(DayOfWeek, 'Companion', {
     get: DayOfWeek$Companion_getInstance
   });
-  var package$com = _.com || (_.com = {});
-  var package$soywiz = package$com.soywiz || (package$com.soywiz = {});
-  var package$klock = package$soywiz.klock || (package$soywiz.klock = {});
   package$klock.DayOfWeek = DayOfWeek;
   Object.defineProperty(Year, 'Companion', {
     get: Year$Companion_getInstance
@@ -1553,6 +1559,7 @@
   UtcDateTime.prototype.addMilliseconds_s8cxhz$ = DateTime.prototype.addMilliseconds_s8cxhz$;
   UtcDateTime.prototype.plus_5t6mhc$ = DateTime.prototype.plus_5t6mhc$;
   UtcDateTime.prototype.minus_5t6mhc$ = DateTime.prototype.minus_5t6mhc$;
+  KLOCK_VERSION = '0.2.0';
   MILLIS_PER_SECOND = 1000;
   MILLIS_PER_MINUTE = MILLIS_PER_SECOND * 60 | 0;
   MILLIS_PER_HOUR = MILLIS_PER_MINUTE * 60 | 0;
@@ -1566,5 +1573,3 @@
   Kotlin.defineModule('klock-js', _);
   return _;
 }));
-
-//# sourceMappingURL=klock-js.js.map

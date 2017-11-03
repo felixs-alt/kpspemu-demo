@@ -33,7 +33,7 @@
   var CoroutineImpl = Kotlin.kotlin.coroutines.experimental.CoroutineImpl;
   var COROUTINE_SUSPENDED = Kotlin.kotlin.coroutines.experimental.intrinsics.COROUTINE_SUSPENDED;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
-  var throwNPE = Kotlin.throwNPE;
+  var ensureNotNull = Kotlin.ensureNotNull;
   var getKClass = Kotlin.getKClass;
   var EventLoop = $module$korio_js.com.soywiz.korio.async.EventLoop;
   var AG = $module$korag_js.com.soywiz.korag.AG;
@@ -160,8 +160,8 @@
   var get_0 = $module$korio_js.com.soywiz.korio.serialization.xml.get_h00kq4$;
   var first = Kotlin.kotlin.collections.first_7wnvza$;
   var Annotation = Kotlin.kotlin.Annotation;
-  var InjectedHandler = $module$korio_js.com.soywiz.korio.inject.InjectedHandler;
   var Closeable = $module$korio_js.com.soywiz.korio.lang.Closeable;
+  var InjectedHandler = $module$korio_js.com.soywiz.korio.inject.InjectedHandler;
   var SuspendFunction1 = Function;
   var Closeable_0 = $module$korio_js.com.soywiz.korio.lang.Closeable_o14v8n$;
   var HashMap_init = Kotlin.kotlin.collections.HashMap_init_q3lmfv$;
@@ -188,7 +188,7 @@
   var korag = $module$korag_js.com.soywiz.korag;
   var FragmentShader = $module$korag_js.com.soywiz.korag.shader.FragmentShader_8zzl3$;
   var VarType = $module$korag_js.com.soywiz.korag.shader.VarType;
-  var Attribute = $module$korag_js.com.soywiz.korag.shader.Attribute;
+  var Attribute_init = $module$korag_js.com.soywiz.korag.shader.Attribute_init_do1xv$;
   var Varying = $module$korag_js.com.soywiz.korag.shader.Varying;
   var VertexLayout_init = $module$korag_js.com.soywiz.korag.shader.VertexLayout_init_f1u95s$;
   var VertexShader = $module$korag_js.com.soywiz.korag.shader.VertexShader_8zzl3$;
@@ -217,8 +217,8 @@
   var AGInput = $module$korag_js.com.soywiz.korag.AGInput;
   var EventLoopTest = $module$korio_js.com.soywiz.korio.async.EventLoopTest;
   var interpolate_0 = $module$korma_js.com.soywiz.korma.interpolation.interpolate_i767ff$;
-  var Interpolable = $module$korma_js.com.soywiz.korma.interpolation.Interpolable;
   var Comparable = Kotlin.kotlin.Comparable;
+  var Interpolable = $module$korma_js.com.soywiz.korma.interpolation.Interpolable;
   var math = Kotlin.kotlin.math;
   var max = Kotlin.kotlin.collections.max_exjks8$;
   var interpolateAny = $module$korma_js.com.soywiz.korma.interpolation.interpolateAny_bb7w4c$;
@@ -675,7 +675,7 @@
     CoroutineImpl.call(this, continuation_0);
     this.exceptionState_0 = 1;
     this.$this = $this;
-    this.local$tmp$_1 = void 0;
+    this.local$tmp$_0 = void 0;
     this.local$injector = void 0;
     this.local$container = void 0;
     this.local$ag = void 0;
@@ -696,11 +696,11 @@
       try {
         switch (this.state_0) {
           case 0:
-            var tmp$, tmp$_0;
+            var tmp$;
             if (this.local$config.trace)
               println('Korge.setupCanvas[1]');
             this.local$injector = this.local$config.injector;
-            this.local$container = (tmp$ = this.local$config.container) != null ? tmp$ : throwNPE();
+            this.local$container = ensureNotNull(this.local$config.container);
             this.local$ag = this.local$container.ag;
             var size = this.local$config.module.size;
             this.local$injector.mapSingleton_7g6y7r$(getKClass(Views), Korge$setupCanvas$lambda).mapSingleton_7g6y7r$(getKClass(Input), Korge$setupCanvas$lambda_0).mapInstance_b1ce0a$(getKClass(KorgePlugins), defaultKorgePlugins).mapInstance_b1ce0a$(getKClass(Korge$Config), this.local$config).mapInstance_b1ce0a$(getKClass(AGContainer), this.local$container).mapInstance_b1ce0a$(getKClass(AG), this.local$ag).mapPrototype_7g6y7r$(getKClass(EmptyScene), Korge$setupCanvas$lambda_1).mapSingleton_7g6y7r$(getKClass(ResourcesRoot), Korge$setupCanvas$lambda_2);
@@ -708,9 +708,9 @@
               this.local$injector.mapInstance_b1ce0a$(getKClass(Frame), this.local$config.frame);
             }
 
-            tmp$_0 = this.local$config.module.plugins.iterator();
-            while (tmp$_0.hasNext()) {
-              var plugin = tmp$_0.next();
+            tmp$ = this.local$config.module.plugins.iterator();
+            while (tmp$.hasNext()) {
+              var plugin = tmp$.next();
               defaultKorgePlugins.register_8nuyex$([plugin]);
             }
 
@@ -736,18 +736,18 @@
               println('Korge.setupCanvas[2]');
             this.local$views.virtualWidth = size.width;
             this.local$views.virtualHeight = size.height;
-            this.local$tmp$_1 = defaultKorgePlugins.plugins.iterator();
+            this.local$tmp$_0 = defaultKorgePlugins.plugins.iterator();
             this.state_0 = 2;
             continue;
           case 1:
             throw this.exception_0;
           case 2:
-            if (!this.local$tmp$_1.hasNext()) {
+            if (!this.local$tmp$_0.hasNext()) {
               this.state_0 = 4;
               continue;
             }
 
-            var plugin_0 = this.local$tmp$_1.next();
+            var plugin_0 = this.local$tmp$_0.next();
             this.state_0 = 3;
             this.result_0 = plugin_0.register_gohfjx$(this.local$views, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
@@ -1141,7 +1141,7 @@
     CoroutineImpl.call(this, continuation_0);
     this.exceptionState_0 = 6;
     this.$this = $this;
-    this.local$tmp$_0 = void 0;
+    this.local$tmp$ = void 0;
     this.local$done = void 0;
     this.local$config = config_0;
   }
@@ -1157,7 +1157,6 @@
       try {
         switch (this.state_0) {
           case 0:
-            var tmp$;
             this.local$done = new Promise$Deferred();
             if (this.local$config.container != null) {
               this.state_0 = 7;
@@ -1170,20 +1169,20 @@
               if (this.local$config.module.icon != null) {
                 this.exceptionState_0 = 2;
                 this.state_0 = 1;
-                this.result_0 = readBitmap(vfs.ResourcesVfs.get_61zpoe$((tmp$ = this.local$config.module.icon) != null ? tmp$ : throwNPE()), void 0, void 0, this);
+                this.result_0 = readBitmap(vfs.ResourcesVfs.get_61zpoe$(ensureNotNull(this.local$config.module.icon)), void 0, void 0, this);
                 if (this.result_0 === COROUTINE_SUSPENDED)
                   return COROUTINE_SUSPENDED;
                 break;
               }
                else {
-                this.local$tmp$_0 = null;
+                this.local$tmp$ = null;
                 this.state_0 = 4;
                 continue;
               }
             }
 
           case 1:
-            this.local$tmp$_0 = this.result_0;
+            this.local$tmp$ = this.result_0;
             this.exceptionState_0 = 6;
             this.state_0 = 3;
             continue;
@@ -1192,7 +1191,7 @@
             var e = this.exception_0;
             if (Kotlin.isType(e, Throwable)) {
               printStackTrace(e);
-              this.local$tmp$_0 = null;
+              this.local$tmp$ = null;
             }
              else
               throw e;
@@ -1202,7 +1201,7 @@
             this.state_0 = 4;
             continue;
           case 4:
-            var icon = this.local$tmp$_0;
+            var icon = this.local$tmp$;
             this.state_0 = 5;
             this.result_0 = CanvasApplicationEx(this.local$config.module.title, this.local$config.module.windowSize.width, this.local$config.module.windowSize.height, icon, void 0, Korge$test$lambda(this.local$done, this.local$config, this.$this), this);
             if (this.result_0 === COROUTINE_SUSPENDED)
@@ -1308,12 +1307,11 @@
     }
   });
   AnBaseShape.prototype.render_edjgwy$ = function (ctx, m) {
-    var tmp$, tmp$_0;
     if (!this.visible)
       return;
     if (this.ninePatch != null) {
-      var np = (tmp$ = this.ninePatch) != null ? tmp$ : throwNPE();
-      var lm = ((tmp$_0 = this.parent) != null ? tmp$_0 : throwNPE()).localMatrix;
+      var np = ensureNotNull(this.ninePatch);
+      var lm = ensureNotNull(this.parent).localMatrix;
       var npLeft = np.left - this.dx;
       var npTop = np.top - this.dy;
       var npRight = np.right - this.dx;
@@ -1739,17 +1737,16 @@
     this.gotoAndRunning_xvbo1r$(false, name, time);
   };
   TimelineRunner.prototype.update_za3lpa$ = function (time) {
-    var tmp$;
     if (!this.running)
       return;
     if (this.currentSubtimeline == null)
       return;
-    var cs = (tmp$ = this.currentSubtimeline) != null ? tmp$ : throwNPE();
-    var tmp$_0 = this.eval_0;
-    var tmp$_1 = this.currentTime;
+    var cs = ensureNotNull(this.currentSubtimeline);
+    var tmp$ = this.eval_0;
+    var tmp$_0 = this.currentTime;
     var a = this.currentStateTotalTime;
     var b = this.currentTime + time | 0;
-    tmp$_0.call(this, tmp$_1, Math_0.min(a, b));
+    tmp$.call(this, tmp$_0, Math_0.min(a, b));
     this.currentTime = this.currentTime + time | 0;
     if (this.currentTime >= this.currentStateTotalTime) {
       var accumulatedTime = this.currentTime - this.currentStateTotalTime | 0;
@@ -2681,7 +2678,7 @@
       try {
         switch (this.state_0) {
           case 0:
-            var tmp$, tmp$_0, tmp$_1, tmp$_2;
+            var tmp$, tmp$_0, tmp$_1;
             if (this.local$this$AnSymbolSound.inputSound_0 == null) {
               this.exceptionState_0 = 2;
               this.state_0 = 1;
@@ -2727,7 +2724,7 @@
             this.state_0 = 6;
             continue;
           case 6:
-            return (tmp$_2 = this.local$this$AnSymbolSound.inputSound_0) != null ? tmp$_2 : throwNPE();
+            return ensureNotNull(this.local$this$AnSymbolSound.inputSound_0);
           case 7:
             throw this.exception_0;
         }
@@ -3403,14 +3400,14 @@
       this.symbolsById.set_wxm5ur$(symbol.id, symbol);
   };
   AnLibrary.prototype.processSymbolNames = function () {
-    var tmp$, tmp$_0, tmp$_1;
+    var tmp$;
     tmp$ = this.symbolsById.iterator();
     while (tmp$.hasNext()) {
       var symbol = tmp$.next();
       if (symbol.name != null) {
-        tmp$_1 = this.symbolsByName;
-        var key = (tmp$_0 = symbol.name) != null ? tmp$_0 : throwNPE();
-        tmp$_1.put_xwzc9p$(key, symbol);
+        var $receiver = this.symbolsByName;
+        var key = ensureNotNull(symbol.name);
+        $receiver.put_xwzc9p$(key, symbol);
       }
     }
   };
@@ -4853,7 +4850,7 @@
         switch (this.state_0) {
           case 0:
             var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
-            var tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14, tmp$_15, tmp$_16, tmp$_17, tmp$_18, tmp$_19, tmp$_20, tmp$_21, tmp$_22, tmp$_23, tmp$_24, tmp$_25, tmp$_26, tmp$_27;
+            var tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14, tmp$_15, tmp$_16, tmp$_17, tmp$_18, tmp$_19, tmp$_20;
             writeStringz(this.local$$receiver, AniFile_getInstance().MAGIC, 8);
             writeU_VL(this.local$$receiver, AniFile_getInstance().VERSION);
             writeU_VL(this.local$$receiver, this.local$lib.msPerFrame);
@@ -4897,49 +4894,49 @@
             tmp$_5 = drop(this.local$strings.strings, 1).iterator();
             while (tmp$_5.hasNext()) {
               var str = tmp$_5.next();
-              writeStringVL(this.local$$receiver, str != null ? str : throwNPE());
+              writeStringVL(this.local$$receiver, ensureNotNull(str));
             }
 
             var $receiver = this.local$lib.symbolsById;
             var destination = ArrayList_init_0();
-            var tmp$_28;
-            tmp$_28 = $receiver.iterator();
-            while (tmp$_28.hasNext()) {
-              var element = tmp$_28.next();
+            var tmp$_21;
+            tmp$_21 = $receiver.iterator();
+            while (tmp$_21.hasNext()) {
+              var element = tmp$_21.next();
               if (Kotlin.isType(element, AnSymbolShape))
                 destination.add_11rb$(element);
             }
 
             var destination_0 = ArrayList_init_0(collectionSizeOrDefault(destination, 10));
-            var tmp$_29;
-            tmp$_29 = destination.iterator();
-            while (tmp$_29.hasNext()) {
-              var item = tmp$_29.next();
-              var tmp$_30, tmp$_31;
-              destination_0.add_11rb$((tmp$_31 = (tmp$_30 = item.textureWithBitmap) != null ? tmp$_30.bitmapSlice : null) != null ? tmp$_31.bmp : null);
+            var tmp$_22;
+            tmp$_22 = destination.iterator();
+            while (tmp$_22.hasNext()) {
+              var item = tmp$_22.next();
+              var tmp$_23, tmp$_24;
+              destination_0.add_11rb$((tmp$_24 = (tmp$_23 = item.textureWithBitmap) != null ? tmp$_23.bitmapSlice : null) != null ? tmp$_24.bmp : null);
             }
 
             var $receiver_0 = this.local$lib.symbolsById;
             var destination_1 = ArrayList_init_0();
-            var tmp$_32;
-            tmp$_32 = $receiver_0.iterator();
-            while (tmp$_32.hasNext()) {
-              var element_0 = tmp$_32.next();
+            var tmp$_25;
+            tmp$_25 = $receiver_0.iterator();
+            while (tmp$_25.hasNext()) {
+              var element_0 = tmp$_25.next();
               if (Kotlin.isType(element_0, AnSymbolMorphShape))
                 destination_1.add_11rb$(element_0);
             }
 
             var destination_2 = ArrayList_init_0();
-            var tmp$_33;
-            tmp$_33 = destination_1.iterator();
-            while (tmp$_33.hasNext()) {
-              var element_1 = tmp$_33.next();
+            var tmp$_26;
+            tmp$_26 = destination_1.iterator();
+            while (tmp$_26.hasNext()) {
+              var element_1 = tmp$_26.next();
               var $receiver_1 = element_1.texturesWithBitmap.entries;
               var destination_3 = ArrayList_init_0(collectionSizeOrDefault($receiver_1, 10));
-              var tmp$_34;
-              tmp$_34 = $receiver_1.iterator();
-              while (tmp$_34.hasNext()) {
-                var item_0 = tmp$_34.next();
+              var tmp$_27;
+              tmp$_27 = $receiver_1.iterator();
+              while (tmp$_27.hasNext()) {
+                var item_0 = tmp$_27.next();
                 destination_3.add_11rb$(item_0.second.bitmapSlice.bmp);
               }
               var list = destination_3;
@@ -4948,10 +4945,10 @@
 
             var $receiver_2 = listOf([destination_0, destination_2]);
             var destination_4 = ArrayList_init_0();
-            var tmp$_35;
-            tmp$_35 = $receiver_2.iterator();
-            while (tmp$_35.hasNext()) {
-              var element_2 = tmp$_35.next();
+            var tmp$_28;
+            tmp$_28 = $receiver_2.iterator();
+            while (tmp$_28.hasNext()) {
+              var element_2 = tmp$_28.next();
               var list_0 = element_2;
               addAll(destination_4, list_0);
             }
@@ -4959,10 +4956,10 @@
             var atlasBitmaps = distinct(filterNotNull(destination_4));
             var $receiver_3 = withIndex(atlasBitmaps);
             var destination_5 = ArrayList_init_0(collectionSizeOrDefault($receiver_3, 10));
-            var tmp$_36;
-            tmp$_36 = $receiver_3.iterator();
-            while (tmp$_36.hasNext()) {
-              var item_1 = tmp$_36.next();
+            var tmp$_29;
+            tmp$_29 = $receiver_3.iterator();
+            while (tmp$_29.hasNext()) {
+              var item_1 = tmp$_29.next();
               destination_5.add_11rb$(to(item_1.value, item_1.index));
             }
 
@@ -4979,9 +4976,9 @@
               continue;
             }
 
-            var tmp$_37 = this.local$tmp$_6.next();
-            var atlas = tmp$_37.key;
-            var index = tmp$_37.value;
+            var tmp$_30 = this.local$tmp$_6.next();
+            var atlas = tmp$_30.key;
+            var index = tmp$_30.value;
             this.state_0 = 3;
             this.result_0 = this.local$externalWriters.writeAtlas(index, atlas, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
@@ -4993,20 +4990,20 @@
           case 4:
             var $receiver_4 = this.local$lib.symbolsById;
             var destination_6 = ArrayList_init_0();
-            var tmp$_38;
-            tmp$_38 = $receiver_4.iterator();
-            while (tmp$_38.hasNext()) {
-              var element_3 = tmp$_38.next();
+            var tmp$_31;
+            tmp$_31 = $receiver_4.iterator();
+            while (tmp$_31.hasNext()) {
+              var element_3 = tmp$_31.next();
               if (Kotlin.isType(element_3, AnSymbolSound))
                 destination_6.add_11rb$(element_3);
             }
 
             var $receiver_5 = withIndex(destination_6);
             var destination_7 = ArrayList_init_0(collectionSizeOrDefault($receiver_5, 10));
-            var tmp$_39;
-            tmp$_39 = $receiver_5.iterator();
-            while (tmp$_39.hasNext()) {
-              var item_2 = tmp$_39.next();
+            var tmp$_32;
+            tmp$_32 = $receiver_5.iterator();
+            while (tmp$_32.hasNext()) {
+              var item_2 = tmp$_32.next();
               destination_7.add_11rb$(to(item_2.value, item_2.index));
             }
 
@@ -5021,9 +5018,9 @@
               continue;
             }
 
-            var tmp$_40 = this.local$tmp$_7.next();
-            var sound = tmp$_40.key;
-            var index_0 = tmp$_40.value;
+            var tmp$_33 = this.local$tmp$_7.next();
+            var sound = tmp$_33.key;
+            var index_0 = tmp$_33.value;
             this.state_0 = 6;
             this.result_0 = this.local$externalWriters.writeSound(index_0, (tmp$_6 = sound.dataBytes) != null ? tmp$_6 : new Int8Array([]), this);
             if (this.result_0 === COROUTINE_SUSPENDED)
@@ -5048,7 +5045,7 @@
                 writeU_VL(this.local$$receiver, AniFile_getInstance().SYMBOL_TYPE_EMPTY);
               else if (Kotlin.isType(symbol_0, AnSymbolSound)) {
                 writeU_VL(this.local$$receiver, AniFile_getInstance().SYMBOL_TYPE_SOUND);
-                writeU_VL(this.local$$receiver, (tmp$_8 = this.local$soundsToId.get_11rb$(symbol_0)) != null ? tmp$_8 : throwNPE());
+                writeU_VL(this.local$$receiver, ensureNotNull(this.local$soundsToId.get_11rb$(symbol_0)));
               }
                else if (Kotlin.isType(symbol_0, AnTextFieldSymbol)) {
                 writeU_VL(this.local$$receiver, AniFile_getInstance().SYMBOL_TYPE_TEXT);
@@ -5058,23 +5055,23 @@
                else if (Kotlin.isType(symbol_0, AnSymbolShape)) {
                 shapeCount = shapeCount + 1 | 0;
                 writeU_VL(this.local$$receiver, AniFile_getInstance().SYMBOL_TYPE_SHAPE);
-                writeF32_le(this.local$$receiver, ((tmp$_9 = symbol_0.textureWithBitmap) != null ? tmp$_9 : throwNPE()).scale);
-                writeU_VL(this.local$$receiver, (tmp$_11 = this.local$atlasBitmapsToId.get_11rb$(((tmp$_10 = symbol_0.textureWithBitmap) != null ? tmp$_10 : throwNPE()).bitmapSlice.bmp)) != null ? tmp$_11 : throwNPE());
-                this.$this.writeIRect_0(this.local$$receiver, ((tmp$_12 = symbol_0.textureWithBitmap) != null ? tmp$_12 : throwNPE()).bitmapSlice.bounds);
+                writeF32_le(this.local$$receiver, ensureNotNull(symbol_0.textureWithBitmap).scale);
+                writeU_VL(this.local$$receiver, ensureNotNull(this.local$atlasBitmapsToId.get_11rb$(ensureNotNull(symbol_0.textureWithBitmap).bitmapSlice.bmp)));
+                this.$this.writeIRect_0(this.local$$receiver, ensureNotNull(symbol_0.textureWithBitmap).bitmapSlice.bounds);
                 this.$this.writeRect_0(this.local$$receiver, symbol_0.bounds);
                 var path = symbol_0.path;
                 if (this.local$config.keepPaths && path != null) {
                   writeU_VL(this.local$$receiver, 1);
                   writeU_VL(this.local$$receiver, path.commands.size);
-                  tmp$_13 = path.commands.iterator();
-                  while (tmp$_13.hasNext()) {
-                    var cmd = tmp$_13.next();
+                  tmp$_8 = path.commands.iterator();
+                  while (tmp$_8.hasNext()) {
+                    var cmd = tmp$_8.next();
                     write8(this.local$$receiver, cmd);
                   }
                   writeU_VL(this.local$$receiver, path.data.size);
-                  tmp$_14 = path.data.iterator();
-                  while (tmp$_14.hasNext()) {
-                    var v = tmp$_14.next();
+                  tmp$_9 = path.data.iterator();
+                  while (tmp$_9.hasNext()) {
+                    var v = tmp$_9.next();
                     writeF32_le(this.local$$receiver, v);
                   }
                 }
@@ -5087,14 +5084,14 @@
                 writeU_VL(this.local$$receiver, AniFile_getInstance().SYMBOL_TYPE_MORPH_SHAPE);
                 var entries = symbol_0.texturesWithBitmap.entries;
                 writeU_VL(this.local$$receiver, entries.size);
-                tmp$_15 = entries.iterator();
-                while (tmp$_15.hasNext()) {
-                  var tmp$_41 = tmp$_15.next();
-                  var ratio1000 = tmp$_41.component1()
-                  , textureWithBitmap = tmp$_41.component2();
+                tmp$_10 = entries.iterator();
+                while (tmp$_10.hasNext()) {
+                  var tmp$_34 = tmp$_10.next();
+                  var ratio1000 = tmp$_34.component1()
+                  , textureWithBitmap = tmp$_34.component2();
                   writeU_VL(this.local$$receiver, ratio1000);
                   writeF32_le(this.local$$receiver, textureWithBitmap.scale);
-                  writeU_VL(this.local$$receiver, (tmp$_16 = this.local$atlasBitmapsToId.get_11rb$(textureWithBitmap.bitmapSlice.bmp)) != null ? tmp$_16 : throwNPE());
+                  writeU_VL(this.local$$receiver, ensureNotNull(this.local$atlasBitmapsToId.get_11rb$(textureWithBitmap.bitmapSlice.bmp)));
                   this.$this.writeRect_0(this.local$$receiver, textureWithBitmap.bounds);
                   this.$this.writeIRect_0(this.local$$receiver, textureWithBitmap.bitmapSlice.bounds);
                 }
@@ -5111,64 +5108,64 @@
                 writeU_VL(this.local$$receiver, limits.totalFrames);
                 writeU_VL(this.local$$receiver, limits.totalTime);
                 writeU_VL(this.local$$receiver, limits.totalUids);
-                tmp$_17 = symbol_0.uidInfo;
-                for (tmp$_18 = 0; tmp$_18 !== tmp$_17.length; ++tmp$_18) {
-                  var uidInfo = tmp$_17[tmp$_18];
+                tmp$_11 = symbol_0.uidInfo;
+                for (tmp$_12 = 0; tmp$_12 !== tmp$_11.length; ++tmp$_12) {
+                  var uidInfo = tmp$_11[tmp$_12];
                   writeU_VL(this.local$$receiver, uidInfo.characterId);
-                  var tmp$_42;
+                  var tmp$_35;
                   if (!uidInfo.extraProps.isEmpty()) {
                     var $this = json.Json;
                     var obj = uidInfo.extraProps;
                     var mapper;
                     mapper = serialization.Mapper;
-                    var tmp$_43;
+                    var tmp$_36;
                     if (false) {
-                      tmp$_43 = $this.encodePrettyUntyped_hvn9da$(mapper.toUntyped_b1ce0a$(getKClass(MutableMap), obj));
+                      tmp$_36 = $this.encodePrettyUntyped_hvn9da$(mapper.toUntyped_b1ce0a$(getKClass(MutableMap), obj));
                     }
                      else {
-                      tmp$_43 = $this.encodeUntyped_s8jyv4$(mapper.toUntyped_b1ce0a$(getKClass(MutableMap), obj));
+                      tmp$_36 = $this.encodeUntyped_s8jyv4$(mapper.toUntyped_b1ce0a$(getKClass(MutableMap), obj));
                     }
-                    tmp$_42 = tmp$_43;
+                    tmp$_35 = tmp$_36;
                   }
                    else
-                    tmp$_42 = '';
-                  writeStringVL(this.local$$receiver, tmp$_42);
+                    tmp$_35 = '';
+                  writeStringVL(this.local$$receiver, tmp$_35);
                 }
                 var $receiver_6 = symbol_0.states;
                 var destination_8 = ArrayList_init_0($receiver_6.size);
-                var tmp$_44;
-                tmp$_44 = $receiver_6.entries.iterator();
-                while (tmp$_44.hasNext()) {
-                  var item_3 = tmp$_44.next();
+                var tmp$_37;
+                tmp$_37 = $receiver_6.entries.iterator();
+                while (tmp$_37.hasNext()) {
+                  var item_3 = tmp$_37.next();
                   destination_8.add_11rb$(item_3.value.subTimeline);
                 }
                 var symbolStates = distinct(toList_0(destination_8));
                 var $receiver_7 = withIndex(symbolStates);
                 var destination_9 = ArrayList_init_0(collectionSizeOrDefault($receiver_7, 10));
-                var tmp$_45;
-                tmp$_45 = $receiver_7.iterator();
-                while (tmp$_45.hasNext()) {
-                  var item_4 = tmp$_45.next();
+                var tmp$_38;
+                tmp$_38 = $receiver_7.iterator();
+                while (tmp$_38.hasNext()) {
+                  var item_4 = tmp$_38.next();
                   destination_9.add_11rb$(to(item_4.value, item_4.index));
                 }
                 var symbolStateToIndex = toMap(destination_9);
                 if (hasNinePatchRect) {
-                  this.$this.writeRect_0(this.local$$receiver, (tmp$_19 = symbol_0.ninePatch) != null ? tmp$_19 : throwNPE());
+                  this.$this.writeRect_0(this.local$$receiver, ensureNotNull(symbol_0.ninePatch));
                 }
                 writeU_VL(this.local$$receiver, symbolStates.size);
-                tmp$_20 = symbolStates.iterator();
-                while (tmp$_20.hasNext()) {
-                  var ss_0 = tmp$_20.next();
+                tmp$_13 = symbolStates.iterator();
+                while (tmp$_13.hasNext()) {
+                  var ss_0 = tmp$_13.next();
                   writeU_VL(this.local$$receiver, ss_0.totalTime);
                   write8(this.local$$receiver, insert(0, ss_0.nextStatePlay, 0));
                   writeU_VL(this.local$$receiver, this.local$strings.get_pdl1vj$(ss_0.nextState));
                   var lastFrameTimeMs = 0;
                   var $receiver_8 = ss_0.actions.entries;
                   var destination_10 = LinkedHashMap_init();
-                  var tmp$_46;
-                  tmp$_46 = $receiver_8.iterator();
-                  while (tmp$_46.hasNext()) {
-                    var element_4 = tmp$_46.next();
+                  var tmp$_39;
+                  tmp$_39 = $receiver_8.iterator();
+                  while (tmp$_39.hasNext()) {
+                    var element_4 = tmp$_39.next();
                     var key = element_4.first;
                     var tmp$_0_0;
                     var value = destination_10.get_11rb$(key);
@@ -5185,18 +5182,18 @@
                   }
                   var actionsPerTime = destination_10;
                   writeU_VL(this.local$$receiver, actionsPerTime.size);
-                  tmp$_21 = actionsPerTime.entries.iterator();
-                  while (tmp$_21.hasNext()) {
-                    var tmp$_47 = tmp$_21.next();
-                    var timeInMicro = tmp$_47.key;
-                    var actions = tmp$_47.value;
+                  tmp$_14 = actionsPerTime.entries.iterator();
+                  while (tmp$_14.hasNext()) {
+                    var tmp$_40 = tmp$_14.next();
+                    var timeInMicro = tmp$_40.key;
+                    var actions = tmp$_40.value;
                     var timeInMs = timeInMicro / 1000 | 0;
                     writeU_VL(this.local$$receiver, timeInMs - lastFrameTimeMs | 0);
                     lastFrameTimeMs = timeInMs;
                     writeU_VL(this.local$$receiver, actions.size);
-                    tmp$_22 = actions.iterator();
-                    while (tmp$_22.hasNext()) {
-                      var actionInfo = tmp$_22.next();
+                    tmp$_15 = actions.iterator();
+                    while (tmp$_15.hasNext()) {
+                      var actionInfo = tmp$_15.next();
                       var action_0 = actionInfo.second;
                       if (Kotlin.isType(action_0, AnPlaySoundAction)) {
                         write8(this.local$$receiver, 0);
@@ -5211,9 +5208,9 @@
                       }
                     }
                   }
-                  tmp$_23 = ss_0.timelines;
-                  for (tmp$_24 = 0; tmp$_24 !== tmp$_23.length; ++tmp$_24) {
-                    var timeline_0 = tmp$_23[tmp$_24];
+                  tmp$_16 = ss_0.timelines;
+                  for (tmp$_17 = 0; tmp$_17 !== tmp$_16.length; ++tmp$_17) {
+                    var timeline_0 = tmp$_16[tmp$_17];
                     totalTimelines = totalTimelines + 1 | 0;
                     var frames = timeline_0.entries;
                     var lastUid = -1;
@@ -5225,11 +5222,11 @@
                     var lastBlendMode = BlendMode$INHERIT_getInstance();
                     writeU_VL(this.local$$receiver, frames.size);
                     var lastFrameTime = 0;
-                    tmp$_25 = frames.iterator();
-                    while (tmp$_25.hasNext()) {
-                      var tmp$_48 = tmp$_25.next();
-                      var frameTime = tmp$_48.component1()
-                      , frame = tmp$_48.component2();
+                    tmp$_18 = frames.iterator();
+                    while (tmp$_18.hasNext()) {
+                      var tmp$_41 = tmp$_18.next();
+                      var frameTime = tmp$_41.component1()
+                      , frame = tmp$_41.component2();
                       var storeFrameTime = frameTime / 1000 | 0;
                       totalFrameCount = totalFrameCount + 1 | 0;
                       writeU_VL(this.local$$receiver, storeFrameTime - lastFrameTime | 0);
@@ -5318,12 +5315,12 @@
                   }
                 }
                 writeU_VL(this.local$$receiver, symbol_0.states.size);
-                tmp$_26 = symbol_0.states.entries.iterator();
-                while (tmp$_26.hasNext()) {
-                  var tmp$_49 = tmp$_26.next();
-                  var name = tmp$_49.key;
-                  var ssi = tmp$_49.value;
-                  var stateIndex = (tmp$_27 = symbolStateToIndex.get_11rb$(ssi.subTimeline)) != null ? tmp$_27 : 0;
+                tmp$_19 = symbol_0.states.entries.iterator();
+                while (tmp$_19.hasNext()) {
+                  var tmp$_42 = tmp$_19.next();
+                  var name = tmp$_42.key;
+                  var ssi = tmp$_42.value;
+                  var stateIndex = (tmp$_20 = symbolStateToIndex.get_11rb$(ssi.subTimeline)) != null ? tmp$_20 : 0;
                   writeU_VL(this.local$$receiver, this.local$strings.get_pdl1vj$(name));
                   writeU_VL(this.local$$receiver, ssi.startTime);
                   writeU_VL(this.local$$receiver, stateIndex);
@@ -5396,17 +5393,16 @@
   });
   var Map = Kotlin.kotlin.collections.Map;
   OptimizedStringAllocator.prototype.add_pdl1vj$ = function (str) {
-    var tmp$;
     if (this.finalized_0)
       throw new IllegalStateException();
     if (str != null) {
       var $receiver = this.stringsCount_0;
-      var tmp$_0;
-      if (!(Kotlin.isType(tmp$_0 = $receiver, Map) ? tmp$_0 : throwCCE()).containsKey_11rb$(str)) {
+      var tmp$;
+      if (!(Kotlin.isType(tmp$ = $receiver, Map) ? tmp$ : throwCCE()).containsKey_11rb$(str)) {
         this.stringsCount_0.put_xwzc9p$(str, 0);
       }
       var $receiver_0 = this.stringsCount_0;
-      var value = ((tmp$ = this.stringsCount_0.get_11rb$(str)) != null ? tmp$ : throwNPE()) + 1 | 0;
+      var value = ensureNotNull(this.stringsCount_0.get_11rb$(str)) + 1 | 0;
       $receiver_0.put_xwzc9p$(str, value);
     }
   };
@@ -5414,14 +5410,13 @@
     return this.getIndex_pdl1vj$(str);
   };
   OptimizedStringAllocator.prototype.getIndex_pdl1vj$ = function (str) {
-    var tmp$;
     if (!this.finalized_0)
       throw new IllegalStateException();
     if (str == null) {
       return 0;
     }
      else {
-      return (tmp$ = this.stringsToIndex_0.get_11rb$(str)) != null ? tmp$ : throwNPE();
+      return ensureNotNull(this.stringsToIndex_0.get_11rb$(str));
     }
   };
   function OptimizedStringAllocator$finalize$lambda(it) {
@@ -5446,23 +5441,23 @@
   };
   Comparator$ObjectLiteral.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
   OptimizedStringAllocator.prototype.finalize = function () {
-    var tmp$, tmp$_0, tmp$_1;
-    var tmp$_2 = [null];
+    var tmp$;
+    var tmp$_0 = [null];
     var $receiver = sortedWith(this.stringsCount_0.entries, new Comparator$ObjectLiteral(compareByDescending$lambda(OptimizedStringAllocator$finalize$lambda)));
     var destination = ArrayList_init_0(collectionSizeOrDefault($receiver, 10));
-    var tmp$_3;
-    tmp$_3 = $receiver.iterator();
-    while (tmp$_3.hasNext()) {
-      var item = tmp$_3.next();
+    var tmp$_1;
+    tmp$_1 = $receiver.iterator();
+    while (tmp$_1.hasNext()) {
+      var item = tmp$_1.next();
       destination.add_11rb$(item.key);
     }
     var elements = copyToArray(destination);
-    this.strings = tmp$_2.concat(elements);
+    this.strings = tmp$_0.concat(elements);
     tmp$ = this.strings.length;
     for (var n = 1; n < tmp$; n++) {
-      tmp$_1 = this.stringsToIndex_0;
-      var key = (tmp$_0 = this.strings[n]) != null ? tmp$_0 : throwNPE();
-      tmp$_1.put_xwzc9p$(key, n);
+      var $receiver_0 = this.stringsToIndex_0;
+      var key = ensureNotNull(this.strings[n]);
+      $receiver_0.put_xwzc9p$(key, n);
     }
     this.finalized_0 = true;
   };
@@ -6460,9 +6455,8 @@
       this.length = sound.lengthInMs.toInt();
       this.playing = true;
       this.promise_0 = go_1(this.soundSystem.views.coroutineContext, SoundChannel$play$lambda(sound, this));
-      var tmp$;
       var $receiver = this.soundSystem.promises_8be2vx$;
-      var element = (tmp$ = this.promise_0) != null ? tmp$ : throwNPE();
+      var element = ensureNotNull(this.promise_0);
       $receiver.add_11rb$(element);
     }
     return this;
@@ -6474,9 +6468,8 @@
   };
   SoundChannel.prototype._end_0 = function () {
     if (this.promise_0 != null) {
-      var tmp$;
       var $receiver = this.soundSystem.promises_8be2vx$;
-      var element = (tmp$ = this.promise_0) != null ? tmp$ : throwNPE();
+      var element = ensureNotNull(this.promise_0);
       $receiver.remove_11rb$(element);
     }
     this.length = 0;
@@ -7782,9 +7775,8 @@
     }));
   }
   function GridViewList(row0, row1, cellSelector, initialRows, initialColumns, container) {
-    var tmp$;
     if (container === void 0)
-      container = (tmp$ = row0.parent) != null ? tmp$ : throwNPE();
+      container = ensureNotNull(row0.parent);
     this.row0 = row0;
     this.row1 = row1;
     this.cellSelector = cellSelector;
@@ -7859,19 +7851,18 @@
     interfaces: []
   };
   function ViewList(view0, view1, initialCount, container) {
-    var tmp$;
     if (container === void 0)
-      container = (tmp$ = view0.parent) != null ? tmp$ : throwNPE();
+      container = ensureNotNull(view0.parent);
     this.view0 = view0;
     this.view1 = view1;
     this.initialCount = initialCount;
     this.container = container;
     this.onRemovedView = new Signal();
     this.onAddedView = new Signal();
-    var tmp$_0;
+    var tmp$;
     this.container.removeChildren();
-    tmp$_0 = this.initialCount;
-    for (var n = 0; n < tmp$_0; n++)
+    tmp$ = this.initialCount;
+    for (var n = 0; n < tmp$; n++)
       this.addItem_0();
   }
   function ViewList$ChangeEvent(view, index) {
@@ -10244,7 +10235,7 @@
   function BatchBuilder2D$Companion() {
     BatchBuilder2D$Companion_instance = this;
     this.a_ColMul = korag.DefaultShaders.a_Col;
-    this.a_ColAdd = new Attribute('a_Col2', VarType.Byte4, true);
+    this.a_ColAdd = Attribute_init('a_Col2', VarType.Byte4, true);
     this.v_ColMul = korag.DefaultShaders.v_Col;
     this.v_ColAdd = new Varying('v_Col2', VarType.Byte4);
     this.LAYOUT = VertexLayout_init([korag.DefaultShaders.a_Pos, korag.DefaultShaders.a_Tex, this.a_ColMul, this.a_ColAdd]);
@@ -12066,7 +12057,7 @@
             throw this.exception_0;
           case 2:
             this.local$instance = this.result_0;
-            this.$this.currentScene = this.local$instance != null ? this.local$instance : throwNPE();
+            this.$this.currentScene = ensureNotNull(this.local$instance);
             this.$this.transitionView.transition = this.local$transition;
             this.$this.transitionView.startNewTransition_l5rad2$(this.local$instance._sceneViewContainer_8be2vx$);
             this.state_0 = 3;
@@ -13277,9 +13268,8 @@
     return function (it) {
       closure$elapsedTime.v = closure$elapsedTime.v + it | 0;
       if (closure$elapsedTime.v >= closure$time) {
-        var tmp$;
         var $receiver = this$TimerComponents.timers_0;
-        var element = (tmp$ = closure$timer.v) != null ? tmp$ : throwNPE();
+        var element = ensureNotNull(closure$timer.v);
         $receiver.remove_11rb$(element);
         closure$c.resume_11rb$(Unit);
       }
@@ -13605,10 +13595,10 @@
       var s = p / 4.0;
       var inv = it - 1;
       var tmp$ = -1.0;
-      var other = 10.0 * inv;
-      var tmp$_0 = tmp$ * Math_0.pow(2.0, other);
-      var a = (inv - s) * (2.0 * math.PI) / p;
-      return tmp$_0 * Math_0.sin(a);
+      var x = 10.0 * inv;
+      var tmp$_0 = tmp$ * Math_0.pow(2.0, x);
+      var x_0 = (inv - s) * (2.0 * math.PI) / p;
+      return tmp$_0 * Math_0.sin(x_0);
     }
   }
   function Easings$EASE_OUT_ELASTIC$lambda(it) {
@@ -13617,10 +13607,10 @@
     else {
       var p = 0.3;
       var s = p / 4.0;
-      var other = -10.0 * it;
-      var tmp$ = Math_0.pow(2.0, other);
-      var a = (it - s) * (2.0 * math.PI) / p;
-      return tmp$ * Math_0.sin(a) + 1;
+      var x = -10.0 * it;
+      var tmp$ = Math_0.pow(2.0, x);
+      var x_0 = (it - s) * (2.0 * math.PI) / p;
+      return tmp$ * Math_0.sin(x_0) + 1;
     }
   }
   function Easings$EASE_OUT_BOUNCE$lambda(it) {
@@ -15006,13 +14996,12 @@
       return this.document != null ? this._html : this._text;
     },
     set: function (value) {
-      var tmp$, tmp$_0;
       this.document = Html_getInstance().parse_61zpoe$(value);
       this.relayout();
-      ((tmp$ = this.document) != null ? tmp$ : throwNPE()).defaultFormat.parent = this.format;
+      ensureNotNull(this.document).defaultFormat.parent = this.format;
       this._text = '';
       this._html = value;
-      this._format_0 = ((tmp$_0 = this.document) != null ? tmp$_0 : throwNPE()).firstFormat.consolidate();
+      this._format_0 = ensureNotNull(this.document).firstFormat.consolidate();
     }
   });
   Text.prototype.relayout = function () {
@@ -15020,15 +15009,15 @@
     (tmp$ = this.document) != null ? (tmp$.doPositioning_90chdb$(this.views.fontRepository, this.textBounds), Unit) : null;
   };
   Text.prototype.render_edjgwy$ = function (ctx, m) {
-    var tmp$, tmp$_0;
+    var tmp$;
     if (!this.visible)
       return;
     var colorMul = this.globalColorMul;
     var colorAdd = this.globalColorAdd;
     if (this.document != null) {
-      tmp$_0 = ((tmp$ = this.document) != null ? tmp$ : throwNPE()).allSpans.iterator();
-      while (tmp$_0.hasNext()) {
-        var span = tmp$_0.next();
+      tmp$ = ensureNotNull(this.document).allSpans.iterator();
+      while (tmp$.hasNext()) {
+        var span = tmp$.next();
         var font = this.views.fontRepository.getBitmapFont_ktnn5$(span.format);
         var format = span.format;
         font.drawText_5nrand$(ctx.batch, format.computedSize, this.text, numberToInt(span.bounds.x), numberToInt(span.bounds.y), m, color.RGBA.multiply_vux9f0$(colorMul, format.computedColor), colorAdd, this.computedBlendMode);
@@ -15044,9 +15033,8 @@
     }
   };
   Text.prototype.getLocalBoundsInternal_2da8yn$$default = function (out) {
-    var tmp$;
     if (this.document != null) {
-      out.copyFrom_2da8yn$(((tmp$ = this.document) != null ? tmp$ : throwNPE()).bounds);
+      out.copyFrom_2da8yn$(ensureNotNull(this.document).bounds);
     }
      else {
       this.views.fontRepository.getBounds_1y5lg$(this.text, this.format, out);
@@ -15562,12 +15550,11 @@
   };
   Object.defineProperty(View.prototype, 'componentsIt_d5hgox$_0', {
     get: function () {
-      var tmp$, tmp$_0, tmp$_1;
       if (this.components_x3l1w4$_0 != null) {
         if (this._componentsIt_q4o34e$_0 == null)
           this._componentsIt_q4o34e$_0 = ArrayList_init_0();
-        ((tmp$ = this._componentsIt_q4o34e$_0) != null ? tmp$ : throwNPE()).clear();
-        ((tmp$_0 = this._componentsIt_q4o34e$_0) != null ? tmp$_0 : throwNPE()).addAll_brywnq$((tmp$_1 = this.components_x3l1w4$_0) != null ? tmp$_1 : throwNPE());
+        ensureNotNull(this._componentsIt_q4o34e$_0).clear();
+        ensureNotNull(this._componentsIt_q4o34e$_0).addAll_brywnq$(ensureNotNull(this.components_x3l1w4$_0));
       }
       return this._componentsIt_q4o34e$_0;
     }
@@ -15597,11 +15584,10 @@
     return (tmp$ = this.components_x3l1w4$_0) != null ? (tmp$.clear(), Unit) : null;
   };
   View.prototype.addComponent_q5itx0$ = function (c) {
-    var tmp$;
     if (this.components_x3l1w4$_0 == null) {
       this.components_x3l1w4$_0 = ArrayList_init_0();
     }
-    ((tmp$ = this.components_x3l1w4$_0) != null ? tmp$ : throwNPE()).add_11rb$(c);
+    ensureNotNull(this.components_x3l1w4$_0).add_11rb$(c);
     c.update_za3lpa$(0);
   };
   function View$addUpdatable$ObjectLiteral(closure$updatable, this$View, view) {
@@ -15626,19 +15612,19 @@
     return c;
   };
   View.prototype.getOrCreateComponent_twnkl3$ = function (clazz, gen) {
-    var tmp$, tmp$_0, tmp$_1;
+    var tmp$;
     if (this.components_x3l1w4$_0 == null) {
       this.components_x3l1w4$_0 = ArrayList_init_0();
     }
-    var $receiver = (tmp$ = this.components_x3l1w4$_0) != null ? tmp$ : throwNPE();
+    var $receiver = ensureNotNull(this.components_x3l1w4$_0);
     var firstOrNull$result;
     firstOrNull$break: do {
-      var tmp$_2;
-      tmp$_2 = $receiver.iterator();
-      while (tmp$_2.hasNext()) {
-        var element = tmp$_2.next();
-        var tmp$_3;
-        if ((tmp$_3 = Kotlin.getKClassFromExpression(element)) != null ? tmp$_3.equals(clazz) : null) {
+      var tmp$_0;
+      tmp$_0 = $receiver.iterator();
+      while (tmp$_0.hasNext()) {
+        var element = tmp$_0.next();
+        var tmp$_1;
+        if ((tmp$_1 = Kotlin.getKClassFromExpression(element)) != null ? tmp$_1.equals(clazz) : null) {
           firstOrNull$result = element;
           break firstOrNull$break;
         }
@@ -15649,11 +15635,11 @@
     var component = firstOrNull$result;
     if (component == null) {
       component = gen(this);
-      var $receiver_0 = (tmp$_0 = this.components_x3l1w4$_0) != null ? tmp$_0 : throwNPE();
+      var $receiver_0 = ensureNotNull(this.components_x3l1w4$_0);
       var element_0 = component;
       $receiver_0.add_11rb$(element_0);
     }
-    return Kotlin.isType(tmp$_1 = component != null ? component : throwNPE(), Component) ? tmp$_1 : throwCCE();
+    return Kotlin.isType(tmp$ = ensureNotNull(component), Component) ? tmp$ : throwCCE();
   };
   Object.defineProperty(View.prototype, 'localMatrix', {
     get: function () {
@@ -15670,14 +15656,13 @@
   });
   View.prototype._ensureGlobal_sjfzhq$_0 = function () {
     block$break: do {
-      var tmp$, tmp$_0, tmp$_1;
       if (this.validGlobal_8be2vx$)
         break block$break;
       this.validGlobal_8be2vx$ = true;
       if (this.parent != null) {
-        this._globalMatrix.multiply_mgxgbw$(this.localMatrix, ((tmp$ = this.parent) != null ? tmp$ : throwNPE()).globalMatrix);
-        this._globalColorTransform_haylp5$_0.setToConcat_k8ycrk$(this._colorTransform_xtf156$_0, ((tmp$_0 = this.parent) != null ? tmp$_0 : throwNPE()).globalColorTransform);
-        this._computedBlendMode = this.blendMode === BlendMode$INHERIT_getInstance() ? ((tmp$_1 = this.parent) != null ? tmp$_1 : throwNPE()).computedBlendMode : this.blendMode;
+        this._globalMatrix.multiply_mgxgbw$(this.localMatrix, ensureNotNull(this.parent).globalMatrix);
+        this._globalColorTransform_haylp5$_0.setToConcat_k8ycrk$(this._colorTransform_xtf156$_0, ensureNotNull(this.parent).globalColorTransform);
+        this._computedBlendMode = this.blendMode === BlendMode$INHERIT_getInstance() ? ensureNotNull(this.parent).computedBlendMode : this.blendMode;
       }
        else {
         this._globalMatrix.copyFrom_7f5bc6$(this.localMatrix);
@@ -15694,9 +15679,8 @@
       return this._ensureGlobal_sjfzhq$_0()._globalMatrix;
     },
     set: function (value) {
-      var tmp$;
       if (this.parent != null) {
-        this.localMatrix.multiply_mgxgbw$(value, ((tmp$ = this.parent) != null ? tmp$ : throwNPE()).globalMatrixInv);
+        this.localMatrix.multiply_mgxgbw$(value, ensureNotNull(this.parent).globalMatrixInv);
       }
        else {
         this.localMatrix.copyFrom_7f5bc6$(value);
@@ -15889,12 +15873,12 @@
     this.invalidate();
   };
   View.prototype.update_za3lpa$ = function (dtMs) {
-    var tmp$, tmp$_0;
+    var tmp$;
     var actualDtMs = numberToInt(dtMs * this.speed);
     if (this.componentsIt_d5hgox$_0 != null) {
-      tmp$_0 = ((tmp$ = this.componentsIt_d5hgox$_0) != null ? tmp$ : throwNPE()).iterator();
-      while (tmp$_0.hasNext()) {
-        var c = tmp$_0.next();
+      tmp$ = ensureNotNull(this.componentsIt_d5hgox$_0).iterator();
+      while (tmp$.hasNext()) {
+        var c = tmp$.next();
         c.update_za3lpa$(actualDtMs);
       }
     }
@@ -15903,16 +15887,16 @@
   View.prototype.updateInternal_za3lpa$ = function (dtMs) {
   };
   View.prototype.removeFromParent = function () {
-    var tmp$, tmp$_0, tmp$_1;
+    var tmp$, tmp$_0;
     if (this.parent == null)
       return;
-    var p = (tmp$ = this.parent) != null ? tmp$ : throwNPE();
-    tmp$_0 = this.index + 1 | 0;
-    tmp$_1 = p.children.size;
-    for (var i = tmp$_0; i < tmp$_1; i++) {
-      var tmp$_2;
-      tmp$_2 = p.children.get_za3lpa$(i);
-      tmp$_2.index = tmp$_2.index - 1 | 0;
+    var p = ensureNotNull(this.parent);
+    tmp$ = this.index + 1 | 0;
+    tmp$_0 = p.children.size;
+    for (var i = tmp$; i < tmp$_0; i++) {
+      var tmp$_1;
+      tmp$_1 = p.children.get_za3lpa$(i);
+      tmp$_1.index = tmp$_1.index - 1 | 0;
     }
     p.children.removeAt_za3lpa$(this.index);
     this.parent = null;
@@ -16027,13 +16011,13 @@
     return equals($receiver, ancestor) ? true : (tmp$_0 = (tmp$ = $receiver.parent) != null ? hasAncestor(tmp$, ancestor) : null) != null ? tmp$_0 : false;
   }
   function replaceWith($receiver, view) {
-    var tmp$, tmp$_0, tmp$_1;
+    var tmp$, tmp$_0;
     if (equals($receiver, view))
       return false;
     if ($receiver.parent == null)
       return false;
     (tmp$_0 = (tmp$ = view.parent) != null ? tmp$.children : null) != null ? tmp$_0.remove_11rb$(view) : null;
-    ((tmp$_1 = $receiver.parent) != null ? tmp$_1 : throwNPE()).children.set_wxm5ur$($receiver.index, view);
+    ensureNotNull($receiver.parent).children.set_wxm5ur$($receiver.index, view);
     view.index = $receiver.index;
     view.parent = $receiver.parent;
     $receiver.parent = null;
@@ -17098,9 +17082,8 @@
   function get_allDescendantNames$lambda(closure$out) {
     return function (it) {
       if (it.name != null) {
-        var tmp$;
         var $receiver = closure$out;
-        var element = (tmp$ = it.name) != null ? tmp$ : throwNPE();
+        var element = ensureNotNull(it.name);
         $receiver.add_11rb$(element);
       }
       return Unit;
@@ -17874,7 +17857,7 @@
   CancellableGroup.prototype.cancel_tcv7n7$ = Cancellable.prototype.cancel_tcv7n7$;
   View$addUpdatable$ObjectLiteral.prototype.cancel_tcv7n7$ = Cancellable.prototype.cancel_tcv7n7$;
   Views.prototype.dispatch_gdt21f$ = EventDispatcher.prototype.dispatch_gdt21f$;
-  KORGE_VERSION = '0.15.8';
+  KORGE_VERSION = '0.16.0';
   stencilIndex = new Extra$Property(void 0, stencilIndex$lambda);
   animateLibraryLoaders = new Extra$Property(void 0, animateLibraryLoaders$lambda);
   soundSystem = new Extra$PropertyThis(void 0, soundSystem$lambda);
@@ -17888,5 +17871,3 @@
   Kotlin.defineModule('korge-js', _);
   return _;
 }));
-
-//# sourceMappingURL=korge-js.js.map

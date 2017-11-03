@@ -33,7 +33,7 @@
   var defineInlineFunction = Kotlin.defineInlineFunction;
   var CoroutineContext$Key = Kotlin.kotlin.coroutines.experimental.CoroutineContext.Key;
   var AbstractCoroutineContextElement = Kotlin.kotlin.coroutines.experimental.AbstractCoroutineContextElement;
-  var throwNPE = Kotlin.throwNPE;
+  var ensureNotNull = Kotlin.ensureNotNull;
   var Continuation = Kotlin.kotlin.coroutines.experimental.Continuation;
   var LinkedHashSet_init = Kotlin.kotlin.collections.LinkedHashSet_init_287e2$;
   var ArrayList_init = Kotlin.kotlin.collections.ArrayList_init_ww73n8$;
@@ -2189,8 +2189,7 @@
   function CancellableContinuation(delegate) {
     this.delegate_0 = delegate;
     this.context_x0wggo$_0 = this.delegate_0.context.get_8oh8b3$(CoroutineCancelContext$Key_getInstance()) != null ? this.delegate_0.context : (new CoroutineCancelContext()).plus_dvqyjb$(this.delegate_0.context);
-    var tmp$;
-    this.cancelContext = (tmp$ = this.context.get_8oh8b3$(CoroutineCancelContext$Key_getInstance())) != null ? tmp$ : throwNPE();
+    this.cancelContext = ensureNotNull(this.context.get_8oh8b3$(CoroutineCancelContext$Key_getInstance()));
     this.cancells_0 = ArrayList_init();
     this.completed = false;
     this._cancelled_0 = false;
@@ -2448,11 +2447,9 @@
   };
   function EventLoop$animationFrameLoop$lambda(closure$cancelled, closure$callback, this$EventLoop, closure$step, closure$closeable) {
     return function () {
-      var tmp$, tmp$_0;
       if (!closure$cancelled.v) {
         closure$callback();
-        tmp$_0 = (tmp$ = closure$step.v) != null ? tmp$ : throwNPE();
-        closure$closeable.v = this$EventLoop.requestAnimationFrameInternal_o14v8n$(tmp$_0);
+        closure$closeable.v = this$EventLoop.requestAnimationFrameInternal_o14v8n$(ensureNotNull(closure$step.v));
       }
       return Unit;
     };
@@ -4372,10 +4369,9 @@
   SuspendingIteratorCoroutine$State.valueOf_61zpoe$ = SuspendingIteratorCoroutine$State$valueOf;
   function SuspendingIteratorCoroutine$computeHasNext$lambda(this$SuspendingIteratorCoroutine) {
     return function (c) {
-      var tmp$;
       this$SuspendingIteratorCoroutine.state = SuspendingIteratorCoroutine$State$COMPUTING_HAS_NEXT_getInstance();
       this$SuspendingIteratorCoroutine.computeContinuation = c;
-      ((tmp$ = this$SuspendingIteratorCoroutine.nextStep) != null ? tmp$ : throwNPE()).resume_11rb$(Unit);
+      ensureNotNull(this$SuspendingIteratorCoroutine.nextStep).resume_11rb$(Unit);
       return Unit;
     };
   }
@@ -4403,10 +4399,9 @@
   };
   function SuspendingIteratorCoroutine$computeNext$lambda(this$SuspendingIteratorCoroutine) {
     return function (c) {
-      var tmp$;
       this$SuspendingIteratorCoroutine.state = SuspendingIteratorCoroutine$State$COMPUTING_NEXT_getInstance();
       this$SuspendingIteratorCoroutine.computeContinuation = c;
-      ((tmp$ = this$SuspendingIteratorCoroutine.nextStep) != null ? tmp$ : throwNPE()).resume_11rb$(Unit);
+      ensureNotNull(this$SuspendingIteratorCoroutine.nextStep).resume_11rb$(Unit);
       return Unit;
     };
   }
@@ -4458,10 +4453,9 @@
     this.resumeIterator_6taknv$(false);
   };
   SuspendingIteratorCoroutine.prototype.resumeWithException_tcv7n7$ = function (exception) {
-    var tmp$;
     this.nextStep = null;
     this.state = SuspendingIteratorCoroutine$State$DONE_getInstance();
-    ((tmp$ = this.computeContinuation) != null ? tmp$ : throwNPE()).resumeWithException_tcv7n7$(exception);
+    ensureNotNull(this.computeContinuation).resumeWithException_tcv7n7$(exception);
   };
   function SuspendingIteratorCoroutine$yield$lambda(closure$value, this$SuspendingIteratorCoroutine) {
     return function (c) {
@@ -6044,7 +6038,6 @@
     this.flush_gy2s28$_0();
   };
   ProduceConsumer.prototype.flush_gy2s28$_0 = function () {
-    var tmp$;
     while (true) {
       var done = {v: false};
       var consumer = {v: null};
@@ -6058,7 +6051,7 @@
       }
       if (done.v)
         break;
-      ((tmp$ = consumer.v) != null ? tmp$ : throwNPE())(item.v);
+      ensureNotNull(consumer.v)(item.v);
     }
   };
   function ProduceConsumer$consume$lambda$lambda(closure$c) {
@@ -7569,7 +7562,7 @@
     CoroutineImpl.call(this, continuation_0);
     this.exceptionState_0 = 1;
     this.$this = $this;
-    this.local$tmp$_0 = void 0;
+    this.local$tmp$ = void 0;
   }
   Coroutine$alloc.$metadata$ = {
     kind: Kotlin.Kind.CLASS,
@@ -7583,7 +7576,6 @@
       try {
         switch (this.state_0) {
           case 0:
-            var tmp$;
             if (this.$this.createdItems.get() >= this.$this.maxItems) {
               this.state_0 = 3;
               this.result_0 = this.$this.freedItem_0.consume_4l50dc$(void 0, this);
@@ -7603,16 +7595,15 @@
           case 1:
             throw this.exception_0;
           case 2:
-            this.local$tmp$_0 = this.result_0;
+            this.local$tmp$ = this.result_0;
             this.state_0 = 4;
             continue;
           case 3:
-            tmp$ = this.result_0;
-            this.local$tmp$_0 = tmp$ != null ? tmp$ : throwNPE();
+            this.local$tmp$ = ensureNotNull(this.result_0);
             this.state_0 = 4;
             continue;
           case 4:
-            return this.local$tmp$_0;
+            return this.local$tmp$;
         }
       }
        catch (e) {
@@ -7756,10 +7747,8 @@
     this.this$LinkedList2;
     this.this$LinkedList2;
     var this$LinkedList2 = this.this$LinkedList2;
-    var tmp$;
-    if (this.current != null) {
-      this$LinkedList2.remove_jvkhq7$((tmp$ = this.current) != null ? tmp$ : throwNPE());
-    }
+    if (this.current != null)
+      this$LinkedList2.remove_jvkhq7$(ensureNotNull(this.current));
   };
   LinkedList2$iterator$ObjectLiteral.prototype.next = function () {
     this.this$LinkedList2;
@@ -7767,7 +7756,7 @@
     var res = this._next;
     this._next = (tmp$ = this._next) != null ? tmp$.next_8be2vx$ : null;
     this.current = res;
-    return res != null ? res : throwNPE();
+    return ensureNotNull(res);
   };
   LinkedList2$iterator$ObjectLiteral.$metadata$ = {
     kind: Kind_CLASS,
@@ -7793,15 +7782,15 @@
   };
   LinkedList2.prototype.remove_jvkhq7$ = function (item) {
     block$break: do {
-      var tmp$, tmp$_0, tmp$_1;
+      var tmp$, tmp$_0;
       if (item.list_8be2vx$ == null)
         break block$break;
       if (!equals(item.list_8be2vx$, this)) {
-        ((tmp$ = item.list_8be2vx$) != null ? tmp$ : throwNPE()).remove_jvkhq7$(item);
+        ensureNotNull(item.list_8be2vx$).remove_jvkhq7$(item);
         break block$break;
       }
-      (tmp$_0 = item.prev_8be2vx$) != null ? (tmp$_0.next_8be2vx$ = item.next_8be2vx$) : null;
-      (tmp$_1 = item.next_8be2vx$) != null ? (tmp$_1.prev_8be2vx$ = item.prev_8be2vx$) : null;
+      (tmp$ = item.prev_8be2vx$) != null ? (tmp$.next_8be2vx$ = item.next_8be2vx$) : null;
+      (tmp$_0 = item.next_8be2vx$) != null ? (tmp$_0.prev_8be2vx$ = item.prev_8be2vx$) : null;
       if (equals(item, this.head_0))
         this.head_0 = item.next_8be2vx$;
       if (equals(item, this.tail_0))
@@ -7812,9 +7801,8 @@
      while (false);
   };
   LinkedList2.prototype.add_jvkhq7$ = function (item) {
-    var tmp$, tmp$_0;
     if (item.list_8be2vx$ != null) {
-      ((tmp$ = item.list_8be2vx$) != null ? tmp$ : throwNPE()).remove_jvkhq7$(item);
+      ensureNotNull(item.list_8be2vx$).remove_jvkhq7$(item);
     }
     if (this.head_0 == null)
       this.head_0 = item;
@@ -7822,7 +7810,7 @@
       this.tail_0 = item;
     }
      else {
-      ((tmp$_0 = this.tail_0) != null ? tmp$_0 : throwNPE()).next_8be2vx$ = item;
+      ensureNotNull(this.tail_0).next_8be2vx$ = item;
       item.prev_8be2vx$ = this.tail_0;
       this.tail_0 = item;
     }
@@ -7873,19 +7861,18 @@
     return destination.iterator();
   };
   MapList.prototype.append_xwzc9p$ = function (key, value) {
-    var tmp$;
     var $receiver = this.map;
-    var tmp$_0;
+    var tmp$;
     var value_0 = $receiver.get_11rb$(key);
     if (value_0 == null) {
       var answer = ArrayList_init();
       $receiver.put_xwzc9p$(key, answer);
-      tmp$_0 = answer;
+      tmp$ = answer;
     }
      else {
-      tmp$_0 = value_0;
+      tmp$ = value_0;
     }
-    ((tmp$ = this.map.get_11rb$(key)) != null ? tmp$ : throwNPE()).add_11rb$(value);
+    ensureNotNull(this.map.get_11rb$(key)).add_11rb$(value);
     return this;
   };
   MapList.prototype.replace_xwzc9p$ = function (key, value) {
@@ -8678,7 +8665,6 @@
       try {
         switch (this.state_0) {
           case 0:
-            var tmp$;
             if (this.$this.value == null) {
               this.state_0 = 2;
               this.result_0 = this.$this.generator(this.local$injector, this);
@@ -8704,7 +8690,7 @@
             this.state_0 = 4;
             continue;
           case 4:
-            return (tmp$ = this.$this.value) != null ? tmp$ : throwNPE();
+            return ensureNotNull(this.$this.value);
         }
       }
        catch (e) {
@@ -9807,8 +9793,8 @@
         return 0.0;
       }
        else {
-        var other = 1 - this.FLOAT16_EXPONENT_BASE | 0;
-        return sign * Math_0.pow(2.0, other) * (significand / 1024 | 0);
+        var x = 1 - this.FLOAT16_EXPONENT_BASE | 0;
+        return sign * Math_0.pow(2.0, x) * (significand / 1024 | 0);
       }
     }
     if (exponent === 31) {
@@ -9819,8 +9805,8 @@
         return kotlin_js_internal_DoubleCompanionObject.NaN;
       }
     }
-    var other_0 = exponent - this.FLOAT16_EXPONENT_BASE | 0;
-    return sign * Math_0.pow(2.0, other_0) * (1 + (significand / 1024 | 0) | 0);
+    var x_0 = exponent - this.FLOAT16_EXPONENT_BASE | 0;
+    return sign * Math_0.pow(2.0, x_0) * (1 + (significand / 1024 | 0) | 0);
   };
   Float16$Companion.prototype.doubleToIntBits_14dthe$ = function (value) {
     var tmp$;
@@ -9893,6 +9879,7 @@
     return $this;
   }
   var formatRegex;
+  var throwNPE = Kotlin.throwNPE;
   function format($receiver, params) {
     var params_0 = Queue_init(params.slice());
     var $this = formatRegex;
@@ -11290,8 +11277,7 @@
         tmp$_1 = $receiver.iterator();
         while (tmp$_1.hasNext()) {
           var item = tmp$_1.next();
-          var tmp$_2;
-          destination_0.add_11rb$(to((tmp$_2 = element.key) != null ? tmp$_2 : throwNPE(), item));
+          destination_0.add_11rb$(to(ensureNotNull(element.key), item));
         }
         tmp$_0 = destination_0;
       }
@@ -15260,7 +15246,7 @@
       while (tmp$_1.hasNext()) {
         var item = tmp$_1.next();
         var tmp$_2 = destination.add_11rb$;
-        var obj_0 = item != null ? item : throwNPE();
+        var obj_0 = ensureNotNull(item);
         tmp$_2.call(destination, this.toUntyped_b1ce0a$(getKClass(Any), obj_0));
       }
       return ArrayList_init_0(destination);
@@ -15272,11 +15258,10 @@
       while (tmp$_3.hasNext()) {
         var item_0 = tmp$_3.next();
         var tmp$_4 = destination_0.add_11rb$;
-        var tmp$_5, tmp$_6;
-        tmp$_6 = (tmp$_5 = item_0.key) != null ? tmp$_5 : throwNPE();
-        var tmp$_7 = this.toUntyped_b1ce0a$(getKClass(Any), tmp$_6);
-        var obj_1 = item_0.value;
-        tmp$_4.call(destination_0, to(tmp$_7, this.toUntyped_b1ce0a$(getKClass(Any), obj_1)));
+        var obj_1 = ensureNotNull(item_0.key);
+        var tmp$_5 = this.toUntyped_b1ce0a$(getKClass(Any), obj_1);
+        var obj_2 = item_0.value;
+        tmp$_4.call(destination_0, to(tmp$_5, this.toUntyped_b1ce0a$(getKClass(Any), obj_2)));
       }
       return toLinkedMap(destination_0);
     }
@@ -15301,8 +15286,7 @@
   };
   function ObjectMapper$registerEnum$lambda(closure$nameToString) {
     return function ($receiver, it) {
-      var tmp$;
-      return (tmp$ = closure$nameToString.get_11rb$(toString(it))) != null ? tmp$ : throwNPE();
+      return ensureNotNull(closure$nameToString.get_11rb$(toString(it)));
     };
   }
   ObjectMapper.prototype.registerEnum_hytwtp$ = function (clazz, values) {
@@ -16616,7 +16600,7 @@
     }
   };
   XmlStream$Xml2Iterator.prototype.prepare = function () {
-    var tmp$, tmp$_0, tmp$_1;
+    var tmp$, tmp$_0;
     if (this.current != null)
       return;
     if (this.r.eof) {
@@ -16659,27 +16643,27 @@
           var processingInstruction = this.r.matchLit_61zpoe$('?') != null;
           var close = this.r.matchLit_61zpoe$('/') != null;
           this.r.skipSpaces();
-          var name = (tmp$ = this.r.matchIdentifier()) != null ? tmp$ : throwNPE();
+          var name = ensureNotNull(this.r.matchIdentifier());
           this.r.skipSpaces();
           var attributes = lmapOf([]);
           while (unboxChar(this.r.peekChar()) !== 63 && unboxChar(this.r.peekChar()) !== 47 && unboxChar(this.r.peekChar()) !== 62) {
-            tmp$_0 = this.r.matchIdentifier();
-            if (tmp$_0 == null) {
+            tmp$ = this.r.matchIdentifier();
+            if (tmp$ == null) {
               throw new IllegalArgumentException('Malformed document or unsupported xml construct around ~' + this.r.peek_za3lpa$(10) + '~');
             }
-            var key = tmp$_0;
+            var key = tmp$;
             this.r.skipSpaces();
             if (this.r.matchLit_61zpoe$('=') != null) {
               this.r.skipSpaces();
               var argsQuote = this.r.matchSingleOrDoubleQuoteString();
               if (argsQuote != null) {
-                tmp$_1 = XmlEntities_getInstance().decode_61zpoe$(substr_0(argsQuote, 1, -1));
+                tmp$_0 = XmlEntities_getInstance().decode_61zpoe$(substr_0(argsQuote, 1, -1));
               }
                else {
                 var argsNq = this.r.matchIdentifier();
-                tmp$_1 = XmlEntities_getInstance().decode_61zpoe$(argsNq != null ? argsNq : throwNPE());
+                tmp$_0 = XmlEntities_getInstance().decode_61zpoe$(ensureNotNull(argsNq));
               }
-              var value = tmp$_1;
+              var value = tmp$_0;
               attributes.put_xwzc9p$(key, value);
             }
              else {
@@ -16705,7 +16689,7 @@
     this.prepare();
     var out = this.current;
     this.current = null;
-    return out != null ? out : throwNPE();
+    return ensureNotNull(out);
   };
   XmlStream$Xml2Iterator.prototype.hasNext = function () {
     this.prepare();
@@ -18674,7 +18658,7 @@
       try {
         switch (this.state_0) {
           case 0:
-            var tmp$, tmp$_0, tmp$_1;
+            var tmp$, tmp$_0;
             if (!((tmp$_0 = (tmp$ = this.$this.cached) != null ? tmp$.containsSectors_3pjtqy$(this.local$start, this.local$end) : null) != null ? tmp$_0 : false)) {
               this.state_0 = 2;
               this.result_0 = this.$this.readSectorsUncached_3pjtqy$(this.local$start, this.local$end, this);
@@ -18694,7 +18678,7 @@
             this.state_0 = 3;
             continue;
           case 3:
-            return (tmp$_1 = this.$this.cached) != null ? tmp$_1 : throwNPE();
+            return ensureNotNull(this.$this.cached);
         }
       }
        catch (e) {
@@ -23802,11 +23786,10 @@
       try {
         switch (this.state_0) {
           case 0:
-            var tmp$;
             if (this.local$this$AsyncCacheItem.promise == null)
               this.local$this$AsyncCacheItem.promise = async(this.local$$receiver, this.local$closure$gen);
             this.state_0 = 2;
-            this.result_0 = ((tmp$ = this.local$this$AsyncCacheItem.promise) != null ? tmp$ : throwNPE()).await(this);
+            this.result_0 = ensureNotNull(this.local$this$AsyncCacheItem.promise).await(this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -24015,7 +23998,7 @@
       try {
         switch (this.state_0) {
           case 0:
-            var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3;
+            var tmp$, tmp$_0, tmp$_1, tmp$_2;
             var entry = this.local$this$AsyncInmemoryCache.cache.get_11rb$(this.local$closure$key);
             if (entry == null || klock.Klock.currentTimeMillis().subtract(entry.timestamp).compareTo_11rb$(Kotlin.Long.fromInt(this.local$closure$ttlMs)) >= 0) {
               tmp$ = TimeProvider$Companion_getInstance().now();
@@ -24027,7 +24010,7 @@
             }
 
             this.state_0 = 2;
-            this.result_0 = (Kotlin.isType(tmp$_3 = ((tmp$_2 = this.local$this$AsyncInmemoryCache.cache.get_11rb$(this.local$closure$key)) != null ? tmp$_2 : throwNPE()).data, Promise_0) ? tmp$_3 : throwCCE()).await(this);
+            this.result_0 = (Kotlin.isType(tmp$_2 = ensureNotNull(this.local$this$AsyncInmemoryCache.cache.get_11rb$(this.local$closure$key)).data, Promise_0) ? tmp$_2 : throwCCE()).await(this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -27937,7 +27920,7 @@
     return this.reader.getSector_vux9f0$(this.record.extent, this.record.size, continuation);
   };
   ISO$IsoFile.prototype.get_61zpoe$ = function (name) {
-    var tmp$, tmp$_0, tmp$_1;
+    var tmp$, tmp$_0;
     var current = this;
     tmp$ = split_0(name, ['/']).iterator();
     while (tmp$.hasNext()) {
@@ -27945,15 +27928,15 @@
       if (!equals(part, ''))
         if (!equals(part, '.'))
           if (equals(part, '..'))
-            current = (tmp$_0 = current.parent) != null ? tmp$_0 : throwNPE();
+            current = ensureNotNull(current.parent);
           else {
             var $receiver = current.children;
             var firstOrNull$result;
             firstOrNull$break: do {
-              var tmp$_2;
-              tmp$_2 = $receiver.iterator();
-              while (tmp$_2.hasNext()) {
-                var element = tmp$_2.next();
+              var tmp$_1;
+              tmp$_1 = $receiver.iterator();
+              while (tmp$_1.hasNext()) {
+                var element = tmp$_1.next();
                 if (equals(element.name.toUpperCase(), part.toUpperCase())) {
                   firstOrNull$result = element;
                   break firstOrNull$break;
@@ -27962,11 +27945,11 @@
               firstOrNull$result = null;
             }
              while (false);
-            tmp$_1 = firstOrNull$result;
-            if (tmp$_1 == null) {
+            tmp$_0 = firstOrNull$result;
+            if (tmp$_0 == null) {
               throw new IllegalStateException("Can't find part " + part + ' for accessing path ' + name + ' children: ' + current.children);
             }
-            current = tmp$_1;
+            current = tmp$_0;
           }
     }
     return current;
@@ -28044,8 +28027,7 @@
   };
   function ISO$ISO$PrimaryVolumeDescriptor_init(s, $this) {
     $this = $this || Object.create(ISO$PrimaryVolumeDescriptor.prototype);
-    var tmp$;
-    ISO$PrimaryVolumeDescriptor.call($this, ISO$ISO$VolumeDescriptorHeader_init(s), readU8_0(s), readStringz_2(s, 32), readStringz_2(s, 32), readS64_le_0(s), ISO_getInstance().readU32_le_be_ucmi9i$(s), ISO_getInstance().readLongArray_le_hsu5ns$(s, 4), ISO_getInstance().readU16_le_be_ucmi9i$(s), ISO_getInstance().readU16_le_be_ucmi9i$(s), ISO_getInstance().readU16_le_be_ucmi9i$(s), ISO_getInstance().readU32_le_be_ucmi9i$(s), readS32_le_0(s), readS32_le_0(s), readS32_le_0(s), readS32_le_0(s), (tmp$ = ISO$DirectoryRecord$Companion_getInstance().invoke_39qel5$(s)) != null ? tmp$ : throwNPE(), readStringz_2(s, 128), readStringz_2(s, 128), readStringz_2(s, 128), readStringz_2(s, 128), readStringz_2(s, 37), readStringz_2(s, 37), readStringz_2(s, 37), ISO$ISO$IsoDate_init(s), ISO$ISO$IsoDate_init(s), ISO$ISO$IsoDate_init(s), ISO$ISO$IsoDate_init(s), readU8_0(s), readU8_0(s), readBytes_0(s, 512), readBytes_0(s, 653));
+    ISO$PrimaryVolumeDescriptor.call($this, ISO$ISO$VolumeDescriptorHeader_init(s), readU8_0(s), readStringz_2(s, 32), readStringz_2(s, 32), readS64_le_0(s), ISO_getInstance().readU32_le_be_ucmi9i$(s), ISO_getInstance().readLongArray_le_hsu5ns$(s, 4), ISO_getInstance().readU16_le_be_ucmi9i$(s), ISO_getInstance().readU16_le_be_ucmi9i$(s), ISO_getInstance().readU16_le_be_ucmi9i$(s), ISO_getInstance().readU32_le_be_ucmi9i$(s), readS32_le_0(s), readS32_le_0(s), readS32_le_0(s), readS32_le_0(s), ensureNotNull(ISO$DirectoryRecord$Companion_getInstance().invoke_39qel5$(s)), readStringz_2(s, 128), readStringz_2(s, 128), readStringz_2(s, 128), readStringz_2(s, 128), readStringz_2(s, 37), readStringz_2(s, 37), readStringz_2(s, 37), ISO$ISO$IsoDate_init(s), ISO$ISO$IsoDate_init(s), ISO$ISO$IsoDate_init(s), ISO$ISO$IsoDate_init(s), readU8_0(s), readU8_0(s), readBytes_0(s, 512), readBytes_0(s, 653));
     return $this;
   }
   ISO$PrimaryVolumeDescriptor.prototype.component1 = function () {
@@ -28291,8 +28273,7 @@
   };
   function ISO$ISO$VolumeDescriptorHeader_init(s, $this) {
     $this = $this || Object.create(ISO$VolumeDescriptorHeader.prototype);
-    var tmp$;
-    ISO$VolumeDescriptorHeader.call($this, (tmp$ = ISO$VolumeDescriptorHeader$TypeEnum$Companion_getInstance().BY_ID.get_11rb$(readU8_0(s))) != null ? tmp$ : throwNPE(), readStringz_2(s, 5), readU8_0(s));
+    ISO$VolumeDescriptorHeader.call($this, ensureNotNull(ISO$VolumeDescriptorHeader$TypeEnum$Companion_getInstance().BY_ID.get_11rb$(readU8_0(s))), readStringz_2(s, 5), readU8_0(s));
     return $this;
   }
   ISO$VolumeDescriptorHeader.prototype.component1 = function () {
@@ -29903,19 +29884,19 @@
       return this.parent_gsmy8c$_0;
     },
     set: function (value) {
-      var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
+      var tmp$, tmp$_0, tmp$_1, tmp$_2;
       if (this.parent_gsmy8c$_0 != null) {
-        ((tmp$ = this.parent_gsmy8c$_0) != null ? tmp$ : throwNPE()).children.remove_11rb$(this.name);
-        ((tmp$_0 = this.parent_gsmy8c$_0) != null ? tmp$_0 : throwNPE()).childrenLC.remove_11rb$(this.nameLC);
+        ensureNotNull(this.parent_gsmy8c$_0).children.remove_11rb$(this.name);
+        ensureNotNull(this.parent_gsmy8c$_0).childrenLC.remove_11rb$(this.nameLC);
       }
       this.parent_gsmy8c$_0 = value;
-      if ((tmp$_2 = (tmp$_1 = this.parent_gsmy8c$_0) != null ? tmp$_1.children : null) != null) {
+      if ((tmp$_0 = (tmp$ = this.parent_gsmy8c$_0) != null ? tmp$.children : null) != null) {
         var key = this.name;
-        tmp$_2.put_xwzc9p$(key, this);
+        tmp$_0.put_xwzc9p$(key, this);
       }
-      if ((tmp$_4 = (tmp$_3 = this.parent_gsmy8c$_0) != null ? tmp$_3.childrenLC : null) != null) {
+      if ((tmp$_2 = (tmp$_1 = this.parent_gsmy8c$_0) != null ? tmp$_1.childrenLC : null) != null) {
         var key_0 = this.nameLC;
-        tmp$_4.put_xwzc9p$(key_0, this);
+        tmp$_2.put_xwzc9p$(key_0, this);
       }
     }
   });
@@ -38533,12 +38514,12 @@
     }
   });
   CRC32.prototype.update_mj6st8$ = function (buf, index, len) {
-    var tmp$, tmp$_0;
+    var tmp$;
     var index_0 = index;
     var len_0 = len;
     var c = ~this.v_0;
     while ((len_0 = len_0 - 1 | 0, len_0) >= 0) {
-      c = ((tmp$ = CRC32$Companion_getInstance().crc_table_0) != null ? tmp$ : throwNPE())[(c ^ buf[tmp$_0 = index_0, index_0 = tmp$_0 + 1 | 0, tmp$_0]) & 255] ^ c >>> 8;
+      c = ensureNotNull(CRC32$Companion_getInstance().crc_table_0)[(c ^ buf[tmp$ = index_0, index_0 = tmp$ + 1 | 0, tmp$]) & 255] ^ c >>> 8;
     }
     this.v_0 = ~c;
   };
@@ -41296,7 +41277,7 @@
   toAsyncOutputStream$ObjectLiteral.prototype.write_mj6st8$ = AsyncOutputStream.prototype.write_mj6st8$;
   Cancellable$Companion$invoke$ObjectLiteral.prototype.cancel_tcv7n7$ = Cancellable.prototype.cancel_tcv7n7$;
   NodeJsAsyncClient.prototype.write_mj6st8$ = AsyncClient.prototype.write_mj6st8$;
-  KORIO_VERSION = '0.15.3';
+  KORIO_VERSION = '0.16.0';
   tasksInProgress = new AtomicInteger(0);
   COROUTINE_SUSPENDED_0 = COROUTINE_SUSPENDED;
   UTF8 = UTF8Charset_getInstance();
@@ -41323,5 +41304,3 @@
   Kotlin.defineModule('korio-js', _);
   return _;
 }));
-
-//# sourceMappingURL=korio-js.js.map

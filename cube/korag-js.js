@@ -36,7 +36,7 @@
   var async = $module$korio_js.com.soywiz.korio.async.async_g3zeo5$;
   var Closeable = $module$korio_js.com.soywiz.korio.lang.Closeable;
   var KorioNative$FastMemory = $module$korio_js.com.soywiz.korio.KorioNative.FastMemory;
-  var throwNPE = Kotlin.throwNPE;
+  var ensureNotNull = Kotlin.ensureNotNull;
   var invalidOp = $module$korio_js.com.soywiz.korio.error.invalidOp_61zpoe$;
   var color = $module$korim_js.com.soywiz.korim.color;
   var defineInlineFunction = Kotlin.defineInlineFunction;
@@ -1158,9 +1158,8 @@
       offset = 0;
     if (length === void 0)
       length = data.length;
-    var tmp$;
     this.mem = KorioNative$FastMemory.Companion.alloc_za3lpa$(length);
-    ((tmp$ = this.mem) != null ? tmp$ : throwNPE()).setAlignedArrayInt8_3fge6q$(0, data, offset, length);
+    ensureNotNull(this.mem).setAlignedArrayInt8_3fge6q$(0, data, offset, length);
     this.memOffset = 0;
     this.memLength = length;
     this.dirty = true;
@@ -1172,9 +1171,8 @@
       offset = 0;
     if (length === void 0)
       length = data.length;
-    var tmp$;
     this.mem = KorioNative$FastMemory.Companion.alloc_za3lpa$(length * 4 | 0);
-    ((tmp$ = this.mem) != null ? tmp$ : throwNPE()).setAlignedArrayFloat32_3hvitc$(0, data, offset, length);
+    ensureNotNull(this.mem).setAlignedArrayFloat32_3hvitc$(0, data, offset, length);
     this.memOffset = 0;
     this.memLength = length * 4 | 0;
     this.dirty = true;
@@ -1186,9 +1184,8 @@
       offset = 0;
     if (length === void 0)
       length = data.length;
-    var tmp$;
     this.mem = KorioNative$FastMemory.Companion.alloc_za3lpa$(length * 4 | 0);
-    ((tmp$ = this.mem) != null ? tmp$ : throwNPE()).setAlignedArrayInt32_coga0j$(0, data, offset, length);
+    ensureNotNull(this.mem).setAlignedArrayInt32_coga0j$(0, data, offset, length);
     this.memOffset = 0;
     this.memLength = length * 4 | 0;
     this.dirty = true;
@@ -1200,9 +1197,8 @@
       offset = 0;
     if (length === void 0)
       length = data.length;
-    var tmp$;
     this.mem = KorioNative$FastMemory.Companion.alloc_za3lpa$(length * 2 | 0);
-    ((tmp$ = this.mem) != null ? tmp$ : throwNPE()).setAlignedArrayInt16_r43jz4$(0, data, offset, length);
+    ensureNotNull(this.mem).setAlignedArrayInt16_r43jz4$(0, data, offset, length);
     this.memOffset = 0;
     this.memLength = length * 2 | 0;
     this.dirty = true;
@@ -1835,12 +1831,11 @@
   }
   Object.defineProperty(AG$RenderBuffer.prototype, 'tex', {
     get: function () {
-      var tmp$;
       if (this.cachedTexVersion_5oiwyh$_0 !== this.$outer.contextVersion) {
         this.cachedTexVersion_5oiwyh$_0 = this.$outer.contextVersion;
         this._tex_wlye6q$_0 = this.$outer.createTexture().manualUpload();
       }
-      return (tmp$ = this._tex_wlye6q$_0) != null ? tmp$ : throwNPE();
+      return ensureNotNull(this._tex_wlye6q$_0);
     }
   });
   AG$RenderBuffer.prototype.start_vux9f0$ = function (width, height) {
@@ -2007,7 +2002,7 @@
     }
   });
   AG.prototype.drawBmp_59u9qz$ = function (bitmap) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3;
     if (this.drawBmpVB_dhxfvp$_0 == null)
       this.drawBmpVB_dhxfvp$_0 = this.createVertexBuffer();
     if (this.drawBmpIB_dhx68o$_0 == null)
@@ -2016,15 +2011,14 @@
       this.drawBmpTex_7qw61w$_0 = this.createTexture();
     if (this.drawBmpTexUnit_vcjhvc$_0 == null)
       this.drawBmpTexUnit_vcjhvc$_0 = new AG$TextureUnit(this.drawBmpTex_7qw61w$_0, false);
-    if (this.drawBmp_UNIFORMS_vfpwd7$_0 == null) {
-      this.drawBmp_UNIFORMS_vfpwd7$_0 = mapOf([to(DefaultShaders_getInstance().u_ProjMat, this.drawBmpMat_7r0q0t$_0), to(DefaultShaders_getInstance().u_Tex, (tmp$ = this.drawBmpTexUnit_vcjhvc$_0) != null ? tmp$ : throwNPE())]);
-    }
-    (tmp$_0 = this.drawBmpVB_dhxfvp$_0) != null ? tmp$_0.upload_kgymra$(this.drawBmp_VERTICES_uziqgb$_0) : null;
-    (tmp$_1 = this.drawBmpIB_dhx68o$_0) != null ? tmp$_1.upload_359eei$(this.drawBmp_INDICES_7t5mev$_0) : null;
-    (tmp$_2 = this.drawBmpTex_7qw61w$_0) != null ? tmp$_2.upload_nn58bg$(bitmap, false) : null;
-    tmp$_4 = (tmp$_3 = this.drawBmpVB_dhxfvp$_0) != null ? tmp$_3 : throwNPE();
-    tmp$_6 = (tmp$_5 = this.drawBmpIB_dhx68o$_0) != null ? tmp$_5 : throwNPE();
-    this.draw_3hoar0$(tmp$_4, DefaultShaders_getInstance().PROGRAM_TINTED_TEXTURE, AG$DrawType$TRIANGLES_getInstance(), DefaultShaders_getInstance().LAYOUT_DEFAULT, 6, tmp$_6, void 0, AG$Blending$Companion_getInstance().NONE, (tmp$_7 = this.drawBmp_UNIFORMS_vfpwd7$_0) != null ? tmp$_7 : throwNPE());
+    if (this.drawBmp_UNIFORMS_vfpwd7$_0 == null)
+      this.drawBmp_UNIFORMS_vfpwd7$_0 = mapOf([to(DefaultShaders_getInstance().u_ProjMat, this.drawBmpMat_7r0q0t$_0), to(DefaultShaders_getInstance().u_Tex, ensureNotNull(this.drawBmpTexUnit_vcjhvc$_0))]);
+    (tmp$ = this.drawBmpVB_dhxfvp$_0) != null ? tmp$.upload_kgymra$(this.drawBmp_VERTICES_uziqgb$_0) : null;
+    (tmp$_0 = this.drawBmpIB_dhx68o$_0) != null ? tmp$_0.upload_359eei$(this.drawBmp_INDICES_7t5mev$_0) : null;
+    (tmp$_1 = this.drawBmpTex_7qw61w$_0) != null ? tmp$_1.upload_nn58bg$(bitmap, false) : null;
+    tmp$_2 = ensureNotNull(this.drawBmpVB_dhxfvp$_0);
+    tmp$_3 = ensureNotNull(this.drawBmpIB_dhx68o$_0);
+    this.draw_3hoar0$(tmp$_2, DefaultShaders_getInstance().PROGRAM_TINTED_TEXTURE, AG$DrawType$TRIANGLES_getInstance(), DefaultShaders_getInstance().LAYOUT_DEFAULT, 6, tmp$_3, void 0, AG$Blending$Companion_getInstance().NONE, ensureNotNull(this.drawBmp_UNIFORMS_vfpwd7$_0));
   };
   var NotImplementedError_init = Kotlin.kotlin.NotImplementedError;
   AG.prototype.readColor_59u9qz$ = function (bitmap) {
@@ -2152,6 +2146,23 @@
     }
     return DefaultShaders_instance;
   }
+  function Korag() {
+    Korag_instance = this;
+    this.VERSION = KORAG_VERSION;
+  }
+  Korag.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Korag',
+    interfaces: []
+  };
+  var Korag_instance = null;
+  function Korag_getInstance() {
+    if (Korag_instance === null) {
+      new Korag();
+    }
+    return Korag_instance;
+  }
+  var KORAG_VERSION;
   function Matrix2D(a, b, c, d, tx, ty) {
     if (a === void 0)
       a = 1.0;
@@ -2582,9 +2593,7 @@
     }
   });
   LogAG$LogBuffer.prototype.afterSetMem = function () {
-    var tmp$, tmp$_0;
-    tmp$_0 = this.toString() + '.afterSetMem(mem[' + ((tmp$ = this.mem) != null ? tmp$ : throwNPE()).size + '])';
-    this.$outer.log_kwvgae$_0(tmp$_0);
+    this.$outer.log_kwvgae$_0(this.toString() + '.afterSetMem(mem[' + ensureNotNull(this.mem).size + '])');
   };
   LogAG$LogBuffer.prototype.close = function () {
     this.$outer.log_kwvgae$_0(this.toString() + '.close()');
@@ -2633,7 +2642,7 @@
   };
   var collectionSizeOrDefault = Kotlin.kotlin.collections.collectionSizeOrDefault_ba2ldo$;
   LogAG.prototype.draw_n1yu8b$$default = function (vertices, program, type, vertexLayout, vertexCount, indices, offset, blending, uniforms, stencil, colorMask, renderState) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
     try {
       this.log_kwvgae$_0('draw(vertices=' + vertices + ', indices=' + toString(indices) + ', program=' + program + ', type=' + type + ', vertexLayout=' + vertexLayout + ', vertexCount=' + vertexCount + ', offset=' + offset + ', blending=' + blending + ', uniforms=' + uniforms + ', stencil=' + stencil + ', colorMask=' + colorMask + ')');
       var missingUniforms = minus(program.uniforms, uniforms.keys);
@@ -2648,45 +2657,45 @@
         this.log_kwvgae$_0('::draw.ERROR.Missing:' + missingAttributes);
       if (!extraAttributes.isEmpty())
         this.log_kwvgae$_0('::draw.ERROR.Unexpected:' + extraAttributes);
-      var vertexMem = (tmp$_0 = (Kotlin.isType(tmp$ = vertices, LogAG$LogBuffer) ? tmp$ : throwCCE()).logmem) != null ? tmp$_0 : throwNPE();
-      var vertexMemOffset = (Kotlin.isType(tmp$_1 = vertices, LogAG$LogBuffer) ? tmp$_1 : throwCCE()).logmemOffset;
-      var indexMem = (Kotlin.isType(tmp$_2 = indices, LogAG$LogBuffer) ? tmp$_2 : throwCCE()).logmem;
+      var vertexMem = ensureNotNull((Kotlin.isType(tmp$ = vertices, LogAG$LogBuffer) ? tmp$ : throwCCE()).logmem);
+      var vertexMemOffset = (Kotlin.isType(tmp$_0 = vertices, LogAG$LogBuffer) ? tmp$_0 : throwCCE()).logmemOffset;
+      var indexMem = (Kotlin.isType(tmp$_1 = indices, LogAG$LogBuffer) ? tmp$_1 : throwCCE()).logmem;
       var $receiver = until(offset, offset + vertexCount | 0);
       var destination = ArrayList_init(collectionSizeOrDefault($receiver, 10));
-      var tmp$_7;
-      tmp$_7 = $receiver.iterator();
-      while (tmp$_7.hasNext()) {
-        var item = tmp$_7.next();
-        var tmp$_8;
-        destination.add_11rb$((tmp$_8 = (indexMem != null ? indexMem : throwNPE()).getAlignedInt16_za3lpa$(item)) != null ? tmp$_8 : 0);
+      var tmp$_6;
+      tmp$_6 = $receiver.iterator();
+      while (tmp$_6.hasNext()) {
+        var item = tmp$_6.next();
+        var tmp$_7;
+        destination.add_11rb$((tmp$_7 = ensureNotNull(indexMem).getAlignedInt16_za3lpa$(item)) != null ? tmp$_7 : 0);
       }
       var _indices = destination;
       this.log_kwvgae$_0('::draw.indices=' + _indices);
-      tmp$_3 = distinct(sorted(_indices)).iterator();
-      while (tmp$_3.hasNext()) {
-        var index = tmp$_3.next();
+      tmp$_2 = distinct(sorted(_indices)).iterator();
+      while (tmp$_2.hasNext()) {
+        var index = tmp$_2.next();
         var os = index * vertexLayout.totalSize;
         var attributes = ArrayList_init();
-        tmp$_4 = zip(vertexLayout.attributes, vertexLayout.attributePositions).iterator();
-        while (tmp$_4.hasNext()) {
-          var tmp$_9 = tmp$_4.next();
-          var attribute = tmp$_9.component1()
-          , pos = tmp$_9.component2();
+        tmp$_3 = zip(vertexLayout.attributes, vertexLayout.attributePositions).iterator();
+        while (tmp$_3.hasNext()) {
+          var tmp$_8 = tmp$_3.next();
+          var attribute = tmp$_8.component1()
+          , pos = tmp$_8.component2();
           var o = os + pos + vertexMemOffset | 0;
-          tmp$_5 = attribute.type;
-          if (equals(tmp$_5, VarType$Int1_getInstance()))
-            tmp$_6 = 'int(' + toString(vertexMem.getInt32_za3lpa$(o + 0 | 0)) + ')';
-          else if (equals(tmp$_5, VarType$Float1_getInstance()))
-            tmp$_6 = 'float(' + toString(vertexMem.getFloat32_za3lpa$(o + 0 | 0)) + ')';
-          else if (equals(tmp$_5, VarType$Float2_getInstance()))
-            tmp$_6 = 'vec2(' + toString(vertexMem.getFloat32_za3lpa$(o + 0 | 0)) + ',' + toString(vertexMem.getFloat32_za3lpa$(o + 4 | 0)) + ')';
-          else if (equals(tmp$_5, VarType$Float3_getInstance()))
-            tmp$_6 = 'vec3(' + toString(vertexMem.getFloat32_za3lpa$(o + 0 | 0)) + ',' + toString(vertexMem.getFloat32_za3lpa$(o + 4 | 0)) + ',' + toString(vertexMem.getFloat32_za3lpa$(o + 8 | 0)) + ')';
-          else if (equals(tmp$_5, VarType$Byte4_getInstance()))
-            tmp$_6 = 'byte4(' + toString(vertexMem.getInt32_za3lpa$(o + 0 | 0)) + ')';
+          tmp$_4 = attribute.type;
+          if (equals(tmp$_4, VarType$Int1_getInstance()))
+            tmp$_5 = 'int(' + toString(vertexMem.getInt32_za3lpa$(o + 0 | 0)) + ')';
+          else if (equals(tmp$_4, VarType$Float1_getInstance()))
+            tmp$_5 = 'float(' + toString(vertexMem.getFloat32_za3lpa$(o + 0 | 0)) + ')';
+          else if (equals(tmp$_4, VarType$Float2_getInstance()))
+            tmp$_5 = 'vec2(' + toString(vertexMem.getFloat32_za3lpa$(o + 0 | 0)) + ',' + toString(vertexMem.getFloat32_za3lpa$(o + 4 | 0)) + ')';
+          else if (equals(tmp$_4, VarType$Float3_getInstance()))
+            tmp$_5 = 'vec3(' + toString(vertexMem.getFloat32_za3lpa$(o + 0 | 0)) + ',' + toString(vertexMem.getFloat32_za3lpa$(o + 4 | 0)) + ',' + toString(vertexMem.getFloat32_za3lpa$(o + 8 | 0)) + ')';
+          else if (equals(tmp$_4, VarType$Byte4_getInstance()))
+            tmp$_5 = 'byte4(' + toString(vertexMem.getInt32_za3lpa$(o + 0 | 0)) + ')';
           else
-            tmp$_6 = 'Unsupported(' + attribute.type + ')';
-          var info = tmp$_6;
+            tmp$_5 = 'Unsupported(' + attribute.type + ')';
+          var info = tmp$_5;
           var element = attribute.name + '[' + info + ']';
           attributes.add_11rb$(element);
         }
@@ -2914,14 +2923,13 @@
     this.programStr_0.append_gw00v9$(')');
   };
   GlslGenerator.prototype.visit_ceyg7y$ = function (stm) {
-    var tmp$;
     this.programStr_0.append_gw00v9$('if (');
     this.visit_dq1c34$(stm.cond);
     this.programStr_0.append_gw00v9$(') ');
     this.visit_57b21j$(stm.tbody);
     if (stm.fbody != null) {
       this.programStr_0.append_gw00v9$(' else ');
-      this.visit_57b21j$((tmp$ = stm.fbody) != null ? tmp$ : throwNPE());
+      this.visit_57b21j$(ensureNotNull(stm.fbody));
     }
   };
   GlslGenerator.prototype.visit_bmfbl7$ = function (operand) {
@@ -4547,7 +4555,6 @@
   AGWebgl$WebglBuffer.prototype.afterSetMem = function () {
   };
   AGWebgl$WebglBuffer.prototype.bind = function () {
-    var tmp$;
     if (this.cachedVersion !== this.$outer.contextVersion) {
       this.cachedVersion = this.$outer.contextVersion;
       this.buffer = null;
@@ -4558,7 +4565,7 @@
     }
     this.$outer.gl.bindBuffer(this.target, this.buffer);
     if (this.dirty) {
-      var mem2 = (tmp$ = this.mem) != null ? tmp$ : throwNPE();
+      var mem2 = ensureNotNull(this.mem);
       var buffer = mem2.buffer;
       var typedArray = new Int8Array(buffer.buffer, this.memOffset, this.memLength);
       this.$outer.gl.bufferData(this.target, typedArray, WebGLRenderingContext.STATIC_DRAW);
@@ -5181,6 +5188,14 @@
   Object.defineProperty(package$korag, 'DefaultShaders', {
     get: DefaultShaders_getInstance
   });
+  Object.defineProperty(package$korag, 'Korag', {
+    get: Korag_getInstance
+  });
+  Object.defineProperty(package$korag, 'KORAG_VERSION', {
+    get: function () {
+      return KORAG_VERSION;
+    }
+  });
   var package$geom = package$korag.geom || (package$korag.geom = {});
   package$geom.Matrix2D = Matrix2D;
   package$geom.Matrix3 = Matrix3;
@@ -5385,8 +5400,7 @@
   package$korag.AGWebgl = AGWebgl;
   defaultFactory = lazy(defaultFactory$lambda);
   agFactory = lazy(agFactory$lambda);
+  KORAG_VERSION = '0.16.0';
   Kotlin.defineModule('korag-js', _);
   return _;
 }));
-
-//# sourceMappingURL=korag-js.js.map

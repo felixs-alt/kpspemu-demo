@@ -18,6 +18,7 @@
 }(this, function (_, Kotlin, $module$korma_js, $module$korio_js) {
   'use strict';
   var $$importsForInline$$ = _.$$importsForInline$$ || (_.$$importsForInline$$ = {});
+  var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var clamp = $module$korio_js.com.soywiz.korio.util.clamp_e4yvb3$;
   var Unit = Kotlin.kotlin.Unit;
   var UnsupportedOperationException = Kotlin.kotlin.UnsupportedOperationException;
@@ -25,6 +26,7 @@
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var Sizeable = $module$korma_js.com.soywiz.korma.geom.Sizeable;
   var throwCCE = Kotlin.throwCCE;
+  var toShort = Kotlin.toShort;
   var copyTo = $module$korma_js.com.soywiz.korma.buffer.copyTo_m9cn97$;
   var fill = $module$korio_js.com.soywiz.korio.typedarray.fill_tpuxuu$;
   var defineInlineFunction = Kotlin.defineInlineFunction;
@@ -32,7 +34,6 @@
   var toByte = Kotlin.toByte;
   var IllegalArgumentException = Kotlin.kotlin.IllegalArgumentException;
   var abs = Kotlin.kotlin.math.abs_za3lpa$;
-  var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var RuntimeException = Kotlin.kotlin.RuntimeException;
   var Iterable = Kotlin.kotlin.collections.Iterable;
   var Enum = Kotlin.kotlin.Enum;
@@ -64,12 +65,11 @@
   var write24_be = $module$korio_js.com.soywiz.korio.util.write24_be_ietg8x$;
   var write32_le = $module$korio_js.com.soywiz.korio.util.write32_le_ietg8x$;
   var write32_be = $module$korio_js.com.soywiz.korio.util.write32_be_ietg8x$;
-  var toShort = Kotlin.toShort;
   var interpolate = $module$korma_js.com.soywiz.korma.interpolation.interpolate_nig4hr$;
   var interpolate_0 = $module$korma_js.com.soywiz.korma.interpolation.interpolate_i767ff$;
   var get_niceStr = $module$korma_js.com.soywiz.korma.numeric.get_niceStr_yrwdxr$;
-  var Interpolable = $module$korma_js.com.soywiz.korma.interpolation.Interpolable;
   var MutableInterpolable = $module$korma_js.com.soywiz.korma.interpolation.MutableInterpolable;
+  var Interpolable = $module$korma_js.com.soywiz.korma.interpolation.Interpolable;
   var startsWith = Kotlin.kotlin.text.startsWith_7epoxm$;
   var substr = $module$korio_js.com.soywiz.korio.util.substr_6ic1pp$;
   var substr_0 = $module$korio_js.com.soywiz.korio.util.substr_qgyqat$;
@@ -145,7 +145,7 @@
   var ByteArrayBuilder_init = $module$korio_js.com.soywiz.korio.ds.ByteArrayBuilder_init;
   var UByteArray_init = $module$korio_js.com.soywiz.korio.util.UByteArray_init_za3lpa$;
   var readStream_0 = $module$korio_js.com.soywiz.korio.stream.readStream_gezhyr$;
-  var throwNPE = Kotlin.throwNPE;
+  var ensureNotNull = Kotlin.ensureNotNull;
   var get_eof = $module$korio_js.com.soywiz.korio.stream.get_eof_ucmi9i$;
   var readExact = $module$korio_js.com.soywiz.korio.stream.readExact_hz4ta6$;
   var readU16_be_0 = $module$korio_js.com.soywiz.korio.stream.readU16_be_p2awyq$;
@@ -190,6 +190,8 @@
   BitmapIndexed.prototype.constructor = BitmapIndexed;
   Bitmap1.prototype = Object.create(BitmapIndexed.prototype);
   Bitmap1.prototype.constructor = Bitmap1;
+  Bitmap16.prototype = Object.create(Bitmap.prototype);
+  Bitmap16.prototype.constructor = Bitmap16;
   Bitmap2.prototype = Object.create(BitmapIndexed.prototype);
   Bitmap2.prototype.constructor = Bitmap2;
   Bitmap32.prototype = Object.create(Bitmap.prototype);
@@ -212,6 +214,8 @@
   ColorFormat16.prototype.constructor = ColorFormat16;
   ColorFormat24.prototype = Object.create(ColorFormat.prototype);
   ColorFormat24.prototype.constructor = ColorFormat24;
+  PaletteColorFormat.prototype = Object.create(ColorFormat.prototype);
+  PaletteColorFormat.prototype.constructor = PaletteColorFormat;
   RGB.prototype = Object.create(ColorFormat24.prototype);
   RGB.prototype.constructor = RGB;
   RGBA.prototype = Object.create(ColorFormat32.prototype);
@@ -306,6 +310,23 @@
   CanvasNativeImage.prototype.constructor = CanvasNativeImage;
   CanvasContext2dRenderer.prototype = Object.create(Context2d$Renderer.prototype);
   CanvasContext2dRenderer.prototype.constructor = CanvasContext2dRenderer;
+  function Korim() {
+    Korim_instance = this;
+    this.VERSION = KORIM_VERSION;
+  }
+  Korim.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Korim',
+    interfaces: []
+  };
+  var Korim_instance = null;
+  function Korim_getInstance() {
+    if (Korim_instance === null) {
+      new Korim();
+    }
+    return Korim_instance;
+  }
+  var KORIM_VERSION;
   function Bitmap(width, height, bpp, premult) {
     this.width = width;
     this.height = height;
@@ -334,6 +355,10 @@
       return new Size_init(numberToDouble(width), numberToDouble(height));
     }
   });
+  var NotImplementedError_init = Kotlin.kotlin.NotImplementedError;
+  Bitmap.prototype.set32_qt1dr2$ = function (x, y, v) {
+    throw new NotImplementedError_init();
+  };
   Bitmap.prototype.get32_vux9f0$ = function (x, y) {
     return 0;
   };
@@ -363,6 +388,16 @@
     for (var y = 0; y < tmp$; y++)
       this.swapRows_vux9f0$(y, this.height - y - 1 | 0);
     return this;
+  };
+  Bitmap.prototype.swapRows_vux9f0$ = function (y0, y1) {
+    var tmp$;
+    tmp$ = this.width;
+    for (var x = 0; x < tmp$; x++) {
+      var c0 = this.get_vux9f0$(x, y0);
+      var c1 = this.get_vux9f0$(x, y1);
+      this.set_qt1dr2$(x, y0, c1);
+      this.set_qt1dr2$(x, y1, c0);
+    }
   };
   Bitmap.prototype.getContext2d_6taknv$$default = function (antialiasing) {
     throw new UnsupportedOperationException('Not implemented context2d on Bitmap, please use NativeImage instead');
@@ -416,6 +451,40 @@
     simpleName: 'Bitmap1',
     interfaces: [BitmapIndexed]
   };
+  function Bitmap16(width, height, data, format, premult) {
+    if (data === void 0)
+      data = new Int16Array(Kotlin.imul(width, height));
+    if (format === void 0)
+      format = RGBA_4444_getInstance();
+    if (premult === void 0)
+      premult = false;
+    Bitmap.call(this, width, height, 16, premult);
+    this.data = data;
+    this.format = format;
+  }
+  Bitmap16.prototype.createWithThisFormat_vux9f0$ = function (width, height) {
+    return new Bitmap16(width, height, void 0, this.format, this.premult);
+  };
+  Bitmap16.prototype.set_qt1dr2$ = function (x, y, color) {
+    this.data[this.index_vux9f0$(x, y)] = toShort(color);
+  };
+  Bitmap16.prototype.get_vux9f0$ = function (x, y) {
+    return this.data[this.index_vux9f0$(x, y)] & 65535;
+  };
+  Bitmap16.prototype.get32_vux9f0$ = function (x, y) {
+    return this.format.unpackToRGBA_za3lpa$(this.data[this.index_vux9f0$(x, y)]);
+  };
+  Bitmap16.prototype.set32_qt1dr2$ = function (x, y, v) {
+    this.data[this.index_vux9f0$(x, y)] = toShort(this.format.packRGBA_za3lpa$(v));
+  };
+  Bitmap16.prototype.toString = function () {
+    return 'Bitmap16(' + this.width + ', ' + this.height + ', format=' + this.format + ')';
+  };
+  Bitmap16.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'Bitmap16',
+    interfaces: [Bitmap]
+  };
   function Bitmap2(width, height, data, palette) {
     if (data === void 0)
       data = new Int8Array(Kotlin.imul(width, height) / 4 | 0);
@@ -455,6 +524,9 @@
   };
   Bitmap32.prototype.get32_vux9f0$ = function (x, y) {
     return this.get_vux9f0$(x, y);
+  };
+  Bitmap32.prototype.set32_qt1dr2$ = function (x, y, v) {
+    this.set_qt1dr2$(x, y, v);
   };
   Bitmap32.prototype.setRow_aio0fn$ = function (y, row) {
     copyTo(row, 0, this.data, this.index_vux9f0$(0, y), this.width);
@@ -683,7 +755,6 @@
     out.writeChannel_ccmnuj$(BitmapChannel$ALPHA_getInstance(), alpha, BitmapChannel$RED_getInstance());
     return out;
   };
-  var NotImplementedError_init = Kotlin.kotlin.NotImplementedError;
   Bitmap32$Companion.prototype.matchesSSMI_irislw$ = function (a, b, continuation) {
     throw new NotImplementedError_init();
   };
@@ -1321,16 +1392,14 @@
   ColorFormat.prototype.toRGBA_za3lpa$ = function (v) {
     return RGBA_getInstance().packFast_tjonv8$(this.getR_za3lpa$(v), this.getG_za3lpa$(v), this.getB_za3lpa$(v), this.getA_za3lpa$(v));
   };
-  ColorFormat.prototype.packRGBA_za3lpa$ = function (v) {
-    return this.pack_tjonv8$(RGBA_getInstance().getR_za3lpa$(v), RGBA_getInstance().getG_za3lpa$(v), RGBA_getInstance().getB_za3lpa$(v), RGBA_getInstance().getA_za3lpa$(v));
+  ColorFormat.prototype.packRGBA_za3lpa$ = function (rgba) {
+    return this.pack_tjonv8$(RGBA_getInstance().getR_za3lpa$(rgba), RGBA_getInstance().getG_za3lpa$(rgba), RGBA_getInstance().getB_za3lpa$(rgba), RGBA_getInstance().getA_za3lpa$(rgba));
+  };
+  ColorFormat.prototype.unpackToRGBA_za3lpa$ = function (packed) {
+    return RGBA_getInstance().packFast_tjonv8$(this.getR_za3lpa$(packed), this.getG_za3lpa$(packed), this.getB_za3lpa$(packed), this.getA_za3lpa$(packed));
   };
   ColorFormat.prototype.convertTo_slk207$ = function (color, target) {
     return target.pack_tjonv8$(this.getR_za3lpa$(color), this.getG_za3lpa$(color), this.getB_za3lpa$(color), this.getA_za3lpa$(color));
-  };
-  ColorFormat.prototype.demo_61zpoe$ = function (html) {
-  };
-  ColorFormat.prototype.test = function () {
-    this.demo_61zpoe$('<html><\/html>');
   };
   function ColorFormat$Companion() {
     ColorFormat$Companion_instance = this;
@@ -2029,6 +2098,30 @@
     }
     return NamedColors_instance;
   }
+  function PaletteColorFormat(palette) {
+    ColorFormat.call(this, 8);
+    this.palette = palette;
+  }
+  PaletteColorFormat.prototype.getR_za3lpa$ = function (v) {
+    return RGBA_getInstance().getFastR_za3lpa$(this.palette[v]);
+  };
+  PaletteColorFormat.prototype.getG_za3lpa$ = function (v) {
+    return RGBA_getInstance().getFastG_za3lpa$(this.palette[v]);
+  };
+  PaletteColorFormat.prototype.getB_za3lpa$ = function (v) {
+    return RGBA_getInstance().getFastB_za3lpa$(this.palette[v]);
+  };
+  PaletteColorFormat.prototype.getA_za3lpa$ = function (v) {
+    return RGBA_getInstance().getFastA_za3lpa$(this.palette[v]);
+  };
+  PaletteColorFormat.prototype.pack_tjonv8$ = function (r, g, b, a) {
+    throw new NotImplementedError_init('An operation is not implemented: ' + 'Not implemented. Must locate best color in palette');
+  };
+  PaletteColorFormat.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PaletteColorFormat',
+    interfaces: [ColorFormat]
+  };
   function RGB() {
     RGB_instance = this;
     ColorFormat24.call(this);
@@ -7014,8 +7107,8 @@
     return function (data) {
       if (closure$level === 0) {
         var adler32 = new Adler32();
-        var a = data.length / 65535;
-        var blocks = numberToInt(Math_0.ceil(a));
+        var x = data.length / 65535;
+        var blocks = numberToInt(Math_0.ceil(x));
         var lastBlockSize = data.length % 65535;
         var out = new Int8Array(2 + 4 + data.length + (blocks * 5 | 0) | 0);
         var upos = 0;
@@ -7161,28 +7254,27 @@
   };
   function PNG$readCommon$readChunk(closure$pheader, closure$paletteCount, closure$rgbPalette, closure$aPalette, closure$pngdata) {
     return function ($receiver) {
-      var tmp$;
       var length = readS32_be_0($receiver);
       var type = readStringz($receiver, 4);
       var data = readStream_0($receiver, Kotlin.Long.fromInt(length));
       var crc = readS32_be_0($receiver);
       if (equals(type, 'IHDR')) {
-        var tmp$_0;
-        closure$pheader.v = new PNG$Header(readS32_be_0(data), readS32_be_0(data), readU8_0(data), (tmp$_0 = PNG$Colorspace$Companion_getInstance().BY_ID.get_11rb$(readU8_0(data))) != null ? tmp$_0 : PNG$Colorspace$RGBA_getInstance(), readU8_0(data), readU8_0(data), readU8_0(data));
-        var header = (tmp$ = closure$pheader.v) != null ? tmp$ : throwNPE();
+        var tmp$;
+        closure$pheader.v = new PNG$Header(readS32_be_0(data), readS32_be_0(data), readU8_0(data), (tmp$ = PNG$Colorspace$Companion_getInstance().BY_ID.get_11rb$(readU8_0(data))) != null ? tmp$ : PNG$Colorspace$RGBA_getInstance(), readU8_0(data), readU8_0(data), readU8_0(data));
+        var header = ensureNotNull(closure$pheader.v);
       }
        else if (equals(type, 'PLTE')) {
-        var tmp$_1 = closure$paletteCount;
+        var tmp$_0 = closure$paletteCount;
         var a = closure$paletteCount.v;
         var b = data.length.toInt() / 3 | 0;
-        tmp$_1.v = Math_0.max(a, b);
+        tmp$_0.v = Math_0.max(a, b);
         data.read_mj6st8$(closure$rgbPalette.data, 0, data.length.toInt());
       }
        else if (equals(type, 'tRNS')) {
-        var tmp$_2 = closure$paletteCount;
+        var tmp$_1 = closure$paletteCount;
         var a_0 = closure$paletteCount.v;
         var b_0 = data.length.toInt();
-        tmp$_2.v = Math_0.max(a_0, b_0);
+        tmp$_1.v = Math_0.max(a_0, b_0);
         data.read_mj6st8$(closure$aPalette.data, 0, data.length.toInt());
       }
        else if (equals(type, 'IDAT'))
@@ -7470,12 +7562,12 @@
       index = 0;
     if (len === void 0)
       len = buf.length - index | 0;
-    var tmp$, tmp$_0;
+    var tmp$;
     var index_0 = index;
     var len_0 = len;
     var c = ~this.v_0;
     while ((len_0 = len_0 - 1 | 0, len_0) >= 0) {
-      c = ((tmp$ = CRC32$Companion_getInstance().crc_table_0) != null ? tmp$ : throwNPE())[(c ^ buf[tmp$_0 = index_0, index_0 = tmp$_0 + 1 | 0, tmp$_0]) & 255] ^ c >>> 8;
+      c = ensureNotNull(CRC32$Companion_getInstance().crc_table_0)[(c ^ buf[tmp$ = index_0, index_0 = tmp$ + 1 | 0, tmp$]) & 255] ^ c >>> 8;
     }
     this.v_0 = ~c;
   };
@@ -8734,10 +8826,10 @@
       shape.draw_vuz2tk$(this);
     else if (equals(rasterizerMethod, Context2d$ShapeRasterizerMethod$X1_getInstance()) || equals(rasterizerMethod, Context2d$ShapeRasterizerMethod$X2_getInstance()) || equals(rasterizerMethod, Context2d$ShapeRasterizerMethod$X4_getInstance())) {
       var scale = rasterizerMethod.scale;
-      var a = this.renderer.width * scale;
-      var tmp$_0 = numberToInt(Math_0.ceil(a));
-      var a_0 = this.renderer.height * scale;
-      var newBi = NativeImage_0(tmp$_0, numberToInt(Math_0.ceil(a_0)));
+      var x = this.renderer.width * scale;
+      var tmp$_0 = numberToInt(Math_0.ceil(x));
+      var x_0 = this.renderer.height * scale;
+      var newBi = NativeImage_0(tmp$_0, numberToInt(Math_0.ceil(x_0)));
       var bi = newBi.getContext2d_6taknv$(false);
       bi.scale_lu1900$(scale, scale);
       bi.transform_yx07kl$(this.state.transform);
@@ -8752,7 +8844,7 @@
         tmp$ = newBi;
       var renderBi = tmp$;
       var t = this.state.transform;
-      var a_1 = t.a;
+      var a = t.a;
       var b = t.b;
       var c = t.c;
       var d = t.d;
@@ -8763,7 +8855,7 @@
         this.renderer.drawImage_4amb17$(renderBi, 0, 0);
       }
       finally {
-        t.setTo_15yvbs$(a_1, b, c, d, tx, ty);
+        t.setTo_15yvbs$(a, b, c, d, tx, ty);
       }
     }
   };
@@ -9392,12 +9484,11 @@
     var tx = t.tx;
     var ty = t.ty;
     try {
-      var tmp$;
       c.transform_yx07kl$(this.transform);
       c.beginPath();
       this.path.draw_vuz2tk$(c);
       if (this.clip != null) {
-        ((tmp$ = this.clip) != null ? tmp$ : throwNPE()).draw_vuz2tk$(c);
+        ensureNotNull(this.clip).draw_vuz2tk$(c);
         c.clip();
       }
       this.drawInternal_vuz2tk$(c);
@@ -10398,10 +10489,10 @@
     return out;
   };
   NativeImageFormatProvider.prototype.mipmap_uler2c$ = function (bmp) {
-    var a = bmp.width * 0.5;
-    var tmp$ = numberToInt(Math_0.ceil(a));
-    var a_0 = bmp.height * 0.5;
-    var out = NativeImage_0(tmp$, numberToInt(Math_0.ceil(a_0)));
+    var x = bmp.width * 0.5;
+    var tmp$ = numberToInt(Math_0.ceil(x));
+    var x_0 = bmp.height * 0.5;
+    var out = NativeImage_0(tmp$, numberToInt(Math_0.ceil(x_0)));
     out.getContext2d_6taknv$(true).renderer.drawImage_4amb17$(bmp, 0, 0, out.width, out.height);
     return out;
   };
@@ -10795,14 +10886,23 @@
     simpleName: 'CanvasContext2dRenderer',
     interfaces: [Context2d$Renderer]
   };
-  $$importsForInline$$['korma-js'] = $module$korma_js;
   var package$com = _.com || (_.com = {});
   var package$soywiz = package$com.soywiz || (package$com.soywiz = {});
   var package$korim = package$soywiz.korim || (package$soywiz.korim = {});
+  Object.defineProperty(package$korim, 'Korim', {
+    get: Korim_getInstance
+  });
+  Object.defineProperty(package$korim, 'KORIM_VERSION', {
+    get: function () {
+      return KORIM_VERSION;
+    }
+  });
+  $$importsForInline$$['korma-js'] = $module$korma_js;
   var package$bitmap = package$korim.bitmap || (package$korim.bitmap = {});
   package$bitmap.Bitmap = Bitmap;
   package$bitmap.createWithThisFormatTyped_cq1euf$ = createWithThisFormatTyped;
   package$bitmap.Bitmap1 = Bitmap1;
+  package$bitmap.Bitmap16 = Bitmap16;
   package$bitmap.Bitmap2 = Bitmap2;
   $$importsForInline$$['korim-js'] = _;
   Object.defineProperty(Bitmap32, 'Companion', {
@@ -10869,6 +10969,7 @@
   Object.defineProperty(package$color, 'NamedColors', {
     get: NamedColors_getInstance
   });
+  package$color.PaletteColorFormat = PaletteColorFormat;
   Object.defineProperty(package$color, 'RGB', {
     get: RGB_getInstance
   });
@@ -11213,6 +11314,7 @@
   PolylineShape.prototype.addBounds_w97n1m$ = StyledShape.prototype.addBounds_w97n1m$;
   PolylineShape.prototype.buildSvg_b7xfbk$ = StyledShape.prototype.buildSvg_b7xfbk$;
   PolylineShape.prototype.draw_vuz2tk$ = StyledShape.prototype.draw_vuz2tk$;
+  KORIM_VERSION = '0.16.0';
   defaultImageFormats = new ImageFormats();
   nativeImageFormatProviders = lazy(nativeImageFormatProviders$lambda);
   nativeImageFormatProvider = NativeImageFormatProvider_getInstance();
@@ -11221,5 +11323,3 @@
   Kotlin.defineModule('korim-js', _);
   return _;
 }));
-
-//# sourceMappingURL=korim-js.js.map

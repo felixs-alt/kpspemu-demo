@@ -58,7 +58,7 @@
   var LinkedHashMap_init = Kotlin.kotlin.collections.LinkedHashMap_init_q3lmfv$;
   var RectangleInt_init = $module$korma_js.com.soywiz.korma.geom.RectangleInt_init_tjonv8$;
   var IllegalStateException = Kotlin.kotlin.IllegalStateException;
-  var throwNPE = Kotlin.throwNPE;
+  var ensureNotNull = Kotlin.ensureNotNull;
   var AGInput = $module$korag_js.com.soywiz.korag.AGInput;
   var AGContainer = $module$korag_js.com.soywiz.korag.AGContainer;
   var coroutineReceiver = Kotlin.coroutineReceiver;
@@ -2890,8 +2890,7 @@
   };
   function AgCanvas(app) {
     Component.call(this, app, LightType$AGCANVAS_getInstance());
-    var tmp$;
-    this.ag_oaxj5w$_0 = (tmp$ = get_ag(this.componentInfo)) != null ? tmp$ : throwNPE();
+    this.ag_oaxj5w$_0 = ensureNotNull(get_ag(this.componentInfo));
     this.agInput_5uul5a$_0 = new AGInput();
     get_onMouseUp(this).invoke_qlkmfe$(AgCanvas_init$lambda(this));
     get_onMouseDown(this).invoke_qlkmfe$(AgCanvas_init$lambda_0(this));
@@ -5906,90 +5905,90 @@
     head.appendChild(style);
   };
   HtmlLightComponents.prototype.create_3wpq0m$ = function (type) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12;
     var agg = {v: null};
     if (equals(type, LightType$FRAME_getInstance())) {
       var $receiver = Kotlin.isType(tmp$ = document.createElement('article'), HTMLElement) ? tmp$ : throwCCE();
-      var tmp$_15, tmp$_16;
+      var tmp$_13, tmp$_14;
       $receiver.className = 'FRAME';
-      (tmp$_15 = document.body) != null ? tmp$_15.appendChild($receiver) : null;
+      (tmp$_13 = document.body) != null ? tmp$_13.appendChild($receiver) : null;
       mainFrame = $receiver;
-      (tmp$_16 = mainFrame != null ? mainFrame.style : null) != null ? (tmp$_16.visibility = 'hidden') : null;
-      tmp$_14 = $receiver;
+      (tmp$_14 = mainFrame != null ? mainFrame.style : null) != null ? (tmp$_14.visibility = 'hidden') : null;
+      tmp$_12 = $receiver;
     }
      else if (equals(type, LightType$CONTAINER_getInstance())) {
       var $receiver_0 = Kotlin.isType(tmp$_0 = document.createElement('div'), HTMLElement) ? tmp$_0 : throwCCE();
       $receiver_0.className = 'CONTAINER';
-      tmp$_14 = $receiver_0;
+      tmp$_12 = $receiver_0;
     }
      else if (equals(type, LightType$SCROLL_PANE_getInstance())) {
       var $receiver_1 = Kotlin.isType(tmp$_1 = document.createElement('div'), HTMLElement) ? tmp$_1 : throwCCE();
       $receiver_1.className = 'SCROLL_PANE';
-      tmp$_14 = $receiver_1;
+      tmp$_12 = $receiver_1;
     }
      else if (equals(type, LightType$BUTTON_getInstance())) {
       var $receiver_2 = Kotlin.isType(tmp$_2 = document.createElement('input'), HTMLInputElement) ? tmp$_2 : throwCCE();
       $receiver_2.className = 'BUTTON';
       $receiver_2.type = 'button';
-      tmp$_14 = $receiver_2;
+      tmp$_12 = $receiver_2;
     }
      else if (equals(type, LightType$PROGRESS_getInstance())) {
       var $receiver_3 = Kotlin.isType(tmp$_3 = document.createElement('progress'), HTMLElement) ? tmp$_3 : throwCCE();
       $receiver_3.className = 'PROGRESS';
-      tmp$_14 = $receiver_3;
+      tmp$_12 = $receiver_3;
     }
      else if (equals(type, LightType$IMAGE_getInstance())) {
-      var $receiver_4 = (tmp$_5 = Kotlin.isType(tmp$_4 = document.createElement('canvas'), HTMLCanvasElement) ? tmp$_4 : throwCCE()) != null ? tmp$_5 : throwNPE();
+      var $receiver_4 = ensureNotNull(Kotlin.isType(tmp$_4 = document.createElement('canvas'), HTMLCanvasElement) ? tmp$_4 : throwCCE());
       $receiver_4.className = 'IMAGE';
       $receiver_4.style.imageRendering = 'pixelated';
-      tmp$_14 = $receiver_4;
+      tmp$_12 = $receiver_4;
     }
      else if (equals(type, LightType$LABEL_getInstance())) {
-      var $receiver_5 = Kotlin.isType(tmp$_6 = document.createElement('label'), HTMLElement) ? tmp$_6 : throwCCE();
+      var $receiver_5 = Kotlin.isType(tmp$_5 = document.createElement('label'), HTMLElement) ? tmp$_5 : throwCCE();
       $receiver_5.className = 'LABEL';
-      tmp$_14 = $receiver_5;
+      tmp$_12 = $receiver_5;
     }
      else if (equals(type, LightType$TEXT_FIELD_getInstance())) {
-      var $receiver_6 = (tmp$_8 = Kotlin.isType(tmp$_7 = document.createElement('input'), HTMLInputElement) ? tmp$_7 : throwCCE()) != null ? tmp$_8 : throwNPE();
+      var $receiver_6 = ensureNotNull(Kotlin.isType(tmp$_6 = document.createElement('input'), HTMLInputElement) ? tmp$_6 : throwCCE());
       $receiver_6.className = 'TEXT_FIELD';
       $receiver_6.type = 'text';
-      tmp$_14 = $receiver_6;
+      tmp$_12 = $receiver_6;
     }
      else if (equals(type, LightType$TEXT_AREA_getInstance())) {
-      var $receiver_7 = Kotlin.isType(tmp$_9 = document.createElement('textarea'), HTMLElement) ? tmp$_9 : throwCCE();
+      var $receiver_7 = Kotlin.isType(tmp$_7 = document.createElement('textarea'), HTMLElement) ? tmp$_7 : throwCCE();
       $receiver_7.className = 'TEXT_AREA';
-      tmp$_14 = $receiver_7;
+      tmp$_12 = $receiver_7;
     }
      else if (equals(type, LightType$CHECK_BOX_getInstance())) {
-      var $receiver_8 = Kotlin.isType(tmp$_10 = document.createElement('label'), HTMLElement) ? tmp$_10 : throwCCE();
-      var tmp$_17, tmp$_18;
+      var $receiver_8 = Kotlin.isType(tmp$_8 = document.createElement('label'), HTMLElement) ? tmp$_8 : throwCCE();
+      var tmp$_15;
       $receiver_8.className = 'CHECK_BOX';
       $receiver_8['data-type'] = 'checkbox';
-      var input = Kotlin.isType(tmp$_17 = document.createElement('input'), HTMLInputElement) ? tmp$_17 : throwCCE();
+      var input = Kotlin.isType(tmp$_15 = document.createElement('input'), HTMLInputElement) ? tmp$_15 : throwCCE();
       input.className = 'TEXT_FIELD';
       input.type = 'checkbox';
       $receiver_8.appendChild(input);
-      $receiver_8.appendChild((tmp$_18 = document.createElement('span')) != null ? tmp$_18 : throwNPE());
-      tmp$_14 = $receiver_8;
+      $receiver_8.appendChild(ensureNotNull(document.createElement('span')));
+      tmp$_12 = $receiver_8;
     }
      else if (equals(type, LightType$AGCANVAS_getInstance())) {
       agg.v = korag.agFactory.create();
-      tmp$_14 = Kotlin.isType(tmp$_12 = (tmp$_11 = agg.v) != null ? tmp$_11.nativeComponent : null, HTMLCanvasElement) ? tmp$_12 : throwCCE();
+      tmp$_12 = Kotlin.isType(tmp$_10 = (tmp$_9 = agg.v) != null ? tmp$_9.nativeComponent : null, HTMLCanvasElement) ? tmp$_10 : throwCCE();
     }
      else {
-      var $receiver_9 = Kotlin.isType(tmp$_13 = document.createElement('div'), HTMLElement) ? tmp$_13 : throwCCE();
+      var $receiver_9 = Kotlin.isType(tmp$_11 = document.createElement('div'), HTMLElement) ? tmp$_11 : throwCCE();
       $receiver_9.className = 'UNKNOWN';
-      tmp$_14 = $receiver_9;
+      tmp$_12 = $receiver_9;
     }
-    var handle = tmp$_14;
-    var tmp$_19;
+    var handle = tmp$_12;
+    var tmp$_16;
     var style = handle.style;
     style.position = 'absolute';
     if (equals(type, LightType$SCROLL_PANE_getInstance()) || equals(type, LightType$TEXT_AREA_getInstance()) || equals(type, LightType$TEXT_FIELD_getInstance()))
-      tmp$_19 = true;
+      tmp$_16 = true;
     else
-      tmp$_19 = false;
-    var overflow = tmp$_19;
+      tmp$_16 = false;
+    var overflow = tmp$_16;
     style.overflowY = overflow ? 'auto' : 'hidden';
     style.overflowX = overflow ? 'auto' : 'hidden';
     style.left = '0px';
@@ -6551,11 +6550,10 @@
     Vfs.call(this);
   }
   SelectedFilesVfs.prototype._locate_0 = function (name) {
-    var tmp$;
     var length = selectedFiles.length;
     for (var n = 0; n < length; n++) {
       var file = selectedFiles[n];
-      if (equals((tmp$ = file.name) != null ? tmp$ : throwNPE(), name)) {
+      if (equals(ensureNotNull(file.name), name)) {
         return file;
       }
     }
@@ -7071,7 +7069,7 @@
     get: SelectedFilesVfs_getInstance
   });
   package$light.JsStat = JsStat;
-  KORUI_VERSION = '0.15.7-SNAPSHOT';
+  KORUI_VERSION = '0.16.0';
   defaultLightFactory = lazy(defaultLightFactory$lambda);
   defaultLight = lazy(defaultLight$lambda);
   ag = new extraProperty('ag', null);
@@ -7101,5 +7099,3 @@
   Kotlin.defineModule('korui-js', _);
   return _;
 }));
-
-//# sourceMappingURL=korui-js.js.map

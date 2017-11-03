@@ -12,13 +12,13 @@
 }(this, function (_, Kotlin) {
   'use strict';
   var $$importsForInline$$ = _.$$importsForInline$$ || (_.$$importsForInline$$ = {});
+  var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
   var defineInlineFunction = Kotlin.defineInlineFunction;
   var wrapFunction = Kotlin.wrapFunction;
   var Enum = Kotlin.kotlin.Enum;
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var throwISE = Kotlin.throwISE;
-  var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var Unit = Kotlin.kotlin.Unit;
   var math = Kotlin.kotlin.math;
   var sortWith = Kotlin.kotlin.collections.sortWith_nqfjgj$;
@@ -58,7 +58,7 @@
   var IllegalStateException = Kotlin.kotlin.IllegalStateException;
   var IllegalArgumentException = Kotlin.kotlin.IllegalArgumentException;
   var kotlin_js_internal_IntCompanionObject = Kotlin.kotlin.js.internal.IntCompanionObject;
-  var throwNPE = Kotlin.throwNPE;
+  var ensureNotNull = Kotlin.ensureNotNull;
   var round = Kotlin.kotlin.math.round_14dthe$;
   var abs = Kotlin.kotlin.math.abs_za3lpa$;
   var filterNotNull = Kotlin.kotlin.collections.filterNotNull_emfgvx$;
@@ -131,6 +131,23 @@
   Shape2d$Complex.prototype.constructor = Shape2d$Complex;
   PathFindException.prototype = Object.create(Error_0.prototype);
   PathFindException.prototype.constructor = PathFindException;
+  function Korma() {
+    Korma_instance = this;
+    this.VERSION = KORMA_VERSION;
+  }
+  Korma.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Korma',
+    interfaces: []
+  };
+  var Korma_instance = null;
+  function Korma_getInstance() {
+    if (Korma_instance === null) {
+      new Korma();
+    }
+    return Korma_instance;
+  }
+  var KORMA_VERSION;
   function IMatrix2d() {
   }
   IMatrix2d.$metadata$ = {
@@ -606,10 +623,10 @@
     var PI_4 = math.PI / 4.0;
     this.x = matrix.tx;
     this.y = matrix.ty;
-    var a = -matrix.c / matrix.d;
-    this.skewX = Math_0.atan(a);
-    var a_0 = matrix.b / matrix.a;
-    this.skewY = Math_0.atan(a_0);
+    var x = -matrix.c / matrix.d;
+    this.skewX = Math_0.atan(x);
+    var x_0 = matrix.b / matrix.a;
+    this.skewY = Math_0.atan(x_0);
     if (this.skewX !== this.skewX)
       this.skewX = 0.0;
     if (this.skewY !== this.skewY)
@@ -617,29 +634,29 @@
     var tmp$;
     if (this.skewX > -PI_4 && this.skewX < PI_4) {
       var tmp$_0 = matrix.d;
-      var a_1 = this.skewX;
-      tmp$ = tmp$_0 / Math_0.cos(a_1);
+      var x_1 = this.skewX;
+      tmp$ = tmp$_0 / Math_0.cos(x_1);
     }
      else {
       var tmp$_1 = -matrix.c;
-      var a_2 = this.skewX;
-      tmp$ = tmp$_1 / Math_0.sin(a_2);
+      var x_2 = this.skewX;
+      tmp$ = tmp$_1 / Math_0.sin(x_2);
     }
     this.scaleY = tmp$;
     var tmp$_2;
     if (this.skewY > -PI_4 && this.skewY < PI_4) {
       var tmp$_3 = matrix.a;
-      var a_3 = this.skewY;
-      tmp$_2 = tmp$_3 / Math_0.cos(a_3);
+      var x_3 = this.skewY;
+      tmp$_2 = tmp$_3 / Math_0.cos(x_3);
     }
      else {
       var tmp$_4 = matrix.b;
-      var a_4 = this.skewY;
-      tmp$_2 = tmp$_4 / Math_0.sin(a_4);
+      var x_4 = this.skewY;
+      tmp$_2 = tmp$_4 / Math_0.sin(x_4);
     }
     this.scaleX = tmp$_2;
-    var a_5 = this.skewX - this.skewY;
-    if (Math_0.abs(a_5) < 1.0E-4) {
+    var x_5 = this.skewX - this.skewY;
+    if (Math_0.abs(x_5) < 1.0E-4) {
       this.rotation = this.skewX;
       this.skewX = 0.0;
       this.skewY = 0.0;
@@ -1012,12 +1029,12 @@
     return new Vector2((a.x + b.x) * 0.5, (a.y + b.y) * 0.5);
   };
   Vector2$Companion.prototype.angle_tidpjw$ = function (a, b) {
-    var a_0 = times(a, b) / (get_length(a) * get_length(b));
-    return Math_0.acos(a_0);
+    var x = times(a, b) / (get_length(a) * get_length(b));
+    return Math_0.acos(x);
   };
   Vector2$Companion.prototype.angle_6y0v78$ = function (ax, ay, bx, by) {
-    var a = (ax * bx + ay * by) / (Math_getInstance().hypot_lu1900$(ax, ay) * Math_getInstance().hypot_lu1900$(bx, by));
-    return Math_0.acos(a);
+    var x = (ax * bx + ay * by) / (Math_getInstance().hypot_lu1900$(ax, ay) * Math_getInstance().hypot_lu1900$(bx, by));
+    return Math_0.acos(x);
   };
   function Vector2$Companion$sortPoints$lambda(this$Vector2$) {
     return function (l, r) {
@@ -1052,8 +1069,8 @@
     var bx = x1 - x3;
     var by = y1 - y3;
     var bl = Math_getInstance().hypot_lu1900$(bx, by);
-    var a = (ax * bx + ay * by) / (al * bl);
-    return Math_0.acos(a);
+    var x = (ax * bx + ay * by) / (al * bl);
+    return Math_0.acos(x);
   };
   Vector2$Companion.$metadata$ = {
     kind: Kind_OBJECT,
@@ -2318,12 +2335,12 @@
     Angle_instance = this;
   }
   Angle.prototype.cos01_14dthe$ = function (ratio) {
-    var a = math.PI * 2.0 * ratio;
-    return Math_0.cos(a);
+    var x = math.PI * 2.0 * ratio;
+    return Math_0.cos(x);
   };
   Angle.prototype.sin01_14dthe$ = function (ratio) {
-    var a = math.PI * 2.0 * ratio;
-    return Math_0.sin(a);
+    var x = math.PI * 2.0 * ratio;
+    return Math_0.sin(x);
   };
   Angle.$metadata$ = {
     kind: Kind_OBJECT,
@@ -3824,10 +3841,10 @@
     var AB = b.minus_yyv1mw$(a);
     var AC = c.minus_yyv1mw$(a);
     var angle = Vector2$Companion_getInstance().angle_tidpjw$(AB, AC) * 0.5;
-    var a_0 = PI_DIV_2 - angle;
-    var x = r * Math_0.sin(a_0) / Math_0.sin(angle);
-    var A = a.plus_yyv1mw$(AB.unit.times_14dthe$(x));
-    var B = a.plus_yyv1mw$(AC.unit.times_14dthe$(x));
+    var x = PI_DIV_2 - angle;
+    var x_0 = r * Math_0.sin(x) / Math_0.sin(angle);
+    var A = a.plus_yyv1mw$(AB.unit.times_14dthe$(x_0));
+    var B = a.plus_yyv1mw$(AC.unit.times_14dthe$(x_0));
     this.lineTo_lu1900$(A.x, A.y);
     this.quadTo_6y0v78$(a.x, a.y, B.x, B.y);
   };
@@ -3863,8 +3880,8 @@
     var startAngle = start % PI_TWO;
     var endAngle = end % PI_TWO;
     var tmp$ = Math_getInstance();
-    var a = endAngle - startAngle;
-    var remainingAngle = tmp$.min_lu1900$(PI_TWO, Math_0.abs(a));
+    var x_0 = endAngle - startAngle;
+    var remainingAngle = tmp$.min_lu1900$(PI_TWO, Math_0.abs(x_0));
     if (remainingAngle === 0.0 && start !== end)
       remainingAngle = PI_TWO;
     var sgn = startAngle < endAngle ? 1 : -1;
@@ -3877,23 +3894,23 @@
     while (remainingAngle > EPSILON) {
       var a2 = a1 + sgn * Math_getInstance().min_lu1900$(remainingAngle, PI_OVER_TWO);
       var k = 0.5522847498;
-      var a_0 = (a2 - a1) / 2.0;
-      var x4 = r * Math_0.cos(a_0);
-      var y4 = r * Math_0.sin(a_0);
+      var a = (a2 - a1) / 2.0;
+      var x4 = r * Math_0.cos(a);
+      var y4 = r * Math_0.sin(a);
       var x1 = x4;
       var y1 = -y4;
-      var f = k * Math_0.tan(a_0);
+      var f = k * Math_0.tan(a);
       var x2 = x1 + f * y4;
       var y2 = y1 + f * x4;
       var x3 = x2;
       var y3 = -y2;
-      var ar = a_0 + a1;
+      var ar = a + a1;
       var cos_ar = Math_0.cos(ar);
       var sin_ar = Math_0.sin(ar);
-      var a_1 = a1;
-      var tmp$_0 = x + r * Math_0.cos(a_1);
-      var a_2 = a1;
-      p1.setTo_lu1900$(tmp$_0, y + r * Math_0.sin(a_2));
+      var x_1 = a1;
+      var tmp$_0 = x + r * Math_0.cos(x_1);
+      var x_2 = a1;
+      p1.setTo_lu1900$(tmp$_0, y + r * Math_0.sin(x_2));
       p2.setTo_lu1900$(x + x2 * cos_ar - y2 * sin_ar, y + x2 * sin_ar + y2 * cos_ar);
       p3.setTo_lu1900$(x + x3 * cos_ar - y3 * sin_ar, y + x3 * sin_ar + y3 * cos_ar);
       p4.setTo_lu1900$(x + r * Math_0.cos(a2), y + r * Math_0.sin(a2));
@@ -3901,8 +3918,8 @@
         this.moveTo_lu1900$(p1.x, p1.y);
       this.cubicTo_15yvbs$(p2.x, p2.y, p3.x, p3.y, p4.x, p4.y);
       index = index + 1 | 0;
-      var a_3 = a2 - a1;
-      remainingAngle -= Math_0.abs(a_3);
+      var x_3 = a2 - a1;
+      remainingAngle -= Math_0.abs(x_3);
       a1 = a2;
     }
     if (startAngle === endAngle && index !== 0) {
@@ -4205,10 +4222,10 @@
         a = -3 * y0 + 9 * y1 - 9 * y2 + 3 * y3;
         c = 3 * y1 - 3 * y0;
       }
-      var a_0 = a;
-      if (Math_0.abs(a_0) < 1.0E-12) {
-        var a_1 = b;
-        if (Math_0.abs(a_1) >= 1.0E-12) {
+      var x = a;
+      if (Math_0.abs(x) < 1.0E-12) {
+        var x_0 = b;
+        if (Math_0.abs(x_0) >= 1.0E-12) {
           var t = -c / b;
           if (0 < t && t < 1) {
             this.tvalues_0[tmp$ = j, j = tmp$ + 1 | 0, tmp$] = t;
@@ -5107,7 +5124,7 @@
     interfaces: []
   };
   ClipperBase.prototype.addPath_lh39fr$ = function (pg, polyType, Closed) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14, tmp$_15, tmp$_16, tmp$_17, tmp$_18, tmp$_19, tmp$_20, tmp$_21, tmp$_22, tmp$_23, tmp$_24, tmp$_25, tmp$_26, tmp$_27, tmp$_28, tmp$_29, tmp$_30, tmp$_31, tmp$_32, tmp$_33, tmp$_34, tmp$_35, tmp$_36, tmp$_37, tmp$_38, tmp$_39, tmp$_40;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
     if (!Closed && polyType === Clipper$PolyType$CLIP_getInstance())
       throw new IllegalStateException('AddPath: Open paths must be subject.');
     var highI = pg.size - 1 | 0;
@@ -5138,14 +5155,12 @@
     var e = eStart;
     var eLoopStop = eStart;
     while (true) {
-      tmp$_4 = e.current;
-      tmp$_3 = ((tmp$_2 = e.next) != null ? tmp$_2 : throwNPE()).current;
-      if ((tmp$_4 != null ? tmp$_4.equals(tmp$_3) : null) && (Closed || !equals(e.next, eStart))) {
+      if (((tmp$_2 = e.current) != null ? tmp$_2.equals(ensureNotNull(e.next).current) : null) && (Closed || !equals(e.next, eStart))) {
         if (e === e.next) {
           break;
         }
         if (e === eStart) {
-          eStart = (tmp$_5 = e.next) != null ? tmp$_5 : throwNPE();
+          eStart = ensureNotNull(e.next);
         }
         e = ClipperBase$Companion_getInstance().removeEdge_0(e);
         eLoopStop = e;
@@ -5154,18 +5169,16 @@
       if (e.prev === e.next) {
         break;
       }
-       else {
-        if ((Closed ? Points_getInstance().slopesEqual_immp3h$(((tmp$_6 = e.prev) != null ? tmp$_6 : throwNPE()).current, e.current, ((tmp$_7 = e.next) != null ? tmp$_7 : throwNPE()).current) : false) ? !!this.isPreserveCollinear ? !Points_getInstance().isPt2BetweenPt1AndPt3_immp3h$(((tmp$_8 = e.prev) != null ? tmp$_8 : throwNPE()).current, e.current, ((tmp$_9 = e.next) != null ? tmp$_9 : throwNPE()).current) : true : false) {
-          if (e === eStart) {
-            eStart = (tmp$_10 = e.next) != null ? tmp$_10 : throwNPE();
-          }
-          e = ClipperBase$Companion_getInstance().removeEdge_0(e);
-          e = (tmp$_11 = e.prev) != null ? tmp$_11 : throwNPE();
-          eLoopStop = e;
-          continue;
+       else if (Closed && Points_getInstance().slopesEqual_immp3h$(ensureNotNull(e.prev).current, e.current, ensureNotNull(e.next).current) && (!this.isPreserveCollinear || !Points_getInstance().isPt2BetweenPt1AndPt3_immp3h$(ensureNotNull(e.prev).current, e.current, ensureNotNull(e.next).current))) {
+        if (e === eStart) {
+          eStart = ensureNotNull(e.next);
         }
+        e = ClipperBase$Companion_getInstance().removeEdge_0(e);
+        e = ensureNotNull(e.prev);
+        eLoopStop = e;
+        continue;
       }
-      e = (tmp$_12 = e.next) != null ? tmp$_12 : throwNPE();
+      e = ensureNotNull(e.next);
       if (e === eLoopStop || (!Closed && e.next === eStart)) {
         break;
       }
@@ -5175,12 +5188,12 @@
     }
     if (!Closed) {
       this.hasOpenPaths = true;
-      ((tmp$_13 = eStart.prev) != null ? tmp$_13 : throwNPE()).outIdx = Edge$Companion_getInstance().SKIP;
+      ensureNotNull(eStart.prev).outIdx = Edge$Companion_getInstance().SKIP;
     }
     e = eStart;
     do {
       ClipperBase$Companion_getInstance().initEdge2_0(e, polyType);
-      e = (tmp$_14 = e.next) != null ? tmp$_14 : throwNPE();
+      e = ensureNotNull(e.next);
       if (IsFlat && e.current.y !== eStart.current.y) {
         IsFlat = false;
       }
@@ -5190,23 +5203,23 @@
       if (Closed) {
         return false;
       }
-      ((tmp$_15 = e.prev) != null ? tmp$_15 : throwNPE()).outIdx = Edge$Companion_getInstance().SKIP;
-      if (((tmp$_16 = e.prev) != null ? tmp$_16 : throwNPE()).bot.x < ((tmp$_17 = e.prev) != null ? tmp$_17 : throwNPE()).top.x) {
-        ((tmp$_18 = e.prev) != null ? tmp$_18 : throwNPE()).reverseHorizontal();
+      ensureNotNull(e.prev).outIdx = Edge$Companion_getInstance().SKIP;
+      if (ensureNotNull(e.prev).bot.x < ensureNotNull(e.prev).top.x) {
+        ensureNotNull(e.prev).reverseHorizontal();
       }
       var locMin = new ClipperBase$LocalMinima(this);
       locMin.next = null;
       locMin.y = e.bot.y;
       locMin.leftBound = null;
       locMin.rightBound = e;
-      ((tmp$_19 = locMin.rightBound) != null ? tmp$_19 : throwNPE()).side = Edge$Side$RIGHT_getInstance();
-      ((tmp$_20 = locMin.rightBound) != null ? tmp$_20 : throwNPE()).windDelta = 0;
-      while (((tmp$_21 = e.next) != null ? tmp$_21 : throwNPE()).outIdx !== Edge$Companion_getInstance().SKIP) {
+      ensureNotNull(locMin.rightBound).side = Edge$Side$RIGHT_getInstance();
+      ensureNotNull(locMin.rightBound).windDelta = 0;
+      while (ensureNotNull(e.next).outIdx !== Edge$Companion_getInstance().SKIP) {
         e.nextInLML = e.next;
-        if (e.bot.x !== ((tmp$_22 = e.prev) != null ? tmp$_22 : throwNPE()).top.x) {
+        if (e.bot.x !== ensureNotNull(e.prev).top.x) {
           e.reverseHorizontal();
         }
-        e = (tmp$_23 = e.next) != null ? tmp$_23 : throwNPE();
+        e = ensureNotNull(e.next);
       }
       this.insertLocalMinima_mrxmjb$_0(locMin);
       this.edges_xt60kb$_0.add_11rb$(edges);
@@ -5215,10 +5228,8 @@
     this.edges_xt60kb$_0.add_11rb$(edges);
     var leftBoundIsForward;
     var EMin = null;
-    tmp$_27 = ((tmp$_24 = e.prev) != null ? tmp$_24 : throwNPE()).bot;
-    tmp$_26 = ((tmp$_25 = e.prev) != null ? tmp$_25 : throwNPE()).top;
-    if (tmp$_27 != null ? tmp$_27.equals(tmp$_26) : null) {
-      e = (tmp$_28 = e.next) != null ? tmp$_28 : throwNPE();
+    if ((tmp$_3 = ensureNotNull(e.prev).bot) != null ? tmp$_3.equals(ensureNotNull(e.prev).top) : null) {
+      e = ensureNotNull(e.next);
     }
     while (true) {
       e = e.findNextLocMin();
@@ -5229,7 +5240,7 @@
       var locMin_0 = new ClipperBase$LocalMinima(this);
       locMin_0.next = null;
       locMin_0.y = e.bot.y;
-      if (e.deltaX < ((tmp$_29 = e.prev) != null ? tmp$_29 : throwNPE()).deltaX) {
+      if (e.deltaX < ensureNotNull(e.prev).deltaX) {
         locMin_0.leftBound = e.prev;
         locMin_0.rightBound = e;
         leftBoundIsForward = false;
@@ -5239,30 +5250,27 @@
         locMin_0.rightBound = e.prev;
         leftBoundIsForward = true;
       }
-      ((tmp$_30 = locMin_0.leftBound) != null ? tmp$_30 : throwNPE()).side = Edge$Side$LEFT_getInstance();
-      ((tmp$_31 = locMin_0.rightBound) != null ? tmp$_31 : throwNPE()).side = Edge$Side$RIGHT_getInstance();
-      tmp$_34 = (tmp$_33 = locMin_0.leftBound) != null ? tmp$_33 : throwNPE();
+      ensureNotNull(locMin_0.leftBound).side = Edge$Side$LEFT_getInstance();
+      ensureNotNull(locMin_0.rightBound).side = Edge$Side$RIGHT_getInstance();
+      tmp$_5 = ensureNotNull(locMin_0.leftBound);
       if (!Closed)
-        tmp$_32 = 0;
-      else {
-        var tmp$_41;
-        if (((tmp$_41 = locMin_0.leftBound) != null ? tmp$_41 : throwNPE()).next === locMin_0.rightBound)
-          tmp$_32 = -1;
-        else
-          tmp$_32 = 1;
-      }
-      tmp$_34.windDelta = tmp$_32;
-      ((tmp$_36 = locMin_0.rightBound) != null ? tmp$_36 : throwNPE()).windDelta = -((tmp$_35 = locMin_0.leftBound) != null ? tmp$_35 : throwNPE()).windDelta;
-      e = this.processBound_rr243z$_0((tmp$_37 = locMin_0.leftBound) != null ? tmp$_37 : throwNPE(), leftBoundIsForward);
+        tmp$_4 = 0;
+      else if (ensureNotNull(locMin_0.leftBound).next === locMin_0.rightBound)
+        tmp$_4 = -1;
+      else
+        tmp$_4 = 1;
+      tmp$_5.windDelta = tmp$_4;
+      ensureNotNull(locMin_0.rightBound).windDelta = -ensureNotNull(locMin_0.leftBound).windDelta;
+      e = this.processBound_rr243z$_0(ensureNotNull(locMin_0.leftBound), leftBoundIsForward);
       if (e.outIdx === Edge$Companion_getInstance().SKIP)
         e = this.processBound_rr243z$_0(e, leftBoundIsForward);
-      var E2 = this.processBound_rr243z$_0((tmp$_38 = locMin_0.rightBound) != null ? tmp$_38 : throwNPE(), !leftBoundIsForward);
+      var E2 = this.processBound_rr243z$_0(ensureNotNull(locMin_0.rightBound), !leftBoundIsForward);
       if (E2.outIdx === Edge$Companion_getInstance().SKIP)
         E2 = this.processBound_rr243z$_0(E2, !leftBoundIsForward);
-      if (((tmp$_39 = locMin_0.leftBound) != null ? tmp$_39 : throwNPE()).outIdx === Edge$Companion_getInstance().SKIP) {
+      if (ensureNotNull(locMin_0.leftBound).outIdx === Edge$Companion_getInstance().SKIP) {
         locMin_0.leftBound = null;
       }
-       else if (((tmp$_40 = locMin_0.rightBound) != null ? tmp$_40 : throwNPE()).outIdx === Edge$Companion_getInstance().SKIP) {
+       else if (ensureNotNull(locMin_0.rightBound).outIdx === Edge$Companion_getInstance().SKIP) {
         locMin_0.rightBound = null;
       }
       this.insertLocalMinima_mrxmjb$_0(locMin_0);
@@ -5290,40 +5298,36 @@
     this.hasOpenPaths = false;
   };
   ClipperBase.prototype.disposeLocalMinimaList_hjt0bo$_0 = function () {
-    var tmp$;
     while (this.minimaList != null) {
-      var tmpLm = ((tmp$ = this.minimaList) != null ? tmp$ : throwNPE()).next;
+      var tmpLm = ensureNotNull(this.minimaList).next;
       this.minimaList = null;
       this.minimaList = tmpLm;
     }
     this.currentLM = null;
   };
   ClipperBase.prototype.insertLocalMinima_mrxmjb$_0 = function (newLm) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2;
     if (this.minimaList == null) {
       this.minimaList = newLm;
     }
-     else if (newLm.y >= ((tmp$ = this.minimaList) != null ? tmp$ : throwNPE()).y) {
+     else if (newLm.y >= ensureNotNull(this.minimaList).y) {
       newLm.next = this.minimaList;
       this.minimaList = newLm;
     }
      else {
-      var tmpLm = (tmp$_0 = this.minimaList) != null ? tmp$_0 : throwNPE();
-      while (tmpLm.next != null && newLm.y < ((tmp$_1 = tmpLm.next) != null ? tmp$_1 : throwNPE()).y) {
-        tmpLm = (tmp$_2 = tmpLm.next) != null ? tmp$_2 : throwNPE();
+      var tmpLm = ensureNotNull(this.minimaList);
+      while (tmpLm.next != null && newLm.y < ensureNotNull(tmpLm.next).y) {
+        tmpLm = ensureNotNull(tmpLm.next);
       }
       newLm.next = tmpLm.next;
       tmpLm.next = newLm;
     }
   };
   ClipperBase.prototype.popLocalMinima = function () {
-    var tmp$;
     if (this.currentLM == null)
       return;
-    this.currentLM = ((tmp$ = this.currentLM) != null ? tmp$ : throwNPE()).next;
+    this.currentLM = ensureNotNull(this.currentLM).next;
   };
   ClipperBase.prototype.processBound_rr243z$_0 = function (ee, LeftBoundIsForward) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14, tmp$_15, tmp$_16, tmp$_17, tmp$_18, tmp$_19, tmp$_20, tmp$_21, tmp$_22, tmp$_23, tmp$_24, tmp$_25, tmp$_26, tmp$_27, tmp$_28, tmp$_29, tmp$_30, tmp$_31, tmp$_32, tmp$_33, tmp$_34, tmp$_35, tmp$_36, tmp$_37, tmp$_38, tmp$_39, tmp$_40, tmp$_41, tmp$_42;
     var e = ee;
     var EStart;
     var result = e;
@@ -5331,22 +5335,22 @@
     if (result.outIdx === Edge$Companion_getInstance().SKIP) {
       e = result;
       if (LeftBoundIsForward) {
-        while (e.top.y === ((tmp$ = e.next) != null ? tmp$ : throwNPE()).bot.y)
-          e = (tmp$_0 = e.next) != null ? tmp$_0 : throwNPE();
+        while (e.top.y === ensureNotNull(e.next).bot.y)
+          e = ensureNotNull(e.next);
         while (e !== result && e.deltaX === Edge$Companion_getInstance().HORIZONTAL)
-          e = (tmp$_1 = e.prev) != null ? tmp$_1 : throwNPE();
+          e = ensureNotNull(e.prev);
       }
        else {
-        while (e.top.y === ((tmp$_2 = e.prev) != null ? tmp$_2 : throwNPE()).bot.y)
-          e = (tmp$_3 = e.prev) != null ? tmp$_3 : throwNPE();
+        while (e.top.y === ensureNotNull(e.prev).bot.y)
+          e = ensureNotNull(e.prev);
         while (e !== result && e.deltaX === Edge$Companion_getInstance().HORIZONTAL)
-          e = (tmp$_4 = e.next) != null ? tmp$_4 : throwNPE();
+          e = ensureNotNull(e.next);
       }
       if (e === result) {
-        result = LeftBoundIsForward ? (tmp$_5 = e.next) != null ? tmp$_5 : throwNPE() : (tmp$_6 = e.prev) != null ? tmp$_6 : throwNPE();
+        result = LeftBoundIsForward ? ensureNotNull(e.next) : ensureNotNull(e.prev);
       }
        else {
-        e = LeftBoundIsForward ? (tmp$_7 = result.next) != null ? tmp$_7 : throwNPE() : (tmp$_8 = result.prev) != null ? tmp$_8 : throwNPE();
+        e = LeftBoundIsForward ? ensureNotNull(result.next) : ensureNotNull(result.prev);
         var locMin = new ClipperBase$LocalMinima(this);
         locMin.next = null;
         locMin.y = e.bot.y;
@@ -5359,7 +5363,7 @@
       return result;
     }
     if (e.deltaX === Edge$Companion_getInstance().HORIZONTAL) {
-      EStart = LeftBoundIsForward ? (tmp$_9 = e.prev) != null ? tmp$_9 : throwNPE() : (tmp$_10 = e.next) != null ? tmp$_10 : throwNPE();
+      EStart = LeftBoundIsForward ? ensureNotNull(e.prev) : ensureNotNull(e.next);
       if (EStart.outIdx !== Edge$Companion_getInstance().SKIP) {
         if (EStart.deltaX === Edge$Companion_getInstance().HORIZONTAL) {
           if (EStart.bot.x !== e.bot.x && EStart.top.x !== e.bot.x) {
@@ -5373,60 +5377,60 @@
     }
     EStart = e;
     if (LeftBoundIsForward) {
-      while (result.top.y === ((tmp$_11 = result.next) != null ? tmp$_11 : throwNPE()).bot.y && ((tmp$_12 = result.next) != null ? tmp$_12 : throwNPE()).outIdx !== Edge$Companion_getInstance().SKIP) {
-        result = (tmp$_13 = result.next) != null ? tmp$_13 : throwNPE();
+      while (result.top.y === ensureNotNull(result.next).bot.y && ensureNotNull(result.next).outIdx !== Edge$Companion_getInstance().SKIP) {
+        result = ensureNotNull(result.next);
       }
-      if (result.deltaX === Edge$Companion_getInstance().HORIZONTAL && ((tmp$_14 = result.next) != null ? tmp$_14 : throwNPE()).outIdx !== Edge$Companion_getInstance().SKIP) {
+      if (result.deltaX === Edge$Companion_getInstance().HORIZONTAL && ensureNotNull(result.next).outIdx !== Edge$Companion_getInstance().SKIP) {
         Horz = result;
-        while (((tmp$_15 = Horz.prev) != null ? tmp$_15 : throwNPE()).deltaX === Edge$Companion_getInstance().HORIZONTAL) {
-          Horz = (tmp$_16 = Horz.prev) != null ? tmp$_16 : throwNPE();
+        while (ensureNotNull(Horz.prev).deltaX === Edge$Companion_getInstance().HORIZONTAL) {
+          Horz = ensureNotNull(Horz.prev);
         }
-        if (((tmp$_17 = Horz.prev) != null ? tmp$_17 : throwNPE()).top.x === ((tmp$_18 = result.next) != null ? tmp$_18 : throwNPE()).top.x) {
+        if (ensureNotNull(Horz.prev).top.x === ensureNotNull(result.next).top.x) {
           if (!LeftBoundIsForward) {
-            result = (tmp$_19 = Horz.prev) != null ? tmp$_19 : throwNPE();
+            result = ensureNotNull(Horz.prev);
           }
         }
-         else if (((tmp$_20 = Horz.prev) != null ? tmp$_20 : throwNPE()).top.x > ((tmp$_21 = result.next) != null ? tmp$_21 : throwNPE()).top.x) {
-          result = (tmp$_22 = Horz.prev) != null ? tmp$_22 : throwNPE();
+         else if (ensureNotNull(Horz.prev).top.x > ensureNotNull(result.next).top.x) {
+          result = ensureNotNull(Horz.prev);
         }
       }
       while (e !== result) {
         e.nextInLML = e.next;
-        if (e.deltaX === Edge$Companion_getInstance().HORIZONTAL && e !== EStart && e.bot.x !== ((tmp$_23 = e.prev) != null ? tmp$_23 : throwNPE()).top.x) {
+        if (e.deltaX === Edge$Companion_getInstance().HORIZONTAL && e !== EStart && e.bot.x !== ensureNotNull(e.prev).top.x) {
           e.reverseHorizontal();
         }
-        e = (tmp$_24 = e.next) != null ? tmp$_24 : throwNPE();
+        e = ensureNotNull(e.next);
       }
-      if (e.deltaX === Edge$Companion_getInstance().HORIZONTAL && e !== EStart && e.bot.x !== ((tmp$_25 = e.prev) != null ? tmp$_25 : throwNPE()).top.x) {
+      if (e.deltaX === Edge$Companion_getInstance().HORIZONTAL && e !== EStart && e.bot.x !== ensureNotNull(e.prev).top.x) {
         e.reverseHorizontal();
       }
-      result = (tmp$_26 = result.next) != null ? tmp$_26 : throwNPE();
+      result = ensureNotNull(result.next);
     }
      else {
-      while (result.top.y === ((tmp$_27 = result.prev) != null ? tmp$_27 : throwNPE()).bot.y && ((tmp$_28 = result.prev) != null ? tmp$_28 : throwNPE()).outIdx !== Edge$Companion_getInstance().SKIP)
-        result = (tmp$_29 = result.prev) != null ? tmp$_29 : throwNPE();
-      if (result.deltaX === Edge$Companion_getInstance().HORIZONTAL && ((tmp$_30 = result.prev) != null ? tmp$_30 : throwNPE()).outIdx !== Edge$Companion_getInstance().SKIP) {
+      while (result.top.y === ensureNotNull(result.prev).bot.y && ensureNotNull(result.prev).outIdx !== Edge$Companion_getInstance().SKIP)
+        result = ensureNotNull(result.prev);
+      if (result.deltaX === Edge$Companion_getInstance().HORIZONTAL && ensureNotNull(result.prev).outIdx !== Edge$Companion_getInstance().SKIP) {
         Horz = result;
-        while (((tmp$_31 = Horz.next) != null ? tmp$_31 : throwNPE()).deltaX === Edge$Companion_getInstance().HORIZONTAL)
-          Horz = (tmp$_32 = Horz.next) != null ? tmp$_32 : throwNPE();
-        if (((tmp$_33 = Horz.next) != null ? tmp$_33 : throwNPE()).top.x === ((tmp$_34 = result.prev) != null ? tmp$_34 : throwNPE()).top.x) {
+        while (ensureNotNull(Horz.next).deltaX === Edge$Companion_getInstance().HORIZONTAL)
+          Horz = ensureNotNull(Horz.next);
+        if (ensureNotNull(Horz.next).top.x === ensureNotNull(result.prev).top.x) {
           if (!LeftBoundIsForward)
-            result = (tmp$_35 = Horz.next) != null ? tmp$_35 : throwNPE();
+            result = ensureNotNull(Horz.next);
         }
-         else if (((tmp$_36 = Horz.next) != null ? tmp$_36 : throwNPE()).top.x > ((tmp$_37 = result.prev) != null ? tmp$_37 : throwNPE()).top.x)
-          result = (tmp$_38 = Horz.next) != null ? tmp$_38 : throwNPE();
+         else if (ensureNotNull(Horz.next).top.x > ensureNotNull(result.prev).top.x)
+          result = ensureNotNull(Horz.next);
       }
       while (e !== result) {
         e.nextInLML = e.prev;
-        if (e.deltaX === Edge$Companion_getInstance().HORIZONTAL && e !== EStart && e.bot.x !== ((tmp$_39 = e.next) != null ? tmp$_39 : throwNPE()).top.x) {
+        if (e.deltaX === Edge$Companion_getInstance().HORIZONTAL && e !== EStart && e.bot.x !== ensureNotNull(e.next).top.x) {
           e.reverseHorizontal();
         }
-        e = (tmp$_40 = e.prev) != null ? tmp$_40 : throwNPE();
+        e = ensureNotNull(e.prev);
       }
-      if (e.deltaX === Edge$Companion_getInstance().HORIZONTAL && e !== EStart && e.bot.x !== ((tmp$_41 = e.next) != null ? tmp$_41 : throwNPE()).top.x) {
+      if (e.deltaX === Edge$Companion_getInstance().HORIZONTAL && e !== EStart && e.bot.x !== ensureNotNull(e.next).top.x) {
         e.reverseHorizontal();
       }
-      result = (tmp$_42 = result.prev) != null ? tmp$_42 : throwNPE();
+      result = ensureNotNull(result.prev);
     }
     return result;
   };
@@ -5464,14 +5468,13 @@
     e.outIdx = Edge$Companion_getInstance().UNASSIGNED;
   };
   ClipperBase$Companion.prototype.initEdge2_0 = function (e, polyType) {
-    var tmp$, tmp$_0, tmp$_1;
-    if (e.current.y >= ((tmp$ = e.next) != null ? tmp$ : throwNPE()).current.y) {
+    if (e.current.y >= ensureNotNull(e.next).current.y) {
       e.bot = Vector2_init_2(e.current);
-      e.top = Vector2_init_2(((tmp$_0 = e.next) != null ? tmp$_0 : throwNPE()).current);
+      e.top = Vector2_init_2(ensureNotNull(e.next).current);
     }
      else {
       e.top = Vector2_init_2(e.current);
-      e.bot = Vector2_init_2(((tmp$_1 = e.next) != null ? tmp$_1 : throwNPE()).current);
+      e.bot = Vector2_init_2(ensureNotNull(e.next).current);
     }
     e.updateDeltaX();
     e.polyTyp = polyType;
@@ -5484,12 +5487,11 @@
     }
   };
   ClipperBase$Companion.prototype.removeEdge_0 = function (e) {
-    var tmp$, tmp$_0;
-    ((tmp$ = e.prev) != null ? tmp$ : throwNPE()).next = e.next;
-    ((tmp$_0 = e.next) != null ? tmp$_0 : throwNPE()).prev = e.prev;
+    ensureNotNull(e.prev).next = e.next;
+    ensureNotNull(e.next).prev = e.prev;
     var result = e.next;
     e.prev = null;
-    return result != null ? result : throwNPE();
+    return ensureNotNull(result);
   };
   ClipperBase$Companion.$metadata$ = {
     kind: Kind_OBJECT,
@@ -5528,14 +5530,13 @@
     this.stepsPerRad_0 = 0.0;
     this.lowest_0 = null;
     this.polyNodes_0 = null;
-    var tmp$;
     this.lowest_0 = new Vector2();
-    ((tmp$ = this.lowest_0) != null ? tmp$ : throwNPE()).x = -1;
+    ensureNotNull(this.lowest_0).x = -1;
     this.polyNodes_0 = new PolyNode();
     this.normals_0 = ArrayList_init();
   }
   ClipperOffset.prototype.addPath_613o8z$ = function (path, joinType, endType) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2;
+    var tmp$;
     var highI = path.size - 1 | 0;
     if (highI < 0) {
       return;
@@ -5568,11 +5569,11 @@
     if (endType !== Clipper$EndType$CLOSED_POLYGON_getInstance()) {
       return;
     }
-    if (((tmp$_0 = this.lowest_0) != null ? tmp$_0 : throwNPE()).x < 0) {
+    if (ensureNotNull(this.lowest_0).x < 0) {
       this.lowest_0 = Vector2_init_0(this.polyNodes_0.childCount - 1 | 0, k);
     }
      else {
-      var ip = this.polyNodes_0.getChilds().get_za3lpa$(numberToInt(((tmp$_1 = this.lowest_0) != null ? tmp$_1 : throwNPE()).x)).polygon.get_za3lpa$(numberToInt(((tmp$_2 = this.lowest_0) != null ? tmp$_2 : throwNPE()).y));
+      var ip = this.polyNodes_0.getChilds().get_za3lpa$(numberToInt(ensureNotNull(this.lowest_0).x)).polygon.get_za3lpa$(numberToInt(ensureNotNull(this.lowest_0).y));
       if (newNode.polygon.get_za3lpa$(k).y > ip.y || (newNode.polygon.get_za3lpa$(k).y === ip.y && newNode.polygon.get_za3lpa$(k).x < ip.x)) {
         this.lowest_0 = Vector2_init_0(this.polyNodes_0.childCount - 1 | 0, k);
       }
@@ -5587,17 +5588,15 @@
     }
   };
   ClipperOffset.prototype.clear = function () {
-    var tmp$;
     this.polyNodes_0._childs.clear();
-    ((tmp$ = this.lowest_0) != null ? tmp$ : throwNPE()).x = -1;
+    ensureNotNull(this.lowest_0).x = -1;
   };
   ClipperOffset.prototype.doMiter_0 = function (j, k, r) {
-    var tmp$, tmp$_0, tmp$_1;
     var q = this.delta_0 / r;
-    ((tmp$ = this.destPoly_0) != null ? tmp$ : throwNPE()).add_11rb$(Vector2_init_0(numberToInt(round(((tmp$_0 = this.srcPoly_0) != null ? tmp$_0 : throwNPE()).get_za3lpa$(j).x + (this.normals_0.get_za3lpa$(k).x + this.normals_0.get_za3lpa$(j).x) * q)), numberToInt(round(((tmp$_1 = this.srcPoly_0) != null ? tmp$_1 : throwNPE()).get_za3lpa$(j).y + (this.normals_0.get_za3lpa$(k).y + this.normals_0.get_za3lpa$(j).y) * q))));
+    ensureNotNull(this.destPoly_0).add_11rb$(Vector2_init_0(numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(j).x + (this.normals_0.get_za3lpa$(k).x + this.normals_0.get_za3lpa$(j).x) * q)), numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(j).y + (this.normals_0.get_za3lpa$(k).y + this.normals_0.get_za3lpa$(j).y) * q))));
   };
   ClipperOffset.prototype.doOffset_0 = function (delta) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14, tmp$_15, tmp$_16, tmp$_17, tmp$_18, tmp$_19, tmp$_20, tmp$_21, tmp$_22, tmp$_23, tmp$_24, tmp$_25, tmp$_26, tmp$_27, tmp$_28, tmp$_29, tmp$_30, tmp$_31, tmp$_32, tmp$_33, tmp$_34, tmp$_35, tmp$_36, tmp$_37, tmp$_38, tmp$_39, tmp$_40, tmp$_41, tmp$_42, tmp$_43;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
     this.destPolys_0 = Paths_init();
     this.delta_0 = delta;
     if (ClipperOffset$Companion_getInstance().nearZero_0(delta)) {
@@ -5605,7 +5604,7 @@
       for (var i = 0; i <= tmp$; i++) {
         var node = this.polyNodes_0.getChilds().get_za3lpa$(i);
         if (equals(node.endType, Clipper$EndType$CLOSED_POLYGON_getInstance())) {
-          ((tmp$_0 = this.destPolys_0) != null ? tmp$_0 : throwNPE()).add_11rb$(node.polygon);
+          ensureNotNull(this.destPolys_0).add_11rb$(node.polygon);
         }
       }
       return;
@@ -5628,22 +5627,22 @@
         y = this.arcTolerance_0;
       }
     }
-    var tmp$_44 = math.PI;
-    var a = 1 - y / Math_0.abs(delta);
-    var steps = tmp$_44 / Math_0.acos(a);
-    var a_0 = ClipperOffset$Companion_getInstance().TWO_PI_0 / steps;
-    this.sin_0 = Math_0.sin(a_0);
-    var a_1 = ClipperOffset$Companion_getInstance().TWO_PI_0 / steps;
-    this.cos_0 = Math_0.cos(a_1);
+    var tmp$_5 = math.PI;
+    var x = 1 - y / Math_0.abs(delta);
+    var steps = tmp$_5 / Math_0.acos(x);
+    var x_0 = ClipperOffset$Companion_getInstance().TWO_PI_0 / steps;
+    this.sin_0 = Math_0.sin(x_0);
+    var x_1 = ClipperOffset$Companion_getInstance().TWO_PI_0 / steps;
+    this.cos_0 = Math_0.cos(x_1);
     this.stepsPerRad_0 = steps / ClipperOffset$Companion_getInstance().TWO_PI_0;
     if (delta < 0.0) {
       this.sin_0 = -this.sin_0;
     }
-    tmp$_1 = this.polyNodes_0.childCount - 1 | 0;
-    for (var i_0 = 0; i_0 <= tmp$_1; i_0++) {
+    tmp$_0 = this.polyNodes_0.childCount - 1 | 0;
+    for (var i_0 = 0; i_0 <= tmp$_0; i_0++) {
       var node_0 = this.polyNodes_0.getChilds().get_za3lpa$(i_0);
       this.srcPoly_0 = node_0.polygon;
-      var len = ((tmp$_2 = this.srcPoly_0) != null ? tmp$_2 : throwNPE()).size;
+      var len = ensureNotNull(this.srcPoly_0).size;
       if (len === 0 || (delta <= 0 && (len < 3 || !equals(node_0.endType, Clipper$EndType$CLOSED_POLYGON_getInstance())))) {
         continue;
       }
@@ -5654,7 +5653,7 @@
           var Y = 0.0;
           var j = 1;
           while (j <= steps) {
-            ((tmp$_3 = this.destPoly_0) != null ? tmp$_3 : throwNPE()).add_11rb$(Vector2_init_0(numberToInt(round(((tmp$_4 = this.srcPoly_0) != null ? tmp$_4 : throwNPE()).get_za3lpa$(0).x + X * delta)), numberToInt(round(((tmp$_5 = this.srcPoly_0) != null ? tmp$_5 : throwNPE()).get_za3lpa$(0).y + Y * delta))));
+            ensureNotNull(this.destPoly_0).add_11rb$(Vector2_init_0(numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(0).x + X * delta)), numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(0).y + Y * delta))));
             var X2 = X;
             X = X * this.cos_0 - this.sin_0 * Y;
             Y = X2 * this.sin_0 + Y * this.cos_0;
@@ -5665,7 +5664,7 @@
           var X_0 = -1.0;
           var Y_0 = -1.0;
           for (var j_0 = 0; j_0 <= 3; j_0++) {
-            ((tmp$_6 = this.destPoly_0) != null ? tmp$_6 : throwNPE()).add_11rb$(Vector2_init_0(numberToInt(round(((tmp$_7 = this.srcPoly_0) != null ? tmp$_7 : throwNPE()).get_za3lpa$(0).x + X_0 * delta)), numberToInt(round(((tmp$_8 = this.srcPoly_0) != null ? tmp$_8 : throwNPE()).get_za3lpa$(0).y + Y_0 * delta))));
+            ensureNotNull(this.destPoly_0).add_11rb$(Vector2_init_0(numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(0).x + X_0 * delta)), numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(0).y + Y_0 * delta))));
             if (X_0 < 0) {
               X_0 = 1.0;
             }
@@ -5677,35 +5676,35 @@
             }
           }
         }
-        ((tmp$_9 = this.destPolys_0) != null ? tmp$_9 : throwNPE()).add_11rb$((tmp$_10 = this.destPoly_0) != null ? tmp$_10 : throwNPE());
+        ensureNotNull(this.destPolys_0).add_11rb$(ensureNotNull(this.destPoly_0));
         continue;
       }
       this.normals_0.clear();
-      tmp$_11 = len - 1 - 1 | 0;
-      for (var j_1 = 0; j_1 <= tmp$_11; j_1++) {
-        this.normals_0.add_11rb$(Points_getInstance().getUnitNormal_g6xq6k$(((tmp$_12 = this.srcPoly_0) != null ? tmp$_12 : throwNPE()).get_za3lpa$(j_1), ((tmp$_13 = this.srcPoly_0) != null ? tmp$_13 : throwNPE()).get_za3lpa$(j_1 + 1 | 0)));
+      tmp$_1 = len - 1 - 1 | 0;
+      for (var j_1 = 0; j_1 <= tmp$_1; j_1++) {
+        this.normals_0.add_11rb$(Points_getInstance().getUnitNormal_g6xq6k$(ensureNotNull(this.srcPoly_0).get_za3lpa$(j_1), ensureNotNull(this.srcPoly_0).get_za3lpa$(j_1 + 1 | 0)));
       }
       if (equals(node_0.endType, Clipper$EndType$CLOSED_LINE_getInstance()) || equals(node_0.endType, Clipper$EndType$CLOSED_POLYGON_getInstance())) {
-        this.normals_0.add_11rb$(Points_getInstance().getUnitNormal_g6xq6k$(((tmp$_14 = this.srcPoly_0) != null ? tmp$_14 : throwNPE()).get_za3lpa$(len - 1 | 0), ((tmp$_15 = this.srcPoly_0) != null ? tmp$_15 : throwNPE()).get_za3lpa$(0)));
+        this.normals_0.add_11rb$(Points_getInstance().getUnitNormal_g6xq6k$(ensureNotNull(this.srcPoly_0).get_za3lpa$(len - 1 | 0), ensureNotNull(this.srcPoly_0).get_za3lpa$(0)));
       }
        else {
         this.normals_0.add_11rb$(Vector2_init_2(this.normals_0.get_za3lpa$(len - 2 | 0)));
       }
       if (equals(node_0.endType, Clipper$EndType$CLOSED_POLYGON_getInstance())) {
         var k = new Int32Array([len - 1 | 0]);
-        tmp$_16 = len - 1 | 0;
-        for (var j_2 = 0; j_2 <= tmp$_16; j_2++) {
-          this.offsetPoint_0(j_2, k, (tmp$_17 = node_0.joinType) != null ? tmp$_17 : throwNPE());
+        tmp$_2 = len - 1 | 0;
+        for (var j_2 = 0; j_2 <= tmp$_2; j_2++) {
+          this.offsetPoint_0(j_2, k, ensureNotNull(node_0.joinType));
         }
-        ((tmp$_18 = this.destPolys_0) != null ? tmp$_18 : throwNPE()).add_11rb$((tmp$_19 = this.destPoly_0) != null ? tmp$_19 : throwNPE());
+        ensureNotNull(this.destPolys_0).add_11rb$(ensureNotNull(this.destPoly_0));
       }
        else if (equals(node_0.endType, Clipper$EndType$CLOSED_LINE_getInstance())) {
         var k_0 = new Int32Array([len - 1 | 0]);
-        tmp$_20 = len - 1 | 0;
-        for (var j_3 = 0; j_3 <= tmp$_20; j_3++) {
-          this.offsetPoint_0(j_3, k_0, (tmp$_21 = node_0.joinType) != null ? tmp$_21 : throwNPE());
+        tmp$_3 = len - 1 | 0;
+        for (var j_3 = 0; j_3 <= tmp$_3; j_3++) {
+          this.offsetPoint_0(j_3, k_0, ensureNotNull(node_0.joinType));
         }
-        ((tmp$_22 = this.destPolys_0) != null ? tmp$_22 : throwNPE()).add_11rb$((tmp$_23 = this.destPoly_0) != null ? tmp$_23 : throwNPE());
+        ensureNotNull(this.destPolys_0).add_11rb$(ensureNotNull(this.destPoly_0));
         this.destPoly_0 = new Path();
         var n = this.normals_0.get_za3lpa$(len - 1 | 0);
         for (var j_4 = len - 1 | 0; j_4 >= 1; j_4--) {
@@ -5714,23 +5713,23 @@
         this.normals_0.set_wxm5ur$(0, new Vector2(-n.x, -n.y));
         k_0[0] = 0;
         for (var j_5 = len - 1 | 0; j_5 >= 0; j_5--) {
-          this.offsetPoint_0(j_5, k_0, (tmp$_24 = node_0.joinType) != null ? tmp$_24 : throwNPE());
+          this.offsetPoint_0(j_5, k_0, ensureNotNull(node_0.joinType));
         }
-        ((tmp$_25 = this.destPolys_0) != null ? tmp$_25 : throwNPE()).add_11rb$((tmp$_26 = this.destPoly_0) != null ? tmp$_26 : throwNPE());
+        ensureNotNull(this.destPolys_0).add_11rb$(ensureNotNull(this.destPoly_0));
       }
        else {
         var k_1 = new Int32Array(1);
-        tmp$_27 = len - 1 - 1 | 0;
-        for (var j_6 = 1; j_6 <= tmp$_27; j_6++) {
-          this.offsetPoint_0(j_6, k_1, (tmp$_28 = node_0.joinType) != null ? tmp$_28 : throwNPE());
+        tmp$_4 = len - 1 - 1 | 0;
+        for (var j_6 = 1; j_6 <= tmp$_4; j_6++) {
+          this.offsetPoint_0(j_6, k_1, ensureNotNull(node_0.joinType));
         }
         var pt1;
         if (equals(node_0.endType, Clipper$EndType$OPEN_BUTT_getInstance())) {
           var j_7 = len - 1 | 0;
-          pt1 = Vector2_init_0(numberToInt(round(((tmp$_29 = this.srcPoly_0) != null ? tmp$_29 : throwNPE()).get_za3lpa$(j_7).x + this.normals_0.get_za3lpa$(j_7).x * delta)), numberToInt(round(((tmp$_30 = this.srcPoly_0) != null ? tmp$_30 : throwNPE()).get_za3lpa$(j_7).y + this.normals_0.get_za3lpa$(j_7).y * delta)));
-          ((tmp$_31 = this.destPoly_0) != null ? tmp$_31 : throwNPE()).add_11rb$(pt1);
-          pt1 = Vector2_init_0(numberToInt(round(((tmp$_32 = this.srcPoly_0) != null ? tmp$_32 : throwNPE()).get_za3lpa$(j_7).x - this.normals_0.get_za3lpa$(j_7).x * delta)), numberToInt(round(((tmp$_33 = this.srcPoly_0) != null ? tmp$_33 : throwNPE()).get_za3lpa$(j_7).y - this.normals_0.get_za3lpa$(j_7).y * delta)));
-          ((tmp$_34 = this.destPoly_0) != null ? tmp$_34 : throwNPE()).add_11rb$(pt1);
+          pt1 = Vector2_init_0(numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(j_7).x + this.normals_0.get_za3lpa$(j_7).x * delta)), numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(j_7).y + this.normals_0.get_za3lpa$(j_7).y * delta)));
+          ensureNotNull(this.destPoly_0).add_11rb$(pt1);
+          pt1 = Vector2_init_0(numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(j_7).x - this.normals_0.get_za3lpa$(j_7).x * delta)), numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(j_7).y - this.normals_0.get_za3lpa$(j_7).y * delta)));
+          ensureNotNull(this.destPoly_0).add_11rb$(pt1);
         }
          else {
           var j_8 = len - 1 | 0;
@@ -5749,14 +5748,13 @@
         }
         this.normals_0.set_wxm5ur$(0, new Vector2(-this.normals_0.get_za3lpa$(1).x, -this.normals_0.get_za3lpa$(1).y));
         k_1[0] = len - 1 | 0;
-        for (var j_10 = k_1[0] - 1 | 0; j_10 >= 1; j_10--) {
-          this.offsetPoint_0(j_10, k_1, (tmp$_35 = node_0.joinType) != null ? tmp$_35 : throwNPE());
-        }
+        for (var j_10 = k_1[0] - 1 | 0; j_10 >= 1; j_10--)
+          this.offsetPoint_0(j_10, k_1, ensureNotNull(node_0.joinType));
         if (equals(node_0.endType, Clipper$EndType$OPEN_BUTT_getInstance())) {
-          pt1 = Vector2_init_0(numberToInt(round(((tmp$_36 = this.srcPoly_0) != null ? tmp$_36 : throwNPE()).get_za3lpa$(0).x - this.normals_0.get_za3lpa$(0).x * delta)), numberToInt(round(((tmp$_37 = this.srcPoly_0) != null ? tmp$_37 : throwNPE()).get_za3lpa$(0).y - this.normals_0.get_za3lpa$(0).y * delta)));
-          ((tmp$_38 = this.destPoly_0) != null ? tmp$_38 : throwNPE()).add_11rb$(pt1);
-          pt1 = Vector2_init_0(numberToInt(round(((tmp$_39 = this.srcPoly_0) != null ? tmp$_39 : throwNPE()).get_za3lpa$(0).x + this.normals_0.get_za3lpa$(0).x * delta)), numberToInt(round(((tmp$_40 = this.srcPoly_0) != null ? tmp$_40 : throwNPE()).get_za3lpa$(0).y + this.normals_0.get_za3lpa$(0).y * delta)));
-          ((tmp$_41 = this.destPoly_0) != null ? tmp$_41 : throwNPE()).add_11rb$(pt1);
+          pt1 = Vector2_init_0(numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(0).x - this.normals_0.get_za3lpa$(0).x * delta)), numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(0).y - this.normals_0.get_za3lpa$(0).y * delta)));
+          ensureNotNull(this.destPoly_0).add_11rb$(pt1);
+          pt1 = Vector2_init_0(numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(0).x + this.normals_0.get_za3lpa$(0).x * delta)), numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(0).y + this.normals_0.get_za3lpa$(0).y * delta)));
+          ensureNotNull(this.destPoly_0).add_11rb$(pt1);
         }
          else {
           k_1[0] = 1;
@@ -5768,12 +5766,11 @@
             this.doRound_0(0, 1);
           }
         }
-        ((tmp$_42 = this.destPolys_0) != null ? tmp$_42 : throwNPE()).add_11rb$((tmp$_43 = this.destPoly_0) != null ? tmp$_43 : throwNPE());
+        ensureNotNull(this.destPolys_0).add_11rb$(ensureNotNull(this.destPoly_0));
       }
     }
   };
   ClipperOffset.prototype.doRound_0 = function (j, k) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
     var y = this.inA_0;
     var x = this.normals_0.get_za3lpa$(k).x * this.normals_0.get_za3lpa$(j).x + this.normals_0.get_za3lpa$(k).y * this.normals_0.get_za3lpa$(j).y;
     var a = Math_0.atan2(y, x);
@@ -5782,40 +5779,38 @@
     var Y = this.normals_0.get_za3lpa$(k).y;
     var X2;
     for (var i = 0; i < steps; i++) {
-      ((tmp$ = this.destPoly_0) != null ? tmp$ : throwNPE()).add_11rb$(Vector2_init_0(numberToInt(round(((tmp$_0 = this.srcPoly_0) != null ? tmp$_0 : throwNPE()).get_za3lpa$(j).x + X * this.delta_0)), numberToInt(round(((tmp$_1 = this.srcPoly_0) != null ? tmp$_1 : throwNPE()).get_za3lpa$(j).y + Y * this.delta_0))));
+      ensureNotNull(this.destPoly_0).add_11rb$(Vector2_init_0(numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(j).x + X * this.delta_0)), numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(j).y + Y * this.delta_0))));
       X2 = X;
       X = X * this.cos_0 - this.sin_0 * Y;
       Y = X2 * this.sin_0 + Y * this.cos_0;
     }
-    ((tmp$_2 = this.destPoly_0) != null ? tmp$_2 : throwNPE()).add_11rb$(Vector2_init_0(numberToInt(round(((tmp$_3 = this.srcPoly_0) != null ? tmp$_3 : throwNPE()).get_za3lpa$(j).x + this.normals_0.get_za3lpa$(j).x * this.delta_0)), numberToInt(round(((tmp$_4 = this.srcPoly_0) != null ? tmp$_4 : throwNPE()).get_za3lpa$(j).y + this.normals_0.get_za3lpa$(j).y * this.delta_0))));
+    ensureNotNull(this.destPoly_0).add_11rb$(Vector2_init_0(numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(j).x + this.normals_0.get_za3lpa$(j).x * this.delta_0)), numberToInt(round(ensureNotNull(this.srcPoly_0).get_za3lpa$(j).y + this.normals_0.get_za3lpa$(j).y * this.delta_0))));
   };
   ClipperOffset.prototype.doSquare_0 = function (j, k) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2;
     var nkx = this.normals_0.get_za3lpa$(k).x;
     var nky = this.normals_0.get_za3lpa$(k).y;
     var njx = this.normals_0.get_za3lpa$(j).x;
     var njy = this.normals_0.get_za3lpa$(j).y;
-    var sjx = ((tmp$ = this.srcPoly_0) != null ? tmp$ : throwNPE()).get_za3lpa$(j).x;
-    var sjy = ((tmp$_0 = this.srcPoly_0) != null ? tmp$_0 : throwNPE()).get_za3lpa$(j).y;
+    var sjx = ensureNotNull(this.srcPoly_0).get_za3lpa$(j).x;
+    var sjy = ensureNotNull(this.srcPoly_0).get_za3lpa$(j).y;
     var y = this.inA_0;
     var x = nkx * njx + nky * njy;
-    var a = Math_0.atan2(y, x) / 4;
-    var dx = Math_0.tan(a);
-    ((tmp$_1 = this.destPoly_0) != null ? tmp$_1 : throwNPE()).add_11rb$(Vector2_init_0(numberToInt(round(sjx + this.delta_0 * (nkx - nky * dx))), numberToInt(round(sjy + this.delta_0 * (nky + nkx * dx)))));
-    ((tmp$_2 = this.destPoly_0) != null ? tmp$_2 : throwNPE()).add_11rb$(Vector2_init_0(numberToInt(round(sjx + this.delta_0 * (njx + njy * dx))), numberToInt(round(sjy + this.delta_0 * (njy - njx * dx)))));
+    var x_0 = Math_0.atan2(y, x) / 4;
+    var dx = Math_0.tan(x_0);
+    ensureNotNull(this.destPoly_0).add_11rb$(Vector2_init_0(numberToInt(round(sjx + this.delta_0 * (nkx - nky * dx))), numberToInt(round(sjy + this.delta_0 * (nky + nkx * dx)))));
+    ensureNotNull(this.destPoly_0).add_11rb$(Vector2_init_0(numberToInt(round(sjx + this.delta_0 * (njx + njy * dx))), numberToInt(round(sjy + this.delta_0 * (njy - njx * dx)))));
   };
   ClipperOffset.prototype.execute_nn3i1b$ = function (solution, delta) {
-    var tmp$, tmp$_0;
     solution.clear();
     this.fixOrientations_0();
     this.doOffset_0(delta);
     var clpr = new DefaultClipper(Clipper$Companion_getInstance().REVERSE_SOLUTION);
-    clpr.addPaths_kw2pds$((tmp$ = this.destPolys_0) != null ? tmp$ : throwNPE(), Clipper$PolyType$SUBJECT_getInstance(), true);
+    clpr.addPaths_kw2pds$(ensureNotNull(this.destPolys_0), Clipper$PolyType$SUBJECT_getInstance(), true);
     if (delta > 0) {
       clpr.execute_h3bo99$(Clipper$ClipType$UNION_getInstance(), solution, Clipper$PolyFillType$POSITIVE_getInstance(), Clipper$PolyFillType$POSITIVE_getInstance());
     }
      else {
-      var r = ((tmp$_0 = this.destPolys_0) != null ? tmp$_0 : throwNPE()).bounds;
+      var r = ensureNotNull(this.destPolys_0).bounds;
       var outer = new Path(4);
       outer.add_11rb$(new Vector2(r.left - 10, r.bottom + 10));
       outer.add_11rb$(new Vector2(r.right + 10, r.bottom + 10));
@@ -5829,17 +5824,17 @@
     }
   };
   ClipperOffset.prototype.execute_t6zb6b$ = function (solution, delta) {
-    var tmp$, tmp$_0, tmp$_1;
+    var tmp$;
     solution.Clear();
     this.fixOrientations_0();
     this.doOffset_0(delta);
     var clpr = new DefaultClipper(Clipper$Companion_getInstance().REVERSE_SOLUTION);
-    clpr.addPaths_kw2pds$((tmp$ = this.destPolys_0) != null ? tmp$ : throwNPE(), Clipper$PolyType$SUBJECT_getInstance(), true);
+    clpr.addPaths_kw2pds$(ensureNotNull(this.destPolys_0), Clipper$PolyType$SUBJECT_getInstance(), true);
     if (delta > 0) {
       clpr.execute_8qtg6t$(Clipper$ClipType$UNION_getInstance(), solution, Clipper$PolyFillType$POSITIVE_getInstance(), Clipper$PolyFillType$POSITIVE_getInstance());
     }
      else {
-      var r = ((tmp$_0 = this.destPolys_0) != null ? tmp$_0 : throwNPE()).bounds;
+      var r = ensureNotNull(this.destPolys_0).bounds;
       var outer = new Path(4);
       outer.add_11rb$(new Vector2(r.left - 10, r.bottom + 10));
       outer.add_11rb$(new Vector2(r.right + 10, r.bottom + 10));
@@ -5851,8 +5846,8 @@
         var outerNode = solution.getChilds().get_za3lpa$(0);
         solution._childs.set_wxm5ur$(0, outerNode.getChilds().get_za3lpa$(0));
         solution._childs.get_za3lpa$(0).parent = solution;
-        tmp$_1 = outerNode.childCount;
-        for (var i = 1; i < tmp$_1; i++) {
+        tmp$ = outerNode.childCount;
+        for (var i = 1; i < tmp$; i++) {
           solution.addChild_mux8jj$(outerNode.getChilds().get_za3lpa$(i));
         }
       }
@@ -5862,10 +5857,10 @@
     }
   };
   ClipperOffset.prototype.fixOrientations_0 = function () {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2;
-    if (((tmp$ = this.lowest_0) != null ? tmp$ : throwNPE()).x >= 0 ? !this.polyNodes_0._childs.get_za3lpa$(numberToInt(((tmp$_0 = this.lowest_0) != null ? tmp$_0 : throwNPE()).x)).polygon.orientation() : false) {
-      tmp$_1 = this.polyNodes_0.childCount;
-      for (var i = 0; i < tmp$_1; i++) {
+    var tmp$, tmp$_0;
+    if (ensureNotNull(this.lowest_0).x >= 0 && !this.polyNodes_0._childs.get_za3lpa$(numberToInt(ensureNotNull(this.lowest_0).x)).polygon.orientation()) {
+      tmp$ = this.polyNodes_0.childCount;
+      for (var i = 0; i < tmp$; i++) {
         var node = this.polyNodes_0._childs.get_za3lpa$(i);
         if (equals(node.endType, Clipper$EndType$CLOSED_POLYGON_getInstance()) || (equals(node.endType, Clipper$EndType$CLOSED_LINE_getInstance()) && node.polygon.orientation())) {
           reverse(node.polygon);
@@ -5873,8 +5868,8 @@
       }
     }
      else {
-      tmp$_2 = this.polyNodes_0.childCount;
-      for (var i_0 = 0; i_0 < tmp$_2; i_0++) {
+      tmp$_0 = this.polyNodes_0.childCount;
+      for (var i_0 = 0; i_0 < tmp$_0; i_0++) {
         var node_0 = this.polyNodes_0._childs.get_za3lpa$(i_0);
         if (equals(node_0.endType, Clipper$EndType$CLOSED_LINE_getInstance()) && !node_0.polygon.orientation()) {
           reverse(node_0.polygon);
@@ -5883,20 +5878,19 @@
     }
   };
   ClipperOffset.prototype.offsetPoint_0 = function (j, kV, jointype) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
     var k = kV[0];
     var nkx = this.normals_0.get_za3lpa$(k).x;
     var nky = this.normals_0.get_za3lpa$(k).y;
     var njy = this.normals_0.get_za3lpa$(j).y;
     var njx = this.normals_0.get_za3lpa$(j).x;
-    var sjx = ((tmp$ = this.srcPoly_0) != null ? tmp$ : throwNPE()).get_za3lpa$(j).x;
-    var sjy = ((tmp$_0 = this.srcPoly_0) != null ? tmp$_0 : throwNPE()).get_za3lpa$(j).y;
+    var sjx = ensureNotNull(this.srcPoly_0).get_za3lpa$(j).x;
+    var sjy = ensureNotNull(this.srcPoly_0).get_za3lpa$(j).y;
     this.inA_0 = nkx * njy - njx * nky;
-    var a = this.inA_0 * this.delta_0;
-    if (Math_0.abs(a) < 1.0) {
+    var x = this.inA_0 * this.delta_0;
+    if (Math_0.abs(x) < 1.0) {
       var cosA = nkx * njx + njy * nky;
       if (cosA > 0) {
-        ((tmp$_1 = this.destPoly_0) != null ? tmp$_1 : throwNPE()).add_11rb$(Vector2_init_0(numberToInt(round(sjx + nkx * this.delta_0)), numberToInt(round(sjy + nky * this.delta_0))));
+        ensureNotNull(this.destPoly_0).add_11rb$(Vector2_init_0(numberToInt(round(sjx + nkx * this.delta_0)), numberToInt(round(sjy + nky * this.delta_0))));
         return;
       }
     }
@@ -5907,9 +5901,9 @@
       this.inA_0 = -1.0;
     }
     if (this.inA_0 * this.delta_0 < 0) {
-      ((tmp$_2 = this.destPoly_0) != null ? tmp$_2 : throwNPE()).add_11rb$(Vector2_init_0(numberToInt(round(sjx + nkx * this.delta_0)), numberToInt(round(sjy + nky * this.delta_0))));
-      ((tmp$_3 = this.destPoly_0) != null ? tmp$_3 : throwNPE()).add_11rb$(((tmp$_4 = this.srcPoly_0) != null ? tmp$_4 : throwNPE()).get_za3lpa$(j));
-      ((tmp$_5 = this.destPoly_0) != null ? tmp$_5 : throwNPE()).add_11rb$(Vector2_init_0(numberToInt(round(sjx + njx * this.delta_0)), numberToInt(round(sjy + njy * this.delta_0))));
+      ensureNotNull(this.destPoly_0).add_11rb$(Vector2_init_0(numberToInt(round(sjx + nkx * this.delta_0)), numberToInt(round(sjy + nky * this.delta_0))));
+      ensureNotNull(this.destPoly_0).add_11rb$(ensureNotNull(this.srcPoly_0).get_za3lpa$(j));
+      ensureNotNull(this.destPoly_0).add_11rb$(Vector2_init_0(numberToInt(round(sjx + njx * this.delta_0)), numberToInt(round(sjy + njy * this.delta_0))));
     }
      else {
       if (equals(jointype, Clipper$JoinType$MITER_getInstance())) {
@@ -6004,7 +5998,6 @@
     interfaces: []
   };
   DefaultClipper.prototype.addEdgeToSEL_0 = function (edge) {
-    var tmp$;
     if (this.sortedEdges_0 == null) {
       this.sortedEdges_0 = edge;
       edge.prevInSEL = null;
@@ -6013,7 +6006,7 @@
      else {
       edge.nextInSEL = this.sortedEdges_0;
       edge.prevInSEL = null;
-      ((tmp$ = this.sortedEdges_0) != null ? tmp$ : throwNPE()).prevInSEL = edge;
+      ensureNotNull(this.sortedEdges_0).prevInSEL = edge;
       this.sortedEdges_0 = edge;
     }
   };
@@ -6073,7 +6066,6 @@
     return result;
   };
   DefaultClipper.prototype.addOutPt_0 = function (e, pt) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
     var ToFront = e.side === Edge$Side$LEFT_getInstance();
     if (e.outIdx < 0) {
       var outRec = this.createOutRec_0();
@@ -6091,27 +6083,19 @@
     }
      else {
       var outRec_0 = this.polyOuts_0.get_za3lpa$(e.outIdx);
-      var op = (tmp$ = outRec_0.points) != null ? tmp$ : throwNPE();
+      var op = ensureNotNull(outRec_0.points);
       if (ToFront && (pt != null ? pt.equals(op.pt) : null)) {
         return op;
       }
-       else {
-        if (!ToFront) {
-          tmp$_1 = ((tmp$_0 = op.prev) != null ? tmp$_0 : throwNPE()).pt;
-          tmp$_2 = pt != null ? pt.equals(tmp$_1) : null;
-        }
-         else
-          tmp$_2 = false;
-        if (tmp$_2) {
-          return (tmp$_3 = op.prev) != null ? tmp$_3 : throwNPE();
-        }
+       else if (!ToFront && (pt != null ? pt.equals(ensureNotNull(op.prev).pt) : null)) {
+        return ensureNotNull(op.prev);
       }
       var newOp_0 = new Path$OutPt();
       newOp_0.idx = outRec_0.Idx;
       newOp_0.pt = Vector2_init_2(pt);
       newOp_0.next = op;
       newOp_0.prev = op.prev;
-      ((tmp$_4 = newOp_0.prev) != null ? tmp$_4 : throwNPE()).next = newOp_0;
+      ensureNotNull(newOp_0.prev).next = newOp_0;
       op.prev = newOp_0;
       if (ToFront)
         outRec_0.points = newOp_0;
@@ -6119,7 +6103,7 @@
     }
   };
   DefaultClipper.prototype.appendPolygon_0 = function (e1, e2) {
-    var tmp$, tmp$_0, tmp$_1;
+    var tmp$;
     var outRec1 = this.polyOuts_0.get_za3lpa$(e1.outIdx);
     var outRec2 = this.polyOuts_0.get_za3lpa$(e2.outIdx);
     var holeStateRec;
@@ -6134,9 +6118,9 @@
     }
     holeStateRec = tmp$;
     var p1_lft = outRec1.points;
-    var p1_rt = (tmp$_0 = (p1_lft != null ? p1_lft : throwNPE()).prev) != null ? tmp$_0 : throwNPE();
+    var p1_rt = ensureNotNull(ensureNotNull(p1_lft).prev);
     var p2_lft = outRec2.points;
-    var p2_rt = (tmp$_1 = (p2_lft != null ? p2_lft : throwNPE()).prev) != null ? tmp$_1 : throwNPE();
+    var p2_rt = ensureNotNull(ensureNotNull(p2_lft).prev);
     var side;
     if (e1.side === Edge$Side$LEFT_getInstance()) {
       if (e2.side === Edge$Side$LEFT_getInstance()) {
@@ -6197,7 +6181,6 @@
     outRec2.Idx = outRec1.Idx;
   };
   DefaultClipper.prototype.buildIntersectList_0 = function (topY) {
-    var tmp$;
     if (this.activeEdges_0 == null)
       return;
     var e = this.activeEdges_0;
@@ -6212,16 +6195,16 @@
     while (isModified && this.sortedEdges_0 != null) {
       isModified = false;
       e = this.sortedEdges_0;
-      while ((e != null ? e : throwNPE()).nextInSEL != null) {
+      while (ensureNotNull(e).nextInSEL != null) {
         var eNext = e.nextInSEL;
         var array = Array_0(1);
-        var tmp$_0;
-        tmp$_0 = array.length - 1 | 0;
-        for (var i = 0; i <= tmp$_0; i++) {
+        var tmp$;
+        tmp$ = array.length - 1 | 0;
+        for (var i = 0; i <= tmp$; i++) {
           array[i] = new Vector2();
         }
         var pt = array;
-        if (e.current.x > (eNext != null ? eNext : throwNPE()).current.x) {
+        if (e.current.x > ensureNotNull(eNext).current.x) {
           this.intersectPoint_0(e, eNext, pt);
           var newNode = new DefaultClipper$IntersectNode(this);
           newNode.edge1 = e;
@@ -6236,7 +6219,7 @@
         }
       }
       if (e.prevInSEL != null) {
-        ((tmp$ = e.prevInSEL) != null ? tmp$ : throwNPE()).nextInSEL = null;
+        ensureNotNull(e.prevInSEL).nextInSEL = null;
       }
        else {
         break;
@@ -6245,7 +6228,7 @@
     this.sortedEdges_0 = null;
   };
   DefaultClipper.prototype.buildResult_0 = function (polyg) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3;
     polyg.clear();
     tmp$ = get_indices(this.polyOuts_0);
     tmp$_0 = tmp$.first;
@@ -6255,21 +6238,21 @@
       var outRec = this.polyOuts_0.get_za3lpa$(i);
       if (outRec.points == null)
         continue;
-      var p = (tmp$_4 = ((tmp$_3 = outRec.points) != null ? tmp$_3 : throwNPE()).prev) != null ? tmp$_4 : throwNPE();
+      var p = ensureNotNull(ensureNotNull(outRec.points).prev);
       var cnt = p.pointCount;
       if (cnt < 2)
         continue;
       var pg = new Path(cnt);
-      tmp$_5 = cnt - 1 | 0;
-      for (var j = 0; j <= tmp$_5; j++) {
+      tmp$_3 = cnt - 1 | 0;
+      for (var j = 0; j <= tmp$_3; j++) {
         pg.add_11rb$(Vector2_init_2(p.pt));
-        p = (tmp$_6 = p.prev) != null ? tmp$_6 : throwNPE();
+        p = ensureNotNull(p.prev);
       }
       polyg.add_11rb$(pg);
     }
   };
   DefaultClipper.prototype.buildResult2_0 = function (polytree) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14, tmp$_15, tmp$_16, tmp$_17, tmp$_18;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7;
     polytree.Clear();
     tmp$ = get_indices(this.polyOuts_0);
     tmp$_0 = tmp$.first;
@@ -6277,7 +6260,7 @@
     tmp$_2 = tmp$.step;
     for (var i = tmp$_0; i <= tmp$_1; i += tmp$_2) {
       var outRec = this.polyOuts_0.get_za3lpa$(i);
-      var cnt = ((tmp$_3 = outRec.points) != null ? tmp$_3 : throwNPE()).pointCount;
+      var cnt = ensureNotNull(outRec.points).pointCount;
       if (outRec.isOpen && cnt < 2 || (!outRec.isOpen && cnt < 3)) {
         continue;
       }
@@ -6285,31 +6268,31 @@
       var pn = new PolyNode();
       polytree.allPolys.add_11rb$(pn);
       outRec.polyNode = pn;
-      var op = (tmp$_5 = ((tmp$_4 = outRec.points) != null ? tmp$_4 : throwNPE()).prev) != null ? tmp$_5 : throwNPE();
-      tmp$_6 = cnt - 1 | 0;
-      for (var j = 0; j <= tmp$_6; j++) {
+      var op = ensureNotNull(ensureNotNull(outRec.points).prev);
+      tmp$_3 = cnt - 1 | 0;
+      for (var j = 0; j <= tmp$_3; j++) {
         pn.polygon.add_11rb$(op.pt);
-        op = (tmp$_7 = op.prev) != null ? tmp$_7 : throwNPE();
+        op = ensureNotNull(op.prev);
       }
     }
-    tmp$_8 = get_indices(this.polyOuts_0);
-    tmp$_9 = tmp$_8.first;
-    tmp$_10 = tmp$_8.last;
-    tmp$_11 = tmp$_8.step;
-    for (var i_0 = tmp$_9; i_0 <= tmp$_10; i_0 += tmp$_11) {
+    tmp$_4 = get_indices(this.polyOuts_0);
+    tmp$_5 = tmp$_4.first;
+    tmp$_6 = tmp$_4.last;
+    tmp$_7 = tmp$_4.step;
+    for (var i_0 = tmp$_5; i_0 <= tmp$_6; i_0 += tmp$_7) {
       var outRec_0 = this.polyOuts_0.get_za3lpa$(i_0);
       if (outRec_0.polyNode == null) {
         continue;
       }
        else if (outRec_0.isOpen) {
-        ((tmp$_12 = outRec_0.polyNode) != null ? tmp$_12 : throwNPE()).isOpen = true;
-        polytree.addChild_mux8jj$((tmp$_13 = outRec_0.polyNode) != null ? tmp$_13 : throwNPE());
+        ensureNotNull(outRec_0.polyNode).isOpen = true;
+        polytree.addChild_mux8jj$(ensureNotNull(outRec_0.polyNode));
       }
-       else if (outRec_0.firstLeft != null && ((tmp$_14 = outRec_0.firstLeft) != null ? tmp$_14 : throwNPE()).polyNode != null) {
-        ((tmp$_16 = ((tmp$_15 = outRec_0.firstLeft) != null ? tmp$_15 : throwNPE()).polyNode) != null ? tmp$_16 : throwNPE()).addChild_mux8jj$((tmp$_17 = outRec_0.polyNode) != null ? tmp$_17 : throwNPE());
+       else if (outRec_0.firstLeft != null && ensureNotNull(outRec_0.firstLeft).polyNode != null) {
+        ensureNotNull(ensureNotNull(outRec_0.firstLeft).polyNode).addChild_mux8jj$(ensureNotNull(outRec_0.polyNode));
       }
        else {
-        polytree.addChild_mux8jj$((tmp$_18 = outRec_0.polyNode) != null ? tmp$_18 : throwNPE());
+        polytree.addChild_mux8jj$(ensureNotNull(outRec_0.polyNode));
       }
     }
   };
@@ -6433,7 +6416,7 @@
     }
   };
   DefaultClipper.prototype.doSimplePolygons_0 = function () {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10;
+    var tmp$, tmp$_0;
     var i = 0;
     while (i < this.polyOuts_0.size) {
       var outrec = this.polyOuts_0.get_za3lpa$((tmp$ = i, i = tmp$ + 1 | 0, tmp$));
@@ -6442,51 +6425,45 @@
         continue;
       }
       do {
-        var op2 = (tmp$_0 = (op != null ? op : throwNPE()).next) != null ? tmp$_0 : throwNPE();
+        var op2 = ensureNotNull(ensureNotNull(op).next);
         while (op2 !== outrec.points) {
-          if (((tmp$_1 = op.pt) != null ? tmp$_1.equals(op2.pt) : null) && !equals(op2.next, op) && !equals(op2.prev, op)) {
+          if (((tmp$_0 = op.pt) != null ? tmp$_0.equals(op2.pt) : null) && !equals(op2.next, op) && !equals(op2.prev, op)) {
             var op3 = op.prev;
             var op4 = op2.prev;
             op.prev = op4;
-            (op4 != null ? op4 : throwNPE()).next = op;
+            ensureNotNull(op4).next = op;
             op2.prev = op3;
-            (op3 != null ? op3 : throwNPE()).next = op2;
+            ensureNotNull(op3).next = op2;
             outrec.points = op;
             var outrec2 = this.createOutRec_0();
             outrec2.points = op2;
             this.updateOutPtIdxs_0(outrec2);
-            tmp$_3 = (tmp$_2 = outrec2.points) != null ? tmp$_2 : throwNPE();
-            tmp$_5 = (tmp$_4 = outrec.points) != null ? tmp$_4 : throwNPE();
-            if (DefaultClipper$Companion_getInstance().poly2ContainsPoly1_0(tmp$_3, tmp$_5)) {
+            if (DefaultClipper$Companion_getInstance().poly2ContainsPoly1_0(ensureNotNull(outrec2.points), ensureNotNull(outrec.points))) {
               outrec2.isHole = !outrec.isHole;
               outrec2.firstLeft = outrec;
               if (this.usingPolyTree_0) {
                 this.fixupFirstLefts2_0(outrec2, outrec);
               }
             }
-             else {
-              tmp$_7 = (tmp$_6 = outrec.points) != null ? tmp$_6 : throwNPE();
-              tmp$_9 = (tmp$_8 = outrec2.points) != null ? tmp$_8 : throwNPE();
-              if (DefaultClipper$Companion_getInstance().poly2ContainsPoly1_0(tmp$_7, tmp$_9)) {
-                outrec2.isHole = outrec.isHole;
-                outrec.isHole = !outrec2.isHole;
-                outrec2.firstLeft = outrec.firstLeft;
-                outrec.firstLeft = outrec2;
-                if (this.usingPolyTree_0) {
-                  this.fixupFirstLefts2_0(outrec, outrec2);
-                }
+             else if (DefaultClipper$Companion_getInstance().poly2ContainsPoly1_0(ensureNotNull(outrec.points), ensureNotNull(outrec2.points))) {
+              outrec2.isHole = outrec.isHole;
+              outrec.isHole = !outrec2.isHole;
+              outrec2.firstLeft = outrec.firstLeft;
+              outrec.firstLeft = outrec2;
+              if (this.usingPolyTree_0) {
+                this.fixupFirstLefts2_0(outrec, outrec2);
               }
-               else {
-                outrec2.isHole = outrec.isHole;
-                outrec2.firstLeft = outrec.firstLeft;
-                if (this.usingPolyTree_0) {
-                  this.fixupFirstLefts1_0(outrec, outrec2);
-                }
+            }
+             else {
+              outrec2.isHole = outrec.isHole;
+              outrec2.firstLeft = outrec.firstLeft;
+              if (this.usingPolyTree_0) {
+                this.fixupFirstLefts1_0(outrec, outrec2);
               }
             }
             op2 = op;
           }
-          op2 = (tmp$_10 = op2.next) != null ? tmp$_10 : throwNPE();
+          op2 = ensureNotNull(op2.next);
         }
         op = op.next;
       }
@@ -6494,8 +6471,7 @@
     }
   };
   DefaultClipper.prototype.EdgesAdjacent_0 = function (inode) {
-    var tmp$, tmp$_0;
-    return ((tmp$ = inode.edge1) != null ? tmp$ : throwNPE()).nextInSEL === inode.Edge2 || ((tmp$_0 = inode.edge1) != null ? tmp$_0 : throwNPE()).prevInSEL === inode.Edge2;
+    return ensureNotNull(inode.edge1).nextInSEL === inode.Edge2 || ensureNotNull(inode.edge1).prevInSEL === inode.Edge2;
   };
   DefaultClipper.prototype.execute_vdtgvh$ = function (clipType, solution) {
     return this.execute_h3bo99$(clipType, solution, Clipper$PolyFillType$EVEN_ODD_getInstance(), Clipper$PolyFillType$EVEN_ODD_getInstance());
@@ -6542,7 +6518,7 @@
     return succeeded;
   };
   DefaultClipper.prototype.executeInternal_0 = function () {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
     try {
       this.reset();
       if (this.currentLM == null) {
@@ -6576,15 +6552,15 @@
         if (outRec_0.points == null || outRec_0.isOpen)
           continue;
         if ((outRec_0.isHole ^ this.reverseSolution_0) === outRec_0.area() > 0) {
-          ((tmp$_1 = outRec_0.points) != null ? tmp$_1 : throwNPE()).reversePolyPtLinks();
+          ensureNotNull(outRec_0.points).reversePolyPtLinks();
         }
       }
       this.joinCommonEdges_0();
-      tmp$_2 = get_indices(this.polyOuts_0);
-      tmp$_3 = tmp$_2.first;
-      tmp$_4 = tmp$_2.last;
-      tmp$_5 = tmp$_2.step;
-      for (var i = tmp$_3; i <= tmp$_4; i += tmp$_5) {
+      tmp$_1 = get_indices(this.polyOuts_0);
+      tmp$_2 = tmp$_1.first;
+      tmp$_3 = tmp$_1.last;
+      tmp$_4 = tmp$_1.step;
+      for (var i = tmp$_2; i <= tmp$_3; i += tmp$_4) {
         var outRec_1 = this.polyOuts_0.get_za3lpa$(i);
         if (outRec_1.points != null && !outRec_1.isOpen) {
           this.fixupOutPolygon_0(outRec_1);
@@ -6601,7 +6577,7 @@
     }
   };
   DefaultClipper.prototype.fixupFirstLefts1_0 = function (OldOutRec, NewOutRec) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2;
     tmp$ = get_indices(this.polyOuts_0);
     tmp$_0 = tmp$.first;
     tmp$_1 = tmp$.last;
@@ -6611,11 +6587,9 @@
       if (outRec.points == null || outRec.firstLeft == null) {
         continue;
       }
-      var firstLeft = ((tmp$_3 = outRec.firstLeft) != null ? tmp$_3 : throwNPE()).parseFirstLeft();
+      var firstLeft = ensureNotNull(outRec.firstLeft).parseFirstLeft();
       if (equals(firstLeft, OldOutRec)) {
-        tmp$_5 = (tmp$_4 = outRec.points) != null ? tmp$_4 : throwNPE();
-        tmp$_7 = (tmp$_6 = NewOutRec.points) != null ? tmp$_6 : throwNPE();
-        if (DefaultClipper$Companion_getInstance().poly2ContainsPoly1_0(tmp$_5, tmp$_7)) {
+        if (DefaultClipper$Companion_getInstance().poly2ContainsPoly1_0(ensureNotNull(outRec.points), ensureNotNull(NewOutRec.points))) {
           outRec.firstLeft = NewOutRec;
         }
       }
@@ -6632,7 +6606,7 @@
     }
   };
   DefaultClipper.prototype.fixupIntersectionOrder_0 = function () {
-    var tmp$, tmp$_0, tmp$_1;
+    var tmp$;
     sortWith(this.intersectList_0, this.intersectNodeComparer_0);
     this.copyAELToSEL_0();
     var cnt = this.intersectList_0.size;
@@ -6650,34 +6624,25 @@
         this.intersectList_0.set_wxm5ur$(i, this.intersectList_0.get_za3lpa$(j));
         this.intersectList_0.set_wxm5ur$(j, tmp);
       }
-      this.swapPositionsInSEL_0((tmp$_0 = this.intersectList_0.get_za3lpa$(i).edge1) != null ? tmp$_0 : throwNPE(), (tmp$_1 = this.intersectList_0.get_za3lpa$(i).Edge2) != null ? tmp$_1 : throwNPE());
+      this.swapPositionsInSEL_0(ensureNotNull(this.intersectList_0.get_za3lpa$(i).edge1), ensureNotNull(this.intersectList_0.get_za3lpa$(i).Edge2));
     }
     return true;
   };
   DefaultClipper.prototype.fixupOutPolygon_0 = function (outRec) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14;
+    var tmp$, tmp$_0;
     var lastOK = null;
     outRec.bottomPt = null;
-    var pp = (tmp$ = outRec.points) != null ? tmp$ : throwNPE();
+    var pp = ensureNotNull(outRec.points);
     while (true) {
       if (pp.prev === pp || pp.prev === pp.next) {
         outRec.points = null;
         return;
       }
-      tmp$_2 = pp.pt;
-      tmp$_1 = ((tmp$_0 = pp.next) != null ? tmp$_0 : throwNPE()).pt;
-      if (!(tmp$_2 != null ? tmp$_2.equals(tmp$_1) : null)) {
-        tmp$_5 = pp.pt;
-        tmp$_4 = ((tmp$_3 = pp.prev) != null ? tmp$_3 : throwNPE()).pt;
-        tmp$_6 = tmp$_5 != null ? tmp$_5.equals(tmp$_4) : null;
-      }
-       else
-        tmp$_6 = true;
-      if (!tmp$_6 ? Points_getInstance().slopesEqual_immp3h$(((tmp$_7 = pp.prev) != null ? tmp$_7 : throwNPE()).pt, pp.pt, ((tmp$_8 = pp.next) != null ? tmp$_8 : throwNPE()).pt) ? !!this.isPreserveCollinear ? !Points_getInstance().isPt2BetweenPt1AndPt3_immp3h$(((tmp$_9 = pp.prev) != null ? tmp$_9 : throwNPE()).pt, pp.pt, ((tmp$_10 = pp.next) != null ? tmp$_10 : throwNPE()).pt) : true : false : true) {
+      if (((tmp$ = pp.pt) != null ? tmp$.equals(ensureNotNull(pp.next).pt) : null) || ((tmp$_0 = pp.pt) != null ? tmp$_0.equals(ensureNotNull(pp.prev).pt) : null) || (Points_getInstance().slopesEqual_immp3h$(ensureNotNull(pp.prev).pt, pp.pt, ensureNotNull(pp.next).pt) && (!this.isPreserveCollinear || !Points_getInstance().isPt2BetweenPt1AndPt3_immp3h$(ensureNotNull(pp.prev).pt, pp.pt, ensureNotNull(pp.next).pt)))) {
         lastOK = null;
-        ((tmp$_11 = pp.prev) != null ? tmp$_11 : throwNPE()).next = pp.next;
-        ((tmp$_12 = pp.next) != null ? tmp$_12 : throwNPE()).prev = pp.prev;
-        pp = (tmp$_13 = pp.prev) != null ? tmp$_13 : throwNPE();
+        ensureNotNull(pp.prev).next = pp.next;
+        ensureNotNull(pp.next).prev = pp.prev;
+        pp = ensureNotNull(pp.prev);
       }
        else if (pp === lastOK) {
         break;
@@ -6686,7 +6651,7 @@
         if (lastOK == null) {
           lastOK = pp;
         }
-        pp = (tmp$_14 = pp.next) != null ? tmp$_14 : throwNPE();
+        pp = ensureNotNull(pp.next);
       }
     }
     outRec.points = pp;
@@ -6699,52 +6664,48 @@
     return outrec;
   };
   DefaultClipper.prototype.insertEdgeIntoAEL_0 = function (edge, startEdge) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2;
     var sedge = startEdge;
     if (this.activeEdges_0 == null) {
       edge.prevInAEL = null;
       edge.nextInAEL = null;
       this.activeEdges_0 = edge;
     }
+     else if (sedge == null && Edge$Companion_getInstance().doesE2InsertBeforeE1_46mff8$(ensureNotNull(this.activeEdges_0), edge)) {
+      edge.prevInAEL = null;
+      edge.nextInAEL = this.activeEdges_0;
+      ensureNotNull(this.activeEdges_0).prevInAEL = edge;
+      this.activeEdges_0 = edge;
+    }
      else {
-      if (sedge == null ? Edge$Companion_getInstance().doesE2InsertBeforeE1_46mff8$((tmp$ = this.activeEdges_0) != null ? tmp$ : throwNPE(), edge) : false) {
-        edge.prevInAEL = null;
-        edge.nextInAEL = this.activeEdges_0;
-        ((tmp$_0 = this.activeEdges_0) != null ? tmp$_0 : throwNPE()).prevInAEL = edge;
-        this.activeEdges_0 = edge;
-      }
-       else {
-        if (sedge == null)
-          sedge = this.activeEdges_0;
-        while ((sedge != null ? sedge : throwNPE()).nextInAEL != null ? !Edge$Companion_getInstance().doesE2InsertBeforeE1_46mff8$((tmp$_1 = sedge.nextInAEL) != null ? tmp$_1 : throwNPE(), edge) : false) {
-          sedge = sedge.nextInAEL;
-        }
-        edge.nextInAEL = sedge.nextInAEL;
-        if (sedge.nextInAEL != null)
-          ((tmp$_2 = sedge.nextInAEL) != null ? tmp$_2 : throwNPE()).prevInAEL = edge;
-        edge.prevInAEL = sedge;
-        sedge.nextInAEL = edge;
-      }
+      if (sedge == null)
+        sedge = this.activeEdges_0;
+      while (ensureNotNull(sedge).nextInAEL != null && !Edge$Companion_getInstance().doesE2InsertBeforeE1_46mff8$(ensureNotNull(sedge.nextInAEL), edge))
+        sedge = sedge.nextInAEL;
+      edge.nextInAEL = sedge.nextInAEL;
+      if (sedge.nextInAEL != null)
+        ensureNotNull(sedge.nextInAEL).prevInAEL = edge;
+      edge.prevInAEL = sedge;
+      sedge.nextInAEL = edge;
     }
   };
   DefaultClipper.prototype.insertLocalMinimaIntoAEL_0 = function (botY) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14, tmp$_15, tmp$_16, tmp$_17, tmp$_18, tmp$_19, tmp$_20, tmp$_21, tmp$_22, tmp$_23, tmp$_24, tmp$_25, tmp$_26, tmp$_27;
-    while (this.currentLM != null && ((tmp$ = this.currentLM) != null ? tmp$ : throwNPE()).y === botY) {
-      var lb = ((tmp$_0 = this.currentLM) != null ? tmp$_0 : throwNPE()).leftBound;
-      var rb = ((tmp$_1 = this.currentLM) != null ? tmp$_1 : throwNPE()).rightBound;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2;
+    while (this.currentLM != null && ensureNotNull(this.currentLM).y === botY) {
+      var lb = ensureNotNull(this.currentLM).leftBound;
+      var rb = ensureNotNull(this.currentLM).rightBound;
       this.popLocalMinima();
       var Op1 = null;
       if (lb == null) {
-        this.insertEdgeIntoAEL_0(rb != null ? rb : throwNPE(), null);
+        this.insertEdgeIntoAEL_0(ensureNotNull(rb), null);
         this.updateWindingCount_0(rb);
-        if (rb.isContributing_xil744$((tmp$_2 = this.clipFillType_0) != null ? tmp$_2 : throwNPE(), (tmp$_3 = this.subjFillType_0) != null ? tmp$_3 : throwNPE(), (tmp$_4 = this.clipType_0) != null ? tmp$_4 : throwNPE())) {
+        if (rb.isContributing_xil744$(ensureNotNull(this.clipFillType_0), ensureNotNull(this.subjFillType_0), ensureNotNull(this.clipType_0))) {
           Op1 = this.addOutPt_0(rb, rb.bot);
         }
       }
        else if (rb == null) {
         this.insertEdgeIntoAEL_0(lb, null);
         this.updateWindingCount_0(lb);
-        if (lb.isContributing_xil744$((tmp$_5 = this.clipFillType_0) != null ? tmp$_5 : throwNPE(), (tmp$_6 = this.subjFillType_0) != null ? tmp$_6 : throwNPE(), (tmp$_7 = this.clipType_0) != null ? tmp$_7 : throwNPE())) {
+        if (lb.isContributing_xil744$(ensureNotNull(this.clipFillType_0), ensureNotNull(this.subjFillType_0), ensureNotNull(this.clipType_0))) {
           Op1 = this.addOutPt_0(lb, lb.bot);
         }
         this.insertScanbeam_0(lb.top.y);
@@ -6755,7 +6716,7 @@
         this.updateWindingCount_0(lb);
         rb.windCnt = lb.windCnt;
         rb.windCnt2 = lb.windCnt2;
-        if (lb.isContributing_xil744$((tmp$_8 = this.clipFillType_0) != null ? tmp$_8 : throwNPE(), (tmp$_9 = this.subjFillType_0) != null ? tmp$_9 : throwNPE(), (tmp$_10 = this.clipType_0) != null ? tmp$_10 : throwNPE())) {
+        if (lb.isContributing_xil744$(ensureNotNull(this.clipFillType_0), ensureNotNull(this.subjFillType_0), ensureNotNull(this.clipType_0))) {
           Op1 = this.addLocalMinPoly_0(lb, rb, lb.bot);
         }
         this.insertScanbeam_0(lb.top.y);
@@ -6772,30 +6733,30 @@
         continue;
       }
       if (Op1 != null && rb.isHorizontal && this.ghostJoins_0.size > 0 && rb.windDelta !== 0) {
-        tmp$_11 = get_indices(this.ghostJoins_0);
-        tmp$_12 = tmp$_11.first;
-        tmp$_13 = tmp$_11.last;
-        tmp$_14 = tmp$_11.step;
-        for (var i = tmp$_12; i <= tmp$_13; i += tmp$_14) {
+        tmp$ = get_indices(this.ghostJoins_0);
+        tmp$_0 = tmp$.first;
+        tmp$_1 = tmp$.last;
+        tmp$_2 = tmp$.step;
+        for (var i = tmp$_0; i <= tmp$_1; i += tmp$_2) {
           var j = this.ghostJoins_0.get_za3lpa$(i);
-          if (this.doHorzSegmentsOverlap_0(((tmp$_15 = j.outPt1) != null ? tmp$_15 : throwNPE()).pt.x, ((tmp$_16 = j.offPt) != null ? tmp$_16 : throwNPE()).x, rb.bot.x, rb.top.x)) {
-            this.addJoin_0((tmp$_17 = j.outPt1) != null ? tmp$_17 : throwNPE(), Op1, (tmp$_18 = j.offPt) != null ? tmp$_18 : throwNPE());
+          if (this.doHorzSegmentsOverlap_0(ensureNotNull(j.outPt1).pt.x, ensureNotNull(j.offPt).x, rb.bot.x, rb.top.x)) {
+            this.addJoin_0(ensureNotNull(j.outPt1), Op1, ensureNotNull(j.offPt));
           }
         }
       }
-      if ((lb.outIdx >= 0 && lb.prevInAEL != null && ((tmp$_19 = lb.prevInAEL) != null ? tmp$_19 : throwNPE()).current.x === lb.bot.x && ((tmp$_20 = lb.prevInAEL) != null ? tmp$_20 : throwNPE()).outIdx >= 0 ? Edge$Companion_getInstance().slopesEqual_46mff8$((tmp$_21 = lb.prevInAEL) != null ? tmp$_21 : throwNPE(), lb) : false) && lb.windDelta !== 0 && ((tmp$_22 = lb.prevInAEL) != null ? tmp$_22 : throwNPE()).windDelta !== 0) {
-        var Op2 = this.addOutPt_0((tmp$_23 = lb.prevInAEL) != null ? tmp$_23 : throwNPE(), lb.bot);
-        this.addJoin_0(Op1 != null ? Op1 : throwNPE(), Op2, lb.top);
+      if (lb.outIdx >= 0 && lb.prevInAEL != null && ensureNotNull(lb.prevInAEL).current.x === lb.bot.x && ensureNotNull(lb.prevInAEL).outIdx >= 0 && Edge$Companion_getInstance().slopesEqual_46mff8$(ensureNotNull(lb.prevInAEL), lb) && lb.windDelta !== 0 && ensureNotNull(lb.prevInAEL).windDelta !== 0) {
+        var Op2 = this.addOutPt_0(ensureNotNull(lb.prevInAEL), lb.bot);
+        this.addJoin_0(ensureNotNull(Op1), Op2, lb.top);
       }
       if (lb.nextInAEL !== rb) {
-        if ((rb.outIdx >= 0 && ((tmp$_24 = rb.prevInAEL) != null ? tmp$_24 : throwNPE()).outIdx >= 0 ? Edge$Companion_getInstance().slopesEqual_46mff8$((tmp$_25 = rb.prevInAEL) != null ? tmp$_25 : throwNPE(), rb) : false) && rb.windDelta !== 0 && ((tmp$_26 = rb.prevInAEL) != null ? tmp$_26 : throwNPE()).windDelta !== 0) {
-          var Op2_0 = this.addOutPt_0((tmp$_27 = rb.prevInAEL) != null ? tmp$_27 : throwNPE(), rb.bot);
-          this.addJoin_0(Op1 != null ? Op1 : throwNPE(), Op2_0, rb.top);
+        if (rb.outIdx >= 0 && ensureNotNull(rb.prevInAEL).outIdx >= 0 && Edge$Companion_getInstance().slopesEqual_46mff8$(ensureNotNull(rb.prevInAEL), rb) && rb.windDelta !== 0 && ensureNotNull(rb.prevInAEL).windDelta !== 0) {
+          var Op2_0 = this.addOutPt_0(ensureNotNull(rb.prevInAEL), rb.bot);
+          this.addJoin_0(ensureNotNull(Op1), Op2_0, rb.top);
         }
         var e = lb.nextInAEL;
         if (e != null) {
           while (e !== rb) {
-            this.intersectEdges_0(rb, e != null ? e : throwNPE(), lb.current);
+            this.intersectEdges_0(rb, ensureNotNull(e), lb.current);
             e = e.nextInAEL;
           }
         }
@@ -6803,22 +6764,21 @@
     }
   };
   DefaultClipper.prototype.insertScanbeam_0 = function (y) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
     if (this.scanbeam_0 == null) {
       this.scanbeam_0 = new ClipperBase$Scanbeam();
-      ((tmp$ = this.scanbeam_0) != null ? tmp$ : throwNPE()).next = null;
-      ((tmp$_0 = this.scanbeam_0) != null ? tmp$_0 : throwNPE()).y = y;
+      ensureNotNull(this.scanbeam_0).next = null;
+      ensureNotNull(this.scanbeam_0).y = y;
     }
-     else if (y > ((tmp$_1 = this.scanbeam_0) != null ? tmp$_1 : throwNPE()).y) {
+     else if (y > ensureNotNull(this.scanbeam_0).y) {
       var newSb = new ClipperBase$Scanbeam();
       newSb.y = y;
       newSb.next = this.scanbeam_0;
       this.scanbeam_0 = newSb;
     }
      else {
-      var sb2 = (tmp$_2 = this.scanbeam_0) != null ? tmp$_2 : throwNPE();
-      while (sb2.next != null && y <= ((tmp$_3 = sb2.next) != null ? tmp$_3 : throwNPE()).y) {
-        sb2 = (tmp$_4 = sb2.next) != null ? tmp$_4 : throwNPE();
+      var sb2 = ensureNotNull(this.scanbeam_0);
+      while (sb2.next != null && y <= ensureNotNull(sb2.next).y) {
+        sb2 = ensureNotNull(sb2.next);
       }
       if (y === sb2.y) {
         return;
@@ -6830,7 +6790,7 @@
     }
   };
   DefaultClipper.prototype.intersectEdges_0 = function (e1, e2, pt) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14, tmp$_15, tmp$_16, tmp$_17;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3;
     var e1Contributing = e1.outIdx >= 0;
     var e2Contributing = e2.outIdx >= 0;
     this.setZ_0(pt, e1, e2);
@@ -6873,7 +6833,7 @@
       return;
     }
     if (equals(e1.polyTyp, e2.polyTyp)) {
-      if (e1.isEvenOddFillType_dta898$((tmp$ = this.clipFillType_0) != null ? tmp$ : throwNPE(), (tmp$_0 = this.subjFillType_0) != null ? tmp$_0 : throwNPE())) {
+      if (e1.isEvenOddFillType_dta898$(ensureNotNull(this.clipFillType_0), ensureNotNull(this.subjFillType_0))) {
         var oldE1WindCnt = e1.windCnt;
         e1.windCnt = e2.windCnt;
         e2.windCnt = oldE1WindCnt;
@@ -6894,13 +6854,13 @@
       }
     }
      else {
-      if (!e2.isEvenOddFillType_dta898$((tmp$_1 = this.clipFillType_0) != null ? tmp$_1 : throwNPE(), (tmp$_2 = this.subjFillType_0) != null ? tmp$_2 : throwNPE())) {
+      if (!e2.isEvenOddFillType_dta898$(ensureNotNull(this.clipFillType_0), ensureNotNull(this.subjFillType_0))) {
         e1.windCnt2 = e1.windCnt2 + e2.windDelta | 0;
       }
        else {
         e1.windCnt2 = e1.windCnt2 === 0 ? 1 : 0;
       }
-      if (!e1.isEvenOddFillType_dta898$((tmp$_3 = this.clipFillType_0) != null ? tmp$_3 : throwNPE(), (tmp$_4 = this.subjFillType_0) != null ? tmp$_4 : throwNPE())) {
+      if (!e1.isEvenOddFillType_dta898$(ensureNotNull(this.clipFillType_0), ensureNotNull(this.subjFillType_0))) {
         e2.windCnt2 = e2.windCnt2 - e1.windDelta | 0;
       }
        else {
@@ -6912,34 +6872,34 @@
     var e1FillType2;
     var e2FillType2;
     if (equals(e1.polyTyp, Clipper$PolyType$SUBJECT_getInstance())) {
-      e1FillType = (tmp$_5 = this.subjFillType_0) != null ? tmp$_5 : throwNPE();
-      e1FillType2 = (tmp$_6 = this.clipFillType_0) != null ? tmp$_6 : throwNPE();
+      e1FillType = ensureNotNull(this.subjFillType_0);
+      e1FillType2 = ensureNotNull(this.clipFillType_0);
     }
      else {
-      e1FillType = (tmp$_7 = this.clipFillType_0) != null ? tmp$_7 : throwNPE();
-      e1FillType2 = (tmp$_8 = this.subjFillType_0) != null ? tmp$_8 : throwNPE();
+      e1FillType = ensureNotNull(this.clipFillType_0);
+      e1FillType2 = ensureNotNull(this.subjFillType_0);
     }
     if (equals(e2.polyTyp, Clipper$PolyType$SUBJECT_getInstance())) {
-      e2FillType = (tmp$_9 = this.subjFillType_0) != null ? tmp$_9 : throwNPE();
-      e2FillType2 = (tmp$_10 = this.clipFillType_0) != null ? tmp$_10 : throwNPE();
+      e2FillType = ensureNotNull(this.subjFillType_0);
+      e2FillType2 = ensureNotNull(this.clipFillType_0);
     }
      else {
-      e2FillType = (tmp$_11 = this.clipFillType_0) != null ? tmp$_11 : throwNPE();
-      e2FillType2 = (tmp$_12 = this.subjFillType_0) != null ? tmp$_12 : throwNPE();
+      e2FillType = ensureNotNull(this.clipFillType_0);
+      e2FillType2 = ensureNotNull(this.subjFillType_0);
     }
     var e1Wc;
     var e2Wc;
-    tmp$_13 = e1FillType;
-    if (equals(tmp$_13, Clipper$PolyFillType$POSITIVE_getInstance()))
+    tmp$ = e1FillType;
+    if (equals(tmp$, Clipper$PolyFillType$POSITIVE_getInstance()))
       e1Wc = e1.windCnt;
-    else if (equals(tmp$_13, Clipper$PolyFillType$NEGATIVE_getInstance()))
+    else if (equals(tmp$, Clipper$PolyFillType$NEGATIVE_getInstance()))
       e1Wc = -e1.windCnt;
     else
       e1Wc = abs(e1.windCnt);
-    tmp$_14 = e2FillType;
-    if (equals(tmp$_14, Clipper$PolyFillType$POSITIVE_getInstance()))
+    tmp$_0 = e2FillType;
+    if (equals(tmp$_0, Clipper$PolyFillType$POSITIVE_getInstance()))
       e2Wc = e2.windCnt;
-    else if (equals(tmp$_14, Clipper$PolyFillType$NEGATIVE_getInstance()))
+    else if (equals(tmp$_0, Clipper$PolyFillType$NEGATIVE_getInstance()))
       e2Wc = -e2.windCnt;
     else
       e2Wc = abs(e2.windCnt);
@@ -6971,17 +6931,17 @@
      else if ((e1Wc === 0 || e1Wc === 1) && (e2Wc === 0 || e2Wc === 1)) {
       var e1Wc2;
       var e2Wc2;
-      tmp$_15 = e1FillType2;
-      if (equals(tmp$_15, Clipper$PolyFillType$POSITIVE_getInstance()))
+      tmp$_1 = e1FillType2;
+      if (equals(tmp$_1, Clipper$PolyFillType$POSITIVE_getInstance()))
         e1Wc2 = e1.windCnt2;
-      else if (equals(tmp$_15, Clipper$PolyFillType$NEGATIVE_getInstance()))
+      else if (equals(tmp$_1, Clipper$PolyFillType$NEGATIVE_getInstance()))
         e1Wc2 = -e1.windCnt2;
       else
         e1Wc2 = abs(e1.windCnt2);
-      tmp$_16 = e2FillType2;
-      if (equals(tmp$_16, Clipper$PolyFillType$POSITIVE_getInstance()))
+      tmp$_2 = e2FillType2;
+      if (equals(tmp$_2, Clipper$PolyFillType$POSITIVE_getInstance()))
         e2Wc2 = e2.windCnt2;
-      else if (equals(tmp$_16, Clipper$PolyFillType$NEGATIVE_getInstance()))
+      else if (equals(tmp$_2, Clipper$PolyFillType$NEGATIVE_getInstance()))
         e2Wc2 = -e2.windCnt2;
       else
         e2Wc2 = abs(e2.windCnt2);
@@ -6989,23 +6949,23 @@
         this.addLocalMinPoly_0(e1, e2, pt);
       }
        else if (e1Wc === 1 && e2Wc === 1) {
-        tmp$_17 = this.clipType_0;
-        if (equals(tmp$_17, Clipper$ClipType$INTERSECTION_getInstance())) {
+        tmp$_3 = this.clipType_0;
+        if (equals(tmp$_3, Clipper$ClipType$INTERSECTION_getInstance())) {
           if (e1Wc2 > 0 && e2Wc2 > 0) {
             this.addLocalMinPoly_0(e1, e2, pt);
           }
         }
-         else if (equals(tmp$_17, Clipper$ClipType$UNION_getInstance())) {
+         else if (equals(tmp$_3, Clipper$ClipType$UNION_getInstance())) {
           if (e1Wc2 <= 0 && e2Wc2 <= 0) {
             this.addLocalMinPoly_0(e1, e2, pt);
           }
         }
-         else if (equals(tmp$_17, Clipper$ClipType$DIFFERENCE_getInstance())) {
+         else if (equals(tmp$_3, Clipper$ClipType$DIFFERENCE_getInstance())) {
           if (equals(e1.polyTyp, Clipper$PolyType$CLIP_getInstance()) && e1Wc2 > 0 && e2Wc2 > 0 || (equals(e1.polyTyp, Clipper$PolyType$SUBJECT_getInstance()) && e1Wc2 <= 0 && e2Wc2 <= 0)) {
             this.addLocalMinPoly_0(e1, e2, pt);
           }
         }
-         else if (equals(tmp$_17, Clipper$ClipType$XOR_getInstance()))
+         else if (equals(tmp$_3, Clipper$ClipType$XOR_getInstance()))
           this.addLocalMinPoly_0(e1, e2, pt);
       }
        else {
@@ -7048,10 +7008,10 @@
       b2 = edge2.bot.x - edge2.bot.y * edge2.deltaX;
       var q = (b2 - b1) / (edge1.deltaX - edge2.deltaX);
       ip.y = round(q);
-      var a = edge1.deltaX;
-      var tmp$ = Math_0.abs(a);
-      var a_0 = edge2.deltaX;
-      if (tmp$ < Math_0.abs(a_0)) {
+      var x = edge1.deltaX;
+      var tmp$ = Math_0.abs(x);
+      var x_0 = edge2.deltaX;
+      if (tmp$ < Math_0.abs(x_0)) {
         ip.x = round(edge1.deltaX * q + b1);
       }
        else {
@@ -7065,10 +7025,10 @@
        else {
         ip.y = edge2.top.y;
       }
-      var a_1 = edge1.deltaX;
-      var tmp$_0 = Math_0.abs(a_1);
-      var a_2 = edge2.deltaX;
-      if (tmp$_0 < Math_0.abs(a_2)) {
+      var x_1 = edge1.deltaX;
+      var tmp$_0 = Math_0.abs(x_1);
+      var x_2 = edge2.deltaX;
+      if (tmp$_0 < Math_0.abs(x_2)) {
         ip.x = Edge$Companion_getInstance().topX_pk92ow$(edge1, ip.y);
       }
        else {
@@ -7077,10 +7037,10 @@
     }
     if (ip.y > edge1.current.y) {
       ip.y = edge1.current.y;
-      var a_3 = edge1.deltaX;
-      var tmp$_1 = Math_0.abs(a_3);
-      var a_4 = edge2.deltaX;
-      if (tmp$_1 > Math_0.abs(a_4)) {
+      var x_3 = edge1.deltaX;
+      var tmp$_1 = Math_0.abs(x_3);
+      var x_4 = edge2.deltaX;
+      if (tmp$_1 > Math_0.abs(x_4)) {
         ip.x = Edge$Companion_getInstance().topX_pk92ow$(edge2, ip.y);
       }
        else {
@@ -7089,15 +7049,15 @@
     }
   };
   DefaultClipper.prototype.joinCommonEdges_0 = function () {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14, tmp$_15, tmp$_16, tmp$_17, tmp$_18, tmp$_19, tmp$_20;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3;
     tmp$ = get_indices(this.joins_0);
     tmp$_0 = tmp$.first;
     tmp$_1 = tmp$.last;
     tmp$_2 = tmp$.step;
     for (var i = tmp$_0; i <= tmp$_1; i += tmp$_2) {
       var join = this.joins_0.get_za3lpa$(i);
-      var outRec1 = this.getOutRec_0(((tmp$_3 = join.outPt1) != null ? tmp$_3 : throwNPE()).idx);
-      var outRec2 = this.getOutRec_0(((tmp$_4 = join.outPt2) != null ? tmp$_4 : throwNPE()).idx);
+      var outRec1 = this.getOutRec_0(ensureNotNull(join.outPt1).idx);
+      var outRec2 = this.getOutRec_0(ensureNotNull(join.outPt2).idx);
       if (outRec1.points == null || outRec2.points == null) {
         continue;
       }
@@ -7124,52 +7084,44 @@
         outRec2.points = join.outPt2;
         this.updateOutPtIdxs_0(outRec2);
         if (this.usingPolyTree_0) {
-          tmp$_5 = this.polyOuts_0.size - 1 - 1 | 0;
-          for (var j = 0; j <= tmp$_5; j++) {
+          tmp$_3 = this.polyOuts_0.size - 1 - 1 | 0;
+          for (var j = 0; j <= tmp$_3; j++) {
             var oRec = this.polyOuts_0.get_za3lpa$(j);
-            if (oRec.points == null || ((tmp$_6 = oRec.firstLeft) != null ? tmp$_6 : throwNPE()).parseFirstLeft() !== outRec1 || oRec.isHole === outRec1.isHole) {
+            if (oRec.points == null || ensureNotNull(oRec.firstLeft).parseFirstLeft() !== outRec1 || oRec.isHole === outRec1.isHole) {
               continue;
             }
-            tmp$_8 = (tmp$_7 = oRec.points) != null ? tmp$_7 : throwNPE();
-            tmp$_10 = (tmp$_9 = join.outPt2) != null ? tmp$_9 : throwNPE();
-            if (DefaultClipper$Companion_getInstance().poly2ContainsPoly1_0(tmp$_8, tmp$_10)) {
+            if (DefaultClipper$Companion_getInstance().poly2ContainsPoly1_0(ensureNotNull(oRec.points), ensureNotNull(join.outPt2))) {
               oRec.firstLeft = outRec2;
             }
           }
         }
-        tmp$_12 = (tmp$_11 = outRec2.points) != null ? tmp$_11 : throwNPE();
-        tmp$_14 = (tmp$_13 = outRec1.points) != null ? tmp$_13 : throwNPE();
-        if (DefaultClipper$Companion_getInstance().poly2ContainsPoly1_0(tmp$_12, tmp$_14)) {
+        if (DefaultClipper$Companion_getInstance().poly2ContainsPoly1_0(ensureNotNull(outRec2.points), ensureNotNull(outRec1.points))) {
           outRec2.isHole = !outRec1.isHole;
           outRec2.firstLeft = outRec1;
           if (this.usingPolyTree_0) {
             this.fixupFirstLefts2_0(outRec2, outRec1);
           }
           if ((outRec2.isHole ^ this.reverseSolution_0) === outRec2.area() > 0) {
-            ((tmp$_15 = outRec2.points) != null ? tmp$_15 : throwNPE()).reversePolyPtLinks();
+            ensureNotNull(outRec2.points).reversePolyPtLinks();
+          }
+        }
+         else if (DefaultClipper$Companion_getInstance().poly2ContainsPoly1_0(ensureNotNull(outRec1.points), ensureNotNull(outRec2.points))) {
+          outRec2.isHole = outRec1.isHole;
+          outRec1.isHole = !outRec2.isHole;
+          outRec2.firstLeft = outRec1.firstLeft;
+          outRec1.firstLeft = outRec2;
+          if (this.usingPolyTree_0) {
+            this.fixupFirstLefts2_0(outRec1, outRec2);
+          }
+          if ((outRec1.isHole ^ this.reverseSolution_0) === outRec1.area() > 0) {
+            ensureNotNull(outRec1.points).reversePolyPtLinks();
           }
         }
          else {
-          tmp$_17 = (tmp$_16 = outRec1.points) != null ? tmp$_16 : throwNPE();
-          tmp$_19 = (tmp$_18 = outRec2.points) != null ? tmp$_18 : throwNPE();
-          if (DefaultClipper$Companion_getInstance().poly2ContainsPoly1_0(tmp$_17, tmp$_19)) {
-            outRec2.isHole = outRec1.isHole;
-            outRec1.isHole = !outRec2.isHole;
-            outRec2.firstLeft = outRec1.firstLeft;
-            outRec1.firstLeft = outRec2;
-            if (this.usingPolyTree_0) {
-              this.fixupFirstLefts2_0(outRec1, outRec2);
-            }
-            if ((outRec1.isHole ^ this.reverseSolution_0) === outRec1.area() > 0) {
-              ((tmp$_20 = outRec1.points) != null ? tmp$_20 : throwNPE()).reversePolyPtLinks();
-            }
-          }
-           else {
-            outRec2.isHole = outRec1.isHole;
-            outRec2.firstLeft = outRec1.firstLeft;
-            if (this.usingPolyTree_0) {
-              this.fixupFirstLefts1_0(outRec1, outRec2);
-            }
+          outRec2.isHole = outRec1.isHole;
+          outRec2.firstLeft = outRec1.firstLeft;
+          if (this.usingPolyTree_0) {
+            this.fixupFirstLefts1_0(outRec1, outRec2);
           }
         }
       }
@@ -7189,13 +7141,11 @@
     }
   };
   DefaultClipper.prototype.popScanbeam_0 = function () {
-    var tmp$, tmp$_0;
-    var y = ((tmp$ = this.scanbeam_0) != null ? tmp$ : throwNPE()).y;
-    this.scanbeam_0 = ((tmp$_0 = this.scanbeam_0) != null ? tmp$_0 : throwNPE()).next;
+    var y = ensureNotNull(this.scanbeam_0).y;
+    this.scanbeam_0 = ensureNotNull(this.scanbeam_0).next;
     return y;
   };
   DefaultClipper.prototype.processEdgesAtTopOfScanbeam_0 = function (topY) {
-    var tmp$;
     var e = this.activeEdges_0;
     while (e != null) {
       var IsMaximaEdge = e.isMaxima_14dthe$(topY);
@@ -7214,7 +7164,7 @@
         }
       }
        else {
-        if (e.isIntermediate_14dthe$(topY) && ((tmp$ = e.nextInLML) != null ? tmp$ : throwNPE()).isHorizontal) {
+        if (e.isIntermediate_14dthe$(topY) && ensureNotNull(e.nextInLML).isHorizontal) {
           var t = [e];
           this.updateEdgeIntoAEL_0(t);
           e = t[0];
@@ -7267,12 +7217,11 @@
   };
   var copyToArray = Kotlin.kotlin.collections.copyToArray;
   DefaultClipper.prototype.processHorizontal_0 = function (horizontalEdge, isTopOfScanbeam) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2;
     var horzEdge = horizontalEdge;
     var array = Array_0(1);
-    var tmp$_3;
-    tmp$_3 = array.length - 1 | 0;
-    for (var i = 0; i <= tmp$_3; i++) {
+    var tmp$;
+    tmp$ = array.length - 1 | 0;
+    for (var i = 0; i <= tmp$; i++) {
       array[i] = Clipper$Direction$LEFT_TO_RIGHT_getInstance();
     }
     var dir = array;
@@ -7281,8 +7230,8 @@
     DefaultClipper$Companion_getInstance().getHorzDirection_0(horzEdge, dir, horzLeft, horzRight);
     var eLastHorz = horzEdge;
     var eMaxPair = null;
-    while (eLastHorz.nextInLML != null && ((tmp$ = eLastHorz.nextInLML) != null ? tmp$ : throwNPE()).isHorizontal) {
-      eLastHorz = (tmp$_0 = eLastHorz.nextInLML) != null ? tmp$_0 : throwNPE();
+    while (eLastHorz.nextInLML != null && ensureNotNull(eLastHorz.nextInLML).isHorizontal) {
+      eLastHorz = ensureNotNull(eLastHorz.nextInLML);
     }
     if (eLastHorz.nextInLML == null) {
       eMaxPair = eLastHorz.maximaPair;
@@ -7290,7 +7239,7 @@
     while (true) {
       var IsLastHorz = horzEdge === eLastHorz;
       var e = horzEdge.getNextInAEL_tnm50z$(dir[0]);
-      while (e != null && (e.current.x !== horzEdge.top.x || horzEdge.nextInLML == null || e.deltaX >= ((tmp$_1 = horzEdge.nextInLML) != null ? tmp$_1 : throwNPE()).deltaX)) {
+      while (e != null && (e.current.x !== horzEdge.top.x || horzEdge.nextInLML == null || e.deltaX >= ensureNotNull(horzEdge.nextInLML).deltaX)) {
         var eNext = e.getNextInAEL_tnm50z$(dir[0]);
         if (dir[0] === Clipper$Direction$LEFT_TO_RIGHT_getInstance() && e.current.x <= horzRight[0] || (dir[0] === Clipper$Direction$RIGHT_TO_LEFT_getInstance() && e.current.x >= horzLeft[0])) {
           if (e === eMaxPair && IsLastHorz) {
@@ -7326,7 +7275,7 @@
         }
         e = eNext;
       }
-      if (horzEdge.nextInLML != null && ((tmp$_2 = horzEdge.nextInLML) != null ? tmp$_2 : throwNPE()).isHorizontal) {
+      if (horzEdge.nextInLML != null && ensureNotNull(horzEdge.nextInLML).isHorizontal) {
         var t = [horzEdge];
         this.updateEdgeIntoAEL_0(t);
         horzEdge = t[0];
@@ -7416,9 +7365,8 @@
     tmp$_2 = tmp$.step;
     for (var i = tmp$_0; i <= tmp$_1; i += tmp$_2) {
       var iNode = this.intersectList_0.get_za3lpa$(i);
-      var tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7;
-      this.intersectEdges_0((tmp$_3 = iNode.edge1) != null ? tmp$_3 : throwNPE(), (tmp$_4 = iNode.Edge2) != null ? tmp$_4 : throwNPE(), (tmp$_5 = iNode.pt) != null ? tmp$_5 : throwNPE());
-      this.swapPositionsInAEL_0((tmp$_6 = iNode.edge1) != null ? tmp$_6 : throwNPE(), (tmp$_7 = iNode.Edge2) != null ? tmp$_7 : throwNPE());
+      this.intersectEdges_0(ensureNotNull(iNode.edge1), ensureNotNull(iNode.Edge2), ensureNotNull(iNode.pt));
+      this.swapPositionsInAEL_0(ensureNotNull(iNode.edge1), ensureNotNull(iNode.Edge2));
     }
     this.intersectList_0.clear();
   };
@@ -7452,7 +7400,6 @@
   DefaultClipper.prototype.setZ_0 = function (pt, e1, e2) {
   };
   DefaultClipper.prototype.swapPositionsInAEL_0 = function (edge1, edge2) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2;
     if (edge1.nextInAEL === edge1.prevInAEL || edge2.nextInAEL === edge2.prevInAEL) {
       return;
     }
@@ -7489,19 +7436,19 @@
       var prev_1 = edge1.prevInAEL;
       edge1.nextInAEL = edge2.nextInAEL;
       if (edge1.nextInAEL != null) {
-        ((tmp$ = edge1.nextInAEL) != null ? tmp$ : throwNPE()).prevInAEL = edge1;
+        ensureNotNull(edge1.nextInAEL).prevInAEL = edge1;
       }
       edge1.prevInAEL = edge2.prevInAEL;
       if (edge1.prevInAEL != null) {
-        ((tmp$_0 = edge1.prevInAEL) != null ? tmp$_0 : throwNPE()).nextInAEL = edge1;
+        ensureNotNull(edge1.prevInAEL).nextInAEL = edge1;
       }
       edge2.nextInAEL = next_1;
       if (edge2.nextInAEL != null) {
-        ((tmp$_1 = edge2.nextInAEL) != null ? tmp$_1 : throwNPE()).prevInAEL = edge2;
+        ensureNotNull(edge2.nextInAEL).prevInAEL = edge2;
       }
       edge2.prevInAEL = prev_1;
       if (edge2.prevInAEL != null) {
-        ((tmp$_2 = edge2.prevInAEL) != null ? tmp$_2 : throwNPE()).nextInAEL = edge2;
+        ensureNotNull(edge2.prevInAEL).nextInAEL = edge2;
       }
     }
     if (edge1.prevInAEL == null) {
@@ -7512,7 +7459,6 @@
     }
   };
   DefaultClipper.prototype.swapPositionsInSEL_0 = function (edge1, edge2) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2;
     if (edge1.nextInSEL == null && edge1.prevInSEL == null)
       return;
     if (edge2.nextInSEL == null && edge2.prevInSEL == null)
@@ -7550,19 +7496,19 @@
       var prev_1 = edge1.prevInSEL;
       edge1.nextInSEL = edge2.nextInSEL;
       if (edge1.nextInSEL != null) {
-        ((tmp$ = edge1.nextInSEL) != null ? tmp$ : throwNPE()).prevInSEL = edge1;
+        ensureNotNull(edge1.nextInSEL).prevInSEL = edge1;
       }
       edge1.prevInSEL = edge2.prevInSEL;
       if (edge1.prevInSEL != null) {
-        ((tmp$_0 = edge1.prevInSEL) != null ? tmp$_0 : throwNPE()).nextInSEL = edge1;
+        ensureNotNull(edge1.prevInSEL).nextInSEL = edge1;
       }
       edge2.nextInSEL = next_1;
       if (edge2.nextInSEL != null) {
-        ((tmp$_1 = edge2.nextInSEL) != null ? tmp$_1 : throwNPE()).prevInSEL = edge2;
+        ensureNotNull(edge2.nextInSEL).prevInSEL = edge2;
       }
       edge2.prevInSEL = prev_1;
       if (edge2.prevInSEL != null) {
-        ((tmp$_2 = edge2.prevInSEL) != null ? tmp$_2 : throwNPE()).nextInSEL = edge2;
+        ensureNotNull(edge2.prevInSEL).nextInSEL = edge2;
       }
     }
     if (edge1.prevInSEL == null) {
@@ -7573,14 +7519,13 @@
     }
   };
   DefaultClipper.prototype.updateEdgeIntoAEL_0 = function (eV) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
     var e = eV[0];
     if (e.nextInLML == null) {
       throw new IllegalStateException('UpdateEdgeIntoAEL: invalid call');
     }
     var AelPrev = e.prevInAEL;
     var AelNext = e.nextInAEL;
-    ((tmp$ = e.nextInLML) != null ? tmp$ : throwNPE()).outIdx = e.outIdx;
+    ensureNotNull(e.nextInLML).outIdx = e.outIdx;
     if (AelPrev != null) {
       AelPrev.nextInAEL = e.nextInLML;
     }
@@ -7590,11 +7535,11 @@
     if (AelNext != null) {
       AelNext.prevInAEL = e.nextInLML;
     }
-    ((tmp$_0 = e.nextInLML) != null ? tmp$_0 : throwNPE()).side = e.side;
-    ((tmp$_1 = e.nextInLML) != null ? tmp$_1 : throwNPE()).windDelta = e.windDelta;
-    ((tmp$_2 = e.nextInLML) != null ? tmp$_2 : throwNPE()).windCnt = e.windCnt;
-    ((tmp$_3 = e.nextInLML) != null ? tmp$_3 : throwNPE()).windCnt2 = e.windCnt2;
-    e = (tmp$_4 = e.nextInLML) != null ? tmp$_4 : throwNPE();
+    ensureNotNull(e.nextInLML).side = e.side;
+    ensureNotNull(e.nextInLML).windDelta = e.windDelta;
+    ensureNotNull(e.nextInLML).windCnt = e.windCnt;
+    ensureNotNull(e.nextInLML).windCnt2 = e.windCnt2;
+    e = ensureNotNull(e.nextInLML);
     eV[0] = e;
     e.current = Vector2_init_2(e.bot);
     e.prevInAEL = AelPrev;
@@ -7604,16 +7549,14 @@
     }
   };
   DefaultClipper.prototype.updateOutPtIdxs_0 = function (outrec) {
-    var tmp$, tmp$_0;
-    var op = (tmp$ = outrec.points) != null ? tmp$ : throwNPE();
+    var op = ensureNotNull(outrec.points);
     do {
       op.idx = outrec.Idx;
-      op = (tmp$_0 = op.prev) != null ? tmp$_0 : throwNPE();
+      op = ensureNotNull(op.prev);
     }
      while (op !== outrec.points);
   };
   DefaultClipper.prototype.updateWindingCount_0 = function (edge) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2;
     var e = edge.prevInAEL;
     while (e != null && (!equals(e.polyTyp, edge.polyTyp) || e.windDelta === 0)) {
       e = e.prevInAEL;
@@ -7628,57 +7571,55 @@
       edge.windCnt2 = e.windCnt2;
       e = e.nextInAEL;
     }
-     else {
-      if (edge.isEvenOddFillType_dta898$((tmp$ = this.clipFillType_0) != null ? tmp$ : throwNPE(), (tmp$_0 = this.subjFillType_0) != null ? tmp$_0 : throwNPE())) {
-        if (edge.windDelta === 0) {
-          var Inside = true;
-          var e2 = e.prevInAEL;
-          while (e2 != null) {
-            if (equals(e2.polyTyp, e.polyTyp) && e2.windDelta !== 0) {
-              Inside = !Inside;
-            }
-            e2 = e2.prevInAEL;
+     else if (edge.isEvenOddFillType_dta898$(ensureNotNull(this.clipFillType_0), ensureNotNull(this.subjFillType_0))) {
+      if (edge.windDelta === 0) {
+        var Inside = true;
+        var e2 = e.prevInAEL;
+        while (e2 != null) {
+          if (equals(e2.polyTyp, e.polyTyp) && e2.windDelta !== 0) {
+            Inside = !Inside;
           }
-          edge.windCnt = Inside ? 0 : 1;
+          e2 = e2.prevInAEL;
         }
-         else {
-          edge.windCnt = edge.windDelta;
-        }
-        edge.windCnt2 = e.windCnt2;
-        e = e.nextInAEL;
+        edge.windCnt = Inside ? 0 : 1;
       }
        else {
-        if (Kotlin.imul(e.windCnt, e.windDelta) < 0) {
-          if (abs(e.windCnt) > 1) {
-            if (Kotlin.imul(e.windDelta, edge.windDelta) < 0) {
-              edge.windCnt = e.windCnt;
-            }
-             else {
-              edge.windCnt = e.windCnt + edge.windDelta | 0;
-            }
-          }
-           else {
-            edge.windCnt = edge.windDelta === 0 ? 1 : edge.windDelta;
-          }
-        }
-         else {
-          if (edge.windDelta === 0) {
-            edge.windCnt = e.windCnt < 0 ? e.windCnt - 1 | 0 : e.windCnt + 1 | 0;
-          }
-           else if (Kotlin.imul(e.windDelta, edge.windDelta) < 0) {
+        edge.windCnt = edge.windDelta;
+      }
+      edge.windCnt2 = e.windCnt2;
+      e = e.nextInAEL;
+    }
+     else {
+      if (Kotlin.imul(e.windCnt, e.windDelta) < 0) {
+        if (abs(e.windCnt) > 1) {
+          if (Kotlin.imul(e.windDelta, edge.windDelta) < 0) {
             edge.windCnt = e.windCnt;
           }
            else {
             edge.windCnt = e.windCnt + edge.windDelta | 0;
           }
         }
-        edge.windCnt2 = e.windCnt2;
-        e = e.nextInAEL;
+         else {
+          edge.windCnt = edge.windDelta === 0 ? 1 : edge.windDelta;
+        }
       }
+       else {
+        if (edge.windDelta === 0) {
+          edge.windCnt = e.windCnt < 0 ? e.windCnt - 1 | 0 : e.windCnt + 1 | 0;
+        }
+         else if (Kotlin.imul(e.windDelta, edge.windDelta) < 0) {
+          edge.windCnt = e.windCnt;
+        }
+         else {
+          edge.windCnt = e.windCnt + edge.windDelta | 0;
+        }
+      }
+      edge.windCnt2 = e.windCnt2;
+      e = e.nextInAEL;
     }
-    if (edge.isEvenOddAltFillType_dta898$((tmp$_1 = this.clipFillType_0) != null ? tmp$_1 : throwNPE(), (tmp$_2 = this.subjFillType_0) != null ? tmp$_2 : throwNPE())) {
+    if (edge.isEvenOddAltFillType_dta898$(ensureNotNull(this.clipFillType_0), ensureNotNull(this.subjFillType_0))) {
       while (e !== edge) {
-        if ((e != null ? e : throwNPE()).windDelta !== 0) {
+        if (ensureNotNull(e).windDelta !== 0) {
           edge.windCnt2 = edge.windCnt2 === 0 ? 1 : 0;
         }
         e = e.nextInAEL;
@@ -7686,7 +7627,7 @@
     }
      else {
       while (e !== edge) {
-        edge.windCnt2 = edge.windCnt2 + (e != null ? e : throwNPE()).windDelta | 0;
+        edge.windCnt2 = edge.windCnt2 + ensureNotNull(e).windDelta | 0;
         e = e.nextInAEL;
       }
     }
@@ -7732,7 +7673,7 @@
   DefaultClipper$Companion.prototype.isParam1RightOfParam2_0 = function (outRec1, outRec2) {
     var outr = outRec1;
     do {
-      outr = (outr != null ? outr : throwNPE()).firstLeft;
+      outr = ensureNotNull(outr).firstLeft;
       if (outr === outRec2) {
         return true;
       }
@@ -7741,7 +7682,6 @@
     return false;
   };
   DefaultClipper$Companion.prototype.isPointInPolygon_0 = function (pt, opp) {
-    var tmp$;
     var op = opp;
     var result = 0;
     var startOp = op;
@@ -7750,7 +7690,7 @@
     var poly0x = op.pt.x;
     var poly0y = op.pt.y;
     do {
-      op = (tmp$ = op.next) != null ? tmp$ : throwNPE();
+      op = ensureNotNull(op.next);
       var poly1x = op.pt.x;
       var poly1y = op.pt.y;
       if (poly1y === pty) {
@@ -7787,7 +7727,7 @@
     return result;
   };
   DefaultClipper$Companion.prototype.joinHorz_0 = function (op_1, op_1b, op_2, op_2b, Pt, DiscardLeft) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14, tmp$_15, tmp$_16, tmp$_17, tmp$_18, tmp$_19, tmp$_20, tmp$_21, tmp$_22;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2;
     var op1 = op_1;
     var op1b = op_1b;
     var op2 = op_2;
@@ -7798,48 +7738,48 @@
       return false;
     }
     if (Dir1 === Clipper$Direction$LEFT_TO_RIGHT_getInstance()) {
-      while (((tmp$ = op1.next) != null ? tmp$ : throwNPE()).pt.x <= Pt.x && ((tmp$_0 = op1.next) != null ? tmp$_0 : throwNPE()).pt.x >= op1.pt.x && ((tmp$_1 = op1.next) != null ? tmp$_1 : throwNPE()).pt.y === Pt.y)
-        op1 = (tmp$_2 = op1.next) != null ? tmp$_2 : throwNPE();
+      while (ensureNotNull(op1.next).pt.x <= Pt.x && ensureNotNull(op1.next).pt.x >= op1.pt.x && ensureNotNull(op1.next).pt.y === Pt.y)
+        op1 = ensureNotNull(op1.next);
       if (DiscardLeft && op1.pt.x !== Pt.x)
-        op1 = (tmp$_3 = op1.next) != null ? tmp$_3 : throwNPE();
+        op1 = ensureNotNull(op1.next);
       op1b = op1.duplicate_6taknv$(!DiscardLeft);
-      if (!((tmp$_4 = op1b.pt) != null ? tmp$_4.equals(Pt) : null)) {
+      if (!((tmp$ = op1b.pt) != null ? tmp$.equals(Pt) : null)) {
         op1 = op1b;
         op1.pt = Vector2_init_2(Pt);
         op1b = op1.duplicate_6taknv$(!DiscardLeft);
       }
     }
      else {
-      while (((tmp$_5 = op1.next) != null ? tmp$_5 : throwNPE()).pt.x >= Pt.x && ((tmp$_6 = op1.next) != null ? tmp$_6 : throwNPE()).pt.x <= op1.pt.x && ((tmp$_7 = op1.next) != null ? tmp$_7 : throwNPE()).pt.y === Pt.y)
-        op1 = (tmp$_8 = op1.next) != null ? tmp$_8 : throwNPE();
+      while (ensureNotNull(op1.next).pt.x >= Pt.x && ensureNotNull(op1.next).pt.x <= op1.pt.x && ensureNotNull(op1.next).pt.y === Pt.y)
+        op1 = ensureNotNull(op1.next);
       if (!DiscardLeft && op1.pt.x !== Pt.x)
-        op1 = (tmp$_9 = op1.next) != null ? tmp$_9 : throwNPE();
+        op1 = ensureNotNull(op1.next);
       op1b = op1.duplicate_6taknv$(DiscardLeft);
-      if (!((tmp$_10 = op1b.pt) != null ? tmp$_10.equals(Pt) : null)) {
+      if (!((tmp$_0 = op1b.pt) != null ? tmp$_0.equals(Pt) : null)) {
         op1 = op1b;
         op1.pt = Vector2_init_2(Pt);
         op1b = op1.duplicate_6taknv$(DiscardLeft);
       }
     }
     if (Dir2 === Clipper$Direction$LEFT_TO_RIGHT_getInstance()) {
-      while (((tmp$_11 = op2.next) != null ? tmp$_11 : throwNPE()).pt.x <= Pt.x && ((tmp$_12 = op2.next) != null ? tmp$_12 : throwNPE()).pt.x >= op2.pt.x && ((tmp$_13 = op2.next) != null ? tmp$_13 : throwNPE()).pt.y === Pt.y)
-        op2 = (tmp$_14 = op2.next) != null ? tmp$_14 : throwNPE();
+      while (ensureNotNull(op2.next).pt.x <= Pt.x && ensureNotNull(op2.next).pt.x >= op2.pt.x && ensureNotNull(op2.next).pt.y === Pt.y)
+        op2 = ensureNotNull(op2.next);
       if (DiscardLeft && op2.pt.x !== Pt.x)
-        op2 = (tmp$_15 = op2.next) != null ? tmp$_15 : throwNPE();
+        op2 = ensureNotNull(op2.next);
       op2b = op2.duplicate_6taknv$(!DiscardLeft);
-      if (!((tmp$_16 = op2b.pt) != null ? tmp$_16.equals(Pt) : null)) {
+      if (!((tmp$_1 = op2b.pt) != null ? tmp$_1.equals(Pt) : null)) {
         op2 = op2b;
         op2.pt = Vector2_init_2(Pt);
         op2b = op2.duplicate_6taknv$(!DiscardLeft);
       }
     }
      else {
-      while (((tmp$_17 = op2.next) != null ? tmp$_17 : throwNPE()).pt.x >= Pt.x && ((tmp$_18 = op2.next) != null ? tmp$_18 : throwNPE()).pt.x <= op2.pt.x && ((tmp$_19 = op2.next) != null ? tmp$_19 : throwNPE()).pt.y === Pt.y)
-        op2 = (tmp$_20 = op2.next) != null ? tmp$_20 : throwNPE();
+      while (ensureNotNull(op2.next).pt.x >= Pt.x && ensureNotNull(op2.next).pt.x <= op2.pt.x && ensureNotNull(op2.next).pt.y === Pt.y)
+        op2 = ensureNotNull(op2.next);
       if (!DiscardLeft && op2.pt.x !== Pt.x)
-        op2 = (tmp$_21 = op2.next) != null ? tmp$_21 : throwNPE();
+        op2 = ensureNotNull(op2.next);
       op2b = op2.duplicate_6taknv$(DiscardLeft);
-      if (!((tmp$_22 = op2b.pt) != null ? tmp$_22.equals(Pt) : null)) {
+      if (!((tmp$_2 = op2b.pt) != null ? tmp$_2.equals(Pt) : null)) {
         op2 = op2b;
         op2.pt = Vector2_init_2(Pt);
         op2b = op2.duplicate_6taknv$(DiscardLeft);
@@ -7860,23 +7800,23 @@
     return true;
   };
   DefaultClipper$Companion.prototype.joinPoints_0 = function (j, outRec1, outRec2) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14, tmp$_15, tmp$_16, tmp$_17, tmp$_18, tmp$_19, tmp$_20, tmp$_21, tmp$_22, tmp$_23, tmp$_24, tmp$_25, tmp$_26, tmp$_27, tmp$_28, tmp$_29, tmp$_30, tmp$_31, tmp$_32, tmp$_33, tmp$_34, tmp$_35, tmp$_36;
-    var op1 = (tmp$ = j.outPt1) != null ? tmp$ : throwNPE();
+    var tmp$, tmp$_0, tmp$_1, tmp$_2;
+    var op1 = ensureNotNull(j.outPt1);
     var op1b;
-    var op2 = (tmp$_0 = j.outPt2) != null ? tmp$_0 : throwNPE();
+    var op2 = ensureNotNull(j.outPt2);
     var op2b;
-    var isHorizontal = ((tmp$_1 = j.outPt1) != null ? tmp$_1 : throwNPE()).pt.y === ((tmp$_2 = j.offPt) != null ? tmp$_2 : throwNPE()).y;
-    if (isHorizontal && equals(j.offPt, ((tmp$_3 = j.outPt1) != null ? tmp$_3 : throwNPE()).pt) && equals(j.offPt, ((tmp$_4 = j.outPt2) != null ? tmp$_4 : throwNPE()).pt)) {
+    var isHorizontal = ensureNotNull(j.outPt1).pt.y === ensureNotNull(j.offPt).y;
+    if (isHorizontal && equals(j.offPt, ensureNotNull(j.outPt1).pt) && equals(j.offPt, ensureNotNull(j.outPt2).pt)) {
       if (outRec1 !== outRec2)
         return false;
-      op1b = (tmp$_6 = ((tmp$_5 = j.outPt1) != null ? tmp$_5 : throwNPE()).next) != null ? tmp$_6 : throwNPE();
+      op1b = ensureNotNull(ensureNotNull(j.outPt1).next);
       while (op1b !== op1 && equals(op1b.pt, j.offPt))
-        op1b = (tmp$_7 = op1b.next) != null ? tmp$_7 : throwNPE();
-      var reverse1 = op1b.pt.y > ((tmp$_8 = j.offPt) != null ? tmp$_8 : throwNPE()).y;
-      op2b = (tmp$_10 = ((tmp$_9 = j.outPt2) != null ? tmp$_9 : throwNPE()).next) != null ? tmp$_10 : throwNPE();
+        op1b = ensureNotNull(op1b.next);
+      var reverse1 = op1b.pt.y > ensureNotNull(j.offPt).y;
+      op2b = ensureNotNull(ensureNotNull(j.outPt2).next);
       while (op2b !== op2 && equals(op2b.pt, j.offPt))
-        op2b = (tmp$_11 = op2b.next) != null ? tmp$_11 : throwNPE();
-      var reverse2 = op2b.pt.y > ((tmp$_12 = j.offPt) != null ? tmp$_12 : throwNPE()).y;
+        op2b = ensureNotNull(op2b.next);
+      var reverse2 = op2b.pt.y > ensureNotNull(j.offPt).y;
       if (reverse1 === reverse2)
         return false;
       if (reverse1) {
@@ -7904,17 +7844,17 @@
     }
      else if (isHorizontal) {
       op1b = op1;
-      while (((tmp$_13 = op1.prev) != null ? tmp$_13 : throwNPE()).pt.y === op1.pt.y && op1.prev !== op1b && op1.prev !== op2)
-        op1 = (tmp$_14 = op1.prev) != null ? tmp$_14 : throwNPE();
-      while (((tmp$_15 = op1b.next) != null ? tmp$_15 : throwNPE()).pt.y === op1b.pt.y && op1b.next !== op1 && op1b.next !== op2)
-        op1b = (tmp$_16 = op1b.next) != null ? tmp$_16 : throwNPE();
+      while (ensureNotNull(op1.prev).pt.y === op1.pt.y && op1.prev !== op1b && op1.prev !== op2)
+        op1 = ensureNotNull(op1.prev);
+      while (ensureNotNull(op1b.next).pt.y === op1b.pt.y && op1b.next !== op1 && op1b.next !== op2)
+        op1b = ensureNotNull(op1b.next);
       if (op1b.next === op1 || op1b.next === op2)
         return false;
       op2b = op2;
-      while (((tmp$_17 = op2.prev) != null ? tmp$_17 : throwNPE()).pt.y === op2.pt.y && op2.prev !== op2b && op2.prev !== op1b)
-        op2 = (tmp$_18 = op2.prev) != null ? tmp$_18 : throwNPE();
-      while (((tmp$_19 = op2b.next) != null ? tmp$_19 : throwNPE()).pt.y === op2b.pt.y && op2b.next !== op2 && op2b.next !== op1)
-        op2b = (tmp$_20 = op2b.next) != null ? tmp$_20 : throwNPE();
+      while (ensureNotNull(op2.prev).pt.y === op2.pt.y && op2.prev !== op2b && op2.prev !== op1b)
+        op2 = ensureNotNull(op2.prev);
+      while (ensureNotNull(op2b.next).pt.y === op2b.pt.y && op2b.next !== op2 && op2b.next !== op1)
+        op2b = ensureNotNull(op2b.next);
       if (op2b.next === op2 || op2b.next === op1)
         return false;
       var LeftV = new Float64Array(1);
@@ -7946,26 +7886,26 @@
       return this.joinHorz_0(op1, op1b, op2, op2b, Pt, DiscardLeftSide);
     }
      else {
-      op1b = (tmp$_21 = op1.next) != null ? tmp$_21 : throwNPE();
-      while (((tmp$_22 = op1b.pt) != null ? tmp$_22.equals(op1.pt) : null) && op1b !== op1)
-        op1b = (tmp$_23 = op1b.next) != null ? tmp$_23 : throwNPE();
-      var Reverse1 = !(op1b.pt.y > op1.pt.y) ? !Points_getInstance().slopesEqual_immp3h$(op1.pt, op1b.pt, (tmp$_24 = j.offPt) != null ? tmp$_24 : throwNPE()) : true;
+      op1b = ensureNotNull(op1.next);
+      while (((tmp$ = op1b.pt) != null ? tmp$.equals(op1.pt) : null) && op1b !== op1)
+        op1b = ensureNotNull(op1b.next);
+      var Reverse1 = op1b.pt.y > op1.pt.y || !Points_getInstance().slopesEqual_immp3h$(op1.pt, op1b.pt, ensureNotNull(j.offPt));
       if (Reverse1) {
-        op1b = (tmp$_25 = op1.prev) != null ? tmp$_25 : throwNPE();
-        while (((tmp$_26 = op1b.pt) != null ? tmp$_26.equals(op1.pt) : null) && op1b !== op1)
-          op1b = (tmp$_27 = op1b.prev) != null ? tmp$_27 : throwNPE();
-        if (!(op1b.pt.y > op1.pt.y) ? !Points_getInstance().slopesEqual_immp3h$(op1.pt, op1b.pt, (tmp$_28 = j.offPt) != null ? tmp$_28 : throwNPE()) : true)
+        op1b = ensureNotNull(op1.prev);
+        while (((tmp$_0 = op1b.pt) != null ? tmp$_0.equals(op1.pt) : null) && op1b !== op1)
+          op1b = ensureNotNull(op1b.prev);
+        if (op1b.pt.y > op1.pt.y || !Points_getInstance().slopesEqual_immp3h$(op1.pt, op1b.pt, ensureNotNull(j.offPt)))
           return false;
       }
-      op2b = (tmp$_29 = op2.next) != null ? tmp$_29 : throwNPE();
-      while (((tmp$_30 = op2b.pt) != null ? tmp$_30.equals(op2.pt) : null) && op2b !== op2)
-        op2b = (tmp$_31 = op2b.next) != null ? tmp$_31 : throwNPE();
-      var Reverse2 = !(op2b.pt.y > op2.pt.y) ? !Points_getInstance().slopesEqual_immp3h$(op2.pt, op2b.pt, (tmp$_32 = j.offPt) != null ? tmp$_32 : throwNPE()) : true;
+      op2b = ensureNotNull(op2.next);
+      while (((tmp$_1 = op2b.pt) != null ? tmp$_1.equals(op2.pt) : null) && op2b !== op2)
+        op2b = ensureNotNull(op2b.next);
+      var Reverse2 = op2b.pt.y > op2.pt.y || !Points_getInstance().slopesEqual_immp3h$(op2.pt, op2b.pt, ensureNotNull(j.offPt));
       if (Reverse2) {
-        op2b = (tmp$_33 = op2.prev) != null ? tmp$_33 : throwNPE();
-        while (((tmp$_34 = op2b.pt) != null ? tmp$_34.equals(op2.pt) : null) && op2b !== op2)
-          op2b = (tmp$_35 = op2b.prev) != null ? tmp$_35 : throwNPE();
-        if (!(op2b.pt.y > op2.pt.y) ? !Points_getInstance().slopesEqual_immp3h$(op2.pt, op2b.pt, (tmp$_36 = j.offPt) != null ? tmp$_36 : throwNPE()) : true)
+        op2b = ensureNotNull(op2.prev);
+        while (((tmp$_2 = op2b.pt) != null ? tmp$_2.equals(op2.pt) : null) && op2b !== op2)
+          op2b = ensureNotNull(op2b.prev);
+        if (op2b.pt.y > op2.pt.y || !Points_getInstance().slopesEqual_immp3h$(op2.pt, op2b.pt, ensureNotNull(j.offPt)))
           return false;
       }
       if (op1b === op1 || op2b === op2 || op1b === op2b || (outRec1 === outRec2 && Reverse1 === Reverse2))
@@ -8072,14 +8012,13 @@
     return solution;
   };
   DefaultClipper$Companion.prototype.poly2ContainsPoly1_0 = function (outPt1, outPt2) {
-    var tmp$;
     var op = outPt1;
     do {
       var res = this.isPointInPolygon_0(op.pt, outPt2);
       if (res >= 0) {
         return res > 0;
       }
-      op = (tmp$ = op.next) != null ? tmp$ : throwNPE();
+      op = ensureNotNull(op.next);
     }
      while (op !== outPt1);
     return true;
@@ -8115,8 +8054,7 @@
     return DefaultClipper$Companion_instance;
   }
   function DefaultClipper_init$lambda(node1, node2) {
-    var tmp$, tmp$_0;
-    var i = ((tmp$ = node2.pt) != null ? tmp$ : throwNPE()).y - ((tmp$_0 = node1.pt) != null ? tmp$_0 : throwNPE()).y;
+    var i = ensureNotNull(node2.pt).y - ensureNotNull(node1.pt).y;
     if (i > 0) {
       return 1;
     }
@@ -8222,27 +8160,22 @@
     }
   });
   Edge.prototype.findNextLocMin = function () {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9;
+    var tmp$, tmp$_0;
     var e = this;
     var e2;
     while (true) {
-      while (true) {
-        tmp$_1 = e.bot;
-        tmp$_0 = ((tmp$ = e.prev) != null ? tmp$ : throwNPE()).bot;
-        if (!(!(tmp$_1 != null ? tmp$_1.equals(tmp$_0) : null) || ((tmp$_2 = e.current) != null ? tmp$_2.equals(e.top) : null)))
-          break;
-        e = (tmp$_3 = e.next) != null ? tmp$_3 : throwNPE();
-      }
-      if (e.deltaX !== Edge$Companion_getInstance().HORIZONTAL && ((tmp$_4 = e.prev) != null ? tmp$_4 : throwNPE()).deltaX !== Edge$Companion_getInstance().HORIZONTAL)
+      while (!((tmp$ = e.bot) != null ? tmp$.equals(ensureNotNull(e.prev).bot) : null) || ((tmp$_0 = e.current) != null ? tmp$_0.equals(e.top) : null))
+        e = ensureNotNull(e.next);
+      if (e.deltaX !== Edge$Companion_getInstance().HORIZONTAL && ensureNotNull(e.prev).deltaX !== Edge$Companion_getInstance().HORIZONTAL)
         break;
-      while (((tmp$_5 = e.prev) != null ? tmp$_5 : throwNPE()).deltaX === Edge$Companion_getInstance().HORIZONTAL)
-        e = (tmp$_6 = e.prev) != null ? tmp$_6 : throwNPE();
+      while (ensureNotNull(e.prev).deltaX === Edge$Companion_getInstance().HORIZONTAL)
+        e = ensureNotNull(e.prev);
       e2 = e;
       while (e.deltaX === Edge$Companion_getInstance().HORIZONTAL)
-        e = (tmp$_7 = e.next) != null ? tmp$_7 : throwNPE();
-      if (e.top.y === ((tmp$_8 = e.prev) != null ? tmp$_8 : throwNPE()).bot.y)
+        e = ensureNotNull(e.next);
+      if (e.top.y === ensureNotNull(e.prev).bot.y)
         continue;
-      if (((tmp$_9 = e2.prev) != null ? tmp$_9 : throwNPE()).bot.x < e.bot.x)
+      if (ensureNotNull(e2.prev).bot.x < e.bot.x)
         e = e2;
       break;
     }
@@ -8250,12 +8183,12 @@
   };
   Object.defineProperty(Edge.prototype, 'maximaPair', {
     get: function () {
-      var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
+      var tmp$, tmp$_0;
       var result = null;
-      if (((tmp$_0 = ((tmp$ = this.next) != null ? tmp$ : throwNPE()).top) != null ? tmp$_0.equals(this.top) : null) && ((tmp$_1 = this.next) != null ? tmp$_1 : throwNPE()).nextInLML == null) {
+      if (((tmp$ = ensureNotNull(this.next).top) != null ? tmp$.equals(this.top) : null) && ensureNotNull(this.next).nextInLML == null) {
         result = this.next;
       }
-       else if (((tmp$_3 = ((tmp$_2 = this.prev) != null ? tmp$_2 : throwNPE()).top) != null ? tmp$_3.equals(this.top) : null) && ((tmp$_4 = this.prev) != null ? tmp$_4 : throwNPE()).nextInLML == null) {
+       else if (((tmp$_0 = ensureNotNull(this.prev).top) != null ? tmp$_0.equals(this.top) : null) && ensureNotNull(this.prev).nextInLML == null) {
         result = this.prev;
       }
       if (result != null && (result.outIdx === Edge$Companion_getInstance().SKIP || (result.nextInAEL === result.prevInAEL && !result.isHorizontal))) {
@@ -8470,20 +8403,19 @@
     this.prev = null;
   }
   Path$OutPt.prototype.duplicate_6taknv$ = function (InsertAfter) {
-    var tmp$, tmp$_0;
     var result = new Path$OutPt();
     result.pt = Vector2_init_2(this.pt);
     result.idx = this.idx;
     if (InsertAfter) {
       result.next = this.next;
       result.prev = this;
-      ((tmp$ = this.next) != null ? tmp$ : throwNPE()).prev = result;
+      ensureNotNull(this.next).prev = result;
       this.next = result;
     }
      else {
       result.prev = this.prev;
       result.next = this;
-      ((tmp$_0 = this.prev) != null ? tmp$_0 : throwNPE()).next = result;
+      ensureNotNull(this.prev).next = result;
       this.prev = result;
     }
     return result;
@@ -8495,7 +8427,7 @@
       var p = this.next;
       var pp = this;
       while (p !== pp) {
-        p != null ? p : throwNPE();
+        ensureNotNull(p);
         if (p.pt.y > pp.pt.y) {
           pp = p;
           dups = null;
@@ -8515,11 +8447,11 @@
       }
       if (dups != null) {
         while (dups !== p) {
-          if (!Path$OutPt$Companion_getInstance().isFirstBottomPt_0(p, dups != null ? dups : throwNPE())) {
+          if (!Path$OutPt$Companion_getInstance().isFirstBottomPt_0(p, ensureNotNull(dups))) {
             pp = dups;
           }
           dups = dups.next;
-          while (!((tmp$ = (dups != null ? dups : throwNPE()).pt) != null ? tmp$.equals(pp.pt) : null)) {
+          while (!((tmp$ = ensureNotNull(dups).pt) != null ? tmp$.equals(pp.pt) : null)) {
             dups = dups.next;
           }
         }
@@ -8533,19 +8465,18 @@
       var p = this;
       do {
         result = result + 1 | 0;
-        p = (p != null ? p : throwNPE()).next;
+        p = ensureNotNull(p).next;
       }
        while (p !== this && p != null);
       return result;
     }
   });
   Path$OutPt.prototype.reversePolyPtLinks = function () {
-    var tmp$;
     var pp1;
     var pp2;
     pp1 = this;
     do {
-      pp2 = (tmp$ = pp1.next) != null ? tmp$ : throwNPE();
+      pp2 = ensureNotNull(pp1.next);
       pp1.next = pp1.prev;
       pp1.prev = pp2;
       pp1 = pp2;
@@ -8556,51 +8487,51 @@
     Path$OutPt$Companion_instance = this;
   }
   Path$OutPt$Companion.prototype.getLowerMostRec_pii0fs$ = function (outRec1, outRec2) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
-    outRec1.bottomPt = (tmp$_0 = outRec1.bottomPt) != null ? tmp$_0 : ((tmp$ = outRec1.points) != null ? tmp$ : throwNPE()).bottomPt;
-    outRec2.bottomPt = (tmp$_2 = outRec2.bottomPt) != null ? tmp$_2 : ((tmp$_1 = outRec2.points) != null ? tmp$_1 : throwNPE()).bottomPt;
-    var bPt1 = (tmp$_3 = outRec1.bottomPt) != null ? tmp$_3 : throwNPE();
-    var bPt2 = (tmp$_4 = outRec2.bottomPt) != null ? tmp$_4 : throwNPE();
+    var tmp$, tmp$_0, tmp$_1;
+    outRec1.bottomPt = (tmp$ = outRec1.bottomPt) != null ? tmp$ : ensureNotNull(outRec1.points).bottomPt;
+    outRec2.bottomPt = (tmp$_0 = outRec2.bottomPt) != null ? tmp$_0 : ensureNotNull(outRec2.points).bottomPt;
+    var bPt1 = ensureNotNull(outRec1.bottomPt);
+    var bPt2 = ensureNotNull(outRec2.bottomPt);
     if (bPt1.pt.y > bPt2.pt.y)
-      tmp$_5 = outRec1;
+      tmp$_1 = outRec1;
     else if (bPt1.pt.y < bPt2.pt.y)
-      tmp$_5 = outRec2;
+      tmp$_1 = outRec2;
     else if (bPt1.pt.x < bPt2.pt.x)
-      tmp$_5 = outRec1;
+      tmp$_1 = outRec1;
     else if (bPt1.pt.x > bPt2.pt.x)
-      tmp$_5 = outRec2;
+      tmp$_1 = outRec2;
     else if (bPt1.next === bPt1)
-      tmp$_5 = outRec2;
+      tmp$_1 = outRec2;
     else if (bPt2.next === bPt2)
-      tmp$_5 = outRec1;
+      tmp$_1 = outRec1;
     else if (this.isFirstBottomPt_0(bPt1, bPt2))
-      tmp$_5 = outRec1;
+      tmp$_1 = outRec1;
     else
-      tmp$_5 = outRec2;
-    return tmp$_5;
+      tmp$_1 = outRec2;
+    return tmp$_1;
   };
   Path$OutPt$Companion.prototype.isFirstBottomPt_0 = function (btmPt1, btmPt2) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10;
-    var p = (tmp$ = btmPt1.prev) != null ? tmp$ : throwNPE();
+    var tmp$, tmp$_0, tmp$_1, tmp$_2;
+    var p = ensureNotNull(btmPt1.prev);
+    while (((tmp$ = p.pt) != null ? tmp$.equals(btmPt1.pt) : null) && !equals(p, btmPt1))
+      p = ensureNotNull(p.prev);
+    var x = Points_getInstance().getDeltaX_g6xq6k$(btmPt1.pt, p.pt);
+    var dx1p = Math_0.abs(x);
+    p = ensureNotNull(btmPt1.next);
     while (((tmp$_0 = p.pt) != null ? tmp$_0.equals(btmPt1.pt) : null) && !equals(p, btmPt1))
-      p = (tmp$_1 = p.prev) != null ? tmp$_1 : throwNPE();
-    var a = Points_getInstance().getDeltaX_g6xq6k$(btmPt1.pt, p.pt);
-    var dx1p = Math_0.abs(a);
-    p = (tmp$_2 = btmPt1.next) != null ? tmp$_2 : throwNPE();
-    while (((tmp$_3 = p.pt) != null ? tmp$_3.equals(btmPt1.pt) : null) && !equals(p, btmPt1))
-      p = (tmp$_4 = p.next) != null ? tmp$_4 : throwNPE();
-    var a_0 = Points_getInstance().getDeltaX_g6xq6k$(btmPt1.pt, p.pt);
-    var dx1n = Math_0.abs(a_0);
-    p = (tmp$_5 = btmPt2.prev) != null ? tmp$_5 : throwNPE();
-    while (((tmp$_6 = p.pt) != null ? tmp$_6.equals(btmPt2.pt) : null) && !equals(p, btmPt2))
-      p = (tmp$_7 = p.prev) != null ? tmp$_7 : throwNPE();
-    var a_1 = Points_getInstance().getDeltaX_g6xq6k$(btmPt2.pt, p.pt);
-    var dx2p = Math_0.abs(a_1);
-    p = (tmp$_8 = btmPt2.next) != null ? tmp$_8 : throwNPE();
-    while (((tmp$_9 = p.pt) != null ? tmp$_9.equals(btmPt2.pt) : null) && equals(p, btmPt2))
-      p = (tmp$_10 = p.next) != null ? tmp$_10 : throwNPE();
-    var a_2 = Points_getInstance().getDeltaX_g6xq6k$(btmPt2.pt, p.pt);
-    var dx2n = Math_0.abs(a_2);
+      p = ensureNotNull(p.next);
+    var x_0 = Points_getInstance().getDeltaX_g6xq6k$(btmPt1.pt, p.pt);
+    var dx1n = Math_0.abs(x_0);
+    p = ensureNotNull(btmPt2.prev);
+    while (((tmp$_1 = p.pt) != null ? tmp$_1.equals(btmPt2.pt) : null) && !equals(p, btmPt2))
+      p = ensureNotNull(p.prev);
+    var x_1 = Points_getInstance().getDeltaX_g6xq6k$(btmPt2.pt, p.pt);
+    var dx2p = Math_0.abs(x_1);
+    p = ensureNotNull(btmPt2.next);
+    while (((tmp$_2 = p.pt) != null ? tmp$_2.equals(btmPt2.pt) : null) && equals(p, btmPt2))
+      p = ensureNotNull(p.next);
+    var x_2 = Points_getInstance().getDeltaX_g6xq6k$(btmPt2.pt, p.pt);
+    var dx2n = Math_0.abs(x_2);
     return dx1p >= dx2p && dx1p >= dx2n || (dx1n >= dx2p && dx1n >= dx2n);
   };
   Path$OutPt$Companion.$metadata$ = {
@@ -8630,7 +8561,7 @@
     this.polyNode = null;
   }
   Path$OutRec.prototype.area = function () {
-    var tmp$, tmp$_0, tmp$_1;
+    var tmp$;
     tmp$ = this.points;
     if (tmp$ == null) {
       return 0.0;
@@ -8638,15 +8569,14 @@
     var op = tmp$;
     var a = 0.0;
     do {
-      a = a + (((tmp$_0 = (op != null ? op : throwNPE()).prev) != null ? tmp$_0 : throwNPE()).pt.x + op.pt.x) * (((tmp$_1 = op.prev) != null ? tmp$_1 : throwNPE()).pt.y - op.pt.y);
+      a += (ensureNotNull(ensureNotNull(op).prev).pt.x + op.pt.x) * (ensureNotNull(op.prev).pt.y - op.pt.y);
       op = op.next;
     }
      while (op !== this.points);
     return a * 0.5;
   };
   Path$OutRec.prototype.fixHoleLinkage = function () {
-    var tmp$, tmp$_0;
-    if (this.firstLeft == null || (this.isHole !== ((tmp$ = this.firstLeft) != null ? tmp$ : throwNPE()).isHole && ((tmp$_0 = this.firstLeft) != null ? tmp$_0 : throwNPE()).points != null))
+    if (this.firstLeft == null || (this.isHole !== ensureNotNull(this.firstLeft).isHole && ensureNotNull(this.firstLeft).points != null))
       return;
     var orfl = this.firstLeft;
     while (orfl != null && (orfl.isHole === this.isHole || orfl.points == null))
@@ -8657,7 +8587,7 @@
     var ret = this;
     while (ret != null && ret.points == null)
       ret = ret.firstLeft;
-    return ret != null ? ret : throwNPE();
+    return ensureNotNull(ret);
   };
   Path$OutRec.$metadata$ = {
     kind: Kind_CLASS,
@@ -8682,14 +8612,14 @@
   Path.prototype.cleanPolygon_14dthe$ = function (distance) {
     if (distance === void 0)
       distance = 1.415;
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10;
+    var tmp$, tmp$_0;
     var cnt = this.size;
     if (cnt === 0)
       return new Path();
     var array = Array_0(cnt);
-    var tmp$_11;
-    tmp$_11 = array.length - 1 | 0;
-    for (var i = 0; i <= tmp$_11; i++) {
+    var tmp$_1;
+    tmp$_1 = array.length - 1 | 0;
+    for (var i = 0; i <= tmp$_1; i++) {
       array[i] = new Path$OutPt();
     }
     var outPts = array;
@@ -8697,42 +8627,37 @@
     for (var i_0 = 0; i_0 < tmp$; i_0++) {
       outPts[i_0].pt = this.get_za3lpa$(i_0);
       outPts[i_0].next = outPts[(i_0 + 1 | 0) % cnt];
-      ((tmp$_0 = outPts[i_0].next) != null ? tmp$_0 : throwNPE()).prev = outPts[i_0];
+      ensureNotNull(outPts[i_0].next).prev = outPts[i_0];
       outPts[i_0].idx = 0;
     }
     var distSqrd = distance * distance;
     var op = outPts[0];
     while (op.idx === 0 && op.next !== op.prev) {
-      if (Points_getInstance().arePointsClose_cnijz2$(op.pt, ((tmp$_1 = op.prev) != null ? tmp$_1 : throwNPE()).pt, distSqrd)) {
+      if (Points_getInstance().arePointsClose_cnijz2$(op.pt, ensureNotNull(op.prev).pt, distSqrd)) {
+        op = Path$Companion_getInstance().excludeOp_0(op);
+        cnt = cnt - 1 | 0;
+      }
+       else if (Points_getInstance().arePointsClose_cnijz2$(ensureNotNull(op.prev).pt, ensureNotNull(op.next).pt, distSqrd)) {
+        Path$Companion_getInstance().excludeOp_0(ensureNotNull(op.next));
+        op = Path$Companion_getInstance().excludeOp_0(op);
+        cnt = cnt - 2 | 0;
+      }
+       else if (Points_getInstance().slopesNearCollinear_mcsb4x$(ensureNotNull(op.prev).pt, op.pt, ensureNotNull(op.next).pt, distSqrd)) {
         op = Path$Companion_getInstance().excludeOp_0(op);
         cnt = cnt - 1 | 0;
       }
        else {
-        if (Points_getInstance().arePointsClose_cnijz2$(((tmp$_2 = op.prev) != null ? tmp$_2 : throwNPE()).pt, ((tmp$_3 = op.next) != null ? tmp$_3 : throwNPE()).pt, distSqrd)) {
-          tmp$_5 = (tmp$_4 = op.next) != null ? tmp$_4 : throwNPE();
-          Path$Companion_getInstance().excludeOp_0(tmp$_5);
-          op = Path$Companion_getInstance().excludeOp_0(op);
-          cnt = cnt - 2 | 0;
-        }
-         else {
-          if (Points_getInstance().slopesNearCollinear_mcsb4x$(((tmp$_6 = op.prev) != null ? tmp$_6 : throwNPE()).pt, op.pt, ((tmp$_7 = op.next) != null ? tmp$_7 : throwNPE()).pt, distSqrd)) {
-            op = Path$Companion_getInstance().excludeOp_0(op);
-            cnt = cnt - 1 | 0;
-          }
-           else {
-            op.idx = 1;
-            op = (tmp$_8 = op.next) != null ? tmp$_8 : throwNPE();
-          }
-        }
+        op.idx = 1;
+        op = ensureNotNull(op.next);
       }
     }
     if (cnt < 3)
       cnt = 0;
     var result = new Path(cnt);
-    tmp$_9 = cnt;
-    for (var i_1 = 0; i_1 < tmp$_9; i_1++) {
+    tmp$_0 = cnt;
+    for (var i_1 = 0; i_1 < tmp$_0; i_1++) {
       result.add_11rb$(op.pt);
-      op = (tmp$_10 = op.next) != null ? tmp$_10 : throwNPE();
+      op = ensureNotNull(op.next);
     }
     return result;
   };
@@ -8796,10 +8721,9 @@
     Path$Companion_instance = this;
   }
   Path$Companion.prototype.excludeOp_0 = function (op) {
-    var tmp$;
     var result = op.prev;
-    (result != null ? result : throwNPE()).next = op.next;
-    ((tmp$ = op.next) != null ? tmp$ : throwNPE()).prev = result;
+    ensureNotNull(result).next = op.next;
+    ensureNotNull(op.next).prev = result;
     result.idx = 0;
     return result;
   };
@@ -9001,8 +8925,8 @@
     if (dx === 0.0 && dy === 0.0)
       return new Vector2();
     var tmp$ = 1 * 1.0;
-    var a = dx * dx + dy * dy;
-    var f = tmp$ / Math_0.sqrt(a);
+    var x = dx * dx + dy * dy;
+    var f = tmp$ / Math_0.sqrt(x);
     return new Vector2(dy * f, -dx * f);
   };
   Points.prototype.isPt2BetweenPt1AndPt3_immp3h$ = function (pt1, pt2, pt3) {
@@ -9021,10 +8945,10 @@
   };
   Points.prototype.slopesNearCollinear_mcsb4x$ = function (pt1, pt2, pt3, distSqrd) {
     var tmp$;
-    var a = pt1.x - pt2.x;
-    var tmp$_0 = Math_0.abs(a);
-    var a_0 = pt1.y - pt2.y;
-    if (tmp$_0 > Math_0.abs(a_0)) {
+    var x = pt1.x - pt2.x;
+    var tmp$_0 = Math_0.abs(x);
+    var x_0 = pt1.y - pt2.y;
+    if (tmp$_0 > Math_0.abs(x_0)) {
       if (pt1.x > pt2.x === pt1.x < pt3.x)
         tmp$ = this.distanceFromLineSqrd_immp3h$(pt1, pt2, pt3) < distSqrd;
       else if (pt2.x > pt1.x === pt2.x < pt3.x)
@@ -9132,14 +9056,12 @@
   });
   Object.defineProperty(PolyNode.prototype, 'next', {
     get: function () {
-      var tmp$;
-      return !this._childs.isEmpty() ? this._childs.get_za3lpa$(0) : (tmp$ = this.nextSiblingUp_4amfzz$_0) != null ? tmp$ : throwNPE();
+      return !this._childs.isEmpty() ? this._childs.get_za3lpa$(0) : ensureNotNull(this.nextSiblingUp_4amfzz$_0);
     }
   });
   Object.defineProperty(PolyNode.prototype, 'nextSiblingUp_4amfzz$_0', {
     get: function () {
-      var tmp$, tmp$_0, tmp$_1;
-      return this.parent == null ? null : this.index_g0mmev$_0 === (((tmp$ = this.parent) != null ? tmp$ : throwNPE())._childs.size - 1 | 0) ? ((tmp$_0 = this.parent) != null ? tmp$_0 : throwNPE()).nextSiblingUp_4amfzz$_0 : ((tmp$_1 = this.parent) != null ? tmp$_1 : throwNPE())._childs.get_za3lpa$(this.index_g0mmev$_0 + 1 | 0);
+      return this.parent == null ? null : this.index_g0mmev$_0 === (ensureNotNull(this.parent)._childs.size - 1 | 0) ? ensureNotNull(this.parent).nextSiblingUp_4amfzz$_0 : ensureNotNull(this.parent)._childs.get_za3lpa$(this.index_g0mmev$_0 + 1 | 0);
     }
   });
   Object.defineProperty(PolyNode.prototype, 'isHole', {
@@ -10192,8 +10114,8 @@
       var b = this.p2.y - this.p1.y;
       var c = this.p3.x - this.p1.x;
       var d = this.p3.y - this.p1.y;
-      var a_0 = a * d - b * c;
-      return Math_0.abs(a_0) / 2.0;
+      var x = a * d - b * c;
+      return Math_0.abs(x) / 2.0;
     }
   });
   Triangle.prototype.toString = function () {
@@ -10629,7 +10551,7 @@
     if (!equals(currentNode, endNode))
       throw new PathFindException("Can't find a path", 1);
     while (!equals(currentNode, startNode)) {
-      returnList.add_11rb$(currentNode != null ? currentNode : throwNPE());
+      returnList.add_11rb$(ensureNotNull(currentNode));
       currentNode = currentNode.parent;
     }
     if (startNode != null)
@@ -10673,22 +10595,22 @@
     PathFindChannel_instance = this;
   }
   PathFindChannel.prototype.channelToPortals_xmiz5x$ = function (startPoint, endPoint, channel) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
+    var tmp$;
     var portals = new NewFunnel();
     portals.push_g6xq6k$(startPoint);
     if (channel.size >= 2) {
-      var firstTriangle = (tmp$ = channel.get_za3lpa$(0).triangle) != null ? tmp$ : throwNPE();
-      var secondTriangle = (tmp$_0 = channel.get_za3lpa$(1).triangle) != null ? tmp$_0 : throwNPE();
-      var lastTriangle = (tmp$_1 = channel.get_za3lpa$(channel.size - 1 | 0).triangle) != null ? tmp$_1 : throwNPE();
+      var firstTriangle = ensureNotNull(channel.get_za3lpa$(0).triangle);
+      var secondTriangle = ensureNotNull(channel.get_za3lpa$(1).triangle);
+      var lastTriangle = ensureNotNull(channel.get_za3lpa$(channel.size - 1 | 0).triangle);
       this.assert_0(firstTriangle.pointInsideTriangle_r62tv1$(startPoint));
       this.assert_0(lastTriangle.pointInsideTriangle_r62tv1$(endPoint));
       var startVertex = Triangle$Companion_getInstance().getNotCommonVertex_q9l14g$(firstTriangle, secondTriangle);
       var vertexCW0 = startVertex;
       var vertexCCW0 = startVertex;
-      tmp$_2 = channel.size - 1 | 0;
-      for (var n = 0; n < tmp$_2; n++) {
-        var triangleCurrent = (tmp$_3 = channel.get_za3lpa$(n + 0 | 0).triangle) != null ? tmp$_3 : throwNPE();
-        var triangleNext = (tmp$_4 = channel.get_za3lpa$(n + 1 | 0).triangle) != null ? tmp$_4 : throwNPE();
+      tmp$ = channel.size - 1 | 0;
+      for (var n = 0; n < tmp$; n++) {
+        var triangleCurrent = ensureNotNull(channel.get_za3lpa$(n + 0 | 0).triangle);
+        var triangleNext = ensureNotNull(channel.get_za3lpa$(n + 1 | 0).triangle);
         var commonEdge = Triangle$Companion_getInstance().getCommonEdge_q9l14g$(triangleCurrent, triangleNext);
         var vertexCW1 = triangleCurrent.pointCW_r62tv1$(vertexCW0);
         var vertexCCW1 = triangleCurrent.pointCCW_r62tv1$(vertexCCW0);
@@ -10704,20 +10626,20 @@
     return portals;
   };
   PathFindChannel.prototype.channelToPortals2_tfdvgj$ = function (startPoint, endPoint, channel) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
+    var tmp$;
     var portals = new NewFunnel();
-    var firstTriangle = (tmp$ = channel.get_za3lpa$(0).triangle) != null ? tmp$ : throwNPE();
-    var secondTriangle = (tmp$_0 = channel.get_za3lpa$(1).triangle) != null ? tmp$_0 : throwNPE();
-    var lastTriangle = (tmp$_1 = channel.get_za3lpa$(channel.size - 1 | 0).triangle) != null ? tmp$_1 : throwNPE();
+    var firstTriangle = ensureNotNull(channel.get_za3lpa$(0).triangle);
+    var secondTriangle = ensureNotNull(channel.get_za3lpa$(1).triangle);
+    var lastTriangle = ensureNotNull(channel.get_za3lpa$(channel.size - 1 | 0).triangle);
     this.assert_0(firstTriangle.pointInsideTriangle_r62tv1$(startPoint));
     this.assert_0(lastTriangle.pointInsideTriangle_r62tv1$(endPoint));
     var startVertexIndex = Triangle$Companion_getInstance().getNotCommonVertexIndex_q9l14g$(firstTriangle, secondTriangle);
     var currentVertexCW = firstTriangle.points[startVertexIndex];
     var currentVertexCCW = firstTriangle.points[startVertexIndex];
     portals.push_g6xq6k$(startPoint);
-    tmp$_2 = channel.size;
-    for (var n = 1; n < tmp$_2; n++) {
-      var edge = Triangle$Companion_getInstance().getCommonEdge_q9l14g$((tmp$_3 = channel.get_za3lpa$(n - 1 | 0).triangle) != null ? tmp$_3 : throwNPE(), (tmp$_4 = channel.get_za3lpa$(n).triangle) != null ? tmp$_4 : throwNPE());
+    tmp$ = channel.size;
+    for (var n = 1; n < tmp$; n++) {
+      var edge = Triangle$Companion_getInstance().getCommonEdge_q9l14g$(ensureNotNull(channel.get_za3lpa$(n - 1 | 0).triangle), ensureNotNull(channel.get_za3lpa$(n).triangle));
       portals.push_g6xq6k$(edge.p, edge.q);
     }
     portals.push_g6xq6k$(endPoint);
@@ -10760,21 +10682,21 @@
     this.nodes = ArrayList_init();
   }
   SpatialMesh.prototype.spatialNodeFromPoint_r62tv1$ = function (point) {
-    var tmp$, tmp$_0;
+    var tmp$;
     tmp$ = this.nodes.iterator();
     while (tmp$.hasNext()) {
       var node = tmp$.next();
-      if (((tmp$_0 = node.triangle) != null ? tmp$_0 : throwNPE()).pointInsideTriangle_r62tv1$(point))
+      if (ensureNotNull(node.triangle).pointInsideTriangle_r62tv1$(point))
         return node;
     }
     throw new Error_0('Point2d not inside triangles');
   };
   SpatialMesh.prototype.getNodeAt_r62tv1$ = function (point) {
-    var tmp$, tmp$_0;
+    var tmp$;
     tmp$ = this.nodes.iterator();
     while (tmp$.hasNext()) {
       var node = tmp$.next();
-      if (((tmp$_0 = node.triangle) != null ? tmp$_0 : throwNPE()).containsPoint_r62tv1$(point))
+      if (ensureNotNull(node.triangle).containsPoint_r62tv1$(point))
         return node;
     }
     return null;
@@ -10880,11 +10802,10 @@
     this.search_node = this.head;
   }
   AdvancingFront.prototype.locateNode_14dthe$ = function (x) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2;
     var node = this.search_node;
     if (x < node.value) {
       while (node.prev != null) {
-        node = (tmp$ = node.prev) != null ? tmp$ : throwNPE();
+        node = ensureNotNull(node.prev);
         if (x >= node.value) {
           this.search_node = node;
           return node;
@@ -10893,34 +10814,29 @@
     }
      else {
       while (node.next != null) {
-        node = (tmp$_0 = node.next) != null ? tmp$_0 : throwNPE();
+        node = ensureNotNull(node.next);
         if (x < node.value) {
-          this.search_node = (tmp$_1 = node.prev) != null ? tmp$_1 : throwNPE();
-          return (tmp$_2 = node.prev) != null ? tmp$_2 : throwNPE();
+          this.search_node = ensureNotNull(node.prev);
+          return ensureNotNull(node.prev);
         }
       }
     }
     return null;
   };
   AdvancingFront.prototype.locatePoint_r62tv1$ = function (point) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2;
     var px = point.x;
     var node = this.search_node;
-    var nx = (node != null ? node : throwNPE()).point.x;
+    var nx = ensureNotNull(node).point.x;
     if (px === nx) {
       if (!(point != null ? point.equals(node.point) : null)) {
-        tmp$_0 = ((tmp$ = node.prev) != null ? tmp$ : throwNPE()).point;
-        if (point != null ? point.equals(tmp$_0) : null) {
+        if (point != null ? point.equals(ensureNotNull(node.prev).point) : null) {
           node = node.prev;
         }
+         else if (point != null ? point.equals(ensureNotNull(node.next).point) : null) {
+          node = node.next;
+        }
          else {
-          tmp$_2 = ((tmp$_1 = node.next) != null ? tmp$_1 : throwNPE()).point;
-          if (point != null ? point.equals(tmp$_2) : null) {
-            node = node.next;
-          }
-           else {
-            throw new Error_0('Invalid AdvancingFront.locatePoint call!');
-          }
+          throw new Error_0('Invalid AdvancingFront.locatePoint call!');
         }
       }
     }
@@ -11192,17 +11108,15 @@
     }
   };
   Sweep.prototype.finalizationPolygon = function () {
-    var tmp$, tmp$_0, tmp$_1;
-    var next = (tmp$ = this.context_0.front.head.next) != null ? tmp$ : throwNPE();
-    var t = (tmp$_0 = next.triangle) != null ? tmp$_0 : throwNPE();
+    var next = ensureNotNull(this.context_0.front.head.next);
+    var t = ensureNotNull(next.triangle);
     var p = next.point;
     while (!t.getConstrainedEdgeCW_r62tv1$(p))
-      t = (tmp$_1 = t.neighborCCW_r62tv1$(p)) != null ? tmp$_1 : throwNPE();
+      t = ensureNotNull(t.neighborCCW_r62tv1$(p));
     this.context_0.meshClean_aetm19$(t);
   };
   Sweep.prototype.pointEvent_r62tv1$ = function (point) {
-    var tmp$;
-    var node = (tmp$ = this.context_0.locateNode_r62tv1$(point)) != null ? tmp$ : throwNPE();
+    var node = ensureNotNull(this.context_0.locateNode_r62tv1$(point));
     var new_node = this.newFrontTriangle_qzygyh$(point, node);
     if (point.x <= node.point.x + Constants_getInstance().EPSILON)
       this.fill_mjntug$(node);
@@ -11210,18 +11124,16 @@
     return new_node;
   };
   Sweep.prototype.edgeEventByEdge_mxx2yn$ = function (edge, node) {
-    var tmp$;
     var edge_event = this.context_0.edge_event;
     edge_event.constrained_edge = edge;
     edge_event.right = edge.p.x > edge.q.x;
-    var triangle = (tmp$ = node.triangle) != null ? tmp$ : throwNPE();
+    var triangle = ensureNotNull(node.triangle);
     if (triangle.isEdgeSide_g6xq6k$(edge.p, edge.q))
       return;
     this.fillEdgeEvent_mxx2yn$(edge, node);
     this.edgeEventByPoints_dzhhlx$(edge.p, edge.q, triangle, edge.q);
   };
   Sweep.prototype.edgeEventByPoints_dzhhlx$ = function (ep, eq, triangle, point) {
-    var tmp$, tmp$_0;
     if (triangle.isEdgeSide_g6xq6k$(ep, eq))
       return;
     var p1 = triangle.pointCCW_r62tv1$(point);
@@ -11233,60 +11145,57 @@
     if (o2 === Orientation$COLLINEAR_getInstance())
       throw new Error_0('Sweep.edgeEvent: Collinear not supported!');
     if (o1 === o2) {
-      this.edgeEventByPoints_dzhhlx$(ep, eq, o1 === Orientation$CW_getInstance() ? (tmp$ = triangle.neighborCCW_r62tv1$(point)) != null ? tmp$ : throwNPE() : (tmp$_0 = triangle.neighborCW_r62tv1$(point)) != null ? tmp$_0 : throwNPE(), point);
+      this.edgeEventByPoints_dzhhlx$(ep, eq, o1 === Orientation$CW_getInstance() ? ensureNotNull(triangle.neighborCCW_r62tv1$(point)) : ensureNotNull(triangle.neighborCW_r62tv1$(point)), point);
     }
      else {
       this.flipEdgeEvent_dzhhlx$(ep, eq, triangle, point);
     }
   };
   Sweep.prototype.newFrontTriangle_qzygyh$ = function (point, node) {
-    var tmp$, tmp$_0, tmp$_1;
-    var triangle = new Triangle(point, node.point, ((tmp$ = node.next) != null ? tmp$ : throwNPE()).point, this.edgeContext);
-    triangle.markNeighborTriangle_4n3hlq$((tmp$_0 = node.triangle) != null ? tmp$_0 : throwNPE());
+    var triangle = new Triangle(point, node.point, ensureNotNull(node.next).point, this.edgeContext);
+    triangle.markNeighborTriangle_4n3hlq$(ensureNotNull(node.triangle));
     this.context_0.addToSet_4n3hlq$(triangle);
     var new_node = new Node(point);
     new_node.next = node.next;
     new_node.prev = node;
-    ((tmp$_1 = node.next) != null ? tmp$_1 : throwNPE()).prev = new_node;
+    ensureNotNull(node.next).prev = new_node;
     node.next = new_node;
     if (!this.legalize_4n3hlq$(triangle))
       this.context_0.mapTriangleToNodes_4n3hlq$(triangle);
     return new_node;
   };
   Sweep.prototype.fill_mjntug$ = function (node) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
-    var triangle = new Triangle(((tmp$ = node.prev) != null ? tmp$ : throwNPE()).point, node.point, ((tmp$_0 = node.next) != null ? tmp$_0 : throwNPE()).point, this.edgeContext);
-    triangle.markNeighborTriangle_4n3hlq$((tmp$_2 = ((tmp$_1 = node.prev) != null ? tmp$_1 : throwNPE()).triangle) != null ? tmp$_2 : throwNPE());
-    triangle.markNeighborTriangle_4n3hlq$((tmp$_3 = node.triangle) != null ? tmp$_3 : throwNPE());
+    var triangle = new Triangle(ensureNotNull(node.prev).point, node.point, ensureNotNull(node.next).point, this.edgeContext);
+    triangle.markNeighborTriangle_4n3hlq$(ensureNotNull(ensureNotNull(node.prev).triangle));
+    triangle.markNeighborTriangle_4n3hlq$(ensureNotNull(node.triangle));
     this.context_0.addToSet_4n3hlq$(triangle);
-    ((tmp$_4 = node.prev) != null ? tmp$_4 : throwNPE()).next = node.next;
-    ((tmp$_5 = node.next) != null ? tmp$_5 : throwNPE()).prev = node.prev;
+    ensureNotNull(node.prev).next = node.next;
+    ensureNotNull(node.next).prev = node.prev;
     if (!this.legalize_4n3hlq$(triangle)) {
       this.context_0.mapTriangleToNodes_4n3hlq$(triangle);
     }
     this.context_0.removeNode_mjntug$(node);
   };
   Sweep.prototype.fillAdvancingFront_mjntug$ = function (n) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3;
     var node;
     var angle;
-    node = (tmp$ = n.next) != null ? tmp$ : throwNPE();
+    node = ensureNotNull(n.next);
     while (node.next != null) {
       angle = node.holeAngle;
       if (angle > Constants_getInstance().PI_2 || angle < -Constants_getInstance().PI_2)
         break;
       this.fill_mjntug$(node);
-      node = (tmp$_0 = node.next) != null ? tmp$_0 : throwNPE();
+      node = ensureNotNull(node.next);
     }
-    node = (tmp$_1 = n.prev) != null ? tmp$_1 : throwNPE();
+    node = ensureNotNull(n.prev);
     while (node.prev != null) {
       angle = node.holeAngle;
       if (angle > Constants_getInstance().PI_2 || angle < -Constants_getInstance().PI_2)
         break;
       this.fill_mjntug$(node);
-      node = (tmp$_2 = node.prev) != null ? tmp$_2 : throwNPE();
+      node = ensureNotNull(node.prev);
     }
-    if (n.next != null && ((tmp$_3 = n.next) != null ? tmp$_3 : throwNPE()).next != null) {
+    if (n.next != null && ensureNotNull(n.next).next != null) {
       angle = n.basinAngle;
       if (angle < Constants_getInstance().PI_3div4)
         this.fillBasin_mjntug$(n);
@@ -11328,28 +11237,26 @@
     return false;
   };
   Sweep.prototype.fillBasin_mjntug$ = function (node) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13, tmp$_14, tmp$_15, tmp$_16, tmp$_17;
     var context = this.context_0;
     var basin = context.basin;
-    basin.left_node = Orientation$Companion_getInstance().orient2d_immp3h$(node.point, ((tmp$ = node.next) != null ? tmp$ : throwNPE()).point, ((tmp$_1 = ((tmp$_0 = node.next) != null ? tmp$_0 : throwNPE()).next) != null ? tmp$_1 : throwNPE()).point) === Orientation$CCW_getInstance() ? ((tmp$_2 = node.next) != null ? tmp$_2 : throwNPE()).next : node.next;
+    basin.left_node = Orientation$Companion_getInstance().orient2d_immp3h$(node.point, ensureNotNull(node.next).point, ensureNotNull(ensureNotNull(node.next).next).point) === Orientation$CCW_getInstance() ? ensureNotNull(node.next).next : node.next;
     basin.bottom_node = basin.left_node;
-    while (((tmp$_3 = basin.bottom_node) != null ? tmp$_3 : throwNPE()).next != null && ((tmp$_4 = basin.bottom_node) != null ? tmp$_4 : throwNPE()).point.y >= ((tmp$_6 = ((tmp$_5 = basin.bottom_node) != null ? tmp$_5 : throwNPE()).next) != null ? tmp$_6 : throwNPE()).point.y) {
-      basin.bottom_node = ((tmp$_7 = basin.bottom_node) != null ? tmp$_7 : throwNPE()).next;
+    while (ensureNotNull(basin.bottom_node).next != null && ensureNotNull(basin.bottom_node).point.y >= ensureNotNull(ensureNotNull(basin.bottom_node).next).point.y) {
+      basin.bottom_node = ensureNotNull(basin.bottom_node).next;
     }
     if (equals(basin.bottom_node, basin.left_node))
       return;
     basin.right_node = basin.bottom_node;
-    while (((tmp$_8 = basin.right_node) != null ? tmp$_8 : throwNPE()).next != null && ((tmp$_9 = basin.right_node) != null ? tmp$_9 : throwNPE()).point.y < ((tmp$_11 = ((tmp$_10 = basin.right_node) != null ? tmp$_10 : throwNPE()).next) != null ? tmp$_11 : throwNPE()).point.y) {
-      basin.right_node = ((tmp$_12 = basin.right_node) != null ? tmp$_12 : throwNPE()).next;
+    while (ensureNotNull(basin.right_node).next != null && ensureNotNull(basin.right_node).point.y < ensureNotNull(ensureNotNull(basin.right_node).next).point.y) {
+      basin.right_node = ensureNotNull(basin.right_node).next;
     }
     if (equals(basin.right_node, basin.bottom_node))
       return;
-    basin.width = ((tmp$_13 = basin.right_node) != null ? tmp$_13 : throwNPE()).point.x - ((tmp$_14 = basin.left_node) != null ? tmp$_14 : throwNPE()).point.x;
-    basin.left_highest = ((tmp$_15 = basin.left_node) != null ? tmp$_15 : throwNPE()).point.y > ((tmp$_16 = basin.right_node) != null ? tmp$_16 : throwNPE()).point.y;
-    this.fillBasinReq_mjntug$((tmp$_17 = basin.bottom_node) != null ? tmp$_17 : throwNPE());
+    basin.width = ensureNotNull(basin.right_node).point.x - ensureNotNull(basin.left_node).point.x;
+    basin.left_highest = ensureNotNull(basin.left_node).point.y > ensureNotNull(basin.right_node).point.y;
+    this.fillBasinReq_mjntug$(ensureNotNull(basin.bottom_node));
   };
   Sweep.prototype.fillBasinReq_mjntug$ = function (node) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10;
     var node_0 = node;
     if (this.isShallow_mjntug$(node_0))
       return;
@@ -11358,29 +11265,29 @@
       return;
     }
      else if (equals(node_0.prev, this.context_0.basin.left_node)) {
-      if (Orientation$Companion_getInstance().orient2d_immp3h$(node_0.point, ((tmp$ = node_0.next) != null ? tmp$ : throwNPE()).point, ((tmp$_1 = ((tmp$_0 = node_0.next) != null ? tmp$_0 : throwNPE()).next) != null ? tmp$_1 : throwNPE()).point) === Orientation$CW_getInstance())
+      if (Orientation$Companion_getInstance().orient2d_immp3h$(node_0.point, ensureNotNull(node_0.next).point, ensureNotNull(ensureNotNull(node_0.next).next).point) === Orientation$CW_getInstance())
         return;
-      node_0 = (tmp$_2 = node_0.next) != null ? tmp$_2 : throwNPE();
+      node_0 = ensureNotNull(node_0.next);
     }
      else if (equals(node_0.next, this.context_0.basin.right_node)) {
-      if (Orientation$Companion_getInstance().orient2d_immp3h$(node_0.point, ((tmp$_3 = node_0.prev) != null ? tmp$_3 : throwNPE()).point, ((tmp$_5 = ((tmp$_4 = node_0.prev) != null ? tmp$_4 : throwNPE()).prev) != null ? tmp$_5 : throwNPE()).point) === Orientation$CCW_getInstance())
+      if (Orientation$Companion_getInstance().orient2d_immp3h$(node_0.point, ensureNotNull(node_0.prev).point, ensureNotNull(ensureNotNull(node_0.prev).prev).point) === Orientation$CCW_getInstance())
         return;
-      node_0 = (tmp$_6 = node_0.prev) != null ? tmp$_6 : throwNPE();
+      node_0 = ensureNotNull(node_0.prev);
     }
      else {
-      node_0 = ((tmp$_7 = node_0.prev) != null ? tmp$_7 : throwNPE()).point.y < ((tmp$_8 = node_0.next) != null ? tmp$_8 : throwNPE()).point.y ? (tmp$_9 = node_0.prev) != null ? tmp$_9 : throwNPE() : (tmp$_10 = node_0.next) != null ? tmp$_10 : throwNPE();
+      node_0 = ensureNotNull(node_0.prev).point.y < ensureNotNull(node_0.next).point.y ? ensureNotNull(node_0.prev) : ensureNotNull(node_0.next);
     }
     this.fillBasinReq_mjntug$(node_0);
   };
   Sweep.prototype.isShallow_mjntug$ = function (node) {
-    var tmp$, tmp$_0, tmp$_1;
+    var tmp$;
     if (this.context_0.basin.left_highest) {
-      tmp$_1 = ((tmp$ = this.context_0.basin.left_node) != null ? tmp$ : throwNPE()).point.y - node.point.y;
+      tmp$ = ensureNotNull(this.context_0.basin.left_node).point.y - node.point.y;
     }
      else {
-      tmp$_1 = ((tmp$_0 = this.context_0.basin.right_node) != null ? tmp$_0 : throwNPE()).point.y - node.point.y;
+      tmp$ = ensureNotNull(this.context_0.basin.right_node).point.y - node.point.y;
     }
-    var height = tmp$_1;
+    var height = tmp$;
     return this.context_0.basin.width > height;
   };
   Sweep.prototype.fillEdgeEvent_mxx2yn$ = function (edge, node) {
@@ -11392,22 +11299,20 @@
     }
   };
   Sweep.prototype.fillRightAboveEdgeEvent_mxx2yn$ = function (edge, node) {
-    var tmp$, tmp$_0, tmp$_1;
     var node_0 = node;
-    while (((tmp$ = node_0.next) != null ? tmp$ : throwNPE()).point.x < edge.p.x) {
-      if (Orientation$Companion_getInstance().orient2d_immp3h$(edge.q, ((tmp$_0 = node_0.next) != null ? tmp$_0 : throwNPE()).point, edge.p) === Orientation$CCW_getInstance()) {
+    while (ensureNotNull(node_0.next).point.x < edge.p.x) {
+      if (Orientation$Companion_getInstance().orient2d_immp3h$(edge.q, ensureNotNull(node_0.next).point, edge.p) === Orientation$CCW_getInstance()) {
         this.fillRightBelowEdgeEvent_mxx2yn$(edge, node_0);
       }
        else {
-        node_0 = (tmp$_1 = node_0.next) != null ? tmp$_1 : throwNPE();
+        node_0 = ensureNotNull(node_0.next);
       }
     }
   };
   Sweep.prototype.fillRightBelowEdgeEvent_mxx2yn$ = function (edge, node) {
-    var tmp$, tmp$_0, tmp$_1;
     if (node.point.x >= edge.p.x)
       return;
-    if (Orientation$Companion_getInstance().orient2d_immp3h$(node.point, ((tmp$ = node.next) != null ? tmp$ : throwNPE()).point, ((tmp$_1 = ((tmp$_0 = node.next) != null ? tmp$_0 : throwNPE()).next) != null ? tmp$_1 : throwNPE()).point) === Orientation$CCW_getInstance()) {
+    if (Orientation$Companion_getInstance().orient2d_immp3h$(node.point, ensureNotNull(node.next).point, ensureNotNull(ensureNotNull(node.next).next).point) === Orientation$CCW_getInstance()) {
       this.fillRightConcaveEdgeEvent_mxx2yn$(edge, node);
     }
      else {
@@ -11416,43 +11321,40 @@
     }
   };
   Sweep.prototype.fillRightConcaveEdgeEvent_mxx2yn$ = function (edge, node) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
-    this.fill_mjntug$((tmp$ = node.next) != null ? tmp$ : throwNPE());
-    if (!((tmp$_1 = ((tmp$_0 = node.next) != null ? tmp$_0 : throwNPE()).point) != null ? tmp$_1.equals(edge.p) : null)) {
-      if (Orientation$Companion_getInstance().orient2d_immp3h$(edge.q, ((tmp$_2 = node.next) != null ? tmp$_2 : throwNPE()).point, edge.p) === Orientation$CCW_getInstance()) {
-        if (Orientation$Companion_getInstance().orient2d_immp3h$(node.point, ((tmp$_3 = node.next) != null ? tmp$_3 : throwNPE()).point, ((tmp$_5 = ((tmp$_4 = node.next) != null ? tmp$_4 : throwNPE()).next) != null ? tmp$_5 : throwNPE()).point) === Orientation$CCW_getInstance()) {
+    var tmp$;
+    this.fill_mjntug$(ensureNotNull(node.next));
+    if (!((tmp$ = ensureNotNull(node.next).point) != null ? tmp$.equals(edge.p) : null)) {
+      if (Orientation$Companion_getInstance().orient2d_immp3h$(edge.q, ensureNotNull(node.next).point, edge.p) === Orientation$CCW_getInstance()) {
+        if (Orientation$Companion_getInstance().orient2d_immp3h$(node.point, ensureNotNull(node.next).point, ensureNotNull(ensureNotNull(node.next).next).point) === Orientation$CCW_getInstance()) {
           this.fillRightConcaveEdgeEvent_mxx2yn$(edge, node);
         }
       }
     }
   };
   Sweep.prototype.fillRightConvexEdgeEvent_mxx2yn$ = function (edge, node) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8;
-    if (Orientation$Companion_getInstance().orient2d_immp3h$(((tmp$ = node.next) != null ? tmp$ : throwNPE()).point, ((tmp$_1 = ((tmp$_0 = node.next) != null ? tmp$_0 : throwNPE()).next) != null ? tmp$_1 : throwNPE()).point, ((tmp$_4 = ((tmp$_3 = ((tmp$_2 = node.next) != null ? tmp$_2 : throwNPE()).next) != null ? tmp$_3 : throwNPE()).next) != null ? tmp$_4 : throwNPE()).point) === Orientation$CCW_getInstance()) {
-      this.fillRightConcaveEdgeEvent_mxx2yn$(edge, (tmp$_5 = node.next) != null ? tmp$_5 : throwNPE());
+    if (Orientation$Companion_getInstance().orient2d_immp3h$(ensureNotNull(node.next).point, ensureNotNull(ensureNotNull(node.next).next).point, ensureNotNull(ensureNotNull(ensureNotNull(node.next).next).next).point) === Orientation$CCW_getInstance()) {
+      this.fillRightConcaveEdgeEvent_mxx2yn$(edge, ensureNotNull(node.next));
     }
      else {
-      if (Orientation$Companion_getInstance().orient2d_immp3h$(edge.q, ((tmp$_7 = ((tmp$_6 = node.next) != null ? tmp$_6 : throwNPE()).next) != null ? tmp$_7 : throwNPE()).point, edge.p) === Orientation$CCW_getInstance()) {
-        this.fillRightConvexEdgeEvent_mxx2yn$(edge, (tmp$_8 = node.next) != null ? tmp$_8 : throwNPE());
+      if (Orientation$Companion_getInstance().orient2d_immp3h$(edge.q, ensureNotNull(ensureNotNull(node.next).next).point, edge.p) === Orientation$CCW_getInstance()) {
+        this.fillRightConvexEdgeEvent_mxx2yn$(edge, ensureNotNull(node.next));
       }
     }
   };
   Sweep.prototype.fillLeftAboveEdgeEvent_mxx2yn$ = function (edge, node) {
-    var tmp$, tmp$_0, tmp$_1;
     var node_0 = node;
-    while (((tmp$ = node_0.prev) != null ? tmp$ : throwNPE()).point.x > edge.p.x) {
-      if (Orientation$Companion_getInstance().orient2d_immp3h$(edge.q, ((tmp$_0 = node_0.prev) != null ? tmp$_0 : throwNPE()).point, edge.p) === Orientation$CW_getInstance()) {
+    while (ensureNotNull(node_0.prev).point.x > edge.p.x) {
+      if (Orientation$Companion_getInstance().orient2d_immp3h$(edge.q, ensureNotNull(node_0.prev).point, edge.p) === Orientation$CW_getInstance()) {
         this.fillLeftBelowEdgeEvent_mxx2yn$(edge, node_0);
       }
        else {
-        node_0 = (tmp$_1 = node_0.prev) != null ? tmp$_1 : throwNPE();
+        node_0 = ensureNotNull(node_0.prev);
       }
     }
   };
   Sweep.prototype.fillLeftBelowEdgeEvent_mxx2yn$ = function (edge, node) {
-    var tmp$, tmp$_0, tmp$_1;
     if (node.point.x > edge.p.x) {
-      if (Orientation$Companion_getInstance().orient2d_immp3h$(node.point, ((tmp$ = node.prev) != null ? tmp$ : throwNPE()).point, ((tmp$_1 = ((tmp$_0 = node.prev) != null ? tmp$_0 : throwNPE()).prev) != null ? tmp$_1 : throwNPE()).point) === Orientation$CW_getInstance()) {
+      if (Orientation$Companion_getInstance().orient2d_immp3h$(node.point, ensureNotNull(node.prev).point, ensureNotNull(ensureNotNull(node.prev).prev).point) === Orientation$CW_getInstance()) {
         this.fillLeftConcaveEdgeEvent_mxx2yn$(edge, node);
       }
        else {
@@ -11462,29 +11364,28 @@
     }
   };
   Sweep.prototype.fillLeftConvexEdgeEvent_mxx2yn$ = function (edge, node) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8;
-    if (Orientation$Companion_getInstance().orient2d_immp3h$(((tmp$ = node.prev) != null ? tmp$ : throwNPE()).point, ((tmp$_1 = ((tmp$_0 = node.prev) != null ? tmp$_0 : throwNPE()).prev) != null ? tmp$_1 : throwNPE()).point, ((tmp$_4 = ((tmp$_3 = ((tmp$_2 = node.prev) != null ? tmp$_2 : throwNPE()).prev) != null ? tmp$_3 : throwNPE()).prev) != null ? tmp$_4 : throwNPE()).point) === Orientation$CW_getInstance()) {
-      this.fillLeftConcaveEdgeEvent_mxx2yn$(edge, (tmp$_5 = node.prev) != null ? tmp$_5 : throwNPE());
+    if (Orientation$Companion_getInstance().orient2d_immp3h$(ensureNotNull(node.prev).point, ensureNotNull(ensureNotNull(node.prev).prev).point, ensureNotNull(ensureNotNull(ensureNotNull(node.prev).prev).prev).point) === Orientation$CW_getInstance()) {
+      this.fillLeftConcaveEdgeEvent_mxx2yn$(edge, ensureNotNull(node.prev));
     }
      else {
-      if (Orientation$Companion_getInstance().orient2d_immp3h$(edge.q, ((tmp$_7 = ((tmp$_6 = node.prev) != null ? tmp$_6 : throwNPE()).prev) != null ? tmp$_7 : throwNPE()).point, edge.p) === Orientation$CW_getInstance()) {
-        this.fillLeftConvexEdgeEvent_mxx2yn$(edge, (tmp$_8 = node.prev) != null ? tmp$_8 : throwNPE());
+      if (Orientation$Companion_getInstance().orient2d_immp3h$(edge.q, ensureNotNull(ensureNotNull(node.prev).prev).point, edge.p) === Orientation$CW_getInstance()) {
+        this.fillLeftConvexEdgeEvent_mxx2yn$(edge, ensureNotNull(node.prev));
       }
     }
   };
   Sweep.prototype.fillLeftConcaveEdgeEvent_mxx2yn$ = function (edge, node) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5;
-    this.fill_mjntug$((tmp$ = node.prev) != null ? tmp$ : throwNPE());
-    if (!((tmp$_1 = ((tmp$_0 = node.prev) != null ? tmp$_0 : throwNPE()).point) != null ? tmp$_1.equals(edge.p) : null)) {
-      if (Orientation$Companion_getInstance().orient2d_immp3h$(edge.q, ((tmp$_2 = node.prev) != null ? tmp$_2 : throwNPE()).point, edge.p) === Orientation$CW_getInstance()) {
-        if (Orientation$Companion_getInstance().orient2d_immp3h$(node.point, ((tmp$_3 = node.prev) != null ? tmp$_3 : throwNPE()).point, ((tmp$_5 = ((tmp$_4 = node.prev) != null ? tmp$_4 : throwNPE()).prev) != null ? tmp$_5 : throwNPE()).point) === Orientation$CW_getInstance()) {
+    var tmp$;
+    this.fill_mjntug$(ensureNotNull(node.prev));
+    if (!((tmp$ = ensureNotNull(node.prev).point) != null ? tmp$.equals(edge.p) : null)) {
+      if (Orientation$Companion_getInstance().orient2d_immp3h$(edge.q, ensureNotNull(node.prev).point, edge.p) === Orientation$CW_getInstance()) {
+        if (Orientation$Companion_getInstance().orient2d_immp3h$(node.point, ensureNotNull(node.prev).point, ensureNotNull(ensureNotNull(node.prev).prev).point) === Orientation$CW_getInstance()) {
           this.fillLeftConcaveEdgeEvent_mxx2yn$(edge, node);
         }
       }
     }
   };
   Sweep.prototype.flipEdgeEvent_dzhhlx$ = function (ep, eq, t, p) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
+    var tmp$;
     var t_0 = t;
     tmp$ = t_0.neighborAcross_r62tv1$(p);
     if (tmp$ == null) {
@@ -11497,14 +11398,7 @@
       this.context_0.mapTriangleToNodes_4n3hlq$(t_0);
       this.context_0.mapTriangleToNodes_4n3hlq$(ot);
       if ((p != null ? p.equals(eq) : null) && (op != null ? op.equals(ep) : null)) {
-        tmp$_1 = ((tmp$_0 = this.context_0.edge_event.constrained_edge) != null ? tmp$_0 : throwNPE()).q;
-        if (eq != null ? eq.equals(tmp$_1) : null) {
-          tmp$_3 = ((tmp$_2 = this.context_0.edge_event.constrained_edge) != null ? tmp$_2 : throwNPE()).p;
-          tmp$_4 = ep != null ? ep.equals(tmp$_3) : null;
-        }
-         else
-          tmp$_4 = false;
-        if (tmp$_4) {
+        if ((eq != null ? eq.equals(ensureNotNull(this.context_0.edge_event.constrained_edge).q) : null) && (ep != null ? ep.equals(ensureNotNull(this.context_0.edge_event.constrained_edge).p) : null)) {
           t_0.markConstrainedEdgeByPoints_g6xq6k$(ep, eq);
           ot.markConstrainedEdgeByPoints_g6xq6k$(ep, eq);
           this.legalize_4n3hlq$(t_0);
@@ -11932,8 +11826,8 @@
     return v < 0 ? 0 : v > 255 ? 255 : v;
   };
   Math_1.prototype.distance_lu1900$ = function (a, b) {
-    var a_0 = a - b;
-    return Math_0.abs(a_0);
+    var x = a - b;
+    return Math_0.abs(x);
   };
   Math_1.prototype.distance_6y0v78$ = function (x1, y1, x2, y2) {
     return Math_getInstance().hypot_lu1900$(x1 - x2, y1 - y2);
@@ -11988,8 +11882,8 @@
     return a / b | 0 | 0;
   };
   Math_1.prototype.hypot_lu1900$ = function (x, y) {
-    var a = x * x + y * y;
-    return Math_0.sqrt(a);
+    var x_0 = x * x + y * y;
+    return Math_0.sqrt(x_0);
   };
   Math_1.prototype.hypotNoSqrt_lu1900$ = function (x, y) {
     return x * x + y * y;
@@ -12289,6 +12183,14 @@
   var package$com = _.com || (_.com = {});
   var package$soywiz = package$com.soywiz || (package$com.soywiz = {});
   var package$korma = package$soywiz.korma || (package$soywiz.korma = {});
+  Object.defineProperty(package$korma, 'Korma', {
+    get: Korma_getInstance
+  });
+  Object.defineProperty(package$korma, 'KORMA_VERSION', {
+    get: function () {
+      return KORMA_VERSION;
+    }
+  });
   package$korma.IMatrix2d = IMatrix2d;
   package$korma.Matrix2d = Matrix2d;
   package$korma.IMatrix2d_9wz194$ = IMatrix2d_0;
@@ -12735,8 +12637,7 @@
   Bezier$Quad.prototype.calc_dtnzs5$ = Bezier.prototype.calc_dtnzs5$;
   Bezier$Cubic.prototype.getBounds_2da8yn$ = Bezier.prototype.getBounds_2da8yn$;
   Bezier$Cubic.prototype.calc_dtnzs5$ = Bezier.prototype.calc_dtnzs5$;
+  KORMA_VERSION = '0.16.0';
   Kotlin.defineModule('korma-js', _);
   return _;
 }));
-
-//# sourceMappingURL=korma-js.js.map

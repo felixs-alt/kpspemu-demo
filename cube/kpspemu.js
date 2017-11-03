@@ -34,7 +34,7 @@
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var Unit = Kotlin.kotlin.Unit;
   var AG$Blending = $module$korag_js.com.soywiz.korag.AG.Blending;
-  var throwNPE = Kotlin.throwNPE;
+  var ensureNotNull = Kotlin.ensureNotNull;
   var toList = Kotlin.kotlin.collections.toList_i2lc79$;
   var openSync = $module$korio_js.com.soywiz.korio.stream.openSync_m1iwyb$;
   var toString = Kotlin.toString;
@@ -76,6 +76,7 @@
   var Throwable = Error;
   var text = $module$korge_js.com.soywiz.korge.view.text_ae47yq$;
   var plusAssign = $module$korge_js.com.soywiz.korge.view.plusAssign_5hnngd$;
+  var setText = $module$korge_js.com.soywiz.korge.view.setText_4h3qbs$;
   var View = $module$korge_js.com.soywiz.korge.view.View;
   var getPropertyCallableRef = Kotlin.getPropertyCallableRef;
   var tween = $module$korge_js.com.soywiz.korge.tween.tween_wrai67$;
@@ -448,6 +449,7 @@
     AGRenderer$Companion_getInstance();
     this.emulatorContainer = emulatorContainer;
     this.sceneTex = sceneTex;
+    this.directFastSharpRendering = false;
     this.logger = PspLogger$Companion_getInstance().invoke_61zpoe$('AGRenderer');
     this.batchesQueue = ArrayList_init();
     this.tempBmp = new Bitmap32(512, 272);
@@ -519,7 +521,7 @@
     ag.checkErrors = false;
     ctx.flush();
     this.stats.reset();
-    if (DIRECT_FAST_SHARP_RENDERING) {
+    if (this.directFastSharpRendering) {
       if (!this.batchesQueue.isEmpty()) {
         this.renderBatches_0(ag);
       }
@@ -573,10 +575,10 @@
     }
   };
   AGRenderer.prototype.renderBatch_0 = function (ag, batch) {
-    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12;
-    var tmp$_13;
-    tmp$_13 = this.stats;
-    tmp$_13.batches = tmp$_13.batches + 1 | 0;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8;
+    var tmp$_9;
+    tmp$_9 = this.stats;
+    tmp$_9.batches = tmp$_9.batches + 1 | 0;
     tmp$ = this.stats;
     tmp$.vertices = tmp$.vertices + batch.vertexCount | 0;
     if (this.indexBuffer_0 == null)
@@ -584,8 +586,8 @@
     if (this.vertexBuffer_0 == null)
       this.vertexBuffer_0 = ag.createVertexBuffer();
     var state = batch.state;
-    ((tmp$_0 = this.indexBuffer_0) != null ? tmp$_0 : throwNPE()).upload_359eei$(batch.indices);
-    ((tmp$_1 = this.vertexBuffer_0) != null ? tmp$_1 : throwNPE()).upload_mj6st8$(batch.vertices);
+    ensureNotNull(this.indexBuffer_0).upload_359eei$(batch.indices);
+    ensureNotNull(this.vertexBuffer_0).upload_mj6st8$(batch.vertices);
     var $this = this.logger;
     var level = PspLogLevel.TRACE;
     if (level.index <= $this.processedLevel.index) {
@@ -624,9 +626,9 @@
     var $this_6 = this.logger;
     var level_6 = PspLogLevel.TRACE;
     if (level_6.index <= $this_6.processedLevel.index) {
-      var tmp$_14 = level_6;
+      var tmp$_10 = level_6;
       var vr = new VertexReader();
-      $this_6.actualLog_138x2s$(tmp$_14, '' + toString(vr.read_75t58$(batch.vtype, batch.vertices.length / batch.vtype.size() | 0, openSync(batch.vertices))));
+      $this_6.actualLog_138x2s$(tmp$_10, '' + toString(vr.read_75t58$(batch.vtype, batch.vertices.length / batch.vtype.size() | 0, openSync(batch.vertices))));
     }
     if (state.clearing) {
       var fixedDepth = state.depthTest.rangeNear;
@@ -643,23 +645,23 @@
       this.renderState_0.depthNear = state.depthTest.rangeFar;
       this.renderState_0.depthFar = state.depthTest.rangeNear;
       this.renderState_0.depthMask = state.depthTest.mask === 0;
-      tmp$_3 = this.renderState_0;
+      tmp$_1 = this.renderState_0;
       if (state.depthTest.enabled)
-        tmp$_2 = toInvAg(state.depthTest.func);
+        tmp$_0 = toInvAg(state.depthTest.func);
       else {
-        tmp$_2 = AG$CompareMode.ALWAYS;
+        tmp$_0 = AG$CompareMode.ALWAYS;
       }
-      tmp$_3.depthFunc = tmp$_2;
+      tmp$_1.depthFunc = tmp$_0;
     }
     var pl = this.getProgramLayout_j5wazo$(state);
-    tmp$_4 = toAg(batch.primType);
-    tmp$_6 = (tmp$_5 = this.vertexBuffer_0) != null ? tmp$_5 : throwNPE();
-    tmp$_8 = (tmp$_7 = this.indexBuffer_0) != null ? tmp$_7 : throwNPE();
-    tmp$_9 = pl.program;
-    tmp$_10 = pl.layout;
-    tmp$_11 = batch.vertexCount;
-    tmp$_12 = mapOf(to(this.u_modelViewProjMatrix, batch.modelViewProjMatrix));
-    ag.draw_n1yu8b$(tmp$_6, tmp$_9, tmp$_4, tmp$_10, tmp$_11, tmp$_8, void 0, AG$Blending.Companion.NONE, tmp$_12, void 0, void 0, this.renderState_0);
+    tmp$_2 = toAg(batch.primType);
+    tmp$_3 = ensureNotNull(this.vertexBuffer_0);
+    tmp$_4 = ensureNotNull(this.indexBuffer_0);
+    tmp$_5 = pl.program;
+    tmp$_6 = pl.layout;
+    tmp$_7 = batch.vertexCount;
+    tmp$_8 = mapOf(to(this.u_modelViewProjMatrix, batch.modelViewProjMatrix));
+    ag.draw_n1yu8b$(tmp$_3, tmp$_5, tmp$_2, tmp$_6, tmp$_7, tmp$_4, void 0, AG$Blending.Companion.NONE, tmp$_8, void 0, void 0, this.renderState_0);
   };
   function AGRenderer$ProgramLayout(program, layout) {
     this.program = program;
@@ -908,7 +910,23 @@
   function get_callbackManager($receiver) {
     return $receiver.emulator.callbackManager;
   }
-  var DIRECT_FAST_SHARP_RENDERING;
+  function Kpspemu() {
+    Kpspemu_instance = this;
+    this.VERSION = KPSPEMU_VERSION;
+  }
+  Kpspemu.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Kpspemu',
+    interfaces: []
+  };
+  var Kpspemu_instance = null;
+  function Kpspemu_getInstance() {
+    if (Kpspemu_instance === null) {
+      new Kpspemu();
+    }
+    return Kpspemu_instance;
+  }
+  var KPSPEMU_VERSION;
   function main(args) {
     Main_getInstance().main_kand9s$(args);
   }
@@ -1071,6 +1089,7 @@
     this.hudFont_nslosf$_0 = lazy(KpspemuMainScene$hudFont$lambda(this));
     this.running = true;
     this.ended = false;
+    this.paused = false;
     this.hud_sztf4g$_0 = this.hud_sztf4g$_0;
     this.hudQueue = new AsyncThread();
   }
@@ -1189,24 +1208,26 @@
   });
   function KpspemuMainScene$sceneInit$lambda(this$KpspemuMainScene) {
     return function (it) {
-      if (this$KpspemuMainScene.running && this$KpspemuMainScene.emulator.running) {
-        try {
-          this$KpspemuMainScene.emulator.frameStep();
-        }
-         catch (e) {
-          if (Kotlin.isType(e, Throwable)) {
-            printStackTrace(e);
-            this$KpspemuMainScene.running = false;
+      if (!this$KpspemuMainScene.paused) {
+        if (this$KpspemuMainScene.running && this$KpspemuMainScene.emulator.running) {
+          try {
+            this$KpspemuMainScene.emulator.frameStep();
           }
-           else
-            throw e;
+           catch (e) {
+            if (Kotlin.isType(e, Throwable)) {
+              printStackTrace(e);
+              this$KpspemuMainScene.running = false;
+            }
+             else
+              throw e;
+          }
         }
-      }
-       else {
-        if (!this$KpspemuMainScene.ended) {
-          this$KpspemuMainScene.ended = true;
-          println('COMPLETED');
-          get_display(this$KpspemuMainScene).clear();
+         else {
+          if (!this$KpspemuMainScene.ended) {
+            this$KpspemuMainScene.ended = true;
+            println('COMPLETED');
+            get_display(this$KpspemuMainScene).clear();
+          }
         }
       }
       return Unit;
@@ -1260,6 +1281,11 @@
       else
         tmp$_0 = 0.0;
       tmp$_1.updateAnalog_dleff0$(tmp$, tmp$_0);
+    };
+  }
+  function KpspemuMainScene$sceneInit$getInfoText(this$KpspemuMainScene) {
+    return function () {
+      return 'kpspemu' + '\n' + Kpspemu_getInstance().VERSION + '\n' + '\n' + this$KpspemuMainScene.agRenderer.stats.toString();
     };
   }
   function KpspemuMainScene$sceneInit$lambda_0(this$KpspemuMainScene_0) {
@@ -1317,23 +1343,6 @@
       }
      while (true);
   };
-  function KpspemuMainScene$sceneInit$ObjectLiteral(this$KpspemuMainScene, closure$statsText, views) {
-    this.this$KpspemuMainScene = this$KpspemuMainScene;
-    this.closure$statsText = closure$statsText;
-    View.call(this, views);
-  }
-  var numberToDouble = Kotlin.numberToDouble;
-  KpspemuMainScene$sceneInit$ObjectLiteral.prototype.getLocalBoundsInternal_2da8yn$$default = function (out) {
-    out.setTo_6y0v78$(numberToDouble(0), numberToDouble(0), numberToDouble(512), numberToDouble(272));
-  };
-  KpspemuMainScene$sceneInit$ObjectLiteral.prototype.render_edjgwy$ = function (ctx, m) {
-    this.this$KpspemuMainScene.agRenderer.render_edjgwy$(ctx, m);
-    this.closure$statsText.text = this.this$KpspemuMainScene.agRenderer.stats.toString();
-  };
-  KpspemuMainScene$sceneInit$ObjectLiteral.$metadata$ = {
-    kind: Kind_CLASS,
-    interfaces: [View]
-  };
   function KpspemuMainScene$sceneInit$lambda_1(this$KpspemuMainScene_0) {
     return function (it, continuation_0, suspended) {
       var instance = new Coroutine$KpspemuMainScene$sceneInit$lambda_0(this$KpspemuMainScene_0, it, continuation_0);
@@ -1360,6 +1369,108 @@
       try {
         switch (this.state_0) {
           case 0:
+            return this.local$this$KpspemuMainScene.agRenderer.directFastSharpRendering = !this.local$this$KpspemuMainScene.agRenderer.directFastSharpRendering, Unit;
+          case 1:
+            throw this.exception_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  function KpspemuMainScene$sceneInit$lambda_2(this$KpspemuMainScene_0) {
+    return function (it_0, continuation_0, suspended) {
+      var instance = new Coroutine$KpspemuMainScene$sceneInit$lambda_1(this$KpspemuMainScene_0, it_0, continuation_0);
+      if (suspended)
+        return instance;
+      else
+        return instance.doResume(null);
+    };
+  }
+  function Coroutine$KpspemuMainScene$sceneInit$lambda_1(this$KpspemuMainScene_0, it_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.local$this$KpspemuMainScene = this$KpspemuMainScene_0;
+    this.local$it = it_0;
+  }
+  Coroutine$KpspemuMainScene$sceneInit$lambda_1.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$KpspemuMainScene$sceneInit$lambda_1.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$KpspemuMainScene$sceneInit$lambda_1.prototype.constructor = Coroutine$KpspemuMainScene$sceneInit$lambda_1;
+  Coroutine$KpspemuMainScene$sceneInit$lambda_1.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.local$this$KpspemuMainScene.paused = !this.local$this$KpspemuMainScene.paused;
+            return setText(this.local$it.view, this.local$this$KpspemuMainScene.paused ? 'Resume' : 'Pause'), Unit;
+          case 1:
+            throw this.exception_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  function KpspemuMainScene$sceneInit$ObjectLiteral(this$KpspemuMainScene, closure$getInfoText, closure$infoText, views) {
+    this.this$KpspemuMainScene = this$KpspemuMainScene;
+    this.closure$getInfoText = closure$getInfoText;
+    this.closure$infoText = closure$infoText;
+    View.call(this, views);
+  }
+  var numberToDouble = Kotlin.numberToDouble;
+  KpspemuMainScene$sceneInit$ObjectLiteral.prototype.getLocalBoundsInternal_2da8yn$$default = function (out) {
+    out.setTo_6y0v78$(numberToDouble(0), numberToDouble(0), numberToDouble(512), numberToDouble(272));
+  };
+  KpspemuMainScene$sceneInit$ObjectLiteral.prototype.render_edjgwy$ = function (ctx, m) {
+    this.this$KpspemuMainScene.agRenderer.render_edjgwy$(ctx, m);
+    this.closure$infoText.text = this.closure$getInfoText();
+  };
+  KpspemuMainScene$sceneInit$ObjectLiteral.$metadata$ = {
+    kind: Kind_CLASS,
+    interfaces: [View]
+  };
+  function KpspemuMainScene$sceneInit$lambda_3(this$KpspemuMainScene_0) {
+    return function (it, continuation_0, suspended) {
+      var instance = new Coroutine$KpspemuMainScene$sceneInit$lambda_2(this$KpspemuMainScene_0, it, continuation_0);
+      if (suspended)
+        return instance;
+      else
+        return instance.doResume(null);
+    };
+  }
+  function Coroutine$KpspemuMainScene$sceneInit$lambda_2(this$KpspemuMainScene_0, it, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.local$this$KpspemuMainScene = this$KpspemuMainScene_0;
+  }
+  Coroutine$KpspemuMainScene$sceneInit$lambda_2.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$KpspemuMainScene$sceneInit$lambda_2.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$KpspemuMainScene$sceneInit$lambda_2.prototype.constructor = Coroutine$KpspemuMainScene$sceneInit$lambda_2;
+  Coroutine$KpspemuMainScene$sceneInit$lambda_2.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
             this.state_0 = 2;
             this.result_0 = this.local$this$KpspemuMainScene.hudOpen(this);
             if (this.result_0 === COROUTINE_SUSPENDED)
@@ -1381,28 +1492,28 @@
       }
      while (true);
   };
-  function KpspemuMainScene$sceneInit$lambda_2(this$KpspemuMainScene_0) {
+  function KpspemuMainScene$sceneInit$lambda_4(this$KpspemuMainScene_0) {
     return function (it, continuation_0, suspended) {
-      var instance = new Coroutine$KpspemuMainScene$sceneInit$lambda_1(this$KpspemuMainScene_0, it, continuation_0);
+      var instance = new Coroutine$KpspemuMainScene$sceneInit$lambda_3(this$KpspemuMainScene_0, it, continuation_0);
       if (suspended)
         return instance;
       else
         return instance.doResume(null);
     };
   }
-  function Coroutine$KpspemuMainScene$sceneInit$lambda_1(this$KpspemuMainScene_0, it, continuation_0) {
+  function Coroutine$KpspemuMainScene$sceneInit$lambda_3(this$KpspemuMainScene_0, it, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
     this.exceptionState_0 = 1;
     this.local$this$KpspemuMainScene = this$KpspemuMainScene_0;
   }
-  Coroutine$KpspemuMainScene$sceneInit$lambda_1.$metadata$ = {
+  Coroutine$KpspemuMainScene$sceneInit$lambda_3.$metadata$ = {
     kind: Kotlin.Kind.CLASS,
     simpleName: null,
     interfaces: [CoroutineImpl]
   };
-  Coroutine$KpspemuMainScene$sceneInit$lambda_1.prototype = Object.create(CoroutineImpl.prototype);
-  Coroutine$KpspemuMainScene$sceneInit$lambda_1.prototype.constructor = Coroutine$KpspemuMainScene$sceneInit$lambda_1;
-  Coroutine$KpspemuMainScene$sceneInit$lambda_1.prototype.doResume = function () {
+  Coroutine$KpspemuMainScene$sceneInit$lambda_3.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$KpspemuMainScene$sceneInit$lambda_3.prototype.constructor = Coroutine$KpspemuMainScene$sceneInit$lambda_3;
+  Coroutine$KpspemuMainScene$sceneInit$lambda_3.prototype.doResume = function () {
     do
       try {
         switch (this.state_0) {
@@ -1428,28 +1539,28 @@
       }
      while (true);
   };
-  function KpspemuMainScene$sceneInit$lambda_3(this$KpspemuMainScene_0) {
+  function KpspemuMainScene$sceneInit$lambda_5(this$KpspemuMainScene_0) {
     return function (it, continuation_0, suspended) {
-      var instance = new Coroutine$KpspemuMainScene$sceneInit$lambda_2(this$KpspemuMainScene_0, it, continuation_0);
+      var instance = new Coroutine$KpspemuMainScene$sceneInit$lambda_4(this$KpspemuMainScene_0, it, continuation_0);
       if (suspended)
         return instance;
       else
         return instance.doResume(null);
     };
   }
-  function Coroutine$KpspemuMainScene$sceneInit$lambda_2(this$KpspemuMainScene_0, it, continuation_0) {
+  function Coroutine$KpspemuMainScene$sceneInit$lambda_4(this$KpspemuMainScene_0, it, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
     this.exceptionState_0 = 1;
     this.local$this$KpspemuMainScene = this$KpspemuMainScene_0;
   }
-  Coroutine$KpspemuMainScene$sceneInit$lambda_2.$metadata$ = {
+  Coroutine$KpspemuMainScene$sceneInit$lambda_4.$metadata$ = {
     kind: Kotlin.Kind.CLASS,
     simpleName: null,
     interfaces: [CoroutineImpl]
   };
-  Coroutine$KpspemuMainScene$sceneInit$lambda_2.prototype = Object.create(CoroutineImpl.prototype);
-  Coroutine$KpspemuMainScene$sceneInit$lambda_2.prototype.constructor = Coroutine$KpspemuMainScene$sceneInit$lambda_2;
-  Coroutine$KpspemuMainScene$sceneInit$lambda_2.prototype.doResume = function () {
+  Coroutine$KpspemuMainScene$sceneInit$lambda_4.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$KpspemuMainScene$sceneInit$lambda_4.prototype.constructor = Coroutine$KpspemuMainScene$sceneInit$lambda_4;
+  Coroutine$KpspemuMainScene$sceneInit$lambda_4.prototype.doResume = function () {
     do
       try {
         switch (this.state_0) {
@@ -1489,26 +1600,26 @@
       }
      while (true);
   };
-  function KpspemuMainScene$sceneInit$lambda_4(it_0, continuation_0, suspended) {
-    var instance = new Coroutine$KpspemuMainScene$sceneInit$lambda_3(it_0, continuation_0);
+  function KpspemuMainScene$sceneInit$lambda_6(it_0, continuation_0, suspended) {
+    var instance = new Coroutine$KpspemuMainScene$sceneInit$lambda_5(it_0, continuation_0);
     if (suspended)
       return instance;
     else
       return instance.doResume(null);
   }
-  function Coroutine$KpspemuMainScene$sceneInit$lambda_3(it_0, continuation_0) {
+  function Coroutine$KpspemuMainScene$sceneInit$lambda_5(it_0, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
     this.exceptionState_0 = 1;
     this.local$it = it_0;
   }
-  Coroutine$KpspemuMainScene$sceneInit$lambda_3.$metadata$ = {
+  Coroutine$KpspemuMainScene$sceneInit$lambda_5.$metadata$ = {
     kind: Kotlin.Kind.CLASS,
     simpleName: null,
     interfaces: [CoroutineImpl]
   };
-  Coroutine$KpspemuMainScene$sceneInit$lambda_3.prototype = Object.create(CoroutineImpl.prototype);
-  Coroutine$KpspemuMainScene$sceneInit$lambda_3.prototype.constructor = Coroutine$KpspemuMainScene$sceneInit$lambda_3;
-  Coroutine$KpspemuMainScene$sceneInit$lambda_3.prototype.doResume = function () {
+  Coroutine$KpspemuMainScene$sceneInit$lambda_5.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$KpspemuMainScene$sceneInit$lambda_5.prototype.constructor = Coroutine$KpspemuMainScene$sceneInit$lambda_5;
+  Coroutine$KpspemuMainScene$sceneInit$lambda_5.prototype.doResume = function () {
     do
       try {
         switch (this.state_0) {
@@ -1528,29 +1639,29 @@
       }
      while (true);
   };
-  function KpspemuMainScene$sceneInit$lambda_5(closure$updateKey_0) {
+  function KpspemuMainScene$sceneInit$lambda_7(closure$updateKey_0) {
     return function (it_0, continuation_0, suspended) {
-      var instance = new Coroutine$KpspemuMainScene$sceneInit$lambda_4(closure$updateKey_0, it_0, continuation_0);
+      var instance = new Coroutine$KpspemuMainScene$sceneInit$lambda_6(closure$updateKey_0, it_0, continuation_0);
       if (suspended)
         return instance;
       else
         return instance.doResume(null);
     };
   }
-  function Coroutine$KpspemuMainScene$sceneInit$lambda_4(closure$updateKey_0, it_0, continuation_0) {
+  function Coroutine$KpspemuMainScene$sceneInit$lambda_6(closure$updateKey_0, it_0, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
     this.exceptionState_0 = 1;
     this.local$closure$updateKey = closure$updateKey_0;
     this.local$it = it_0;
   }
-  Coroutine$KpspemuMainScene$sceneInit$lambda_4.$metadata$ = {
+  Coroutine$KpspemuMainScene$sceneInit$lambda_6.$metadata$ = {
     kind: Kotlin.Kind.CLASS,
     simpleName: null,
     interfaces: [CoroutineImpl]
   };
-  Coroutine$KpspemuMainScene$sceneInit$lambda_4.prototype = Object.create(CoroutineImpl.prototype);
-  Coroutine$KpspemuMainScene$sceneInit$lambda_4.prototype.constructor = Coroutine$KpspemuMainScene$sceneInit$lambda_4;
-  Coroutine$KpspemuMainScene$sceneInit$lambda_4.prototype.doResume = function () {
+  Coroutine$KpspemuMainScene$sceneInit$lambda_6.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$KpspemuMainScene$sceneInit$lambda_6.prototype.constructor = Coroutine$KpspemuMainScene$sceneInit$lambda_6;
+  Coroutine$KpspemuMainScene$sceneInit$lambda_6.prototype.doResume = function () {
     do
       try {
         switch (this.state_0) {
@@ -1570,29 +1681,29 @@
       }
      while (true);
   };
-  function KpspemuMainScene$sceneInit$lambda_6(closure$updateKey_0) {
+  function KpspemuMainScene$sceneInit$lambda_8(closure$updateKey_0) {
     return function (it_0, continuation_0, suspended) {
-      var instance = new Coroutine$KpspemuMainScene$sceneInit$lambda_5(closure$updateKey_0, it_0, continuation_0);
+      var instance = new Coroutine$KpspemuMainScene$sceneInit$lambda_7(closure$updateKey_0, it_0, continuation_0);
       if (suspended)
         return instance;
       else
         return instance.doResume(null);
     };
   }
-  function Coroutine$KpspemuMainScene$sceneInit$lambda_5(closure$updateKey_0, it_0, continuation_0) {
+  function Coroutine$KpspemuMainScene$sceneInit$lambda_7(closure$updateKey_0, it_0, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
     this.exceptionState_0 = 1;
     this.local$closure$updateKey = closure$updateKey_0;
     this.local$it = it_0;
   }
-  Coroutine$KpspemuMainScene$sceneInit$lambda_5.$metadata$ = {
+  Coroutine$KpspemuMainScene$sceneInit$lambda_7.$metadata$ = {
     kind: Kotlin.Kind.CLASS,
     simpleName: null,
     interfaces: [CoroutineImpl]
   };
-  Coroutine$KpspemuMainScene$sceneInit$lambda_5.prototype = Object.create(CoroutineImpl.prototype);
-  Coroutine$KpspemuMainScene$sceneInit$lambda_5.prototype.constructor = Coroutine$KpspemuMainScene$sceneInit$lambda_5;
-  Coroutine$KpspemuMainScene$sceneInit$lambda_5.prototype.doResume = function () {
+  Coroutine$KpspemuMainScene$sceneInit$lambda_7.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$KpspemuMainScene$sceneInit$lambda_7.prototype.constructor = Coroutine$KpspemuMainScene$sceneInit$lambda_7;
+  Coroutine$KpspemuMainScene$sceneInit$lambda_7.prototype.doResume = function () {
     do
       try {
         switch (this.state_0) {
@@ -1642,9 +1753,14 @@
         switch (this.state_0) {
           case 0:
             var tmp$;
-            println('KORIO: 0.15.3');
-            println('KORGE: 0.15.8');
-            println('KORUI: 0.15.7-SNAPSHOT');
+            println('KPSPEMU: 0.2.0-SNAPSHOT');
+            println('KLOCK: 0.2.0');
+            println('KORMA: 0.16.0');
+            println('KORIO: 0.16.0');
+            println('KORAG: 0.16.0');
+            println('KORAU: 0.16.0');
+            println('KORUI: 0.16.0');
+            println('KORGE: 0.16.0');
             if (util.OS.isJs)
               tmp$ = vfs.applicationVfs;
             else
@@ -1671,33 +1787,48 @@
             var keys = Kotlin.booleanArray(256);
             var updateKey = KpspemuMainScene$sceneInit$updateKey(keys, this.$this);
             this.$this.hud.alpha = 0.0;
-            var $receiver_0 = text(this.$this.views, this.$this.agRenderer.stats.toString(), 10.0, void 0, this.$this.hudFont);
+            var getInfoText = KpspemuMainScene$sceneInit$getInfoText(this.$this);
+            var $receiver_0 = text(this.$this.views, getInfoText(), 10.0, void 0, this.$this.hudFont);
             $receiver_0.x = 8.0;
-            $receiver_0.y = 40.0;
-            var statsText = $receiver_0;
-            this.$this.hud.plusAssign_l5rad2$(statsText);
+            $receiver_0.y = 8.0;
+            var infoText = $receiver_0;
+            this.$this.hud.plusAssign_l5rad2$(infoText);
             var tmp$_1 = this.$this.hud;
             var $receiver_1 = simpleButton(this.$this.views, 'Load...', void 0, void 0, this.$this.hudFont);
             $receiver_1.x = 8.0;
-            $receiver_1.y = 8.0;
+            $receiver_1.y = 272.0 - 32.0 * 1;
             var tmp$_2, tmp$_0_0;
             (tmp$_0_0 = (tmp$_2 = $receiver_1 != null ? get_mouse($receiver_1) : null) != null ? tmp$_2.onClick : null) != null ? addSuspend(tmp$_0_0, $receiver_1.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_0(this.$this)) : null;
             plusAssign(tmp$_1, $receiver_1);
-            var displayView = new KpspemuMainScene$sceneInit$ObjectLiteral(this.$this, statsText, this.$this.views);
+            var tmp$_3 = this.$this.hud;
+            var $receiver_2 = simpleButton(this.$this.views, 'Direct', void 0, void 0, this.$this.hudFont);
+            $receiver_2.x = 8.0;
+            $receiver_2.y = 272.0 - 32.0 * 2;
+            var tmp$_4, tmp$_0_1;
+            (tmp$_0_1 = (tmp$_4 = $receiver_2 != null ? get_mouse($receiver_2) : null) != null ? tmp$_4.onClick : null) != null ? addSuspend(tmp$_0_1, $receiver_2.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_1(this.$this)) : null;
+            plusAssign(tmp$_3, $receiver_2);
+            var tmp$_5 = this.$this.hud;
+            var $receiver_3 = simpleButton(this.$this.views, 'Pause', void 0, void 0, this.$this.hudFont);
+            $receiver_3.x = 8.0;
+            $receiver_3.y = 272.0 - 32.0 * 3;
+            var tmp$_6, tmp$_0_2;
+            (tmp$_0_2 = (tmp$_6 = $receiver_3 != null ? get_mouse($receiver_3) : null) != null ? tmp$_6.onClick : null) != null ? addSuspend(tmp$_0_2, $receiver_3.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_2(this.$this)) : null;
+            plusAssign(tmp$_5, $receiver_3);
+            var displayView = new KpspemuMainScene$sceneInit$ObjectLiteral(this.$this, getInfoText, infoText, this.$this.views);
             this.local$sceneView.plusAssign_l5rad2$(displayView);
             this.local$sceneView.plusAssign_l5rad2$(this.$this.hud);
-            var tmp$_3, tmp$_0_1;
-            (tmp$_0_1 = (tmp$_3 = this.local$sceneView != null ? get_mouse(this.local$sceneView) : null) != null ? tmp$_3.onMove : null) != null ? addSuspend(tmp$_0_1, this.local$sceneView.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_1(this.$this)) : null;
-            var tmp$_4, tmp$_0_2;
-            (tmp$_0_2 = (tmp$_4 = this.local$sceneView != null ? get_mouse(this.local$sceneView) : null) != null ? tmp$_4.onOut : null) != null ? addSuspend(tmp$_0_2, this.local$sceneView.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_2(this.$this)) : null;
-            var tmp$_5, tmp$_0_3;
-            (tmp$_0_3 = (tmp$_5 = this.local$sceneView != null ? get_mouse(this.local$sceneView) : null) != null ? tmp$_5.onClick : null) != null ? addSuspend(tmp$_0_3, this.local$sceneView.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_3(this.$this)) : null;
-            var tmp$_6, tmp$_0_4;
-            (tmp$_0_4 = (tmp$_6 = this.local$sceneView != null ? get_keys(this.local$sceneView) : null) != null ? tmp$_6.onKeyTyped : null) != null ? tmp$_0_4.add_25kf2w$(KpspemuMainScene$sceneInit$lambda_4) : null;
-            var tmp$_7, tmp$_0_5;
-            (tmp$_0_5 = (tmp$_7 = this.local$sceneView != null ? get_keys(this.local$sceneView) : null) != null ? tmp$_7.onKeyDown : null) != null ? tmp$_0_5.add_25kf2w$(KpspemuMainScene$sceneInit$lambda_5(updateKey)) : null;
-            var tmp$_8, tmp$_0_6;
-            (tmp$_0_6 = (tmp$_8 = this.local$sceneView != null ? get_keys(this.local$sceneView) : null) != null ? tmp$_8.onKeyUp : null) != null ? tmp$_0_6.add_25kf2w$(KpspemuMainScene$sceneInit$lambda_6(updateKey)) : null;
+            var tmp$_7, tmp$_0_3;
+            (tmp$_0_3 = (tmp$_7 = this.local$sceneView != null ? get_mouse(this.local$sceneView) : null) != null ? tmp$_7.onMove : null) != null ? addSuspend(tmp$_0_3, this.local$sceneView.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_3(this.$this)) : null;
+            var tmp$_8, tmp$_0_4;
+            (tmp$_0_4 = (tmp$_8 = this.local$sceneView != null ? get_mouse(this.local$sceneView) : null) != null ? tmp$_8.onOut : null) != null ? addSuspend(tmp$_0_4, this.local$sceneView.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_4(this.$this)) : null;
+            var tmp$_9, tmp$_0_5;
+            (tmp$_0_5 = (tmp$_9 = this.local$sceneView != null ? get_mouse(this.local$sceneView) : null) != null ? tmp$_9.onClick : null) != null ? addSuspend(tmp$_0_5, this.local$sceneView.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_5(this.$this)) : null;
+            var tmp$_10, tmp$_0_6;
+            (tmp$_0_6 = (tmp$_10 = this.local$sceneView != null ? get_keys(this.local$sceneView) : null) != null ? tmp$_10.onKeyTyped : null) != null ? tmp$_0_6.add_25kf2w$(KpspemuMainScene$sceneInit$lambda_6) : null;
+            var tmp$_11, tmp$_0_7;
+            (tmp$_0_7 = (tmp$_11 = this.local$sceneView != null ? get_keys(this.local$sceneView) : null) != null ? tmp$_11.onKeyDown : null) != null ? tmp$_0_7.add_25kf2w$(KpspemuMainScene$sceneInit$lambda_7(updateKey)) : null;
+            var tmp$_12, tmp$_0_8;
+            (tmp$_0_8 = (tmp$_12 = this.local$sceneView != null ? get_keys(this.local$sceneView) : null) != null ? tmp$_12.onKeyUp : null) != null ? tmp$_0_8.add_25kf2w$(KpspemuMainScene$sceneInit$lambda_8(updateKey)) : null;
             return;
         }
       }
@@ -1991,8 +2122,8 @@
     CoroutineImpl.call(this, continuation_0);
     this.exceptionState_0 = 1;
     this.local$tmp$_0 = void 0;
+    this.local$tmp$_2 = void 0;
     this.local$tmp$_3 = void 0;
-    this.local$tmp$_4 = void 0;
     this.local$iso = void 0;
     this.local$files = void 0;
     this.local$f = void 0;
@@ -2012,7 +2143,7 @@
         switch (this.state_0) {
           case 0:
             var tmp$;
-            var tmp$_0, tmp$_1;
+            var tmp$_0;
             tmp$ = this.local$file.extensionLC;
             if (equals(tmp$, 'elf') || equals(tmp$, 'prx') || equals(tmp$, 'bin')) {
               this.state_0 = 17;
@@ -2032,8 +2163,8 @@
               }
                else {
                 if (equals(tmp$, 'iso') || equals(tmp$, 'zip')) {
-                  tmp$_1 = this.local$file.extensionLC;
-                  if (equals(tmp$_1, 'iso')) {
+                  tmp$_0 = this.local$file.extensionLC;
+                  if (equals(tmp$_0, 'iso')) {
                     this.state_0 = 5;
                     this.result_0 = IsoVfs(this.local$file, this);
                     if (this.result_0 === COROUTINE_SUSPENDED)
@@ -2041,7 +2172,7 @@
                     break;
                   }
                    else {
-                    if (equals(tmp$_1, 'zip')) {
+                    if (equals(tmp$_0, 'zip')) {
                       this.state_0 = 2;
                       this.result_0 = this.local$file.open_7c7tmz$(void 0, this);
                       if (this.result_0 === COROUTINE_SUSPENDED)
@@ -2049,7 +2180,7 @@
                       break;
                     }
                      else {
-                      this.local$tmp$_3 = invalidOp('UNEXPECTED');
+                      this.local$tmp$_2 = invalidOp('UNEXPECTED');
                       this.state_0 = 4;
                       continue;
                     }
@@ -2072,30 +2203,30 @@
               return COROUTINE_SUSPENDED;
             break;
           case 3:
-            this.local$tmp$_3 = this.result_0;
+            this.local$tmp$_2 = this.result_0;
             this.state_0 = 4;
             continue;
           case 4:
             this.state_0 = 6;
             continue;
           case 5:
-            this.local$tmp$_3 = this.result_0;
+            this.local$tmp$_2 = this.result_0;
             this.state_0 = 6;
             continue;
           case 6:
-            this.local$iso = this.local$tmp$_3;
+            this.local$iso = this.local$tmp$_2;
             var paramSfo = this.local$iso.get_61zpoe$('PSP_GAME/PARAM.SFO');
             this.local$files = listOf([this.local$iso.get_61zpoe$('PSP_GAME/SYSDIR/BOOT.BIN'), this.local$iso.get_61zpoe$('EBOOT.ELF'), this.local$iso.get_61zpoe$('EBOOT.PBP')]);
-            this.local$tmp$_4 = this.local$files.iterator();
+            this.local$tmp$_3 = this.local$files.iterator();
             this.state_0 = 7;
             continue;
           case 7:
-            if (!this.local$tmp$_4.hasNext()) {
+            if (!this.local$tmp$_3.hasNext()) {
               this.state_0 = 11;
               continue;
             }
 
-            this.local$f = this.local$tmp$_4.next();
+            this.local$f = this.local$tmp$_3.next();
             this.state_0 = 8;
             this.result_0 = this.local$f.exists(this);
             if (this.result_0 === COROUTINE_SUSPENDED)
@@ -2140,7 +2271,7 @@
             break;
           case 14:
             this.state_0 = 15;
-            this.result_0 = loadExecutableAndStart(this.local$$receiver, asVfsFile((tmp$_0 = this.result_0.get_61zpoe$(Pbp$Companion_getInstance().PSP_DATA)) != null ? tmp$_0 : throwNPE(), 'executable.elf'), this);
+            this.result_0 = loadExecutableAndStart(this.local$$receiver, asVfsFile(ensureNotNull(this.result_0.get_61zpoe$(Pbp$Companion_getInstance().PSP_DATA)), 'executable.elf'), this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -5098,6 +5229,7 @@
     return this.disasm_w87lk9$(InstructionOpcodeDecoder_getInstance().invoke_za3lpa$(i), pc, i);
   };
   var StringBuilder_init = Kotlin.kotlin.text.StringBuilder_init_za3lpa$;
+  var throwNPE = Kotlin.throwNPE;
   Disassembler.prototype.disasm_w87lk9$ = function (op, pc, i) {
     var $receiver = op.format;
     var regex = this.PERCENT_REGEX_0;
@@ -5866,8 +5998,8 @@
     s.advance_pc_za3lpa$(4);
   };
   InstructionInterpreter.prototype.abs_s_11rb$ = function (s) {
-    var a = s.getFpr_za3lpa$(s.IR >>> 11 & 31);
-    s.setFpr_24o109$(s.IR >>> 6 & 31, Math_0.abs(a));
+    var x = s.getFpr_za3lpa$(s.IR >>> 11 & 31);
+    s.setFpr_24o109$(s.IR >>> 6 & 31, Math_0.abs(x));
     if (isNaN_0(s.getFpr_za3lpa$(s.IR >>> 6 & 31)))
       s.fcr31 = s.fcr31 | 65600;
     if (isInfinite(s.getFpr_za3lpa$(s.IR >>> 6 & 31)))
@@ -5875,8 +6007,8 @@
     s.advance_pc_za3lpa$(4);
   };
   InstructionInterpreter.prototype.sqrt_s_11rb$ = function (s) {
-    var a = s.getFpr_za3lpa$(s.IR >>> 11 & 31);
-    s.setFpr_24o109$(s.IR >>> 6 & 31, Math_0.sqrt(a));
+    var x = s.getFpr_za3lpa$(s.IR >>> 11 & 31);
+    s.setFpr_24o109$(s.IR >>> 6 & 31, Math_0.sqrt(x));
     if (isNaN_0(s.getFpr_za3lpa$(s.IR >>> 6 & 31)))
       s.fcr31 = s.fcr31 | 65600;
     if (isInfinite(s.getFpr_za3lpa$(s.IR >>> 6 & 31)))
@@ -14935,20 +15067,17 @@
   }
   Object.defineProperty(MemoryManager.prototype, 'kernelPartition', {
     get: function () {
-      var tmp$;
-      return (tmp$ = this.memoryPartitionsUid.get_11rb$(MemoryPartitions$Companion_getInstance().Kernel0)) != null ? tmp$ : throwNPE();
+      return ensureNotNull(this.memoryPartitionsUid.get_11rb$(MemoryPartitions$Companion_getInstance().Kernel0));
     }
   });
   Object.defineProperty(MemoryManager.prototype, 'userPartition', {
     get: function () {
-      var tmp$;
-      return (tmp$ = this.memoryPartitionsUid.get_11rb$(MemoryPartitions$Companion_getInstance().User)) != null ? tmp$ : throwNPE();
+      return ensureNotNull(this.memoryPartitionsUid.get_11rb$(MemoryPartitions$Companion_getInstance().User));
     }
   });
   Object.defineProperty(MemoryManager.prototype, 'stackPartition', {
     get: function () {
-      var tmp$;
-      return (tmp$ = this.memoryPartitionsUid.get_11rb$(MemoryPartitions$Companion_getInstance().UserStacks)) != null ? tmp$ : throwNPE();
+      return ensureNotNull(this.memoryPartitionsUid.get_11rb$(MemoryPartitions$Companion_getInstance().UserStacks));
     }
   });
   MemoryManager.$metadata$ = {
@@ -15993,7 +16122,7 @@
     if (level.index <= $this.processedLevel.index) {
       $this.actualLog_138x2s$(level, 'resolve:' + toString(path));
     }
-    return this._resolve_0(path != null ? path : throwNPE());
+    return this._resolve_0(ensureNotNull(path));
   };
   function IoFileMgrForUser$FileOpenFlags() {
     IoFileMgrForUser$FileOpenFlags_instance = this;
@@ -26000,9 +26129,12 @@
   package$kpspemu.get_rtc_gja2zf$ = get_rtc;
   package$kpspemu.get_threadManager_gja2zf$ = get_threadManager;
   package$kpspemu.get_callbackManager_gja2zf$ = get_callbackManager;
-  Object.defineProperty(package$kpspemu, 'DIRECT_FAST_SHARP_RENDERING', {
+  Object.defineProperty(package$kpspemu, 'Kpspemu', {
+    get: Kpspemu_getInstance
+  });
+  Object.defineProperty(package$kpspemu, 'KPSPEMU_VERSION', {
     get: function () {
-      return DIRECT_FAST_SHARP_RENDERING;
+      return KPSPEMU_VERSION;
     }
   });
   package$kpspemu.main_kand9s$ = main;
@@ -27142,7 +27274,7 @@
   ElfSectionHeaderFlags.prototype.hasFlag_fzutc1$ = Flags.prototype.hasFlag_fzutc1$;
   MemPtr.prototype.sdw_6svq3l$ = Ptr.prototype.sdw_6svq3l$;
   MemPtr.prototype.ldw_za3lpa$ = Ptr.prototype.ldw_za3lpa$;
-  DIRECT_FAST_SHARP_RENDERING = false;
+  KPSPEMU_VERSION = '0.2.0-SNAPSHOT';
   ADDR_TYPE_NONE = 0;
   ADDR_TYPE_REG = 1;
   ADDR_TYPE_16 = 2;
@@ -27171,5 +27303,3 @@
   Kotlin.defineModule('kpspemu', _);
   return _;
 }));
-
-//# sourceMappingURL=kpspemu.js.map
