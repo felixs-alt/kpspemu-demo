@@ -2249,6 +2249,7 @@
   var addSuspend = $module$korge_js.$$importsForInline$$['korio-js'].com.soywiz.korio.async.addSuspend_vumi11$;
   var SolidRect_init = $module$korge_js.com.soywiz.korge.view.SolidRect;
   var get_keys = $module$korge_js.com.soywiz.korge.input.get_keys_gohfi1$;
+  var trim_0 = Kotlin.kotlin.text.trim_gw00vp$;
   KpspemuMainScene.prototype.sceneInit_f3yb8w$ = function (sceneView_0, continuation_0, suspended) {
     var instance = new Coroutine$sceneInit_f3yb8w$(this, sceneView_0, continuation_0);
     if (suspended)
@@ -2358,16 +2359,24 @@
             (tmp$_0_7 = (tmp$_8 = this.local$sceneView != null ? get_keys(this.local$sceneView) : null) != null ? tmp$_8.onKeyUp : null) != null ? tmp$_0_7.add_25kf2w$(KpspemuMainScene$sceneInit$lambda_7(updateKey)) : null;
             if (util.OS.isBrowserJs) {
               var hash = trim(KPspEmuNative_getInstance().documentLocationHash, Kotlin.charArrayOf(35));
-              this.local$location = trim(hash, Kotlin.charArrayOf(35));
+              var $receiver_5 = trim(hash, Kotlin.charArrayOf(35));
+              var tmp$_9;
+              this.local$location = trim_0(Kotlin.isCharSequence(tmp$_9 = $receiver_5) ? tmp$_9 : throwCCE()).toString();
               println('Hash:' + hash + ', Location:' + this.local$location);
-              this.state_0 = 3;
-              this.result_0 = this.$this.hudCloseImmediate(this);
-              if (this.result_0 === COROUTINE_SUSPENDED)
-                return COROUTINE_SUSPENDED;
-              break;
+              if (this.local$location.length > 0) {
+                this.state_0 = 3;
+                this.result_0 = this.$this.hudCloseImmediate(this);
+                if (this.result_0 === COROUTINE_SUSPENDED)
+                  return COROUTINE_SUSPENDED;
+                break;
+              }
+               else {
+                this.state_0 = 5;
+                continue;
+              }
             }
              else {
-              this.state_0 = 5;
+              this.state_0 = 6;
               continue;
             }
 
@@ -2381,6 +2390,9 @@
             this.state_0 = 5;
             continue;
           case 5:
+            this.state_0 = 6;
+            continue;
+          case 6:
             return;
         }
       }
