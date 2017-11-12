@@ -828,6 +828,11 @@
       var vr = new VertexReader();
       tmp$_6.call($this_6, level_6, '' + toString(vr.read_75t58$(batch.vtype, batch.vertices.length / batch.vtype.size | 0, openSync(batch.vertices))));
     }
+    var $this_7 = this.logger;
+    var level_7 = LogLevel.TRACE;
+    if (level_7.index <= $this_7.processedLevel.index) {
+      $this_7.actualLog_t189ph$(level_7, 'texture: ' + batch.hasTexture() + ' : ' + batch.getTextureId() + ' : ' + get_hex(batch.state.texture.mipmap.address));
+    }
     if (state.clearing) {
       var fixedDepth = state.depthTest.rangeNear;
       this.renderState_0.depthNear = fixedDepth;
@@ -836,7 +841,14 @@
       this.renderState_0.depthFunc = AG$CompareMode.ALWAYS;
       batch.modelViewProjMatrix.setToOrtho_w8lrqs$(0.0, 272.0, 480.0, 0.0, -65535, 0.0);
       var vertex = this.vr_0.readOne_h7y9mx$(openSync(batch.vertices), batch.vtype, this.vv_0);
-      ag.clear_2lepo2$(vertex.color, fixedDepth, state.stencil.funcRef, hasFlag(state.clearFlags, ClearBufferSet_getInstance().ColorBuffer), hasFlag(state.clearFlags, ClearBufferSet_getInstance().DepthBuffer), hasFlag(state.clearFlags, ClearBufferSet_getInstance().StencilBuffer));
+      var clearFlags = state.clearFlags;
+      var clearColor = vertex.color;
+      var clearDepth = fixedDepth;
+      var clearStencil = state.stencil.funcRef;
+      var mustClearColor = hasFlag(clearFlags, ClearBufferSet_getInstance().ColorBuffer);
+      var mustClearDepth = hasFlag(clearFlags, ClearBufferSet_getInstance().DepthBuffer);
+      var mustClearStencil = hasFlag(clearFlags, ClearBufferSet_getInstance().StencilBuffer);
+      ag.clear_2lepo2$(clearColor, clearDepth, clearStencil, mustClearColor, mustClearDepth, mustClearStencil);
       return;
     }
     this.renderState_0.depthNear = state.depthTest.rangeFar;
@@ -15948,17 +15960,7 @@
     out = nextAlignedTo_0(out, this.pos.nbytes);
     this.posOffset = out;
     out = out + this.positionSize | 0;
-    var tmp$ = out;
-    var a = this.weight.nbytes;
-    var b = this.tex.nbytes;
-    var a_0 = Math_0.max(a, b);
-    var b_0 = this.col.nbytes;
-    var a_1 = Math_0.max(a_0, b_0);
-    var b_1 = this.normal.nbytes;
-    var a_2 = Math_0.max(a_1, b_1);
-    var b_2 = this.pos.nbytes;
-    out = nextAlignedTo_0(tmp$, Math_0.max(a_2, b_2));
-    this.size = out;
+    this.size = nextAlignedTo_0(out, max_5(this.weight.nbytes, this.tex.nbytes, this.col.nbytes, this.normal.nbytes, this.pos.nbytes));
     return this;
   };
   VertexType.prototype.toString = function () {
@@ -16059,7 +16061,7 @@
   VertexReader.prototype.readShorts_0 = function ($receiver, count, out, normalized) {
     if (out === void 0)
       out = new Float32Array(4);
-    skipToAlign($receiver, 4);
+    skipToAlign($receiver, 2);
     if (normalized) {
       for (var n = 0; n < count; n++)
         out[n] = readS16_le_0($receiver) / 32767;
@@ -16088,6 +16090,8 @@
       tmp$ = color.RGB_565.packRGBA_za3lpa$(readU16_le($receiver));
     else if (equals(type, ColorEnum$COLOR8888_getInstance()))
       tmp$ = readS32_le_0($receiver);
+    else if (equals(type, ColorEnum$VOID_getInstance()))
+      tmp$ = 0;
     else {
       throw new NotImplementedError_init();
     }
@@ -16120,15 +16124,7 @@
     this.readNumericType_3c2pba$(s, type.normalComponents, type.normal, out.normal, false);
     safeSkipToAlign(s, type.pos.nbytes);
     this.readNumericType_3c2pba$(s, type.posComponents, type.pos, out.pos, false);
-    var a = type.weight.nbytes;
-    var b = type.tex.nbytes;
-    var a_0 = Math_0.max(a, b);
-    var b_0 = type.col.nbytes;
-    var a_1 = Math_0.max(a_0, b_0);
-    var b_1 = type.normal.nbytes;
-    var a_2 = Math_0.max(a_1, b_1);
-    var b_2 = type.pos.nbytes;
-    safeSkipToAlign(s, Math_0.max(a_2, b_2));
+    safeSkipToAlign(s, max_5(type.weight.nbytes, type.tex.nbytes, type.col.nbytes, type.normal.nbytes, type.pos.nbytes));
     return out;
   };
   VertexReader.prototype.read_75t58$ = function (type, count, s) {
@@ -16175,7 +16171,7 @@
       }
        else if (tmp$ === 8) {
         var m_0 = 0;
-        tmp$_3 = $receiver.area / 2 | 0;
+        tmp$_3 = $receiver.area;
         for (var n_0 = 0; n_0 < tmp$_3; n_0++) {
           var byte_0 = colorData[n_0];
           $receiver.data[tmp$_4 = m_0, m_0 = tmp$_4 + 1 | 0, tmp$_4] = colors[byte_0 >>> 0 & 255];
@@ -33374,6 +33370,36 @@
     simpleName: 'DosFileDateTime',
     interfaces: []
   };
+  function max_0(a, b, c) {
+    var a_0 = Math_0.max(a, b);
+    return Math_0.max(a_0, c);
+  }
+  function max_1(a, b, c, d) {
+    var a_0 = Math_0.max(a, b);
+    var a_1 = Math_0.max(a_0, c);
+    return Math_0.max(a_1, d);
+  }
+  function max_2(a, b, c, d, e) {
+    var a_0 = Math_0.max(a, b);
+    var a_1 = Math_0.max(a_0, c);
+    var a_2 = Math_0.max(a_1, d);
+    return Math_0.max(a_2, e);
+  }
+  function max_3(a, b, c) {
+    var a_0 = Math_0.max(a, b);
+    return Math_0.max(a_0, c);
+  }
+  function max_4(a, b, c, d) {
+    var a_0 = Math_0.max(a, b);
+    var a_1 = Math_0.max(a_0, c);
+    return Math_0.max(a_1, d);
+  }
+  function max_5(a, b, c, d, e) {
+    var a_0 = Math_0.max(a, b);
+    var a_1 = Math_0.max(a_0, c);
+    var a_2 = Math_0.max(a_1, d);
+    return Math_0.max(a_2, e);
+  }
   function KPspEmuNative() {
     KPspEmuNative_instance = this;
   }
@@ -34600,6 +34626,12 @@
   package$io.MountableVfsSync_d8a1fi$ = MountableVfsSync;
   package$io.MountableSync = MountableSync;
   package$io.ZipVfs2_960o6l$ = ZipVfs2;
+  package$util.max_y2kzbl$ = max_0;
+  package$util.max_7b5o5w$ = max_1;
+  package$util.max_s2l86p$ = max_2;
+  package$util.max_qt1dr2$ = max_3;
+  package$util.max_tjonv8$ = max_4;
+  package$util.max_4qozqa$ = max_5;
   Object.defineProperty(package$native, 'KPspEmuNative', {
     get: KPspEmuNative_getInstance
   });
