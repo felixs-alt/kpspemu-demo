@@ -203,6 +203,7 @@
   var copyOf = Kotlin.kotlin.collections.copyOf_mrm5p$;
   var copyOf_0 = Kotlin.kotlin.collections.copyOf_m2jy6x$;
   var toShort = Kotlin.toShort;
+  var FastMemory = $module$kmem_js.com.soywiz.kmem.FastMemory;
   var contentHashCode = Kotlin.arrayHashCode;
   var extractScaledf01 = $module$korio_js.com.soywiz.korio.util.extractScaledf01_e4yvb3$;
   var arraycopy_0 = $module$kmem_js.com.soywiz.kmem.arraycopy_lvhpry$;
@@ -253,7 +254,6 @@
   var SyncStreamBase = $module$korio_js.com.soywiz.korio.stream.SyncStreamBase;
   var SyncStream = $module$korio_js.com.soywiz.korio.stream.SyncStream;
   var arraycopy_1 = $module$kmem_js.com.soywiz.kmem.arraycopy_mwgkm6$;
-  var FastMemory = $module$kmem_js.com.soywiz.kmem.FastMemory;
   var ByteArrayBuilderSmall_init = $module$korio_js.com.soywiz.korio.stream.ByteArrayBuilderSmall_init_za3lpa$;
   var toSyncStream = $module$korio_js.com.soywiz.korio.stream.toSyncStream_wrqxjw$;
   var LocalVfs = $module$korio_js.com.soywiz.korio.vfs.LocalVfs_61zpoe$;
@@ -483,6 +483,10 @@
   StdioForUser.prototype.constructor = StdioForUser;
   SysMemUserForUser.prototype = Object.create(SceModule.prototype);
   SysMemUserForUser.prototype.constructor = SysMemUserForUser;
+  ThreadManForUser$Semaphore.prototype = Object.create(Resource.prototype);
+  ThreadManForUser$Semaphore.prototype.constructor = ThreadManForUser$Semaphore;
+  ThreadManForUser$SemaphoreManager.prototype = Object.create(Manager.prototype);
+  ThreadManForUser$SemaphoreManager.prototype.constructor = ThreadManForUser$SemaphoreManager;
   ThreadManForUser.prototype = Object.create(SceModule.prototype);
   ThreadManForUser.prototype.constructor = ThreadManForUser;
   UtilsForKernel.prototype = Object.create(SceModule.prototype);
@@ -501,6 +505,8 @@
   sceDmac.prototype.constructor = sceDmac;
   sceGe_user.prototype = Object.create(SceModule.prototype);
   sceGe_user.prototype.constructor = sceGe_user;
+  sceHprm.prototype = Object.create(SceModule.prototype);
+  sceHprm.prototype.constructor = sceHprm;
   sceImpose.prototype = Object.create(SceModule.prototype);
   sceImpose.prototype.constructor = sceImpose;
   sceMpeg.prototype = Object.create(SceModule.prototype);
@@ -849,7 +855,6 @@
       var mustClearDepth = hasFlag(clearFlags, ClearBufferSet_getInstance().DepthBuffer);
       var mustClearStencil = hasFlag(clearFlags, ClearBufferSet_getInstance().StencilBuffer);
       ag.clear_2lepo2$(clearColor, clearDepth, clearStencil, mustClearColor, mustClearDepth, mustClearStencil);
-      return;
     }
     this.renderState_0.depthNear = state.depthTest.rangeFar;
     this.renderState_0.depthFar = state.depthTest.rangeNear;
@@ -2334,7 +2339,7 @@
             throw this.exception_0;
           case 2:
             this.$this.emulator = this.result_0;
-            println('KPSPEMU: 0.3.0-SNAPSHOT');
+            println('KPSPEMU: 0.3.1-SNAPSHOT');
             println('KORINJECT: 0.0.2-SNAPSHOT');
             println('KMEM: 0.1.0');
             println('KLOCK: 0.2.2');
@@ -2980,7 +2985,10 @@
     this.local$tmp$_2 = void 0;
     this.local$iso = void 0;
     this.local$files = void 0;
-    this.local$f = void 0;
+    this.local$destination = void 0;
+    this.local$tmp$_3 = void 0;
+    this.local$element = void 0;
+    this.local$closure$continuation = void 0;
     this.local$$receiver = $receiver_0;
     this.local$file = file_0;
     this.local$magic = magic_0;
@@ -3009,7 +3017,7 @@
               tmp$ = this.local$file.extensionLC;
             var extension = tmp$;
             if (equals(extension, 'elf') || equals(extension, 'prx') || equals(extension, 'bin')) {
-              this.state_0 = 20;
+              this.state_0 = 21;
               this.result_0 = this.local$file.readAll(this);
               if (this.result_0 === COROUTINE_SUSPENDED)
                 return COROUTINE_SUSPENDED;
@@ -3018,7 +3026,7 @@
              else {
               if (equals(extension, 'pbp')) {
                 this.local$tmp$_0 = Pbp$Companion_getInstance();
-                this.state_0 = 16;
+                this.state_0 = 17;
                 this.result_0 = this.local$file.open_7c7tmz$(void 0, this);
                 if (this.result_0 === COROUTINE_SUSPENDED)
                   return COROUTINE_SUSPENDED;
@@ -3026,7 +3034,7 @@
               }
                else {
                 if (equals(extension, 'cso') || equals(extension, 'ciso')) {
-                  this.state_0 = 13;
+                  this.state_0 = 14;
                   this.result_0 = openAsCso_0(this.local$file, this);
                   if (this.result_0 === COROUTINE_SUSPENDED)
                     return COROUTINE_SUSPENDED;
@@ -3058,7 +3066,7 @@
                   }
                    else {
                     invalidOp("Don't know how to load executable file " + this.local$file);
-                    this.state_0 = 12;
+                    this.state_0 = 13;
                     continue;
                   }
                 }
@@ -3088,84 +3096,102 @@
             this.local$iso = this.local$tmp$_1;
             var paramSfo = this.local$iso.get_61zpoe$('PSP_GAME/PARAM.SFO');
             this.local$files = listOf([this.local$iso.get_61zpoe$('PSP_GAME/SYSDIR/BOOT.BIN'), this.local$iso.get_61zpoe$('EBOOT.ELF'), this.local$iso.get_61zpoe$('EBOOT.PBP')]);
-            this.local$tmp$_2 = this.local$files.iterator();
+            this.local$destination = ArrayList_init();
+            this.local$tmp$_3 = this.local$files.iterator();
             this.state_0 = 7;
             continue;
           case 7:
-            if (!this.local$tmp$_2.hasNext()) {
-              this.state_0 = 11;
+            if (!this.local$tmp$_3.hasNext()) {
+              this.state_0 = 9;
               continue;
             }
 
-            this.local$f = this.local$tmp$_2.next();
+            this.local$element = this.local$tmp$_3.next();
+            this.local$closure$continuation = this;
             this.state_0 = 8;
-            this.result_0 = this.local$f.exists(this);
+            this.result_0 = this.local$element.exists(this.local$closure$continuation);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
           case 8:
-            if (this.result_0) {
-              if (this.local$f.parent.path.length === 0) {
-                this.local$$receiver.fileManager.currentDirectory = 'umd0:/';
-                this.local$$receiver.deviceManager.mount_hem4eq$(this.local$$receiver.fileManager.currentDirectory, this.local$iso);
-                this.local$$receiver.deviceManager.mount_hem4eq$('game0:/', this.local$iso);
-                this.local$$receiver.deviceManager.mount_hem4eq$('umd0:/', this.local$iso);
-                this.local$$receiver.deviceManager.mount_hem4eq$('ms0:/PSP/GAME/virtual', this.local$iso);
-              }
-              this.state_0 = 9;
-              this.result_0 = loadExecutableAndStartInternal(this.local$$receiver, this.local$f, this);
-              if (this.result_0 === COROUTINE_SUSPENDED)
-                return COROUTINE_SUSPENDED;
-              break;
-            }
-             else {
-              this.state_0 = 10;
+            if (this.local$closure$continuation.result_0)
+              this.local$destination.add_11rb$(this.local$element);
+            this.state_0 = 7;
+            continue;
+          case 9:
+            this.local$tmp$_2 = this.local$destination.iterator();
+            this.state_0 = 10;
+            continue;
+          case 10:
+            if (!this.local$tmp$_2.hasNext()) {
+              this.state_0 = 12;
               continue;
             }
 
-          case 9:
-            return this.result_0;
-          case 10:
-            this.state_0 = 7;
-            continue;
+            var f = this.local$tmp$_2.next();
+            var ebootInRoot = f.parent.path.length === 0;
+            var $this = this.local$$receiver.logger;
+            var level = LogLevel.INFO;
+            if (level.index <= $this.processedLevel.index) {
+              $this.actualLog_t189ph$(level, 'ebootInRoot: ' + ebootInRoot);
+            }
+
+            if (ebootInRoot) {
+              this.local$$receiver.fileManager.currentDirectory = 'ms0:/PSP/GAME/virtual';
+              this.local$$receiver.deviceManager.mount_hem4eq$(this.local$$receiver.fileManager.currentDirectory, this.local$iso);
+            }
+             else {
+              this.local$$receiver.fileManager.currentDirectory = 'umd0:';
+              this.local$$receiver.deviceManager.mount_hem4eq$('game0:', this.local$iso);
+              this.local$$receiver.deviceManager.mount_hem4eq$('disc0:', this.local$iso);
+              this.local$$receiver.deviceManager.mount_hem4eq$(this.local$$receiver.fileManager.currentDirectory, this.local$iso);
+            }
+
+            this.state_0 = 11;
+            this.result_0 = loadExecutableAndStartInternal(this.local$$receiver, f, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
           case 11:
-            invalidOp("Can't find any possible executalbe in ISO (" + this.local$files + ')');
-            this.state_0 = 12;
-            continue;
+            return this.result_0;
           case 12:
-            this.state_0 = 15;
+            invalidOp("Can't find any possible executalbe in ISO (" + this.local$files + ')');
+            this.state_0 = 13;
             continue;
           case 13:
-            this.state_0 = 14;
+            this.state_0 = 16;
+            continue;
+          case 14:
+            this.state_0 = 15;
             this.result_0 = loadExecutableAndStartInternal(this.local$$receiver, asVfsFile(this.result_0, this.local$file.pathInfo.pathWithExtension_61zpoe$('cso.iso')), this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
-          case 14:
-            return this.result_0;
           case 15:
-            this.state_0 = 19;
-            continue;
+            return this.result_0;
           case 16:
-            this.state_0 = 17;
+            this.state_0 = 20;
+            continue;
+          case 17:
+            this.state_0 = 18;
             this.result_0 = this.local$tmp$_0.load_axnxby$(this.result_0, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
-          case 17:
-            this.state_0 = 18;
+          case 18:
+            this.state_0 = 19;
             this.result_0 = loadExecutableAndStartInternal(this.local$$receiver, asVfsFile(ensureNotNull(this.result_0.get_61zpoe$(Pbp$Companion_getInstance().PSP_DATA)), 'executable.elf'), this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
-          case 18:
-            return this.result_0;
           case 19:
-            this.state_0 = 21;
-            continue;
+            return this.result_0;
           case 20:
-            return loadElfAndSetRegisters(this.local$$receiver, openSync(this.result_0));
+            this.state_0 = 22;
+            continue;
           case 21:
+            return loadElfAndSetRegisters(this.local$$receiver, openSync(this.result_0));
+          case 22:
             return;
         }
       }
@@ -6618,8 +6644,15 @@
     s._nPC = s._nPC + 4 | 0;
   };
   InstructionInterpreter.prototype.divu_11rb$ = function (s) {
-    s.LO = udiv(s.getGpr_za3lpa$(s.IR >>> 21 & 31), s.getGpr_za3lpa$(s.IR >>> 16 & 31));
-    s.HI = urem(s.getGpr_za3lpa$(s.IR >>> 21 & 31), s.getGpr_za3lpa$(s.IR >>> 16 & 31));
+    var d = s.getGpr_za3lpa$(s.IR >>> 16 & 31);
+    if (d !== 0) {
+      s.LO = udiv(s.getGpr_za3lpa$(s.IR >>> 21 & 31), d);
+      s.HI = urem(s.getGpr_za3lpa$(s.IR >>> 21 & 31), d);
+    }
+     else {
+      s.LO = 0;
+      s.HI = 0;
+    }
     s._PC = s._nPC;
     s._nPC = s._nPC + 4 | 0;
   };
@@ -7991,6 +8024,7 @@
     }
     this.frames = destination;
     this.frameIndex = 0;
+    this.lastLatchData = new PspController$Frame();
   }
   Object.defineProperty(PspController.prototype, 'emulator', {
     get: function () {
@@ -11945,7 +11979,7 @@
       }
       var texWidth = mipmap.bufferWidth;
       var texHeight = mipmap.textureHeight;
-      return setTo(new Bitmap32(texWidth, texHeight), texture.pixelFormat, colorData, clutData, clutFormat, clutColors);
+      return setTo(new Bitmap32(texWidth, texHeight), texture.pixelFormat, colorData, clutData, clutFormat, clutColors, texture.swizzled, texWidth, texHeight);
     }
      else {
       return null;
@@ -11984,9 +12018,13 @@
     this.vertexType = new VertexType(-1);
     this.vertexCount = 0;
     this.vertexSize = 0;
-    this.vertexBuffer = new Int8Array(65536 * 16 | 0);
+    this.vertexBuffer = new Int8Array(262144 * 16 | 0);
+    this.vertexBufferMem = FastMemory.Companion.wrap_fqrh44$(this.vertexBuffer);
+    this.vertexBufferI8 = this.vertexBufferMem.i8;
+    this.vertexBufferI16 = this.vertexBufferMem.i16;
+    this.vertexBufferI32 = this.vertexBufferMem.i32;
     this.vertexBufferPos = 0;
-    this.indexBuffer = new Int16Array(65536);
+    this.indexBuffer = new Int16Array(262144);
     this.indexBufferPos = 0;
     this.texVersion = 0;
   }
@@ -12067,30 +12105,54 @@
     var texSize = this.vertexType.tex.nbytes;
     var texOffsetX = this.vertexType.texOffset;
     var texOffsetY = this.vertexType.texOffset + texSize | 0;
-    this.mem.read_3fge6q$(this.state.vertexAddress, this.vertexBuffer, this.vertexBufferPos, Kotlin.imul(nsprites, vertexSize_2));
-    tmp$_5 = this.state;
-    tmp$_5.vertexAddress = tmp$_5.vertexAddress + Kotlin.imul(nsprites, vertexSize_2) | 0;
+    var colSize = this.vertexType.colSize;
+    var colOffset = this.vertexType.colOffset;
     var svpos = this.vertexBufferPos;
     var dvpos = this.vertexBufferPos + Kotlin.imul(nsprites, vertexSize_2) | 0;
+    this.mem.read_3fge6q$(this.state.vertexAddress, this.vertexBuffer, svpos, Kotlin.imul(nsprites, vertexSize_2));
+    this.mem.read_3fge6q$(this.state.vertexAddress, this.vertexBuffer, dvpos, Kotlin.imul(nsprites, vertexSize_2));
+    tmp$_5 = this.state;
+    tmp$_5.vertexAddress = tmp$_5.vertexAddress + Kotlin.imul(nsprites, vertexSize_2) | 0;
     for (var n_0 = 0; n_0 < nsprites; n_0++) {
       var TLpos = svpos + Kotlin.imul(n_0, vertexSize_2) | 0;
       var BRpos = TLpos + vertexSize_1 | 0;
+      var ssvpos = svpos + Kotlin.imul(n_0, vertexSize_2) | 0;
       var dsvpos = dvpos + Kotlin.imul(n_0, vertexSize_2) | 0;
-      this.putGenVertex_0(dsvpos + vertexSize_0 | 0, BRpos, TLpos, BRpos, posSize, posOffsetX, posOffsetY, texSize, texOffsetX, texOffsetY);
-      this.putGenVertex_0(dsvpos + vertexSize_1 | 0, BRpos, BRpos, TLpos, posSize, posOffsetX, posOffsetY, texSize, texOffsetX, texOffsetY);
+      this.putGenVertexColor_0(ssvpos + vertexSize_0 | 0, BRpos, TLpos, TLpos, posSize, posOffsetX, posOffsetY, texSize, texOffsetX, texOffsetY, colOffset, colSize);
+      this.putGenVertexColor_0(ssvpos + vertexSize_1 | 0, BRpos, BRpos, BRpos, posSize, posOffsetX, posOffsetY, texSize, texOffsetX, texOffsetY, colOffset, colSize);
+      this.putGenVertex_0(dsvpos + vertexSize_0 | 0, BRpos, TLpos, BRpos, posSize, posOffsetX, posOffsetY, texSize, texOffsetX, texOffsetY, colOffset, colSize);
+      this.putGenVertex_0(dsvpos + vertexSize_1 | 0, BRpos, BRpos, TLpos, posSize, posOffsetX, posOffsetY, texSize, texOffsetX, texOffsetY, colOffset, colSize);
     }
     this.vertexCount = this.vertexCount + (nsprites * 4 | 0) | 0;
     this.vertexBufferPos = this.vertexBufferPos + (Kotlin.imul(nsprites, this.vertexSize) * 4 | 0) | 0;
   };
-  GeBatchBuilder.prototype.putGenVertex_0 = function (dest, base, gx, gy, posSize, posOffsetX, posOffsetY, texSize, texOffsetX, texOffsetY) {
-    arraycopy(this.vertexBuffer, base, this.vertexBuffer, dest, this.vertexSize);
+  GeBatchBuilder.prototype.putGenVertex_0 = function (dest, base, gx, gy, posSize, posOffsetX, posOffsetY, texSize, texOffsetX, texOffsetY, colOffset, colSize) {
+    if (this.vertexType.hasColor) {
+      this.smallVBCopy_0(base + colOffset | 0, dest + colOffset | 0, colSize);
+    }
     if (this.vertexType.hasPosition) {
-      arraycopy(this.vertexBuffer, gx + posOffsetX | 0, this.vertexBuffer, dest + posOffsetX | 0, posSize);
-      arraycopy(this.vertexBuffer, gy + posOffsetY | 0, this.vertexBuffer, dest + posOffsetY | 0, posSize);
+      this.smallVBCopy_0(gx + posOffsetX | 0, dest + posOffsetX | 0, posSize);
+      this.smallVBCopy_0(gy + posOffsetY | 0, dest + posOffsetY | 0, posSize);
     }
     if (this.vertexType.hasTexture) {
-      arraycopy(this.vertexBuffer, gx + texOffsetX | 0, this.vertexBuffer, dest + texOffsetX | 0, texSize);
-      arraycopy(this.vertexBuffer, gy + texOffsetY | 0, this.vertexBuffer, dest + texOffsetY | 0, texSize);
+      this.smallVBCopy_0(gx + texOffsetX | 0, dest + texOffsetX | 0, texSize);
+      this.smallVBCopy_0(gy + texOffsetY | 0, dest + texOffsetY | 0, texSize);
+    }
+  };
+  GeBatchBuilder.prototype.putGenVertexColor_0 = function (dest, base, gx, gy, posSize, posOffsetX, posOffsetY, texSize, texOffsetX, texOffsetY, colOffset, colSize) {
+    if (this.vertexType.hasColor) {
+      this.smallVBCopy_0(base + colOffset | 0, dest + colOffset | 0, colSize);
+    }
+  };
+  GeBatchBuilder.prototype.smallVBCopy_0 = function (src, dst, size) {
+    if (size === 1) {
+      this.vertexBufferI8[dst] = this.vertexBufferI8[src];
+    }
+     else if (size === 2) {
+      this.vertexBufferI16[dst >>> 1] = this.vertexBufferI16[src >>> 1];
+    }
+     else if (size === 4) {
+      this.vertexBufferI32[dst >>> 2] = this.vertexBufferI32[src >>> 2];
     }
   };
   GeBatchBuilder.prototype.addIndicesNormal_za3lpa$ = function (count) {
@@ -14103,9 +14165,14 @@
     }
     if (op === GeOpCodes_getInstance().PRIM)
       this.prim_0(p);
-    else if (op === GeOpCodes_getInstance().BEZIER)
-      println('BEZIER');
-    else if (op === GeOpCodes_getInstance().END) {
+    else if (op === GeOpCodes_getInstance().BEZIER) {
+      var $this_0 = this.logger;
+      var level_0 = LogLevel.INFO;
+      if (level_0.index <= $this_0.processedLevel.index) {
+        $this_0.actualLog_t189ph$(level_0, 'Not implemented BEZIER');
+      }
+    }
+     else if (op === GeOpCodes_getInstance().END) {
       this.bb.flush();
       this.completed = true;
     }
@@ -15877,7 +15944,7 @@
       return 2;
     }
   });
-  Object.defineProperty(VertexType.prototype, 'colorSize', {
+  Object.defineProperty(VertexType.prototype, 'colSize', {
     get: function () {
       return this.col.nbytes;
     }
@@ -15953,7 +16020,7 @@
     out = out + this.textureSize | 0;
     out = nextAlignedTo_0(out, this.col.nbytes);
     this.colOffset = out;
-    out = out + this.colorSize | 0;
+    out = out + this.colSize | 0;
     out = nextAlignedTo_0(out, this.normal.nbytes);
     this.normalOffset = out;
     out = out + this.normalSize | 0;
@@ -16147,14 +16214,23 @@
     if (alignment !== 0)
       skipToAlign($receiver, alignment);
   }
-  function setTo($receiver, colorFormat, colorData, clutData, clutFormat, clutColors) {
+  function setTo($receiver, colorFormat, colorData, clutData, clutFormat, clutColors, swizzled, width, height) {
     if (clutData === void 0)
       clutData = null;
     if (clutFormat === void 0)
       clutFormat = null;
     if (clutColors === void 0)
       clutColors = 0;
+    if (swizzled === void 0)
+      swizzled = false;
+    if (width === void 0)
+      width = 0;
+    if (height === void 0)
+      height = 0;
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4;
+    if (swizzled) {
+      unswizzleInline(colorFormat, colorData, width, height);
+    }
     if (colorFormat.requireClut) {
       var clutBmp = new Bitmap32(clutColors, 1);
       setTo(clutBmp, ensureNotNull(clutFormat), ensureNotNull(clutData));
@@ -16186,6 +16262,37 @@
       throw new NotImplementedError_init('An operation is not implemented: ' + 'Unsupported DXT');
     }
     return $receiver;
+  }
+  function unswizzleInline(format, from, width, height) {
+    var rowWidth = format.getSizeInBytes_za3lpa$(width);
+    var textureHeight = height;
+    var size = Kotlin.imul(rowWidth, textureHeight);
+    var temp = new Int8Array(size);
+    unswizzle(from, temp, rowWidth, textureHeight);
+    arraycopy(temp, 0, from, 0, size);
+  }
+  function unswizzle(input, output, rowWidth, textureHeight) {
+    var tmp$, tmp$_0;
+    var pitch = (rowWidth - 16 | 0) / 4 | 0;
+    var bxc = rowWidth / 16 | 0;
+    var byc = textureHeight / 8 | 0;
+    var pitch4 = pitch * 4 | 0;
+    var src = 0;
+    var ydest = 0;
+    for (var by = 0; by < byc; by++) {
+      var xdest = ydest;
+      for (var bx = 0; bx < bxc; bx++) {
+        var dest = xdest;
+        for (var n = 0; n < 8; n++) {
+          for (var m = 0; m < 16; m++) {
+            output[tmp$_0 = dest, dest = tmp$_0 + 1 | 0, tmp$_0] = input[tmp$ = src, src = tmp$ + 1 | 0, tmp$];
+          }
+          dest = dest + pitch4 | 0;
+        }
+        xdest = xdest + 16 | 0;
+      }
+      ydest = ydest + (rowWidth * 8 | 0) | 0;
+    }
   }
   function Gpu(emulator) {
     this.emulator_wj70dw$_0 = emulator;
@@ -16255,6 +16362,7 @@
     $receiver.register_q5jrol$(new sceDmac($receiver.emulator));
     $receiver.register_q5jrol$(new ExceptionManagerForKernel($receiver.emulator));
     $receiver.register_q5jrol$(new LoadCoreForKernel($receiver.emulator));
+    $receiver.register_q5jrol$(new sceHprm($receiver.emulator));
   }
   function RegisterReader() {
     this.pos = 4;
@@ -17149,6 +17257,7 @@
     this.mountable = Kotlin.isType(tmp$ = this.root.vfs, MountableSync) ? tmp$ : throwCCE();
   }
   DeviceManager.prototype.mount_hem4eq$ = function (name, vfs) {
+    this.mountable.unmount_61zpoe$(name);
     this.mountable.mount_hem4eq$(name, vfs);
   };
   function DeviceManager$root$lambda(this$DeviceManager) {
@@ -17496,6 +17605,12 @@
       return this.resourcesById_8be2vx$.size;
     }
   });
+  Manager.prototype.put_wz21ut$ = function (item) {
+    var $receiver = this.resourcesById_8be2vx$;
+    var key = item.id;
+    $receiver.put_xwzc9p$(key, item);
+    return item;
+  };
   Manager.prototype.allocId_8be2vx$ = function () {
     return this.freeIds_8be2vx$.alloc();
   };
@@ -17523,6 +17638,10 @@
   Manager.prototype.getById_za3lpa$ = function (id) {
     var tmp$;
     return (tmp$ = this.tryGetById_za3lpa$(id)) != null ? tmp$ : invalidOp("Can't find " + this.name + ' ' + id);
+  };
+  Manager.prototype.freeById_za3lpa$ = function (id) {
+    this.freeIds_8be2vx$.free_11rb$(id);
+    this.resourcesById_8be2vx$.remove_11rb$(id);
   };
   function Manager$freeIds$lambda(this$Manager) {
     return function () {
@@ -18597,8 +18716,7 @@
   PspThread.prototype.delete = function () {
     this.stop_61zpoe$();
     this.phase = PspThread$Phase$DELETED_getInstance();
-    this.manager.freeIds_8be2vx$.free_11rb$(this.id);
-    this.manager.resourcesById_8be2vx$.remove_11rb$(this.id);
+    this.manager.freeById_za3lpa$(this.id);
   };
   PspThread.prototype.exitAndKill = function () {
     this.stop_61zpoe$();
@@ -18699,7 +18817,7 @@
     this.id_mwi0lt$_0 = id;
     this.name = '';
     this.attributes = 0;
-    this.bitPattern = 0;
+    this.currentPattern = 0;
     this.optionsPtr = null;
   }
   Object.defineProperty(PspEventFlag.prototype, 'id', {
@@ -18707,6 +18825,38 @@
       return this.id_mwi0lt$_0;
     }
   });
+  PspEventFlag.prototype.poll_bvjn38$ = function (bitsToMatch, waitType, outBits) {
+    var tmp$;
+    if (get_isNotNull(outBits))
+      outBits.sw_vux9f0$(0, this.currentPattern);
+    if ((waitType & EventFlagWaitTypeSet_getInstance().Or) !== 0)
+      tmp$ = (this.currentPattern & bitsToMatch) !== 0;
+    else
+      tmp$ = (this.currentPattern & bitsToMatch) === bitsToMatch;
+    var res = tmp$;
+    if (res) {
+      this._doClear_0(bitsToMatch, waitType);
+      return true;
+    }
+     else {
+      return false;
+    }
+  };
+  PspEventFlag.prototype._doClear_0 = function (bitsToMatch, waitType) {
+    if ((waitType & EventFlagWaitTypeSet_getInstance().ClearAll) !== 0)
+      this.clearBits_fzusl$(2, false);
+    if ((waitType & EventFlagWaitTypeSet_getInstance().Clear) !== 0)
+      this.clearBits_fzusl$(~bitsToMatch, false);
+  };
+  PspEventFlag.prototype.clearBits_fzusl$ = function (bitsToClear, doUpdateWaitingThreads) {
+    if (doUpdateWaitingThreads === void 0)
+      doUpdateWaitingThreads = true;
+    this.currentPattern = this.currentPattern & bitsToClear;
+    if (doUpdateWaitingThreads)
+      this.updateWaitingThreads_0();
+  };
+  PspEventFlag.prototype.updateWaitingThreads_0 = function () {
+  };
   PspEventFlag.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'PspEventFlag',
@@ -18729,6 +18879,26 @@
   PspEventFlag.prototype.equals = function (other) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && Kotlin.equals(this.id, other.id))));
   };
+  function EventFlagWaitTypeSet() {
+    EventFlagWaitTypeSet_instance = this;
+    this.And = 0;
+    this.Or = 1;
+    this.ClearAll = 16;
+    this.Clear = 32;
+    this.MaskValidBits = this.Or | this.Clear | this.ClearAll;
+  }
+  EventFlagWaitTypeSet.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'EventFlagWaitTypeSet',
+    interfaces: []
+  };
+  var EventFlagWaitTypeSet_instance = null;
+  function EventFlagWaitTypeSet_getInstance() {
+    if (EventFlagWaitTypeSet_instance === null) {
+      new EventFlagWaitTypeSet();
+    }
+    return EventFlagWaitTypeSet_instance;
+  }
   function TimeManager(emulator) {
     this.emulator_gqh32o$_0 = emulator;
   }
@@ -19138,6 +19308,7 @@
             var e = this.exception_0;
             if (Kotlin.isType(e, Throwable)) {
               println('Error openingfile: ' + toString(this.local$fileName) + " : '" + toString(e.message) + "'");
+              printStackTrace(e);
               return SceKernelErrors_getInstance().ERROR_ERRNO_FILE_NOT_FOUND;
             }
              else {
@@ -19426,7 +19597,7 @@
   };
   function Coroutine$sceIoWrite_xjseqw$($this, fileId_0, ptr_0, size_0, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
-    this.exceptionState_0 = 1;
+    this.exceptionState_0 = 4;
     this.$this = $this;
     this.local$fileId = fileId_0;
     this.local$ptr = ptr_0;
@@ -19450,21 +19621,37 @@
               $this.actualLog_t189ph$(level, 'WIP: sceIoWrite: ' + this.local$fileId + ', ' + this.local$ptr + ', ' + this.local$size);
             }
 
+            this.exceptionState_0 = 2;
+            println('----> ' + toString_0(readBytes_1(this.local$ptr, this.local$size), lang.UTF8));
             var stream = this.$this.fileDescriptors.get_za3lpa$(this.local$fileId).stream;
             var bytes = readBytes_1(this.local$ptr, this.local$size);
-            this.state_0 = 2;
+            this.state_0 = 1;
             this.result_0 = stream.write_mj6st8$(bytes, void 0, void 0, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
           case 1:
-            throw this.exception_0;
+            this.exceptionState_0 = 4;
+            this.state_0 = 3;
+            continue;
           case 2:
+            this.exceptionState_0 = 4;
+            var e = this.exception_0;
+            if (Kotlin.isType(e, Throwable)) {
+              println('### error writting: ' + toString(e.message));
+            }
+             else
+              throw e;
+            this.state_0 = 3;
+            continue;
+          case 3:
             return 0;
+          case 4:
+            throw this.exception_0;
         }
       }
        catch (e) {
-        if (this.state_0 === 1)
+        if (this.state_0 === 4)
           throw e;
         else {
           this.state_0 = this.exceptionState_0;
@@ -19511,17 +19698,22 @@
     return -1;
   };
   IoFileMgrForUser.prototype.sceIoDopen_pdl1vj$ = function (path, continuation) {
-    var $this = this.logger;
-    var level = LogLevel.ERROR;
-    if (level.index <= $this.processedLevel.index) {
-      $this.actualLog_t189ph$(level, 'sceIoDopen:' + toString(path));
-    }
     return 0;
   };
   IoFileMgrForUser.prototype.sceIoDread_o62i3q$ = function (id, ptr, continuation) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceIoDread:' + id + ',' + ptr);
+    }
     return 0;
   };
   IoFileMgrForUser.prototype.sceIoDclose_za3lpa$ = function (id, continuation) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceIoDclose:' + id);
+    }
     return 0;
   };
   IoFileMgrForUser.prototype.sceIoChdir_pdl1vj$ = function (path, continuation) {
@@ -21865,6 +22057,7 @@
   function ThreadManForUser(emulator) {
     SceModule.call(this, emulator, 'ThreadManForUser', 1073807377, 'threadman.prx', 'sceThreadManager');
     this.eventFlags = new ResourceList('EventFlag', ThreadManForUser$eventFlags$lambda);
+    this.semaphoreManager_2e7ac4$_0 = lazy(ThreadManForUser$semaphoreManager$lambda(emulator));
   }
   ThreadManForUser.prototype.sceKernelCreateThread_4ssxzt$ = function (name, entryPoint, initPriority, stackSize, attributes, optionPtr) {
     var $this = this.logger;
@@ -21895,6 +22088,10 @@
     thread.start();
     return 0;
   };
+  ThreadManForUser.prototype.sceKernelDeleteThread_za3lpa$ = function (threadId) {
+    get_threadManager(this).getById_za3lpa$(threadId).delete();
+    return 0;
+  };
   ThreadManForUser.prototype._sceKernelSleepThread_ctrw0n$ = function (currentThread, cb) {
     currentThread.suspend_p514vg$(WaitObject$SLEEP_getInstance(), cb);
     return 0;
@@ -21917,14 +22114,6 @@
   ThreadManForUser.prototype.sceKernelCreateCallback_z7cldz$ = function (name, func, arg) {
     var callback = get_callbackManager(this).create_6bdwcc$(name != null ? name : 'callback', func, arg);
     return callback.id;
-  };
-  ThreadManForUser.prototype.sceKernelCreateEventFlag_2pq1yf$ = function (name, attributes, bitPattern, optionsPtr) {
-    var $receiver = this.eventFlags.alloc();
-    $receiver.name = name != null ? name : 'eventFlag';
-    $receiver.attributes = attributes;
-    $receiver.bitPattern = bitPattern;
-    $receiver.optionsPtr = optionsPtr;
-    return $receiver.id;
   };
   ThreadManForUser.prototype._sceKernelDelayThread_s7iag9$ = function (thread, microseconds, cb) {
     thread.suspend_p514vg$(new WaitObject$TIME(get_rtc(this).getTimeInMicrosecondsDouble() + microseconds), cb);
@@ -22015,6 +22204,122 @@
     newThread.exitStatus = (new Kotlin.Long(-2147352148, 0)).toInt();
     return 0;
   };
+  function ThreadManForUser$Semaphore(manager, id, name) {
+    Resource.call(this, manager, id, name);
+    this.attribute = 0;
+    this.initialCount = 0;
+    this.count = 0;
+    this.maxCount = 0;
+    this.active = false;
+    this.signal = new Signal();
+  }
+  ThreadManForUser$Semaphore.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'Semaphore',
+    interfaces: [Resource]
+  };
+  function ThreadManForUser$SemaphoreManager(emulator) {
+    Manager.call(this, 'SemaphoreManager', emulator);
+  }
+  ThreadManForUser$SemaphoreManager.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'SemaphoreManager',
+    interfaces: [Manager]
+  };
+  Object.defineProperty(ThreadManForUser.prototype, 'semaphoreManager', {
+    get: function () {
+      var $receiver = this.semaphoreManager_2e7ac4$_0;
+      new PropertyMetadata('semaphoreManager');
+      return $receiver.value;
+    }
+  });
+  ThreadManForUser.prototype.sceKernelCreateSema_4xo6md$ = function (name, attribute, initialCount, maxCount, options) {
+    var id = this.semaphoreManager.allocId_8be2vx$();
+    var sema = this.semaphoreManager.put_wz21ut$(new ThreadManForUser$Semaphore(this.semaphoreManager, id, name != null ? name : 'sema' + id));
+    sema.attribute = attribute;
+    sema.initialCount = initialCount;
+    sema.count = initialCount;
+    sema.maxCount = maxCount;
+    sema.signal.clear();
+    sema.active = true;
+    return sema.id;
+  };
+  ThreadManForUser.prototype._sceKernelWaitSema_uv9tso$ = function (currentThread, id_0, expectedCount_0, timeout, continuation_0, suspended) {
+    var instance = new Coroutine$_sceKernelWaitSema_uv9tso$(this, currentThread, id_0, expectedCount_0, timeout, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  };
+  function Coroutine$_sceKernelWaitSema_uv9tso$($this, currentThread, id_0, expectedCount_0, timeout, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.$this = $this;
+    this.local$sema = void 0;
+    this.local$id = id_0;
+    this.local$expectedCount = expectedCount_0;
+  }
+  Coroutine$_sceKernelWaitSema_uv9tso$.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$_sceKernelWaitSema_uv9tso$.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$_sceKernelWaitSema_uv9tso$.prototype.constructor = Coroutine$_sceKernelWaitSema_uv9tso$;
+  Coroutine$_sceKernelWaitSema_uv9tso$.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.local$sema = this.$this.semaphoreManager.getById_za3lpa$(this.local$id);
+            this.state_0 = 2;
+            continue;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            if (!this.local$sema.active || this.local$sema.count >= this.local$expectedCount) {
+              this.state_0 = 4;
+              continue;
+            }
+
+            this.state_0 = 3;
+            this.result_0 = waitOne(this.local$sema.signal, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 3:
+            this.state_0 = 2;
+            continue;
+          case 4:
+            this.local$sema.count = this.local$sema.count - this.local$expectedCount | 0;
+            return 0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  ThreadManForUser.prototype.sceKernelSignalSema_4hsnk$ = function (currentThread, id, signal) {
+    var sema = this.semaphoreManager.getById_za3lpa$(id);
+    var a = sema.maxCount;
+    var b = sema.count + signal | 0;
+    sema.count = Math_0.min(a, b);
+    sema.signal.invoke_11rb$(Unit);
+    return 0;
+  };
+  ThreadManForUser.prototype.sceKernelDeleteSema_za3lpa$ = function (id) {
+    var sema = this.semaphoreManager.getById_za3lpa$(id);
+    sema.active = false;
+    sema.signal.invoke_11rb$(Unit);
+    sema.free();
+    return 0;
+  };
   ThreadManForUser.prototype.sceKernelGetVTimerTime_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(55218719);
   };
@@ -22048,17 +22353,11 @@
   ThreadManForUser.prototype.sceKernelCancelVpl_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(490150794);
   };
-  ThreadManForUser.prototype.sceKernelSetEventFlag_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(531716658);
-  };
   ThreadManForUser.prototype.sceKernelCreateVTimer_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(553645408);
   };
   ThreadManForUser.prototype.sceKernelResumeDispatchThread_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(669134530);
-  };
-  ThreadManForUser.prototype.sceKernelDeleteSema_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(683034780);
   };
   ThreadManForUser.prototype.sceKernelGetCallbackCount_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(708658431);
@@ -22066,14 +22365,8 @@
   ThreadManForUser.prototype.sceKernelReleaseWaitThread_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(741662803);
   };
-  ThreadManForUser.prototype.sceKernelPollEventFlag_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(821905648);
-  };
   ThreadManForUser.prototype.ThreadManForUser_31327F19_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(825392921);
-  };
-  ThreadManForUser.prototype.sceKernelWaitEventFlagCB_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(848057450);
   };
   ThreadManForUser.prototype.sceKernelDeleteVTimer_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(848272978);
@@ -22102,17 +22395,8 @@
   ThreadManForUser.prototype.sceKernelGetThreadExitStatus_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(991444518);
   };
-  ThreadManForUser.prototype.sceKernelSignalSema_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(1062463040);
-  };
-  ThreadManForUser.prototype.sceKernelWaitEventFlag_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(1076875042);
-  };
   ThreadManForUser.prototype.sceKernelReferLwMutexStatusByID_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1276401988);
-  };
-  ThreadManForUser.prototype.sceKernelWaitSema_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(1312428293);
   };
   ThreadManForUser.prototype.sceKernelGetThreadStackFreeSize_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1376296097);
@@ -22159,9 +22443,6 @@
   ThreadManForUser.prototype.sceKernelUnlockMutex_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1798311951);
   };
-  ThreadManForUser.prototype.sceKernelWaitSemaCB_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(1830890412);
-  };
   ThreadManForUser.prototype._sceKernelReturnFromCallback_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1855890256);
   };
@@ -22197,9 +22478,6 @@
   };
   ThreadManForUser.prototype.sceKernelExitDeleteThread_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2137202021, 0));
-  };
-  ThreadManForUser.prototype.sceKernelClearEventFlag_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2128394524, 0));
   };
   ThreadManForUser.prototype.sceKernelCreateMbx_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2128272867, 0));
@@ -22242,12 +22520,6 @@
   };
   ThreadManForUser.prototype.sceKernelSleepThread_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1697770722, 0));
-  };
-  ThreadManForUser.prototype.sceKernelDeleteThread_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1616888621, 0));
-  };
-  ThreadManForUser.prototype.sceKernelReferEventFlagStatus_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1502936800, 0));
   };
   ThreadManForUser.prototype.sceKernelCancelFpl_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1465231073, 0));
@@ -22315,9 +22587,6 @@
   ThreadManForUser.prototype.sceKernelUSec2SysClockWide_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-926083700, 0));
   };
-  ThreadManForUser.prototype.sceKernelCancelEventFlag_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-853527918, 0));
-  };
   ThreadManForUser.prototype.sceKernelStopVTimer_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-793842041, 0));
   };
@@ -22329,9 +22598,6 @@
   };
   ThreadManForUser.prototype.sceKernelWakeupThread_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-711021265, 0));
-  };
-  ThreadManForUser.prototype.sceKernelCreateSema_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-690336863, 0));
   };
   ThreadManForUser.prototype.sceKernelReferFplStatus_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-669409716, 0));
@@ -22371,9 +22637,6 @@
   };
   ThreadManForUser.prototype.sceKernelDeleteCallback_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-306554812, 0));
-  };
-  ThreadManForUser.prototype.sceKernelDeleteEventFlag_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-274838416, 0));
   };
   ThreadManForUser.prototype.sceKernelDeleteMsgPipe_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-256386532, 0));
@@ -22559,777 +22822,807 @@
   }
   function ThreadManForUser$registerModule$lambda_13(this$ThreadManForUser) {
     return function ($receiver, it) {
-      return this$ThreadManForUser.sceKernelCreateCallback_z7cldz$($receiver.str, $receiver.ptr, $receiver.int);
+      return this$ThreadManForUser.sceKernelDeleteThread_za3lpa$($receiver.int);
     };
   }
   function ThreadManForUser$registerModule$lambda_14(this$ThreadManForUser) {
     return function ($receiver, it) {
-      return this$ThreadManForUser.sceKernelCreateEventFlag_2pq1yf$($receiver.str, $receiver.int, $receiver.int, $receiver.ptr);
+      return this$ThreadManForUser.sceKernelCreateCallback_z7cldz$($receiver.str, $receiver.ptr, $receiver.int);
     };
   }
   function ThreadManForUser$registerModule$lambda_15(this$ThreadManForUser) {
+    return function ($receiver, it) {
+      return this$ThreadManForUser.sceKernelCreateSema_4xo6md$($receiver.str, $receiver.int, $receiver.int, $receiver.int, $receiver.ptr);
+    };
+  }
+  function ThreadManForUser$registerModule$lambda_16(this$ThreadManForUser_0) {
+    return function ($receiver_0, it, continuation_0, suspended) {
+      var instance = new Coroutine$ThreadManForUser$registerModule$lambda_1(this$ThreadManForUser_0, $receiver_0, it, this, continuation_0);
+      if (suspended)
+        return instance;
+      else
+        return instance.doResume(null);
+    };
+  }
+  function Coroutine$ThreadManForUser$registerModule$lambda_1(this$ThreadManForUser_0, $receiver_0, it, controller, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.$controller = controller;
+    this.exceptionState_0 = 1;
+    this.local$this$ThreadManForUser = this$ThreadManForUser_0;
+    this.local$$receiver = $receiver_0;
+  }
+  Coroutine$ThreadManForUser$registerModule$lambda_1.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$ThreadManForUser$registerModule$lambda_1.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$ThreadManForUser$registerModule$lambda_1.prototype.constructor = Coroutine$ThreadManForUser$registerModule$lambda_1;
+  Coroutine$ThreadManForUser$registerModule$lambda_1.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 2;
+            this.result_0 = this.local$this$ThreadManForUser._sceKernelWaitSema_uv9tso$(this.local$$receiver.thread, this.local$$receiver.int, this.local$$receiver.int, this.local$$receiver.ptr, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            return this.result_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  function ThreadManForUser$registerModule$lambda_17(this$ThreadManForUser_0) {
+    return function ($receiver_0, it, continuation_0, suspended) {
+      var instance = new Coroutine$ThreadManForUser$registerModule$lambda_2(this$ThreadManForUser_0, $receiver_0, it, this, continuation_0);
+      if (suspended)
+        return instance;
+      else
+        return instance.doResume(null);
+    };
+  }
+  function Coroutine$ThreadManForUser$registerModule$lambda_2(this$ThreadManForUser_0, $receiver_0, it, controller, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.$controller = controller;
+    this.exceptionState_0 = 1;
+    this.local$this$ThreadManForUser = this$ThreadManForUser_0;
+    this.local$$receiver = $receiver_0;
+  }
+  Coroutine$ThreadManForUser$registerModule$lambda_2.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$ThreadManForUser$registerModule$lambda_2.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$ThreadManForUser$registerModule$lambda_2.prototype.constructor = Coroutine$ThreadManForUser$registerModule$lambda_2;
+  Coroutine$ThreadManForUser$registerModule$lambda_2.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 2;
+            this.result_0 = this.local$this$ThreadManForUser._sceKernelWaitSema_uv9tso$(this.local$$receiver.thread, this.local$$receiver.int, this.local$$receiver.int, this.local$$receiver.ptr, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            return this.result_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  function ThreadManForUser$registerModule$lambda_18(this$ThreadManForUser) {
+    return function ($receiver, it) {
+      return this$ThreadManForUser.sceKernelSignalSema_4hsnk$($receiver.thread, $receiver.int, $receiver.int);
+    };
+  }
+  function ThreadManForUser$registerModule$lambda_19(this$ThreadManForUser) {
+    return function ($receiver, it) {
+      return this$ThreadManForUser.sceKernelDeleteSema_za3lpa$($receiver.int);
+    };
+  }
+  function ThreadManForUser$registerModule$lambda_20(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetVTimerTime_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_16(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_21(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelRegisterThreadEventHandler_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_17(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_22(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelPollMbx_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_18(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_23(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelTryLockMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_19(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_24(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser._sceKernelReturnFromTimerHandler_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_20(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_25(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelUSec2SysClock_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_21(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_26(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDelaySysClockThreadCB_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_22(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_27(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReceiveMbx_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_23(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_28(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCreateLwMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_24(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_29(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDonateWakeupThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_25(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_30(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelVpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_26(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelSetEventFlag_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_27(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_31(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCreateVTimer_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_28(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_32(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelResumeDispatchThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_29(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelDeleteSema_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_30(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_33(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetCallbackCount_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_31(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_34(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReleaseWaitThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_32(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelPollEventFlag_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_33(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_35(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.ThreadManForUser_31327F19_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_34(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelWaitEventFlagCB_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_35(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_36(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDeleteVTimer_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_36(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_37(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferMsgPipeStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_37(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_38(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelMsgPipe_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_38(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_39(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCheckCallback_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_39(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_40(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferThreadEventHandlerStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_40(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_41(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelTerminateDeleteThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_41(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_42(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferVplStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_42(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_43(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSuspendDispatchThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_43(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_44(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetThreadExitStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_44(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelSignalSema_xt3zvs$(it);
-      return Unit;
-    };
-  }
   function ThreadManForUser$registerModule$lambda_45(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelWaitEventFlag_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_46(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferLwMutexStatusByID_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_47(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelWaitSema_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_48(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_46(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetThreadStackFreeSize_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_49(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_47(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser._sceKernelExitThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_50(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_48(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSetVTimerHandlerWide_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_51(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_49(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSetVTimerTime_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_52(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_50(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCreateVpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_53(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_51(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetThreadmanIdType_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_54(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_52(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelPollSema_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_55(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_53(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelLockMutexCB_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_56(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_54(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferVTimerStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_57(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_55(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDeleteLwMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_58(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_56(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelTryAllocateFpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_59(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_57(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferSystemStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_60(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_58(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferThreadProfiler_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_61(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_59(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSetAlarm_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_62(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_60(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelUnlockMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_63(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelWaitSemaCB_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_64(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_61(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser._sceKernelReturnFromCallback_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_65(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_62(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.ThreadManForUser_71040D5C_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_66(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_63(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelChangeThreadPriority_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_67(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_64(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReleaseThreadEventHandler_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_68(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_65(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferCallbackStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_69(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_66(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReceiveMsgPipe_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_70(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_67(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelResumeThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_71(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_68(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCreateMsgPipe_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_72(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_69(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSendMsgPipeCB_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_73(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_70(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.ThreadManForUser_7CFF8CF3_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_74(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_71(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelAlarm_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_75(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_72(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelExitDeleteThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_76(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelClearEventFlag_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_77(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_73(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCreateMbx_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_78(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_74(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferGlobalProfiler_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_79(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_75(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDeleteMbx_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_80(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_76(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.ThreadManForUser_8672E3D0_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_81(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_77(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSendMsgPipe_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_82(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_78(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelReceiveMbx_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_83(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_79(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_84(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_80(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelTrySendMsgPipe_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_85(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_81(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDeleteVpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_86(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_82(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelSema_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_87(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_83(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelRotateThreadReadyQueue_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_88(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_84(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetThreadmanIdList_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_89(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_85(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSuspendThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_90(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelDeleteThread_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_91(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelReferEventFlagStatus_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_92(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_86(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelFpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_93(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_87(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferMbxStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_94(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_88(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferMutexStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_95(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_89(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelExitThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_96(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_90(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelTryAllocateVpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_97(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_91(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelLockMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_98(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_92(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSetSysClockAlarm_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_99(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_93(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetVTimerBase_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_100(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_94(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelFreeVpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_101(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_95(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetVTimerBaseWide_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_102(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_96(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCreateMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_103(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_97(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelCallback_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_104(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_98(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSysClock2USec_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_105(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_99(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferSemaStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_106(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_100(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDelaySysClockThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_107(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_101(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelAllocateVpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_108(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_102(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.ThreadManForUser_BEED3A47_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_109(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_103(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCreateFpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_110(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_104(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetVTimerTimeWide_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_111(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_105(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelNotifyCallback_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_112(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_106(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelStartVTimer_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_113(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_107(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelUSec2SysClockWide_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_114(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelCancelEventFlag_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_115(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_108(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelStopVTimer_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_116(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_109(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCheckThreadStack_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_117(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_110(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelVTimerHandler_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_118(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_111(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelWakeupThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_119(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelCreateSema_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_120(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_112(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferFplStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_121(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_113(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSetVTimerHandler_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_122(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_114(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelAllocateFpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_123(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_115(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferAlarmStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_124(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_116(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetSystemTime_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_125(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_117(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelTryReceiveMsgPipe_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_126(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_118(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSysClock2USecWide_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_127(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_119(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelAllocateFplCB_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_128(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_120(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSendMbx_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_129(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_121(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelChangeCurrentThreadAttr_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_130(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_122(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelAllocateVplCB_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_131(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_123(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDeleteFpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_132(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_124(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDeleteCallback_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_133(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelDeleteEventFlag_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_134(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_125(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDeleteMsgPipe_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_135(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_126(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReceiveMbxCB_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_136(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_127(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelFreeFpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_137(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_128(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDeleteMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_138(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_129(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSetVTimerTimeWide_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_139(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_130(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReceiveMsgPipeCB_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_140(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_131(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelWakeupThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_141(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_132(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferThreadRunStatus_xt3zvs$(it);
       return Unit;
     };
   }
   ThreadManForUser.prototype.registerModule = function () {
+    this.registerModuleEventFlags_i7y6ea$(this);
     this.registerFunctionLong_d75y9q$('sceKernelGetSystemTimeWide', new Kotlin.Long(-2101586057, 0), 150, void 0, ThreadManForUser$registerModule$lambda(this));
     this.registerFunctionInt_9l82lv$('sceKernelGetSystemTimeLow', Kotlin.Long.fromInt(916379037), 150, void 0, ThreadManForUser$registerModule$lambda_0(this));
     this.registerFunctionInt_9l82lv$('sceKernelCreateThread', Kotlin.Long.fromInt(1148030438), 150, void 0, ThreadManForUser$registerModule$lambda_1(this));
@@ -23344,143 +23637,251 @@
     this.registerFunctionInt_9l82lv$('sceKernelReferThreadStatus', Kotlin.Long.fromInt(398551118), 150, void 0, ThreadManForUser$registerModule$lambda_10(this));
     this.registerFunctionInt_9l82lv$('sceKernelGetThreadId', Kotlin.Long.fromInt(691750328), 150, void 0, ThreadManForUser$registerModule$lambda_11(this));
     this.registerFunctionInt_9l82lv$('sceKernelTerminateThread', Kotlin.Long.fromInt(1633944506), 150, void 0, ThreadManForUser$registerModule$lambda_12(this));
-    this.registerFunctionInt_9l82lv$('sceKernelCreateCallback', new Kotlin.Long(-400773233, 0), 150, void 0, ThreadManForUser$registerModule$lambda_13(this));
-    this.registerFunctionInt_9l82lv$('sceKernelCreateEventFlag', Kotlin.Long.fromInt(1438779904), 150, void 0, ThreadManForUser$registerModule$lambda_14(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerTime', Kotlin.Long.fromInt(55218719), 150, void 0, ThreadManForUser$registerModule$lambda_15(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelRegisterThreadEventHandler', Kotlin.Long.fromInt(202403411), 150, void 0, ThreadManForUser$registerModule$lambda_16(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelPollMbx', Kotlin.Long.fromInt(226586986), 150, void 0, ThreadManForUser$registerModule$lambda_17(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelTryLockMutex', Kotlin.Long.fromInt(232575689), 150, void 0, ThreadManForUser$registerModule$lambda_18(this));
-    this.registerFunctionRaw_gh35x6$('_sceKernelReturnFromTimerHandler', Kotlin.Long.fromInt(244480749), 150, void 0, ThreadManForUser$registerModule$lambda_19(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUSec2SysClock', Kotlin.Long.fromInt(286125210), 150, void 0, ThreadManForUser$registerModule$lambda_20(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDelaySysClockThreadCB', Kotlin.Long.fromInt(293726563), 150, void 0, ThreadManForUser$registerModule$lambda_21(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReceiveMbx', Kotlin.Long.fromInt(405144948), 150, void 0, ThreadManForUser$registerModule$lambda_22(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateLwMutex', Kotlin.Long.fromInt(433058117), 150, void 0, ThreadManForUser$registerModule$lambda_23(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDonateWakeupThread', Kotlin.Long.fromInt(452545795), 150, void 0, ThreadManForUser$registerModule$lambda_24(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelVpl', Kotlin.Long.fromInt(490150794), 150, void 0, ThreadManForUser$registerModule$lambda_25(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetEventFlag', Kotlin.Long.fromInt(531716658), 150, void 0, ThreadManForUser$registerModule$lambda_26(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateVTimer', Kotlin.Long.fromInt(553645408), 150, void 0, ThreadManForUser$registerModule$lambda_27(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelResumeDispatchThread', Kotlin.Long.fromInt(669134530), 150, void 0, ThreadManForUser$registerModule$lambda_28(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteSema', Kotlin.Long.fromInt(683034780), 150, void 0, ThreadManForUser$registerModule$lambda_29(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetCallbackCount', Kotlin.Long.fromInt(708658431), 150, void 0, ThreadManForUser$registerModule$lambda_30(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReleaseWaitThread', Kotlin.Long.fromInt(741662803), 150, void 0, ThreadManForUser$registerModule$lambda_31(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelPollEventFlag', Kotlin.Long.fromInt(821905648), 150, void 0, ThreadManForUser$registerModule$lambda_32(this));
-    this.registerFunctionRaw_gh35x6$('ThreadManForUser_31327F19', Kotlin.Long.fromInt(825392921), 150, void 0, ThreadManForUser$registerModule$lambda_33(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelWaitEventFlagCB', Kotlin.Long.fromInt(848057450), 150, void 0, ThreadManForUser$registerModule$lambda_34(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteVTimer', Kotlin.Long.fromInt(848272978), 150, void 0, ThreadManForUser$registerModule$lambda_35(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferMsgPipeStatus', Kotlin.Long.fromInt(868106276), 150, void 0, ThreadManForUser$registerModule$lambda_36(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelMsgPipe', Kotlin.Long.fromInt(882607693), 150, void 0, ThreadManForUser$registerModule$lambda_37(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCheckCallback', Kotlin.Long.fromInt(882732396), 150, void 0, ThreadManForUser$registerModule$lambda_38(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferThreadEventHandlerStatus', Kotlin.Long.fromInt(916384619), 150, void 0, ThreadManForUser$registerModule$lambda_39(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelTerminateDeleteThread', Kotlin.Long.fromInt(943684556), 150, void 0, ThreadManForUser$registerModule$lambda_40(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferVplStatus', Kotlin.Long.fromInt(964756069), 150, void 0, ThreadManForUser$registerModule$lambda_41(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSuspendDispatchThread', Kotlin.Long.fromInt(987073420), 150, void 0, ThreadManForUser$registerModule$lambda_42(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadExitStatus', Kotlin.Long.fromInt(991444518), 150, void 0, ThreadManForUser$registerModule$lambda_43(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSignalSema', Kotlin.Long.fromInt(1062463040), 150, void 0, ThreadManForUser$registerModule$lambda_44(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelWaitEventFlag', Kotlin.Long.fromInt(1076875042), 150, void 0, ThreadManForUser$registerModule$lambda_45(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferLwMutexStatusByID', Kotlin.Long.fromInt(1276401988), 150, void 0, ThreadManForUser$registerModule$lambda_46(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelWaitSema', Kotlin.Long.fromInt(1312428293), 150, void 0, ThreadManForUser$registerModule$lambda_47(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadStackFreeSize', Kotlin.Long.fromInt(1376296097), 150, void 0, ThreadManForUser$registerModule$lambda_48(this));
-    this.registerFunctionRaw_gh35x6$('_sceKernelExitThread', Kotlin.Long.fromInt(1395282478), 150, void 0, ThreadManForUser$registerModule$lambda_49(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetVTimerHandlerWide', Kotlin.Long.fromInt(1404047002), 150, void 0, ThreadManForUser$registerModule$lambda_50(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetVTimerTime', Kotlin.Long.fromInt(1412093488), 150, void 0, ThreadManForUser$registerModule$lambda_51(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateVpl', Kotlin.Long.fromInt(1455438261), 150, void 0, ThreadManForUser$registerModule$lambda_52(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadmanIdType', Kotlin.Long.fromInt(1473209053), 150, void 0, ThreadManForUser$registerModule$lambda_53(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelPollSema', Kotlin.Long.fromInt(1488058679), 150, void 0, ThreadManForUser$registerModule$lambda_54(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelLockMutexCB', Kotlin.Long.fromInt(1542774055), 150, void 0, ThreadManForUser$registerModule$lambda_55(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferVTimerStatus', Kotlin.Long.fromInt(1597161130), 150, void 0, ThreadManForUser$registerModule$lambda_56(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteLwMutex', Kotlin.Long.fromInt(1611691318), 150, void 0, ThreadManForUser$registerModule$lambda_57(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelTryAllocateFpl', Kotlin.Long.fromInt(1648027237), 150, void 0, ThreadManForUser$registerModule$lambda_58(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferSystemStatus', Kotlin.Long.fromInt(1652453178), 150, void 0, ThreadManForUser$registerModule$lambda_59(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferThreadProfiler', Kotlin.Long.fromInt(1691636750), 150, void 0, ThreadManForUser$registerModule$lambda_60(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetAlarm', Kotlin.Long.fromInt(1716697290), 150, void 0, ThreadManForUser$registerModule$lambda_61(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUnlockMutex', Kotlin.Long.fromInt(1798311951), 150, void 0, ThreadManForUser$registerModule$lambda_62(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelWaitSemaCB', Kotlin.Long.fromInt(1830890412), 150, void 0, ThreadManForUser$registerModule$lambda_63(this));
-    this.registerFunctionRaw_gh35x6$('_sceKernelReturnFromCallback', Kotlin.Long.fromInt(1855890256), 150, void 0, ThreadManForUser$registerModule$lambda_64(this));
-    this.registerFunctionRaw_gh35x6$('ThreadManForUser_71040D5C', Kotlin.Long.fromInt(1896090972), 150, void 0, ThreadManForUser$registerModule$lambda_65(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelChangeThreadPriority', Kotlin.Long.fromInt(1908185201), 150, void 0, ThreadManForUser$registerModule$lambda_66(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReleaseThreadEventHandler', Kotlin.Long.fromInt(1928577349), 150, void 0, ThreadManForUser$registerModule$lambda_67(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferCallbackStatus', Kotlin.Long.fromInt(1930352828), 150, void 0, ThreadManForUser$registerModule$lambda_68(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReceiveMsgPipe', Kotlin.Long.fromInt(1954716534), 150, void 0, ThreadManForUser$registerModule$lambda_69(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelResumeThread', Kotlin.Long.fromInt(1964338831), 150, void 0, ThreadManForUser$registerModule$lambda_70(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateMsgPipe', Kotlin.Long.fromInt(2081276576), 150, void 0, ThreadManForUser$registerModule$lambda_71(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSendMsgPipeCB', Kotlin.Long.fromInt(2084696770), 150, void 0, ThreadManForUser$registerModule$lambda_72(this));
-    this.registerFunctionRaw_gh35x6$('ThreadManForUser_7CFF8CF3', Kotlin.Long.fromInt(2097122547), 150, void 0, ThreadManForUser$registerModule$lambda_73(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelAlarm', Kotlin.Long.fromInt(2120595865), 150, void 0, ThreadManForUser$registerModule$lambda_74(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelExitDeleteThread', new Kotlin.Long(-2137202021, 0), 150, void 0, ThreadManForUser$registerModule$lambda_75(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelClearEventFlag', new Kotlin.Long(-2128394524, 0), 150, void 0, ThreadManForUser$registerModule$lambda_76(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateMbx', new Kotlin.Long(-2128272867, 0), 150, void 0, ThreadManForUser$registerModule$lambda_77(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferGlobalProfiler', new Kotlin.Long(-2112310051, 0), 150, void 0, ThreadManForUser$registerModule$lambda_78(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteMbx', new Kotlin.Long(-2044372262, 0), 150, void 0, ThreadManForUser$registerModule$lambda_79(this));
-    this.registerFunctionRaw_gh35x6$('ThreadManForUser_8672E3D0', new Kotlin.Long(-2039290928, 0), 150, void 0, ThreadManForUser$registerModule$lambda_80(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSendMsgPipe', new Kotlin.Long(-2022850643, 0), 150, void 0, ThreadManForUser$registerModule$lambda_81(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelReceiveMbx', new Kotlin.Long(-2016092874, 0), 150, void 0, ThreadManForUser$registerModule$lambda_82(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelMutex', new Kotlin.Long(-2015813060, 0), 150, void 0, ThreadManForUser$registerModule$lambda_83(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelTrySendMsgPipe', new Kotlin.Long(-2008244336, 0), 150, void 0, ThreadManForUser$registerModule$lambda_84(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteVpl', new Kotlin.Long(-1984703348, 0), 150, void 0, ThreadManForUser$registerModule$lambda_85(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelSema', new Kotlin.Long(-1879180894, 0), 150, void 0, ThreadManForUser$registerModule$lambda_86(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelRotateThreadReadyQueue', new Kotlin.Long(-1859955545, 0), 150, void 0, ThreadManForUser$registerModule$lambda_87(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadmanIdList', new Kotlin.Long(-1807654608, 0), 150, void 0, ThreadManForUser$registerModule$lambda_88(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSuspendThread', new Kotlin.Long(-1723534561, 0), 150, void 0, ThreadManForUser$registerModule$lambda_89(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteThread', new Kotlin.Long(-1616888621, 0), 150, void 0, ThreadManForUser$registerModule$lambda_90(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferEventFlagStatus', new Kotlin.Long(-1502936800, 0), 150, void 0, ThreadManForUser$registerModule$lambda_91(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelFpl', new Kotlin.Long(-1465231073, 0), 150, void 0, ThreadManForUser$registerModule$lambda_92(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferMbxStatus', new Kotlin.Long(-1461139386, 0), 150, void 0, ThreadManForUser$registerModule$lambda_93(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferMutexStatus', new Kotlin.Long(-1446851686, 0), 150, void 0, ThreadManForUser$registerModule$lambda_94(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelExitThread', new Kotlin.Long(-1435252427, 0), 150, void 0, ThreadManForUser$registerModule$lambda_95(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelTryAllocateVpl', new Kotlin.Long(-1355360504, 0), 150, void 0, ThreadManForUser$registerModule$lambda_96(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelLockMutex', new Kotlin.Long(-1341017825, 0), 150, void 0, ThreadManForUser$registerModule$lambda_97(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetSysClockAlarm', new Kotlin.Long(-1295888046, 0), 150, void 0, ThreadManForUser$registerModule$lambda_98(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerBase', new Kotlin.Long(-1280992912, 0), 150, void 0, ThreadManForUser$registerModule$lambda_99(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelFreeVpl', new Kotlin.Long(-1221137921, 0), 150, void 0, ThreadManForUser$registerModule$lambda_100(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerBaseWide', new Kotlin.Long(-1212052617, 0), 150, void 0, ThreadManForUser$registerModule$lambda_101(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateMutex', new Kotlin.Long(-1211066170, 0), 150, void 0, ThreadManForUser$registerModule$lambda_102(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelCallback', new Kotlin.Long(-1170189866, 0), 150, void 0, ThreadManForUser$registerModule$lambda_103(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSysClock2USec', new Kotlin.Long(-1167355166, 0), 150, void 0, ThreadManForUser$registerModule$lambda_104(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferSemaStatus', new Kotlin.Long(-1133515835, 0), 150, void 0, ThreadManForUser$registerModule$lambda_105(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDelaySysClockThread', new Kotlin.Long(-1122878050, 0), 150, void 0, ThreadManForUser$registerModule$lambda_106(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelAllocateVpl', new Kotlin.Long(-1093503947, 0), 150, void 0, ThreadManForUser$registerModule$lambda_107(this));
-    this.registerFunctionRaw_gh35x6$('ThreadManForUser_BEED3A47', new Kotlin.Long(-1091749305, 0), 150, void 0, ThreadManForUser$registerModule$lambda_108(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateFpl', new Kotlin.Long(-1065634704, 0), 150, void 0, ThreadManForUser$registerModule$lambda_109(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerTimeWide', new Kotlin.Long(-1061945390, 0), 150, void 0, ThreadManForUser$registerModule$lambda_110(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelNotifyCallback', new Kotlin.Long(-1055151932, 0), 150, void 0, ThreadManForUser$registerModule$lambda_111(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelStartVTimer', new Kotlin.Long(-963800009, 0), 150, void 0, ThreadManForUser$registerModule$lambda_112(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUSec2SysClockWide', new Kotlin.Long(-926083700, 0), 150, void 0, ThreadManForUser$registerModule$lambda_113(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelEventFlag', new Kotlin.Long(-853527918, 0), 150, void 0, ThreadManForUser$registerModule$lambda_114(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelStopVTimer', new Kotlin.Long(-793842041, 0), 150, void 0, ThreadManForUser$registerModule$lambda_115(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCheckThreadStack', new Kotlin.Long(-784605547, 0), 150, void 0, ThreadManForUser$registerModule$lambda_116(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelVTimerHandler', new Kotlin.Long(-757721617, 0), 150, void 0, ThreadManForUser$registerModule$lambda_117(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelWakeupThread', new Kotlin.Long(-711021265, 0), 150, void 0, ThreadManForUser$registerModule$lambda_118(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateSema', new Kotlin.Long(-690336863, 0), 150, void 0, ThreadManForUser$registerModule$lambda_119(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferFplStatus', new Kotlin.Long(-669409716, 0), 150, void 0, ThreadManForUser$registerModule$lambda_120(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetVTimerHandler', new Kotlin.Long(-659383890, 0), 150, void 0, ThreadManForUser$registerModule$lambda_121(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelAllocateFpl', new Kotlin.Long(-646321729, 0), 150, void 0, ThreadManForUser$registerModule$lambda_122(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferAlarmStatus', new Kotlin.Long(-626789020, 0), 150, void 0, ThreadManForUser$registerModule$lambda_123(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetSystemTime', new Kotlin.Long(-613183691, 0), 150, void 0, ThreadManForUser$registerModule$lambda_124(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelTryReceiveMsgPipe', new Kotlin.Long(-548271729, 0), 150, void 0, ThreadManForUser$registerModule$lambda_125(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSysClock2USecWide', new Kotlin.Long(-513696388, 0), 150, void 0, ThreadManForUser$registerModule$lambda_126(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelAllocateFplCB', new Kotlin.Long(-416797514, 0), 150, void 0, ThreadManForUser$registerModule$lambda_127(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSendMbx', new Kotlin.Long(-374143458, 0), 150, void 0, ThreadManForUser$registerModule$lambda_128(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelChangeCurrentThreadAttr', new Kotlin.Long(-361460175, 0), 150, void 0, ThreadManForUser$registerModule$lambda_129(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelAllocateVplCB', new Kotlin.Long(-334862017, 0), 150, void 0, ThreadManForUser$registerModule$lambda_130(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteFpl', new Kotlin.Long(-317452064, 0), 150, void 0, ThreadManForUser$registerModule$lambda_131(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteCallback', new Kotlin.Long(-306554812, 0), 150, void 0, ThreadManForUser$registerModule$lambda_132(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteEventFlag', new Kotlin.Long(-274838416, 0), 150, void 0, ThreadManForUser$registerModule$lambda_133(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteMsgPipe', new Kotlin.Long(-256386532, 0), 150, void 0, ThreadManForUser$registerModule$lambda_134(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReceiveMbxCB', new Kotlin.Long(-208116862, 0), 150, void 0, ThreadManForUser$registerModule$lambda_135(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelFreeFpl', new Kotlin.Long(-163493263, 0), 150, void 0, ThreadManForUser$registerModule$lambda_136(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteMutex', new Kotlin.Long(-132706370, 0), 150, void 0, ThreadManForUser$registerModule$lambda_137(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetVTimerTimeWide', new Kotlin.Long(-77322813, 0), 150, void 0, ThreadManForUser$registerModule$lambda_138(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReceiveMsgPipeCB', new Kotlin.Long(-67475075, 0), 150, void 0, ThreadManForUser$registerModule$lambda_139(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelWakeupThread', new Kotlin.Long(-53498586, 0), 150, void 0, ThreadManForUser$registerModule$lambda_140(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferThreadRunStatus', new Kotlin.Long(-3970540, 0), 150, void 0, ThreadManForUser$registerModule$lambda_141(this));
+    this.registerFunctionInt_9l82lv$('sceKernelDeleteThread', new Kotlin.Long(-1616888621, 0), 150, void 0, ThreadManForUser$registerModule$lambda_13(this));
+    this.registerFunctionInt_9l82lv$('sceKernelCreateCallback', new Kotlin.Long(-400773233, 0), 150, void 0, ThreadManForUser$registerModule$lambda_14(this));
+    this.registerFunctionInt_9l82lv$('sceKernelCreateSema', new Kotlin.Long(-690336863, 0), 150, void 0, ThreadManForUser$registerModule$lambda_15(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceKernelWaitSema', Kotlin.Long.fromInt(1312428293), 150, void 0, false, ThreadManForUser$registerModule$lambda_16(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceKernelWaitSemaCB', Kotlin.Long.fromInt(1830890412), 150, void 0, true, ThreadManForUser$registerModule$lambda_17(this));
+    this.registerFunctionInt_9l82lv$('sceKernelSignalSema', Kotlin.Long.fromInt(1062463040), 150, void 0, ThreadManForUser$registerModule$lambda_18(this));
+    this.registerFunctionInt_9l82lv$('sceKernelDeleteSema', Kotlin.Long.fromInt(683034780), 150, void 0, ThreadManForUser$registerModule$lambda_19(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerTime', Kotlin.Long.fromInt(55218719), 150, void 0, ThreadManForUser$registerModule$lambda_20(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelRegisterThreadEventHandler', Kotlin.Long.fromInt(202403411), 150, void 0, ThreadManForUser$registerModule$lambda_21(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelPollMbx', Kotlin.Long.fromInt(226586986), 150, void 0, ThreadManForUser$registerModule$lambda_22(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelTryLockMutex', Kotlin.Long.fromInt(232575689), 150, void 0, ThreadManForUser$registerModule$lambda_23(this));
+    this.registerFunctionRaw_gh35x6$('_sceKernelReturnFromTimerHandler', Kotlin.Long.fromInt(244480749), 150, void 0, ThreadManForUser$registerModule$lambda_24(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUSec2SysClock', Kotlin.Long.fromInt(286125210), 150, void 0, ThreadManForUser$registerModule$lambda_25(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDelaySysClockThreadCB', Kotlin.Long.fromInt(293726563), 150, void 0, ThreadManForUser$registerModule$lambda_26(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReceiveMbx', Kotlin.Long.fromInt(405144948), 150, void 0, ThreadManForUser$registerModule$lambda_27(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCreateLwMutex', Kotlin.Long.fromInt(433058117), 150, void 0, ThreadManForUser$registerModule$lambda_28(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDonateWakeupThread', Kotlin.Long.fromInt(452545795), 150, void 0, ThreadManForUser$registerModule$lambda_29(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelVpl', Kotlin.Long.fromInt(490150794), 150, void 0, ThreadManForUser$registerModule$lambda_30(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCreateVTimer', Kotlin.Long.fromInt(553645408), 150, void 0, ThreadManForUser$registerModule$lambda_31(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelResumeDispatchThread', Kotlin.Long.fromInt(669134530), 150, void 0, ThreadManForUser$registerModule$lambda_32(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetCallbackCount', Kotlin.Long.fromInt(708658431), 150, void 0, ThreadManForUser$registerModule$lambda_33(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReleaseWaitThread', Kotlin.Long.fromInt(741662803), 150, void 0, ThreadManForUser$registerModule$lambda_34(this));
+    this.registerFunctionRaw_gh35x6$('ThreadManForUser_31327F19', Kotlin.Long.fromInt(825392921), 150, void 0, ThreadManForUser$registerModule$lambda_35(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDeleteVTimer', Kotlin.Long.fromInt(848272978), 150, void 0, ThreadManForUser$registerModule$lambda_36(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferMsgPipeStatus', Kotlin.Long.fromInt(868106276), 150, void 0, ThreadManForUser$registerModule$lambda_37(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelMsgPipe', Kotlin.Long.fromInt(882607693), 150, void 0, ThreadManForUser$registerModule$lambda_38(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCheckCallback', Kotlin.Long.fromInt(882732396), 150, void 0, ThreadManForUser$registerModule$lambda_39(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferThreadEventHandlerStatus', Kotlin.Long.fromInt(916384619), 150, void 0, ThreadManForUser$registerModule$lambda_40(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelTerminateDeleteThread', Kotlin.Long.fromInt(943684556), 150, void 0, ThreadManForUser$registerModule$lambda_41(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferVplStatus', Kotlin.Long.fromInt(964756069), 150, void 0, ThreadManForUser$registerModule$lambda_42(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSuspendDispatchThread', Kotlin.Long.fromInt(987073420), 150, void 0, ThreadManForUser$registerModule$lambda_43(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadExitStatus', Kotlin.Long.fromInt(991444518), 150, void 0, ThreadManForUser$registerModule$lambda_44(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferLwMutexStatusByID', Kotlin.Long.fromInt(1276401988), 150, void 0, ThreadManForUser$registerModule$lambda_45(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadStackFreeSize', Kotlin.Long.fromInt(1376296097), 150, void 0, ThreadManForUser$registerModule$lambda_46(this));
+    this.registerFunctionRaw_gh35x6$('_sceKernelExitThread', Kotlin.Long.fromInt(1395282478), 150, void 0, ThreadManForUser$registerModule$lambda_47(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetVTimerHandlerWide', Kotlin.Long.fromInt(1404047002), 150, void 0, ThreadManForUser$registerModule$lambda_48(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetVTimerTime', Kotlin.Long.fromInt(1412093488), 150, void 0, ThreadManForUser$registerModule$lambda_49(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCreateVpl', Kotlin.Long.fromInt(1455438261), 150, void 0, ThreadManForUser$registerModule$lambda_50(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadmanIdType', Kotlin.Long.fromInt(1473209053), 150, void 0, ThreadManForUser$registerModule$lambda_51(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelPollSema', Kotlin.Long.fromInt(1488058679), 150, void 0, ThreadManForUser$registerModule$lambda_52(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelLockMutexCB', Kotlin.Long.fromInt(1542774055), 150, void 0, ThreadManForUser$registerModule$lambda_53(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferVTimerStatus', Kotlin.Long.fromInt(1597161130), 150, void 0, ThreadManForUser$registerModule$lambda_54(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDeleteLwMutex', Kotlin.Long.fromInt(1611691318), 150, void 0, ThreadManForUser$registerModule$lambda_55(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelTryAllocateFpl', Kotlin.Long.fromInt(1648027237), 150, void 0, ThreadManForUser$registerModule$lambda_56(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferSystemStatus', Kotlin.Long.fromInt(1652453178), 150, void 0, ThreadManForUser$registerModule$lambda_57(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferThreadProfiler', Kotlin.Long.fromInt(1691636750), 150, void 0, ThreadManForUser$registerModule$lambda_58(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetAlarm', Kotlin.Long.fromInt(1716697290), 150, void 0, ThreadManForUser$registerModule$lambda_59(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUnlockMutex', Kotlin.Long.fromInt(1798311951), 150, void 0, ThreadManForUser$registerModule$lambda_60(this));
+    this.registerFunctionRaw_gh35x6$('_sceKernelReturnFromCallback', Kotlin.Long.fromInt(1855890256), 150, void 0, ThreadManForUser$registerModule$lambda_61(this));
+    this.registerFunctionRaw_gh35x6$('ThreadManForUser_71040D5C', Kotlin.Long.fromInt(1896090972), 150, void 0, ThreadManForUser$registerModule$lambda_62(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelChangeThreadPriority', Kotlin.Long.fromInt(1908185201), 150, void 0, ThreadManForUser$registerModule$lambda_63(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReleaseThreadEventHandler', Kotlin.Long.fromInt(1928577349), 150, void 0, ThreadManForUser$registerModule$lambda_64(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferCallbackStatus', Kotlin.Long.fromInt(1930352828), 150, void 0, ThreadManForUser$registerModule$lambda_65(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReceiveMsgPipe', Kotlin.Long.fromInt(1954716534), 150, void 0, ThreadManForUser$registerModule$lambda_66(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelResumeThread', Kotlin.Long.fromInt(1964338831), 150, void 0, ThreadManForUser$registerModule$lambda_67(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCreateMsgPipe', Kotlin.Long.fromInt(2081276576), 150, void 0, ThreadManForUser$registerModule$lambda_68(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSendMsgPipeCB', Kotlin.Long.fromInt(2084696770), 150, void 0, ThreadManForUser$registerModule$lambda_69(this));
+    this.registerFunctionRaw_gh35x6$('ThreadManForUser_7CFF8CF3', Kotlin.Long.fromInt(2097122547), 150, void 0, ThreadManForUser$registerModule$lambda_70(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelAlarm', Kotlin.Long.fromInt(2120595865), 150, void 0, ThreadManForUser$registerModule$lambda_71(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelExitDeleteThread', new Kotlin.Long(-2137202021, 0), 150, void 0, ThreadManForUser$registerModule$lambda_72(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCreateMbx', new Kotlin.Long(-2128272867, 0), 150, void 0, ThreadManForUser$registerModule$lambda_73(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferGlobalProfiler', new Kotlin.Long(-2112310051, 0), 150, void 0, ThreadManForUser$registerModule$lambda_74(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDeleteMbx', new Kotlin.Long(-2044372262, 0), 150, void 0, ThreadManForUser$registerModule$lambda_75(this));
+    this.registerFunctionRaw_gh35x6$('ThreadManForUser_8672E3D0', new Kotlin.Long(-2039290928, 0), 150, void 0, ThreadManForUser$registerModule$lambda_76(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSendMsgPipe', new Kotlin.Long(-2022850643, 0), 150, void 0, ThreadManForUser$registerModule$lambda_77(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelReceiveMbx', new Kotlin.Long(-2016092874, 0), 150, void 0, ThreadManForUser$registerModule$lambda_78(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelMutex', new Kotlin.Long(-2015813060, 0), 150, void 0, ThreadManForUser$registerModule$lambda_79(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelTrySendMsgPipe', new Kotlin.Long(-2008244336, 0), 150, void 0, ThreadManForUser$registerModule$lambda_80(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDeleteVpl', new Kotlin.Long(-1984703348, 0), 150, void 0, ThreadManForUser$registerModule$lambda_81(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelSema', new Kotlin.Long(-1879180894, 0), 150, void 0, ThreadManForUser$registerModule$lambda_82(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelRotateThreadReadyQueue', new Kotlin.Long(-1859955545, 0), 150, void 0, ThreadManForUser$registerModule$lambda_83(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadmanIdList', new Kotlin.Long(-1807654608, 0), 150, void 0, ThreadManForUser$registerModule$lambda_84(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSuspendThread', new Kotlin.Long(-1723534561, 0), 150, void 0, ThreadManForUser$registerModule$lambda_85(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelFpl', new Kotlin.Long(-1465231073, 0), 150, void 0, ThreadManForUser$registerModule$lambda_86(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferMbxStatus', new Kotlin.Long(-1461139386, 0), 150, void 0, ThreadManForUser$registerModule$lambda_87(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferMutexStatus', new Kotlin.Long(-1446851686, 0), 150, void 0, ThreadManForUser$registerModule$lambda_88(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelExitThread', new Kotlin.Long(-1435252427, 0), 150, void 0, ThreadManForUser$registerModule$lambda_89(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelTryAllocateVpl', new Kotlin.Long(-1355360504, 0), 150, void 0, ThreadManForUser$registerModule$lambda_90(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelLockMutex', new Kotlin.Long(-1341017825, 0), 150, void 0, ThreadManForUser$registerModule$lambda_91(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetSysClockAlarm', new Kotlin.Long(-1295888046, 0), 150, void 0, ThreadManForUser$registerModule$lambda_92(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerBase', new Kotlin.Long(-1280992912, 0), 150, void 0, ThreadManForUser$registerModule$lambda_93(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelFreeVpl', new Kotlin.Long(-1221137921, 0), 150, void 0, ThreadManForUser$registerModule$lambda_94(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerBaseWide', new Kotlin.Long(-1212052617, 0), 150, void 0, ThreadManForUser$registerModule$lambda_95(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCreateMutex', new Kotlin.Long(-1211066170, 0), 150, void 0, ThreadManForUser$registerModule$lambda_96(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelCallback', new Kotlin.Long(-1170189866, 0), 150, void 0, ThreadManForUser$registerModule$lambda_97(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSysClock2USec', new Kotlin.Long(-1167355166, 0), 150, void 0, ThreadManForUser$registerModule$lambda_98(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferSemaStatus', new Kotlin.Long(-1133515835, 0), 150, void 0, ThreadManForUser$registerModule$lambda_99(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDelaySysClockThread', new Kotlin.Long(-1122878050, 0), 150, void 0, ThreadManForUser$registerModule$lambda_100(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelAllocateVpl', new Kotlin.Long(-1093503947, 0), 150, void 0, ThreadManForUser$registerModule$lambda_101(this));
+    this.registerFunctionRaw_gh35x6$('ThreadManForUser_BEED3A47', new Kotlin.Long(-1091749305, 0), 150, void 0, ThreadManForUser$registerModule$lambda_102(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCreateFpl', new Kotlin.Long(-1065634704, 0), 150, void 0, ThreadManForUser$registerModule$lambda_103(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerTimeWide', new Kotlin.Long(-1061945390, 0), 150, void 0, ThreadManForUser$registerModule$lambda_104(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelNotifyCallback', new Kotlin.Long(-1055151932, 0), 150, void 0, ThreadManForUser$registerModule$lambda_105(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelStartVTimer', new Kotlin.Long(-963800009, 0), 150, void 0, ThreadManForUser$registerModule$lambda_106(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUSec2SysClockWide', new Kotlin.Long(-926083700, 0), 150, void 0, ThreadManForUser$registerModule$lambda_107(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelStopVTimer', new Kotlin.Long(-793842041, 0), 150, void 0, ThreadManForUser$registerModule$lambda_108(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCheckThreadStack', new Kotlin.Long(-784605547, 0), 150, void 0, ThreadManForUser$registerModule$lambda_109(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelVTimerHandler', new Kotlin.Long(-757721617, 0), 150, void 0, ThreadManForUser$registerModule$lambda_110(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelWakeupThread', new Kotlin.Long(-711021265, 0), 150, void 0, ThreadManForUser$registerModule$lambda_111(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferFplStatus', new Kotlin.Long(-669409716, 0), 150, void 0, ThreadManForUser$registerModule$lambda_112(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetVTimerHandler', new Kotlin.Long(-659383890, 0), 150, void 0, ThreadManForUser$registerModule$lambda_113(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelAllocateFpl', new Kotlin.Long(-646321729, 0), 150, void 0, ThreadManForUser$registerModule$lambda_114(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferAlarmStatus', new Kotlin.Long(-626789020, 0), 150, void 0, ThreadManForUser$registerModule$lambda_115(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetSystemTime', new Kotlin.Long(-613183691, 0), 150, void 0, ThreadManForUser$registerModule$lambda_116(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelTryReceiveMsgPipe', new Kotlin.Long(-548271729, 0), 150, void 0, ThreadManForUser$registerModule$lambda_117(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSysClock2USecWide', new Kotlin.Long(-513696388, 0), 150, void 0, ThreadManForUser$registerModule$lambda_118(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelAllocateFplCB', new Kotlin.Long(-416797514, 0), 150, void 0, ThreadManForUser$registerModule$lambda_119(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSendMbx', new Kotlin.Long(-374143458, 0), 150, void 0, ThreadManForUser$registerModule$lambda_120(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelChangeCurrentThreadAttr', new Kotlin.Long(-361460175, 0), 150, void 0, ThreadManForUser$registerModule$lambda_121(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelAllocateVplCB', new Kotlin.Long(-334862017, 0), 150, void 0, ThreadManForUser$registerModule$lambda_122(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDeleteFpl', new Kotlin.Long(-317452064, 0), 150, void 0, ThreadManForUser$registerModule$lambda_123(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDeleteCallback', new Kotlin.Long(-306554812, 0), 150, void 0, ThreadManForUser$registerModule$lambda_124(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDeleteMsgPipe', new Kotlin.Long(-256386532, 0), 150, void 0, ThreadManForUser$registerModule$lambda_125(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReceiveMbxCB', new Kotlin.Long(-208116862, 0), 150, void 0, ThreadManForUser$registerModule$lambda_126(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelFreeFpl', new Kotlin.Long(-163493263, 0), 150, void 0, ThreadManForUser$registerModule$lambda_127(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDeleteMutex', new Kotlin.Long(-132706370, 0), 150, void 0, ThreadManForUser$registerModule$lambda_128(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetVTimerTimeWide', new Kotlin.Long(-77322813, 0), 150, void 0, ThreadManForUser$registerModule$lambda_129(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReceiveMsgPipeCB', new Kotlin.Long(-67475075, 0), 150, void 0, ThreadManForUser$registerModule$lambda_130(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelWakeupThread', new Kotlin.Long(-53498586, 0), 150, void 0, ThreadManForUser$registerModule$lambda_131(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferThreadRunStatus', new Kotlin.Long(-3970540, 0), 150, void 0, ThreadManForUser$registerModule$lambda_132(this));
   };
   function ThreadManForUser$eventFlags$lambda(it) {
     return new PspEventFlag(it);
   }
+  function ThreadManForUser$semaphoreManager$lambda(closure$emulator) {
+    return function () {
+      return new ThreadManForUser$SemaphoreManager(closure$emulator);
+    };
+  }
   ThreadManForUser.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'ThreadManForUser',
-    interfaces: [SceModule]
+    interfaces: [ThreadManForUser_EventFlags, SceModule]
+  };
+  function ThreadManForUser_EventFlags() {
+  }
+  ThreadManForUser_EventFlags.prototype.sceKernelCreateEventFlag_93yirb$ = function ($receiver, name, attributes, bitPattern, optionsPtr) {
+    var $receiver_0 = $receiver.eventFlags.alloc();
+    $receiver_0.name = name != null ? name : 'eventFlag';
+    $receiver_0.attributes = attributes;
+    $receiver_0.currentPattern = bitPattern;
+    $receiver_0.optionsPtr = optionsPtr;
+    return $receiver_0.id;
+  };
+  ThreadManForUser_EventFlags.prototype.sceKernelPollEventFlag_iavwqw$ = function ($receiver, id, bits, waitType, outBits) {
+    var tmp$;
+    var eventFlag = (tmp$ = $receiver.eventFlags.tryGetById_za3lpa$(id)) != null ? tmp$ : sceKernelException(SceKernelErrors_getInstance().ERROR_KERNEL_NOT_FOUND_EVENT_FLAG);
+    if ((waitType & ~EventFlagWaitTypeSet_getInstance().MaskValidBits) !== 0)
+      return SceKernelErrors_getInstance().ERROR_KERNEL_ILLEGAL_MODE;
+    if ((waitType & (EventFlagWaitTypeSet_getInstance().Clear | EventFlagWaitTypeSet_getInstance().ClearAll)) === (EventFlagWaitTypeSet_getInstance().Clear | EventFlagWaitTypeSet_getInstance().ClearAll)) {
+      return SceKernelErrors_getInstance().ERROR_KERNEL_ILLEGAL_MODE;
+    }
+    if (bits === 0)
+      return SceKernelErrors_getInstance().ERROR_KERNEL_EVENT_FLAG_ILLEGAL_WAIT_PATTERN;
+    var matched = eventFlag.poll_bvjn38$(bits, waitType, outBits);
+    return matched ? 0 : SceKernelErrors_getInstance().ERROR_KERNEL_EVENT_FLAG_POLL_FAILED;
+  };
+  ThreadManForUser_EventFlags.prototype.sceKernelCancelEventFlag_nqu1l6$ = function ($receiver, cpu) {
+    $receiver.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-853527918, 0));
+  };
+  ThreadManForUser_EventFlags.prototype.sceKernelReferEventFlagStatus_nqu1l6$ = function ($receiver, cpu) {
+    $receiver.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1502936800, 0));
+  };
+  ThreadManForUser_EventFlags.prototype.sceKernelSetEventFlag_nqu1l6$ = function ($receiver, cpu) {
+    $receiver.UNIMPLEMENTED_za3lpa$(531716658);
+  };
+  ThreadManForUser_EventFlags.prototype.sceKernelWaitEventFlagCB_nqu1l6$ = function ($receiver, cpu) {
+    $receiver.UNIMPLEMENTED_za3lpa$(848057450);
+  };
+  ThreadManForUser_EventFlags.prototype.sceKernelWaitEventFlag_nqu1l6$ = function ($receiver, cpu) {
+    $receiver.UNIMPLEMENTED_za3lpa$(1076875042);
+  };
+  ThreadManForUser_EventFlags.prototype.sceKernelClearEventFlag_nqu1l6$ = function ($receiver, cpu) {
+    $receiver.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2128394524, 0));
+  };
+  ThreadManForUser_EventFlags.prototype.sceKernelDeleteEventFlag_nqu1l6$ = function ($receiver, cpu) {
+    $receiver.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-274838416, 0));
+  };
+  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda(this$registerModuleEventFlags) {
+    return function ($receiver, it) {
+      return this$registerModuleEventFlags.sceKernelCreateEventFlag_93yirb$(this$registerModuleEventFlags, $receiver.str, $receiver.int, $receiver.int, $receiver.ptr);
+    };
+  }
+  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_0(this$registerModuleEventFlags) {
+    return function ($receiver, it) {
+      return this$registerModuleEventFlags.sceKernelPollEventFlag_iavwqw$(this$registerModuleEventFlags, $receiver.int, $receiver.int, $receiver.int, $receiver.ptr);
+    };
+  }
+  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_1(this$registerModuleEventFlags) {
+    return function (it) {
+      this$registerModuleEventFlags.sceKernelCancelEventFlag_nqu1l6$(this$registerModuleEventFlags, it);
+      return Unit;
+    };
+  }
+  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_2(this$registerModuleEventFlags) {
+    return function (it) {
+      this$registerModuleEventFlags.sceKernelReferEventFlagStatus_nqu1l6$(this$registerModuleEventFlags, it);
+      return Unit;
+    };
+  }
+  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_3(this$registerModuleEventFlags) {
+    return function (it) {
+      this$registerModuleEventFlags.sceKernelSetEventFlag_nqu1l6$(this$registerModuleEventFlags, it);
+      return Unit;
+    };
+  }
+  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_4(this$registerModuleEventFlags) {
+    return function (it) {
+      this$registerModuleEventFlags.sceKernelWaitEventFlagCB_nqu1l6$(this$registerModuleEventFlags, it);
+      return Unit;
+    };
+  }
+  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_5(this$registerModuleEventFlags) {
+    return function (it) {
+      this$registerModuleEventFlags.sceKernelWaitEventFlag_nqu1l6$(this$registerModuleEventFlags, it);
+      return Unit;
+    };
+  }
+  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_6(this$registerModuleEventFlags) {
+    return function (it) {
+      this$registerModuleEventFlags.sceKernelClearEventFlag_nqu1l6$(this$registerModuleEventFlags, it);
+      return Unit;
+    };
+  }
+  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_7(this$registerModuleEventFlags) {
+    return function (it) {
+      this$registerModuleEventFlags.sceKernelDeleteEventFlag_nqu1l6$(this$registerModuleEventFlags, it);
+      return Unit;
+    };
+  }
+  ThreadManForUser_EventFlags.prototype.registerModuleEventFlags_i7y6ea$ = function ($receiver) {
+    $receiver.registerFunctionInt_9l82lv$('sceKernelCreateEventFlag', Kotlin.Long.fromInt(1438779904), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda($receiver));
+    $receiver.registerFunctionInt_9l82lv$('sceKernelPollEventFlag', Kotlin.Long.fromInt(821905648), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_0($receiver));
+    $receiver.registerFunctionRaw_gh35x6$('sceKernelCancelEventFlag', new Kotlin.Long(-853527918, 0), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_1($receiver));
+    $receiver.registerFunctionRaw_gh35x6$('sceKernelReferEventFlagStatus', new Kotlin.Long(-1502936800, 0), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_2($receiver));
+    $receiver.registerFunctionRaw_gh35x6$('sceKernelSetEventFlag', Kotlin.Long.fromInt(531716658), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_3($receiver));
+    $receiver.registerFunctionRaw_gh35x6$('sceKernelWaitEventFlagCB', Kotlin.Long.fromInt(848057450), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_4($receiver));
+    $receiver.registerFunctionRaw_gh35x6$('sceKernelWaitEventFlag', Kotlin.Long.fromInt(1076875042), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_5($receiver));
+    $receiver.registerFunctionRaw_gh35x6$('sceKernelClearEventFlag', new Kotlin.Long(-2128394524, 0), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_6($receiver));
+    $receiver.registerFunctionRaw_gh35x6$('sceKernelDeleteEventFlag', new Kotlin.Long(-274838416, 0), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_7($receiver));
+  };
+  ThreadManForUser_EventFlags.$metadata$ = {
+    kind: Kind_INTERFACE,
+    simpleName: 'ThreadManForUser_EventFlags',
+    interfaces: []
   };
   function UtilsForKernel(emulator) {
     SceModule.call(this, emulator, 'UtilsForKernel', 589841, 'sysmem.prx', 'sceSystemMemoryManager');
@@ -24588,6 +24989,81 @@
   function sceAtrac3plus(emulator) {
     SceModule.call(this, emulator, 'sceAtrac3plus', 65553, 'libatrac3plus.prx', 'sceATRAC3plus_Library');
   }
+  sceAtrac3plus.prototype.sceAtracSetDataAndGetID_xnxgf8$ = function (data) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceAtracSetDataAndGetID Not implemented');
+    }
+    return 0;
+  };
+  sceAtrac3plus.prototype.sceAtracGetSecondBufferInfo_ypwtlu$ = function (id, puiPosition, puiDataByte) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceAtracGetSecondBufferInfo Not implemented (' + id + ', ' + puiPosition + ', ' + puiDataByte + ')');
+    }
+    return 0;
+  };
+  sceAtrac3plus.prototype.sceAtracSetSecondBuffer_ypwtlu$ = function (id, puiPosition, puiDataByte) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceAtracSetSecondBuffer Not implemented (' + id + ', ' + puiPosition + ', ' + puiDataByte + ')');
+    }
+    return 0;
+  };
+  sceAtrac3plus.prototype.sceAtracGetSoundSample_u114re$ = function (id, endSamplePtr, loopStartSamplePtr, loopEndSamplePtr) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceAtracGetSoundSample Not implemented (' + id + ', ' + endSamplePtr + ', ' + loopStartSamplePtr + ', ' + loopEndSamplePtr + ')');
+    }
+    return 0;
+  };
+  sceAtrac3plus.prototype.sceAtracSetLoopNum_vux9f0$ = function (id, numberOfLoops) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceAtracSetLoopNum Not implemented (' + id + ', ' + numberOfLoops + ')');
+    }
+    return 0;
+  };
+  sceAtrac3plus.prototype.sceAtracGetRemainFrame_o62i3q$ = function (id, remainFramePtr) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceAtracGetRemainFrame Not implemented (' + id + ', ' + remainFramePtr + ')');
+    }
+    return 0;
+  };
+  sceAtrac3plus.prototype.sceAtracGetNextDecodePosition_o62i3q$ = function (id, samplePositionPtr) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceAtracGetNextDecodePosition Not implemented (' + id + ', ' + samplePositionPtr + ')');
+    }
+    return 0;
+  };
+  sceAtrac3plus.prototype.sceAtracDecodeData_pre7by$ = function (id, samplesOutPtr, decodedSamplesCountPtr, reachedEndPtr, remainingFramesToDecodePtr) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceAtracDecodeData Not implemented (' + id + ', ' + samplesOutPtr + ', ' + decodedSamplesCountPtr + ', ' + reachedEndPtr + ', ' + remainingFramesToDecodePtr + ')');
+    }
+    return 0;
+  };
+  sceAtrac3plus.prototype.sceAtracGetStreamDataInfo_u114re$ = function (id, writePointerPointer, availableBytesPtr, readOffsetPtr) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceAtracGetStreamDataInfo Not implemented (' + id + ', ' + writePointerPointer + ', ' + availableBytesPtr + ', ' + readOffsetPtr + ')');
+    }
+    return 0;
+  };
+  sceAtrac3plus.prototype.sceAtracAddStreamData_vux9f0$ = function (id, bytesToAdd) {
+    return 0;
+  };
   sceAtrac3plus.prototype.sceAtracSetData_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(237663147);
   };
@@ -24615,9 +25091,6 @@
   sceAtrac3plus.prototype.sceAtracSetMOutHalfwayBuffer_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1559877714);
   };
-  sceAtrac3plus.prototype.sceAtracGetStreamDataInfo_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(1562806023);
-  };
   sceAtrac3plus.prototype.sceAtracSetAA3HalfwayBufferAndGetID_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1574331784);
   };
@@ -24627,35 +25100,11 @@
   sceAtrac3plus.prototype.sceAtracResetPlayPosition_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1682855431);
   };
-  sceAtrac3plus.prototype.sceAtracDecodeData_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(1787575509);
-  };
   sceAtrac3plus.prototype.sceAtracGetAtracID_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(2014283985);
   };
-  sceAtrac3plus.prototype.sceAtracSetDataAndGetID_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(2048976815);
-  };
-  sceAtrac3plus.prototype.sceAtracAddStreamData_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(2108887633);
-  };
-  sceAtrac3plus.prototype.sceAtracSetSecondBuffer_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2084603139, 0));
-  };
-  sceAtrac3plus.prototype.sceAtracGetSecondBufferInfo_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2081923424, 0));
-  };
-  sceAtrac3plus.prototype.sceAtracSetLoopNum_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2038357835, 0));
-  };
-  sceAtrac3plus.prototype.sceAtracGetRemainFrame_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1696052825, 0));
-  };
   sceAtrac3plus.prototype.sceAtracSetMOutHalfwayBufferAndGetID_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1663574525, 0));
-  };
-  sceAtrac3plus.prototype.sceAtracGetSoundSample_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1564759874, 0));
   };
   sceAtrac3plus.prototype.sceAtracGetBitrate_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1521180328, 0));
@@ -24675,9 +25124,6 @@
   sceAtrac3plus.prototype.sceAtracGetMaxSample_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-693767433, 0));
   };
-  sceAtrac3plus.prototype.sceAtracGetNextDecodePosition_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-499238347, 0));
-  };
   sceAtrac3plus.prototype.sceAtracGetInternalErrorInfo_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-393251429, 0));
   };
@@ -24688,182 +25134,172 @@
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-89851749, 0));
   };
   function sceAtrac3plus$registerModule$lambda(this$sceAtrac3plus) {
+    return function ($receiver, it) {
+      return this$sceAtrac3plus.sceAtracSetDataAndGetID_xnxgf8$($receiver.ptr);
+    };
+  }
+  function sceAtrac3plus$registerModule$lambda_0(this$sceAtrac3plus) {
+    return function ($receiver, it) {
+      return this$sceAtrac3plus.sceAtracGetSecondBufferInfo_ypwtlu$($receiver.int, $receiver.ptr, $receiver.ptr);
+    };
+  }
+  function sceAtrac3plus$registerModule$lambda_1(this$sceAtrac3plus) {
+    return function ($receiver, it) {
+      return this$sceAtrac3plus.sceAtracSetSecondBuffer_ypwtlu$($receiver.int, $receiver.ptr, $receiver.ptr);
+    };
+  }
+  function sceAtrac3plus$registerModule$lambda_2(this$sceAtrac3plus) {
+    return function ($receiver, it) {
+      return this$sceAtrac3plus.sceAtracGetSoundSample_u114re$($receiver.int, $receiver.ptr, $receiver.ptr, $receiver.ptr);
+    };
+  }
+  function sceAtrac3plus$registerModule$lambda_3(this$sceAtrac3plus) {
+    return function ($receiver, it) {
+      return this$sceAtrac3plus.sceAtracSetLoopNum_vux9f0$($receiver.int, $receiver.int);
+    };
+  }
+  function sceAtrac3plus$registerModule$lambda_4(this$sceAtrac3plus) {
+    return function ($receiver, it) {
+      return this$sceAtrac3plus.sceAtracGetRemainFrame_o62i3q$($receiver.int, $receiver.ptr);
+    };
+  }
+  function sceAtrac3plus$registerModule$lambda_5(this$sceAtrac3plus) {
+    return function ($receiver, it) {
+      return this$sceAtrac3plus.sceAtracGetNextDecodePosition_o62i3q$($receiver.int, $receiver.ptr);
+    };
+  }
+  function sceAtrac3plus$registerModule$lambda_6(this$sceAtrac3plus) {
+    return function ($receiver, it) {
+      return this$sceAtrac3plus.sceAtracDecodeData_pre7by$($receiver.int, $receiver.ptr, $receiver.ptr, $receiver.ptr, $receiver.ptr);
+    };
+  }
+  function sceAtrac3plus$registerModule$lambda_7(this$sceAtrac3plus) {
+    return function ($receiver, it) {
+      return this$sceAtrac3plus.sceAtracGetStreamDataInfo_u114re$($receiver.int, $receiver.ptr, $receiver.ptr, $receiver.ptr);
+    };
+  }
+  function sceAtrac3plus$registerModule$lambda_8(this$sceAtrac3plus) {
+    return function ($receiver, it) {
+      return this$sceAtrac3plus.sceAtracAddStreamData_vux9f0$($receiver.int, $receiver.int);
+    };
+  }
+  function sceAtrac3plus$registerModule$lambda_9(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracSetData_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_0(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_10(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracSetHalfwayBufferAndGetID_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_1(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_11(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracReinit_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_2(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_12(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtrac3plus_2DD3E298_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_3(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_13(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracGetChannel_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_4(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_14(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracGetNextSample_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_5(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_15(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracSetHalfwayBuffer_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_6(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_16(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracSetAA3DataAndGetID_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_7(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_17(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracSetMOutHalfwayBuffer_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_8(this$sceAtrac3plus) {
-    return function (it) {
-      this$sceAtrac3plus.sceAtracGetStreamDataInfo_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function sceAtrac3plus$registerModule$lambda_9(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_18(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracSetAA3HalfwayBufferAndGetID_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_10(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_19(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracReleaseAtracID_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_11(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_20(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracResetPlayPosition_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_12(this$sceAtrac3plus) {
-    return function (it) {
-      this$sceAtrac3plus.sceAtracDecodeData_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function sceAtrac3plus$registerModule$lambda_13(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_21(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracGetAtracID_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_14(this$sceAtrac3plus) {
-    return function (it) {
-      this$sceAtrac3plus.sceAtracSetDataAndGetID_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function sceAtrac3plus$registerModule$lambda_15(this$sceAtrac3plus) {
-    return function (it) {
-      this$sceAtrac3plus.sceAtracAddStreamData_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function sceAtrac3plus$registerModule$lambda_16(this$sceAtrac3plus) {
-    return function (it) {
-      this$sceAtrac3plus.sceAtracSetSecondBuffer_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function sceAtrac3plus$registerModule$lambda_17(this$sceAtrac3plus) {
-    return function (it) {
-      this$sceAtrac3plus.sceAtracGetSecondBufferInfo_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function sceAtrac3plus$registerModule$lambda_18(this$sceAtrac3plus) {
-    return function (it) {
-      this$sceAtrac3plus.sceAtracSetLoopNum_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function sceAtrac3plus$registerModule$lambda_19(this$sceAtrac3plus) {
-    return function (it) {
-      this$sceAtrac3plus.sceAtracGetRemainFrame_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function sceAtrac3plus$registerModule$lambda_20(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_22(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracSetMOutHalfwayBufferAndGetID_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_21(this$sceAtrac3plus) {
-    return function (it) {
-      this$sceAtrac3plus.sceAtracGetSoundSample_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function sceAtrac3plus$registerModule$lambda_22(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_23(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracGetBitrate_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_23(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_24(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracGetOutputChannel_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_24(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_25(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracGetBufferInfoForReseting_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_25(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_26(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracStartEntry_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_26(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_27(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracEndEntry_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_27(this$sceAtrac3plus) {
-    return function (it) {
-      this$sceAtrac3plus.sceAtracGetMaxSample_xt3zvs$(it);
-      return Unit;
-    };
-  }
   function sceAtrac3plus$registerModule$lambda_28(this$sceAtrac3plus) {
     return function (it) {
-      this$sceAtrac3plus.sceAtracGetNextDecodePosition_xt3zvs$(it);
+      this$sceAtrac3plus.sceAtracGetMaxSample_xt3zvs$(it);
       return Unit;
     };
   }
@@ -24886,36 +25322,36 @@
     };
   }
   sceAtrac3plus.prototype.registerModule = function () {
-    this.registerFunctionRaw_gh35x6$('sceAtracSetData', Kotlin.Long.fromInt(237663147), 150, void 0, sceAtrac3plus$registerModule$lambda(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetHalfwayBufferAndGetID', Kotlin.Long.fromInt(263075598), 150, void 0, sceAtrac3plus$registerModule$lambda_0(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracReinit', Kotlin.Long.fromInt(321855178), 150, void 0, sceAtrac3plus$registerModule$lambda_1(this));
-    this.registerFunctionRaw_gh35x6$('sceAtrac3plus_2DD3E298', Kotlin.Long.fromInt(768860824), 150, void 0, sceAtrac3plus$registerModule$lambda_2(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracGetChannel', Kotlin.Long.fromInt(828804010), 150, void 0, sceAtrac3plus$registerModule$lambda_3(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracGetNextSample', Kotlin.Long.fromInt(922397691), 150, void 0, sceAtrac3plus$registerModule$lambda_4(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetHalfwayBuffer', Kotlin.Long.fromInt(1064183477), 150, void 0, sceAtrac3plus$registerModule$lambda_5(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetAA3DataAndGetID', Kotlin.Long.fromInt(1445115841), 150, void 0, sceAtrac3plus$registerModule$lambda_6(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetMOutHalfwayBuffer', Kotlin.Long.fromInt(1559877714), 150, void 0, sceAtrac3plus$registerModule$lambda_7(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracGetStreamDataInfo', Kotlin.Long.fromInt(1562806023), 150, void 0, sceAtrac3plus$registerModule$lambda_8(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetAA3HalfwayBufferAndGetID', Kotlin.Long.fromInt(1574331784), 150, void 0, sceAtrac3plus$registerModule$lambda_9(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracReleaseAtracID', Kotlin.Long.fromInt(1642804213), 150, void 0, sceAtrac3plus$registerModule$lambda_10(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracResetPlayPosition', Kotlin.Long.fromInt(1682855431), 150, void 0, sceAtrac3plus$registerModule$lambda_11(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracDecodeData', Kotlin.Long.fromInt(1787575509), 150, void 0, sceAtrac3plus$registerModule$lambda_12(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracGetAtracID', Kotlin.Long.fromInt(2014283985), 150, void 0, sceAtrac3plus$registerModule$lambda_13(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetDataAndGetID', Kotlin.Long.fromInt(2048976815), 150, void 0, sceAtrac3plus$registerModule$lambda_14(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracAddStreamData', Kotlin.Long.fromInt(2108887633), 150, void 0, sceAtrac3plus$registerModule$lambda_15(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetSecondBuffer', new Kotlin.Long(-2084603139, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_16(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracGetSecondBufferInfo', new Kotlin.Long(-2081923424, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_17(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetLoopNum', new Kotlin.Long(-2038357835, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_18(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracGetRemainFrame', new Kotlin.Long(-1696052825, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_19(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetMOutHalfwayBufferAndGetID', new Kotlin.Long(-1663574525, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_20(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracGetSoundSample', new Kotlin.Long(-1564759874, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_21(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracGetBitrate', new Kotlin.Long(-1521180328, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_22(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracGetOutputChannel', new Kotlin.Long(-1279930302, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_23(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracGetBufferInfoForReseting', new Kotlin.Long(-901995566, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_24(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracStartEntry', new Kotlin.Long(-772431909, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_25(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracEndEntry', new Kotlin.Long(-708670272, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_26(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracGetMaxSample', new Kotlin.Long(-693767433, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_27(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracGetNextDecodePosition', new Kotlin.Long(-499238347, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_28(this));
+    this.registerFunctionInt_9l82lv$('sceAtracSetDataAndGetID', Kotlin.Long.fromInt(2048976815), 150, void 0, sceAtrac3plus$registerModule$lambda(this));
+    this.registerFunctionInt_9l82lv$('sceAtracGetSecondBufferInfo', new Kotlin.Long(-2081923424, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_0(this));
+    this.registerFunctionInt_9l82lv$('sceAtracSetSecondBuffer', new Kotlin.Long(-2084603139, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_1(this));
+    this.registerFunctionInt_9l82lv$('sceAtracGetSoundSample', new Kotlin.Long(-1564759874, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_2(this));
+    this.registerFunctionInt_9l82lv$('sceAtracSetLoopNum', new Kotlin.Long(-2038357835, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_3(this));
+    this.registerFunctionInt_9l82lv$('sceAtracGetRemainFrame', new Kotlin.Long(-1696052825, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_4(this));
+    this.registerFunctionInt_9l82lv$('sceAtracGetNextDecodePosition', new Kotlin.Long(-499238347, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_5(this));
+    this.registerFunctionInt_9l82lv$('sceAtracDecodeData', Kotlin.Long.fromInt(1787575509), 150, void 0, sceAtrac3plus$registerModule$lambda_6(this));
+    this.registerFunctionInt_9l82lv$('sceAtracGetStreamDataInfo', Kotlin.Long.fromInt(1562806023), 150, void 0, sceAtrac3plus$registerModule$lambda_7(this));
+    this.registerFunctionInt_9l82lv$('sceAtracAddStreamData', Kotlin.Long.fromInt(2108887633), 150, void 0, sceAtrac3plus$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracSetData', Kotlin.Long.fromInt(237663147), 150, void 0, sceAtrac3plus$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracSetHalfwayBufferAndGetID', Kotlin.Long.fromInt(263075598), 150, void 0, sceAtrac3plus$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracReinit', Kotlin.Long.fromInt(321855178), 150, void 0, sceAtrac3plus$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('sceAtrac3plus_2DD3E298', Kotlin.Long.fromInt(768860824), 150, void 0, sceAtrac3plus$registerModule$lambda_12(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracGetChannel', Kotlin.Long.fromInt(828804010), 150, void 0, sceAtrac3plus$registerModule$lambda_13(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracGetNextSample', Kotlin.Long.fromInt(922397691), 150, void 0, sceAtrac3plus$registerModule$lambda_14(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracSetHalfwayBuffer', Kotlin.Long.fromInt(1064183477), 150, void 0, sceAtrac3plus$registerModule$lambda_15(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracSetAA3DataAndGetID', Kotlin.Long.fromInt(1445115841), 150, void 0, sceAtrac3plus$registerModule$lambda_16(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracSetMOutHalfwayBuffer', Kotlin.Long.fromInt(1559877714), 150, void 0, sceAtrac3plus$registerModule$lambda_17(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracSetAA3HalfwayBufferAndGetID', Kotlin.Long.fromInt(1574331784), 150, void 0, sceAtrac3plus$registerModule$lambda_18(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracReleaseAtracID', Kotlin.Long.fromInt(1642804213), 150, void 0, sceAtrac3plus$registerModule$lambda_19(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracResetPlayPosition', Kotlin.Long.fromInt(1682855431), 150, void 0, sceAtrac3plus$registerModule$lambda_20(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracGetAtracID', Kotlin.Long.fromInt(2014283985), 150, void 0, sceAtrac3plus$registerModule$lambda_21(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracSetMOutHalfwayBufferAndGetID', new Kotlin.Long(-1663574525, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_22(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracGetBitrate', new Kotlin.Long(-1521180328, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_23(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracGetOutputChannel', new Kotlin.Long(-1279930302, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_24(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracGetBufferInfoForReseting', new Kotlin.Long(-901995566, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_25(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracStartEntry', new Kotlin.Long(-772431909, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_26(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracEndEntry', new Kotlin.Long(-708670272, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_27(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracGetMaxSample', new Kotlin.Long(-693767433, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_28(this));
     this.registerFunctionRaw_gh35x6$('sceAtracGetInternalErrorInfo', new Kotlin.Long(-393251429, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_29(this));
     this.registerFunctionRaw_gh35x6$('sceAtracIsSecondBufferNeeded', new Kotlin.Long(-324851047, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_30(this));
     this.registerFunctionRaw_gh35x6$('sceAtracGetLoopStatus', new Kotlin.Long(-89851749, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_31(this));
@@ -24963,8 +25399,8 @@
     this.sampleCount = 0;
     this.audioFormat = 0;
     this.line = new Int16Array(0);
-    this.started = 0.0;
-    this.msBuffered = 0.0;
+    this.volumeLeft = 1.0;
+    this.volumeRight = 1.0;
   }
   Object.defineProperty(sceAudio$AudioChannel.prototype, 'stream', {
     get: function () {
@@ -24981,11 +25417,6 @@
   Object.defineProperty(sceAudio$AudioChannel.prototype, 'shortsPerSamples', {
     get: function () {
       return this.isStereo ? 2 : 1;
-    }
-  });
-  Object.defineProperty(sceAudio$AudioChannel.prototype, 'msPerLine', {
-    get: function () {
-      return numberToInt(this.sampleCount * 1000.0 / 44100.0);
     }
   });
   function sceAudio$AudioChannel$stream$lambda() {
@@ -25028,22 +25459,20 @@
       $this.actualLog_t189ph$(level, 'WIP: sceAudioChReserve: ' + channelId + ', ' + sampleCount + ', ' + audioFormat);
     }
     channel.stream;
-    channel.started = get_timeManager(this).getTimeInMillisecondsDouble();
-    channel.msBuffered = 0.0;
     channel.reserved = true;
     channel.sampleCount = sampleCount;
     channel.audioFormat = audioFormat;
     channel.line = new Int16Array(Kotlin.imul(sampleCount, channel.shortsPerSamples));
     return actualChannelId;
   };
-  sceAudio.prototype.sceAudioOutputPannedBlocking_tjonv8$ = function (channelId_0, leftVolume_0, rightVolume_0, ptr_0, continuation_0, suspended) {
-    var instance = new Coroutine$sceAudioOutputPannedBlocking_tjonv8$(this, channelId_0, leftVolume_0, rightVolume_0, ptr_0, continuation_0);
+  sceAudio.prototype._sceAudioOutputPannedBlocking_myfpo8$ = function (channelId_0, leftVolume_0, rightVolume_0, ptr_0, continuation_0, suspended) {
+    var instance = new Coroutine$_sceAudioOutputPannedBlocking_myfpo8$(this, channelId_0, leftVolume_0, rightVolume_0, ptr_0, continuation_0);
     if (suspended)
       return instance;
     else
       return instance.doResume(null);
   };
-  function Coroutine$sceAudioOutputPannedBlocking_tjonv8$($this, channelId_0, leftVolume_0, rightVolume_0, ptr_0, continuation_0) {
+  function Coroutine$_sceAudioOutputPannedBlocking_myfpo8$($this, channelId_0, leftVolume_0, rightVolume_0, ptr_0, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
     this.exceptionState_0 = 1;
     this.$this = $this;
@@ -25052,14 +25481,14 @@
     this.local$rightVolume = rightVolume_0;
     this.local$ptr = ptr_0;
   }
-  Coroutine$sceAudioOutputPannedBlocking_tjonv8$.$metadata$ = {
+  Coroutine$_sceAudioOutputPannedBlocking_myfpo8$.$metadata$ = {
     kind: Kotlin.Kind.CLASS,
     simpleName: null,
     interfaces: [CoroutineImpl]
   };
-  Coroutine$sceAudioOutputPannedBlocking_tjonv8$.prototype = Object.create(CoroutineImpl.prototype);
-  Coroutine$sceAudioOutputPannedBlocking_tjonv8$.prototype.constructor = Coroutine$sceAudioOutputPannedBlocking_tjonv8$;
-  Coroutine$sceAudioOutputPannedBlocking_tjonv8$.prototype.doResume = function () {
+  Coroutine$_sceAudioOutputPannedBlocking_myfpo8$.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$_sceAudioOutputPannedBlocking_myfpo8$.prototype.constructor = Coroutine$_sceAudioOutputPannedBlocking_myfpo8$;
+  Coroutine$_sceAudioOutputPannedBlocking_myfpo8$.prototype.doResume = function () {
     do
       try {
         switch (this.state_0) {
@@ -25067,7 +25496,7 @@
             var $this = this.$this.logger;
             var level = LogLevel.TRACE;
             if (level.index <= $this.processedLevel.index) {
-              $this.actualLog_t189ph$(level, 'WIP: sceAudioOutputPannedBlocking: ' + this.local$channelId + ', ' + this.local$leftVolume + ', ' + this.local$rightVolume + ', ' + this.local$ptr);
+              $this.actualLog_t189ph$(level, 'WIP: sceAudioOutputPannedBlocking: ChannelId(' + this.local$channelId + '), Volumes(' + this.local$leftVolume + ', ' + this.local$rightVolume + '), Ptr(' + this.local$ptr + ')');
             }
 
             var channel = this.$this.channels.get_za3lpa$(this.local$channelId);
@@ -25093,6 +25522,28 @@
       }
      while (true);
   };
+  sceAudio.prototype.sceAudioOutputPannedBlocking_tjonv8$ = function (channelId, leftVolume, rightVolume, ptr, continuation) {
+    var channel = this.channels.get_za3lpa$(channelId);
+    return this._sceAudioOutputPannedBlocking_myfpo8$(channelId, this.shortVolumeToDouble_0(leftVolume) * channel.volumeLeft, this.shortVolumeToDouble_0(rightVolume) * channel.volumeRight, ptr, continuation);
+  };
+  sceAudio.prototype.sceAudioOutputBlocking_vux9f0$ = function (channelId, ptr, continuation) {
+    var channel = this.channels.get_za3lpa$(channelId);
+    return this._sceAudioOutputPannedBlocking_myfpo8$(channelId, channel.volumeLeft, channel.volumeRight, ptr, continuation);
+  };
+  sceAudio.prototype.shortVolumeToDouble_0 = function ($receiver) {
+    return $receiver / 32767.0;
+  };
+  sceAudio.prototype.sceAudioChangeChannelVolume_qt1dr2$ = function (channelId, volumeLeft, volumeRight) {
+    var $this = this.logger;
+    var level = LogLevel.INFO;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceAudioChangeChannelVolume not implemented! ' + volumeLeft + ', ' + volumeRight);
+    }
+    var channel = this.channels.get_za3lpa$(channelId);
+    channel.volumeLeft = this.shortVolumeToDouble_0(volumeLeft);
+    channel.volumeRight = this.shortVolumeToDouble_0(volumeRight);
+    return 0;
+  };
   sceAudio.prototype.sceAudioChReserve_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1590172757);
   };
@@ -25101,9 +25552,6 @@
   };
   sceAudio.prototype.sceAudioInputBlocking_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(141449365);
-  };
-  sceAudio.prototype.sceAudioOutputBlocking_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(325889873);
   };
   sceAudio.prototype.sceAudioOutput2OutputBlocking_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(760476526);
@@ -25153,9 +25601,6 @@
   sceAudio.prototype.sceAudioGetChannelRestLength_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1341025745, 0));
   };
-  sceAudio.prototype.sceAudioChangeChannelVolume_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1209935641, 0));
-  };
   sceAudio.prototype.sceAudioSetChannelDataLen_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-886160482, 0));
   };
@@ -25176,7 +25621,12 @@
       return this$sceAudio.sceAudioChReserve_qt1dr2$($receiver.int, $receiver.int, $receiver.int);
     };
   }
-  function sceAudio$registerModule$lambda_0(this$sceAudio_0) {
+  function sceAudio$registerModule$lambda_0(this$sceAudio) {
+    return function ($receiver, it) {
+      return this$sceAudio.sceAudioChangeChannelVolume_qt1dr2$($receiver.int, $receiver.int, $receiver.int);
+    };
+  }
+  function sceAudio$registerModule$lambda_1(this$sceAudio_0) {
     return function ($receiver_0, it, continuation_0, suspended) {
       var instance = new Coroutine$sceAudio$registerModule$lambda(this$sceAudio_0, $receiver_0, it, this, continuation_0);
       if (suspended)
@@ -25225,123 +25675,160 @@
       }
      while (true);
   };
-  function sceAudio$registerModule$lambda_1(this$sceAudio) {
+  function sceAudio$registerModule$lambda_2(this$sceAudio_0) {
+    return function ($receiver_0, it, continuation_0, suspended) {
+      var instance = new Coroutine$sceAudio$registerModule$lambda_0(this$sceAudio_0, $receiver_0, it, this, continuation_0);
+      if (suspended)
+        return instance;
+      else
+        return instance.doResume(null);
+    };
+  }
+  function Coroutine$sceAudio$registerModule$lambda_0(this$sceAudio_0, $receiver_0, it, controller, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.$controller = controller;
+    this.exceptionState_0 = 1;
+    this.local$this$sceAudio = this$sceAudio_0;
+    this.local$$receiver = $receiver_0;
+  }
+  Coroutine$sceAudio$registerModule$lambda_0.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$sceAudio$registerModule$lambda_0.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$sceAudio$registerModule$lambda_0.prototype.constructor = Coroutine$sceAudio$registerModule$lambda_0;
+  Coroutine$sceAudio$registerModule$lambda_0.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 2;
+            this.result_0 = this.local$this$sceAudio.sceAudioOutputBlocking_vux9f0$(this.local$$receiver.int, this.local$$receiver.int, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            return this.result_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  function sceAudio$registerModule$lambda_3(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioOutput2Reserve_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_2(this$sceAudio) {
+  function sceAudio$registerModule$lambda_4(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioInputBlocking_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_3(this$sceAudio) {
-    return function (it) {
-      this$sceAudio.sceAudioOutputBlocking_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function sceAudio$registerModule$lambda_4(this$sceAudio) {
+  function sceAudio$registerModule$lambda_5(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioOutput2OutputBlocking_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_5(this$sceAudio) {
+  function sceAudio$registerModule$lambda_6(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioSRCChReserve_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_6(this$sceAudio) {
+  function sceAudio$registerModule$lambda_7(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioOneshotOutput_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_7(this$sceAudio) {
+  function sceAudio$registerModule$lambda_8(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioOutput2Release_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_8(this$sceAudio) {
+  function sceAudio$registerModule$lambda_9(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioSRCChRelease_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_9(this$sceAudio) {
+  function sceAudio$registerModule$lambda_10(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioOutput2ChangeLength_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_10(this$sceAudio) {
+  function sceAudio$registerModule$lambda_11(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioOutput2GetRestSample_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_11(this$sceAudio) {
+  function sceAudio$registerModule$lambda_12(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioInput_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_12(this$sceAudio) {
+  function sceAudio$registerModule$lambda_13(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioChRelease_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_13(this$sceAudio) {
+  function sceAudio$registerModule$lambda_14(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioInputInit_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_14(this$sceAudio) {
+  function sceAudio$registerModule$lambda_15(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioWaitInputEnd_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_15(this$sceAudio) {
+  function sceAudio$registerModule$lambda_16(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioOutput_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_16(this$sceAudio) {
+  function sceAudio$registerModule$lambda_17(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioChangeChannelConfig_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_17(this$sceAudio) {
+  function sceAudio$registerModule$lambda_18(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioPollInputEnd_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_18(this$sceAudio) {
+  function sceAudio$registerModule$lambda_19(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioGetInputLength_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_19(this$sceAudio) {
-    return function (it) {
-      this$sceAudio.sceAudioGetChannelRestLength_xt3zvs$(it);
-      return Unit;
-    };
-  }
   function sceAudio$registerModule$lambda_20(this$sceAudio) {
     return function (it) {
-      this$sceAudio.sceAudioChangeChannelVolume_xt3zvs$(it);
+      this$sceAudio.sceAudioGetChannelRestLength_xt3zvs$(it);
       return Unit;
     };
   }
@@ -25377,27 +25864,27 @@
   }
   sceAudio.prototype.registerModule = function () {
     this.registerFunctionInt_9l82lv$('sceAudioChReserve', Kotlin.Long.fromInt(1590172757), 150, void 0, sceAudio$registerModule$lambda(this));
-    this.registerFunctionSuspendInt_q1rm4a$('sceAudioOutputPannedBlocking', Kotlin.Long.fromInt(334860988), 150, void 0, void 0, sceAudio$registerModule$lambda_0(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOutput2Reserve', Kotlin.Long.fromInt(22424483), 150, void 0, sceAudio$registerModule$lambda_1(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioInputBlocking', Kotlin.Long.fromInt(141449365), 150, void 0, sceAudio$registerModule$lambda_2(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOutputBlocking', Kotlin.Long.fromInt(325889873), 150, void 0, sceAudio$registerModule$lambda_3(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOutput2OutputBlocking', Kotlin.Long.fromInt(760476526), 150, void 0, sceAudio$registerModule$lambda_4(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioSRCChReserve', Kotlin.Long.fromInt(945107217), 150, void 0, sceAudio$registerModule$lambda_5(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOneshotOutput', Kotlin.Long.fromInt(1106226663), 150, void 0, sceAudio$registerModule$lambda_6(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOutput2Release', Kotlin.Long.fromInt(1125738565), 150, void 0, sceAudio$registerModule$lambda_7(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioSRCChRelease', Kotlin.Long.fromInt(1547157678), 150, void 0, sceAudio$registerModule$lambda_8(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOutput2ChangeLength', Kotlin.Long.fromInt(1676839068), 150, void 0, sceAudio$registerModule$lambda_9(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOutput2GetRestSample', Kotlin.Long.fromInt(1685909299), 150, void 0, sceAudio$registerModule$lambda_10(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioInput', Kotlin.Long.fromInt(1833692264), 150, void 0, sceAudio$registerModule$lambda_11(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioChRelease', Kotlin.Long.fromInt(1875142739), 150, void 0, sceAudio$registerModule$lambda_12(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioInputInit', Kotlin.Long.fromInt(2112231048), 150, void 0, sceAudio$registerModule$lambda_13(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioWaitInputEnd', new Kotlin.Long(-2018318767, 0), 150, void 0, sceAudio$registerModule$lambda_14(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOutput', new Kotlin.Long(-1945105998, 0), 150, void 0, sceAudio$registerModule$lambda_15(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioChangeChannelConfig', new Kotlin.Long(-1778578387, 0), 150, void 0, sceAudio$registerModule$lambda_16(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioPollInputEnd', new Kotlin.Long(-1506605938, 0), 150, void 0, sceAudio$registerModule$lambda_17(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioGetInputLength', new Kotlin.Long(-1492597082, 0), 150, void 0, sceAudio$registerModule$lambda_18(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioGetChannelRestLength', new Kotlin.Long(-1341025745, 0), 150, void 0, sceAudio$registerModule$lambda_19(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioChangeChannelVolume', new Kotlin.Long(-1209935641, 0), 150, void 0, sceAudio$registerModule$lambda_20(this));
+    this.registerFunctionInt_9l82lv$('sceAudioChangeChannelVolume', new Kotlin.Long(-1209935641, 0), 150, void 0, sceAudio$registerModule$lambda_0(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceAudioOutputPannedBlocking', Kotlin.Long.fromInt(334860988), 150, void 0, void 0, sceAudio$registerModule$lambda_1(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceAudioOutputBlocking', Kotlin.Long.fromInt(325889873), 150, void 0, void 0, sceAudio$registerModule$lambda_2(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioOutput2Reserve', Kotlin.Long.fromInt(22424483), 150, void 0, sceAudio$registerModule$lambda_3(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioInputBlocking', Kotlin.Long.fromInt(141449365), 150, void 0, sceAudio$registerModule$lambda_4(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioOutput2OutputBlocking', Kotlin.Long.fromInt(760476526), 150, void 0, sceAudio$registerModule$lambda_5(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioSRCChReserve', Kotlin.Long.fromInt(945107217), 150, void 0, sceAudio$registerModule$lambda_6(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioOneshotOutput', Kotlin.Long.fromInt(1106226663), 150, void 0, sceAudio$registerModule$lambda_7(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioOutput2Release', Kotlin.Long.fromInt(1125738565), 150, void 0, sceAudio$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioSRCChRelease', Kotlin.Long.fromInt(1547157678), 150, void 0, sceAudio$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioOutput2ChangeLength', Kotlin.Long.fromInt(1676839068), 150, void 0, sceAudio$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioOutput2GetRestSample', Kotlin.Long.fromInt(1685909299), 150, void 0, sceAudio$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioInput', Kotlin.Long.fromInt(1833692264), 150, void 0, sceAudio$registerModule$lambda_12(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioChRelease', Kotlin.Long.fromInt(1875142739), 150, void 0, sceAudio$registerModule$lambda_13(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioInputInit', Kotlin.Long.fromInt(2112231048), 150, void 0, sceAudio$registerModule$lambda_14(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioWaitInputEnd', new Kotlin.Long(-2018318767, 0), 150, void 0, sceAudio$registerModule$lambda_15(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioOutput', new Kotlin.Long(-1945105998, 0), 150, void 0, sceAudio$registerModule$lambda_16(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioChangeChannelConfig', new Kotlin.Long(-1778578387, 0), 150, void 0, sceAudio$registerModule$lambda_17(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioPollInputEnd', new Kotlin.Long(-1506605938, 0), 150, void 0, sceAudio$registerModule$lambda_18(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioGetInputLength', new Kotlin.Long(-1492597082, 0), 150, void 0, sceAudio$registerModule$lambda_19(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioGetChannelRestLength', new Kotlin.Long(-1341025745, 0), 150, void 0, sceAudio$registerModule$lambda_20(this));
     this.registerFunctionRaw_gh35x6$('sceAudioSetChannelDataLen', new Kotlin.Long(-886160482, 0), 150, void 0, sceAudio$registerModule$lambda_21(this));
     this.registerFunctionRaw_gh35x6$('sceAudioSRCOutputBlocking', new Kotlin.Long(-529371050, 0), 150, void 0, sceAudio$registerModule$lambda_22(this));
     this.registerFunctionRaw_gh35x6$('sceAudioOutputPanned', new Kotlin.Long(-489329875, 0), 150, void 0, sceAudio$registerModule$lambda_23(this));
@@ -25444,11 +25931,22 @@
     get_controller(this).samplingMode = samplingMode;
     return 0;
   };
+  sceCtrl.prototype._peekLatch_xnxgf8$ = function (currentLatchPtr) {
+    var ButtonsNew = get_controller(this).currentFrame.buttons;
+    var ButtonsOld = get_controller(this).lastLatchData.buttons;
+    var ButtonsChanged = ButtonsOld ^ ButtonsNew;
+    currentLatchPtr.sw_vux9f0$(0, ButtonsNew & ButtonsChanged);
+    currentLatchPtr.sw_vux9f0$(4, ButtonsOld & ButtonsChanged);
+    currentLatchPtr.sw_vux9f0$(8, ButtonsNew);
+    currentLatchPtr.sw_vux9f0$(12, ButtonsOld & ~ButtonsNew & ButtonsChanged);
+    get_controller(this).lastLatchData.setTo_2xrz9e$(get_controller(this).currentFrame);
+  };
+  sceCtrl.prototype.sceCtrlReadLatch_xnxgf8$ = function (currentLatchPtr) {
+    this._peekLatch_xnxgf8$(currentLatchPtr);
+    return 0;
+  };
   sceCtrl.prototype.sceCtrlGetSamplingCycle_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(45788561);
-  };
-  sceCtrl.prototype.sceCtrlReadLatch_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(190350593);
   };
   sceCtrl.prototype.sceCtrl_348D99D4_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(881695188);
@@ -25504,14 +26002,13 @@
     };
   }
   function sceCtrl$registerModule$lambda_3(this$sceCtrl) {
-    return function (it) {
-      this$sceCtrl.sceCtrlGetSamplingCycle_xt3zvs$(it);
-      return Unit;
+    return function ($receiver, it) {
+      return this$sceCtrl.sceCtrlReadLatch_xnxgf8$($receiver.ptr);
     };
   }
   function sceCtrl$registerModule$lambda_4(this$sceCtrl) {
     return function (it) {
-      this$sceCtrl.sceCtrlReadLatch_xt3zvs$(it);
+      this$sceCtrl.sceCtrlGetSamplingCycle_xt3zvs$(it);
       return Unit;
     };
   }
@@ -25580,8 +26077,8 @@
     this.registerFunctionInt_9l82lv$('sceCtrlReadBufferPositive', Kotlin.Long.fromInt(528496952), 150, void 0, sceCtrl$registerModule$lambda_0(this));
     this.registerFunctionInt_9l82lv$('sceCtrlSetSamplingCycle', Kotlin.Long.fromInt(1780970739), 150, void 0, sceCtrl$registerModule$lambda_1(this));
     this.registerFunctionInt_9l82lv$('sceCtrlSetSamplingMode', Kotlin.Long.fromInt(524292582), 150, void 0, sceCtrl$registerModule$lambda_2(this));
-    this.registerFunctionRaw_gh35x6$('sceCtrlGetSamplingCycle', Kotlin.Long.fromInt(45788561), 150, void 0, sceCtrl$registerModule$lambda_3(this));
-    this.registerFunctionRaw_gh35x6$('sceCtrlReadLatch', Kotlin.Long.fromInt(190350593), 150, void 0, sceCtrl$registerModule$lambda_4(this));
+    this.registerFunctionInt_9l82lv$('sceCtrlReadLatch', Kotlin.Long.fromInt(190350593), 150, void 0, sceCtrl$registerModule$lambda_3(this));
+    this.registerFunctionRaw_gh35x6$('sceCtrlGetSamplingCycle', Kotlin.Long.fromInt(45788561), 150, void 0, sceCtrl$registerModule$lambda_4(this));
     this.registerFunctionRaw_gh35x6$('sceCtrl_348D99D4', Kotlin.Long.fromInt(881695188), 150, void 0, sceCtrl$registerModule$lambda_5(this));
     this.registerFunctionRaw_gh35x6$('sceCtrlReadBufferNegative', Kotlin.Long.fromInt(1622679430), 150, void 0, sceCtrl$registerModule$lambda_6(this));
     this.registerFunctionRaw_gh35x6$('sceCtrlSetRapidFire', Kotlin.Long.fromInt(1749138970), 150, void 0, sceCtrl$registerModule$lambda_7(this));
@@ -26137,11 +26634,11 @@
       get_ge(this).state.data[n] = ptr.lw_za3lpa$(n * 4 | 0);
     return 0;
   };
+  sceGe_user.prototype.sceGeEdramGetSize = function () {
+    return 2097152;
+  };
   sceGe_user.prototype.sceGeListEnQueueHead_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(470652326);
-  };
-  sceGe_user.prototype.sceGeEdramGetSize_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(526865069);
   };
   sceGe_user.prototype.sceGeContinue_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1275520114);
@@ -26171,53 +26668,52 @@
   }
   function sceGe_user$registerModule$lambda_0(this$sceGe_user) {
     return function ($receiver, it) {
-      return this$sceGe_user.sceGeListUpdateStallAddr_o62i3q$($receiver.int, $receiver.ptr);
+      return this$sceGe_user.sceGeEdramGetSize();
     };
   }
   function sceGe_user$registerModule$lambda_1(this$sceGe_user) {
     return function ($receiver, it) {
-      return this$sceGe_user.sceGeListEnQueue_dv45i2$($receiver.ptr, $receiver.ptr, $receiver.int, $receiver.ptr);
+      return this$sceGe_user.sceGeListUpdateStallAddr_o62i3q$($receiver.int, $receiver.ptr);
     };
   }
   function sceGe_user$registerModule$lambda_2(this$sceGe_user) {
     return function ($receiver, it) {
-      return this$sceGe_user.sceGeListSync_vux9f0$($receiver.int, $receiver.int);
+      return this$sceGe_user.sceGeListEnQueue_dv45i2$($receiver.ptr, $receiver.ptr, $receiver.int, $receiver.ptr);
     };
   }
   function sceGe_user$registerModule$lambda_3(this$sceGe_user) {
     return function ($receiver, it) {
-      return this$sceGe_user.sceGeDrawSync_za3lpa$($receiver.int);
+      return this$sceGe_user.sceGeListSync_vux9f0$($receiver.int, $receiver.int);
     };
   }
   function sceGe_user$registerModule$lambda_4(this$sceGe_user) {
     return function ($receiver, it) {
-      return this$sceGe_user.sceGeSetCallback_xnxgf8$($receiver.ptr);
+      return this$sceGe_user.sceGeDrawSync_za3lpa$($receiver.int);
     };
   }
   function sceGe_user$registerModule$lambda_5(this$sceGe_user) {
     return function ($receiver, it) {
-      return this$sceGe_user.sceGeUnsetCallback_za3lpa$($receiver.int);
+      return this$sceGe_user.sceGeSetCallback_xnxgf8$($receiver.ptr);
     };
   }
   function sceGe_user$registerModule$lambda_6(this$sceGe_user) {
     return function ($receiver, it) {
-      return this$sceGe_user.sceGeSaveContext_xnxgf8$($receiver.ptr);
+      return this$sceGe_user.sceGeUnsetCallback_za3lpa$($receiver.int);
     };
   }
   function sceGe_user$registerModule$lambda_7(this$sceGe_user) {
     return function ($receiver, it) {
-      return this$sceGe_user.sceGeRestoreContext_xnxgf8$($receiver.ptr);
+      return this$sceGe_user.sceGeSaveContext_xnxgf8$($receiver.ptr);
     };
   }
   function sceGe_user$registerModule$lambda_8(this$sceGe_user) {
-    return function (it) {
-      this$sceGe_user.sceGeListEnQueueHead_xt3zvs$(it);
-      return Unit;
+    return function ($receiver, it) {
+      return this$sceGe_user.sceGeRestoreContext_xnxgf8$($receiver.ptr);
     };
   }
   function sceGe_user$registerModule$lambda_9(this$sceGe_user) {
     return function (it) {
-      this$sceGe_user.sceGeEdramGetSize_xt3zvs$(it);
+      this$sceGe_user.sceGeListEnQueueHead_xt3zvs$(it);
       return Unit;
     };
   }
@@ -26265,16 +26761,16 @@
   }
   sceGe_user.prototype.registerModule = function () {
     this.registerFunctionInt_9l82lv$('sceGeEdramGetAddr', new Kotlin.Long(-461487900, 0), 150, void 0, sceGe_user$registerModule$lambda(this));
-    this.registerFunctionInt_9l82lv$('sceGeListUpdateStallAddr', new Kotlin.Long(-522813112, 0), 150, void 0, sceGe_user$registerModule$lambda_0(this));
-    this.registerFunctionInt_9l82lv$('sceGeListEnQueue', new Kotlin.Long(-1421219990, 0), 150, void 0, sceGe_user$registerModule$lambda_1(this));
-    this.registerFunctionInt_9l82lv$('sceGeListSync', Kotlin.Long.fromInt(54808244), 150, void 0, sceGe_user$registerModule$lambda_2(this));
-    this.registerFunctionInt_9l82lv$('sceGeDrawSync', new Kotlin.Long(-1299727007, 0), 150, void 0, sceGe_user$registerModule$lambda_3(this));
-    this.registerFunctionInt_9l82lv$('sceGeSetCallback', new Kotlin.Long(-1526987100, 0), 150, void 0, sceGe_user$registerModule$lambda_4(this));
-    this.registerFunctionInt_9l82lv$('sceGeUnsetCallback', Kotlin.Long.fromInt(98247374), 150, void 0, sceGe_user$registerModule$lambda_5(this));
-    this.registerFunctionInt_9l82lv$('sceGeSaveContext', Kotlin.Long.fromInt(1133131866), 150, void 0, sceGe_user$registerModule$lambda_6(this));
-    this.registerFunctionInt_9l82lv$('sceGeRestoreContext', Kotlin.Long.fromInt(200673531), 150, void 0, sceGe_user$registerModule$lambda_7(this));
-    this.registerFunctionRaw_gh35x6$('sceGeListEnQueueHead', Kotlin.Long.fromInt(470652326), 150, void 0, sceGe_user$registerModule$lambda_8(this));
-    this.registerFunctionRaw_gh35x6$('sceGeEdramGetSize', Kotlin.Long.fromInt(526865069), 150, void 0, sceGe_user$registerModule$lambda_9(this));
+    this.registerFunctionInt_9l82lv$('sceGeEdramGetSize', Kotlin.Long.fromInt(526865069), 150, void 0, sceGe_user$registerModule$lambda_0(this));
+    this.registerFunctionInt_9l82lv$('sceGeListUpdateStallAddr', new Kotlin.Long(-522813112, 0), 150, void 0, sceGe_user$registerModule$lambda_1(this));
+    this.registerFunctionInt_9l82lv$('sceGeListEnQueue', new Kotlin.Long(-1421219990, 0), 150, void 0, sceGe_user$registerModule$lambda_2(this));
+    this.registerFunctionInt_9l82lv$('sceGeListSync', Kotlin.Long.fromInt(54808244), 150, void 0, sceGe_user$registerModule$lambda_3(this));
+    this.registerFunctionInt_9l82lv$('sceGeDrawSync', new Kotlin.Long(-1299727007, 0), 150, void 0, sceGe_user$registerModule$lambda_4(this));
+    this.registerFunctionInt_9l82lv$('sceGeSetCallback', new Kotlin.Long(-1526987100, 0), 150, void 0, sceGe_user$registerModule$lambda_5(this));
+    this.registerFunctionInt_9l82lv$('sceGeUnsetCallback', Kotlin.Long.fromInt(98247374), 150, void 0, sceGe_user$registerModule$lambda_6(this));
+    this.registerFunctionInt_9l82lv$('sceGeSaveContext', Kotlin.Long.fromInt(1133131866), 150, void 0, sceGe_user$registerModule$lambda_7(this));
+    this.registerFunctionInt_9l82lv$('sceGeRestoreContext', Kotlin.Long.fromInt(200673531), 150, void 0, sceGe_user$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceGeListEnQueueHead', Kotlin.Long.fromInt(470652326), 150, void 0, sceGe_user$registerModule$lambda_9(this));
     this.registerFunctionRaw_gh35x6$('sceGeContinue', Kotlin.Long.fromInt(1275520114), 150, void 0, sceGe_user$registerModule$lambda_10(this));
     this.registerFunctionRaw_gh35x6$('sceGeGetMtx', Kotlin.Long.fromInt(1472762971), 150, void 0, sceGe_user$registerModule$lambda_11(this));
     this.registerFunctionRaw_gh35x6$('sceGeListDeQueue', Kotlin.Long.fromInt(1605921456), 150, void 0, sceGe_user$registerModule$lambda_12(this));
@@ -26289,6 +26785,136 @@
   sceGe_user.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'sceGe_user',
+    interfaces: [SceModule]
+  };
+  function sceHprm(emulator) {
+    SceModule.call(this, emulator, 'sceHprm', 1073807377, 'hpremote_02g.prx', 'sceHP_Remote_Driver');
+  }
+  sceHprm.prototype.sceHprmPeekCurrentKey_xnxgf8$ = function (ptr) {
+    ptr.sw_vux9f0$(0, 0);
+    return 0;
+  };
+  sceHprm.prototype.sceHprmIsRemoteExist_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(546156989);
+  };
+  sceHprm.prototype.sceHprmIsMicrophoneExist_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(563894513);
+  };
+  sceHprm.prototype.sceHprmPeekLatch_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(734971966);
+  };
+  sceHprm.prototype.sceHprm_3953DE6B_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(961797739);
+  };
+  sceHprm.prototype.sceHprm_396FD885_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(963631237);
+  };
+  sceHprm.prototype.sceHprmReadLatch_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1087568368);
+  };
+  sceHprm.prototype.sceHprmUnregitserCallback_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1146015927);
+  };
+  sceHprm.prototype.sceHprmGetHpDetect_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1907751783);
+  };
+  sceHprm.prototype.sceHprmIsHeadphoneExist_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(2120871332);
+  };
+  sceHprm.prototype.sceHprmRegisterCallback_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-954908362, 0));
+  };
+  sceHprm.prototype.sceHprm_FD7DE6CD_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-42080563, 0));
+  };
+  function sceHprm$registerModule$lambda(this$sceHprm) {
+    return function ($receiver, it) {
+      return this$sceHprm.sceHprmPeekCurrentKey_xnxgf8$($receiver.ptr);
+    };
+  }
+  function sceHprm$registerModule$lambda_0(this$sceHprm) {
+    return function (it) {
+      this$sceHprm.sceHprmIsRemoteExist_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceHprm$registerModule$lambda_1(this$sceHprm) {
+    return function (it) {
+      this$sceHprm.sceHprmIsMicrophoneExist_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceHprm$registerModule$lambda_2(this$sceHprm) {
+    return function (it) {
+      this$sceHprm.sceHprmPeekLatch_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceHprm$registerModule$lambda_3(this$sceHprm) {
+    return function (it) {
+      this$sceHprm.sceHprm_3953DE6B_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceHprm$registerModule$lambda_4(this$sceHprm) {
+    return function (it) {
+      this$sceHprm.sceHprm_396FD885_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceHprm$registerModule$lambda_5(this$sceHprm) {
+    return function (it) {
+      this$sceHprm.sceHprmReadLatch_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceHprm$registerModule$lambda_6(this$sceHprm) {
+    return function (it) {
+      this$sceHprm.sceHprmUnregitserCallback_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceHprm$registerModule$lambda_7(this$sceHprm) {
+    return function (it) {
+      this$sceHprm.sceHprmGetHpDetect_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceHprm$registerModule$lambda_8(this$sceHprm) {
+    return function (it) {
+      this$sceHprm.sceHprmIsHeadphoneExist_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceHprm$registerModule$lambda_9(this$sceHprm) {
+    return function (it) {
+      this$sceHprm.sceHprmRegisterCallback_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceHprm$registerModule$lambda_10(this$sceHprm) {
+    return function (it) {
+      this$sceHprm.sceHprm_FD7DE6CD_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  sceHprm.prototype.registerModule = function () {
+    this.registerFunctionInt_9l82lv$('sceHprmPeekCurrentKey', Kotlin.Long.fromInt(420524839), 150, void 0, sceHprm$registerModule$lambda(this));
+    this.registerFunctionRaw_gh35x6$('sceHprmIsRemoteExist', Kotlin.Long.fromInt(546156989), 150, void 0, sceHprm$registerModule$lambda_0(this));
+    this.registerFunctionRaw_gh35x6$('sceHprmIsMicrophoneExist', Kotlin.Long.fromInt(563894513), 150, void 0, sceHprm$registerModule$lambda_1(this));
+    this.registerFunctionRaw_gh35x6$('sceHprmPeekLatch', Kotlin.Long.fromInt(734971966), 150, void 0, sceHprm$registerModule$lambda_2(this));
+    this.registerFunctionRaw_gh35x6$('sceHprm_3953DE6B', Kotlin.Long.fromInt(961797739), 150, void 0, sceHprm$registerModule$lambda_3(this));
+    this.registerFunctionRaw_gh35x6$('sceHprm_396FD885', Kotlin.Long.fromInt(963631237), 150, void 0, sceHprm$registerModule$lambda_4(this));
+    this.registerFunctionRaw_gh35x6$('sceHprmReadLatch', Kotlin.Long.fromInt(1087568368), 150, void 0, sceHprm$registerModule$lambda_5(this));
+    this.registerFunctionRaw_gh35x6$('sceHprmUnregitserCallback', Kotlin.Long.fromInt(1146015927), 150, void 0, sceHprm$registerModule$lambda_6(this));
+    this.registerFunctionRaw_gh35x6$('sceHprmGetHpDetect', Kotlin.Long.fromInt(1907751783), 150, void 0, sceHprm$registerModule$lambda_7(this));
+    this.registerFunctionRaw_gh35x6$('sceHprmIsHeadphoneExist', Kotlin.Long.fromInt(2120871332), 150, void 0, sceHprm$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceHprmRegisterCallback', new Kotlin.Long(-954908362, 0), 150, void 0, sceHprm$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceHprm_FD7DE6CD', new Kotlin.Long(-42080563, 0), 150, void 0, sceHprm$registerModule$lambda_10(this));
+  };
+  sceHprm.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'sceHprm',
     interfaces: [SceModule]
   };
   function sceImpose(emulator) {
@@ -28081,6 +28707,10 @@
       ScePspDateTime_init(DateTime.Companion.now().toLocal()).write_39qel5$(openSync_1(date));
     return 0;
   };
+  sceRtc.prototype.sceRtcTickAddMicroseconds_cpe0ev$ = function (dst, src, count) {
+    dst.sdw_6svq3l$(0, src.ldw_za3lpa$(0).add(count));
+    return 0;
+  };
   sceRtc.prototype.sceRtcGetAccumulativeTime_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(18809793);
   };
@@ -28095,9 +28725,6 @@
   };
   sceRtc.prototype.sceRtcGetLastReincarnatedTime_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(540863245);
-  };
-  sceRtc.prototype.sceRtcTickAddMicroseconds_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(651319901);
   };
   sceRtc.prototype.sceRtcTickAddHours_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(651665994);
@@ -28239,38 +28866,37 @@
     };
   }
   function sceRtc$registerModule$lambda_7(this$sceRtc) {
+    return function ($receiver, it) {
+      return this$sceRtc.sceRtcTickAddMicroseconds_cpe0ev$($receiver.ptr, $receiver.ptr, $receiver.long);
+    };
+  }
+  function sceRtc$registerModule$lambda_8(this$sceRtc) {
     return function (it) {
       this$sceRtc.sceRtcGetAccumulativeTime_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceRtc$registerModule$lambda_8(this$sceRtc) {
+  function sceRtc$registerModule$lambda_9(this$sceRtc) {
     return function (it) {
       this$sceRtc.sceRtcGetAccumlativeTime_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceRtc$registerModule$lambda_9(this$sceRtc) {
+  function sceRtc$registerModule$lambda_10(this$sceRtc) {
     return function (it) {
       this$sceRtc.sceRtcFormatRFC3339_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceRtc$registerModule$lambda_10(this$sceRtc) {
+  function sceRtc$registerModule$lambda_11(this$sceRtc) {
     return function (it) {
       this$sceRtc.sceRtcSetTime64_t_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceRtc$registerModule$lambda_11(this$sceRtc) {
-    return function (it) {
-      this$sceRtc.sceRtcGetLastReincarnatedTime_xt3zvs$(it);
-      return Unit;
-    };
-  }
   function sceRtc$registerModule$lambda_12(this$sceRtc) {
     return function (it) {
-      this$sceRtc.sceRtcTickAddMicroseconds_xt3zvs$(it);
+      this$sceRtc.sceRtcGetLastReincarnatedTime_xt3zvs$(it);
       return Unit;
     };
   }
@@ -28481,12 +29107,12 @@
     this.registerFunctionInt_9l82lv$('sceRtcGetTick', Kotlin.Long.fromInt(1878264524), 150, void 0, sceRtc$registerModule$lambda_4(this));
     this.registerFunctionInt_9l82lv$('sceRtcGetCurrentClock', Kotlin.Long.fromInt(1291474864), 150, void 0, sceRtc$registerModule$lambda_5(this));
     this.registerFunctionInt_9l82lv$('sceRtcGetCurrentClockLocalTime', new Kotlin.Long(-406684389, 0), 150, void 0, sceRtc$registerModule$lambda_6(this));
-    this.registerFunctionRaw_gh35x6$('sceRtcGetAccumulativeTime', Kotlin.Long.fromInt(18809793), 150, void 0, sceRtc$registerModule$lambda_7(this));
-    this.registerFunctionRaw_gh35x6$('sceRtcGetAccumlativeTime', Kotlin.Long.fromInt(43819955), 150, void 0, sceRtc$registerModule$lambda_8(this));
-    this.registerFunctionRaw_gh35x6$('sceRtcFormatRFC3339', Kotlin.Long.fromInt(77134652), 150, void 0, sceRtc$registerModule$lambda_9(this));
-    this.registerFunctionRaw_gh35x6$('sceRtcSetTime64_t', Kotlin.Long.fromInt(420071835), 150, void 0, sceRtc$registerModule$lambda_10(this));
-    this.registerFunctionRaw_gh35x6$('sceRtcGetLastReincarnatedTime', Kotlin.Long.fromInt(540863245), 150, void 0, sceRtc$registerModule$lambda_11(this));
-    this.registerFunctionRaw_gh35x6$('sceRtcTickAddMicroseconds', Kotlin.Long.fromInt(651319901), 150, void 0, sceRtc$registerModule$lambda_12(this));
+    this.registerFunctionInt_9l82lv$('sceRtcTickAddMicroseconds', Kotlin.Long.fromInt(651319901), 150, void 0, sceRtc$registerModule$lambda_7(this));
+    this.registerFunctionRaw_gh35x6$('sceRtcGetAccumulativeTime', Kotlin.Long.fromInt(18809793), 150, void 0, sceRtc$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceRtcGetAccumlativeTime', Kotlin.Long.fromInt(43819955), 150, void 0, sceRtc$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceRtcFormatRFC3339', Kotlin.Long.fromInt(77134652), 150, void 0, sceRtc$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceRtcSetTime64_t', Kotlin.Long.fromInt(420071835), 150, void 0, sceRtc$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('sceRtcGetLastReincarnatedTime', Kotlin.Long.fromInt(540863245), 150, void 0, sceRtc$registerModule$lambda_12(this));
     this.registerFunctionRaw_gh35x6$('sceRtcTickAddHours', Kotlin.Long.fromInt(651665994), 150, void 0, sceRtc$registerModule$lambda_13(this));
     this.registerFunctionRaw_gh35x6$('sceRtcGetTime_t', Kotlin.Long.fromInt(667179340), 150, void 0, sceRtc$registerModule$lambda_14(this));
     this.registerFunctionRaw_gh35x6$('sceRtcFormatRFC3339LocalTime', Kotlin.Long.fromInt(670664003), 150, void 0, sceRtc$registerModule$lambda_15(this));
@@ -29049,6 +29675,17 @@
   function sceUtility(emulator) {
     SceModule.call(this, emulator, 'sceUtility', 1073807377, 'utility.prx', 'sceUtility_Driver');
   }
+  sceUtility.prototype.sceUtilitySavedataInitStart_xnxgf8$ = function (params) {
+    var $this = this.logger;
+    var level = LogLevel.WARN;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceUtilitySavedataInitStart: ' + params);
+    }
+    return 0;
+  };
+  sceUtility.prototype.sceUtilitySavedataGetStatus = function () {
+    return 0;
+  };
   sceUtility.prototype.sceUtility_0251B134_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(38908212);
   };
@@ -29142,9 +29779,6 @@
   sceUtility.prototype.sceUtilityGetNetParamLatestID_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1340941528);
   };
-  sceUtility.prototype.sceUtilitySavedataInitStart_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(1355074903);
-  };
   sceUtility.prototype.sceUtility_54A5C62F_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1420150319);
   };
@@ -29183,9 +29817,6 @@
   };
   sceUtility.prototype.sceUtility_86ABDB1B_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2035557605, 0));
-  };
-  sceUtility.prototype.sceUtilitySavedataGetStatus_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2005607456, 0));
   };
   sceUtility.prototype.sceUtility_88BC7406_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2000915450, 0));
@@ -29320,278 +29951,276 @@
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-102760308, 0));
   };
   function sceUtility$registerModule$lambda(this$sceUtility) {
+    return function ($receiver, it) {
+      return this$sceUtility.sceUtilitySavedataInitStart_xnxgf8$($receiver.ptr);
+    };
+  }
+  function sceUtility$registerModule$lambda_0(this$sceUtility) {
+    return function ($receiver, it) {
+      return this$sceUtility.sceUtilitySavedataGetStatus();
+    };
+  }
+  function sceUtility$registerModule$lambda_1(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_0251B134_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_0(this$sceUtility) {
+  function sceUtility$registerModule$lambda_2(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityHtmlViewerUpdate_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_1(this$sceUtility) {
+  function sceUtility$registerModule$lambda_3(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_06A48659_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_2(this$sceUtility) {
+  function sceUtility$registerModule$lambda_4(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityLoadUsbModule_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_3(this$sceUtility) {
+  function sceUtility$registerModule$lambda_5(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_0F3EEAAC_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_4(this$sceUtility) {
+  function sceUtility$registerModule$lambda_6(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityInstallInitStart_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_5(this$sceUtility) {
+  function sceUtility$registerModule$lambda_7(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_147F7C85_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_6(this$sceUtility) {
+  function sceUtility$registerModule$lambda_8(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_149A7895_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_7(this$sceUtility) {
+  function sceUtility$registerModule$lambda_9(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityLoadNetModule_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_8(this$sceUtility) {
+  function sceUtility$registerModule$lambda_10(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_16A1A8D8_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_9(this$sceUtility) {
+  function sceUtility$registerModule$lambda_11(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_16D02AF0_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_10(this$sceUtility) {
+  function sceUtility$registerModule$lambda_12(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_28D35634_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_11(this$sceUtility) {
+  function sceUtility$registerModule$lambda_13(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_2995D020_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_12(this$sceUtility) {
+  function sceUtility$registerModule$lambda_14(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityLoadModule_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_13(this$sceUtility) {
+  function sceUtility$registerModule$lambda_15(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityMsgDialogInitStart_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_14(this$sceUtility) {
+  function sceUtility$registerModule$lambda_16(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_2B96173B_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_15(this$sceUtility) {
+  function sceUtility$registerModule$lambda_17(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityGetSystemParamString_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_16(this$sceUtility) {
+  function sceUtility$registerModule$lambda_18(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_3AAD51DC_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_17(this$sceUtility) {
+  function sceUtility$registerModule$lambda_19(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceNetplayDialogInitStart_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_18(this$sceUtility) {
+  function sceUtility$registerModule$lambda_20(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityOskShutdownStart_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_19(this$sceUtility) {
+  function sceUtility$registerModule$lambda_21(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceNetplayDialogUpdate_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_20(this$sceUtility) {
+  function sceUtility$registerModule$lambda_22(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilitySetSystemParamString_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_21(this$sceUtility) {
+  function sceUtility$registerModule$lambda_23(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_42071A83_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_22(this$sceUtility) {
+  function sceUtility$registerModule$lambda_24(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityGetNetParam_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_23(this$sceUtility) {
+  function sceUtility$registerModule$lambda_25(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilitySetSystemParamInt_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_24(this$sceUtility) {
+  function sceUtility$registerModule$lambda_26(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityMsgDialogAbort_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_25(this$sceUtility) {
+  function sceUtility$registerModule$lambda_27(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_4A833BA4_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_26(this$sceUtility) {
+  function sceUtility$registerModule$lambda_28(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_4B0A8FE5_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_27(this$sceUtility) {
+  function sceUtility$registerModule$lambda_29(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityOskUpdate_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_28(this$sceUtility) {
+  function sceUtility$registerModule$lambda_30(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityNetconfInitStart_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_29(this$sceUtility) {
+  function sceUtility$registerModule$lambda_31(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityGetNetParamLatestID_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_30(this$sceUtility) {
-    return function (it) {
-      this$sceUtility.sceUtilitySavedataInitStart_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function sceUtility$registerModule$lambda_31(this$sceUtility) {
+  function sceUtility$registerModule$lambda_32(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_54A5C62F_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_32(this$sceUtility) {
+  function sceUtility$registerModule$lambda_33(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityCheckNetParam_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_33(this$sceUtility) {
+  function sceUtility$registerModule$lambda_34(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityInstallShutdownStart_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_34(this$sceUtility) {
+  function sceUtility$registerModule$lambda_35(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityNetconfGetStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_35(this$sceUtility) {
+  function sceUtility$registerModule$lambda_36(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityUnloadNetModule_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_36(this$sceUtility) {
+  function sceUtility$registerModule$lambda_37(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityMsgDialogShutdownStart_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_37(this$sceUtility) {
+  function sceUtility$registerModule$lambda_38(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_6F56F9CF_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_38(this$sceUtility) {
+  function sceUtility$registerModule$lambda_39(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_70267ADF_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_39(this$sceUtility) {
+  function sceUtility$registerModule$lambda_40(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtilityGameSharingUpdate_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_40(this$sceUtility) {
+  function sceUtility$registerModule$lambda_41(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_81C44706_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_41(this$sceUtility) {
+  function sceUtility$registerModule$lambda_42(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_8326AB05_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_42(this$sceUtility) {
+  function sceUtility$registerModule$lambda_43(this$sceUtility) {
     return function (it) {
       this$sceUtility.sceUtility_86A03A27_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceUtility$registerModule$lambda_43(this$sceUtility) {
-    return function (it) {
-      this$sceUtility.sceUtility_86ABDB1B_xt3zvs$(it);
-      return Unit;
-    };
-  }
   function sceUtility$registerModule$lambda_44(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilitySavedataGetStatus_xt3zvs$(it);
+      this$sceUtility.sceUtility_86ABDB1B_xt3zvs$(it);
       return Unit;
     };
   }
@@ -29860,52 +30489,52 @@
     };
   }
   sceUtility.prototype.registerModule = function () {
-    this.registerFunctionRaw_gh35x6$('sceUtility_0251B134', Kotlin.Long.fromInt(38908212), 150, void 0, sceUtility$registerModule$lambda(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityHtmlViewerUpdate', Kotlin.Long.fromInt(95402468), 150, void 0, sceUtility$registerModule$lambda_0(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_06A48659', Kotlin.Long.fromInt(111445593), 150, void 0, sceUtility$registerModule$lambda_1(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityLoadUsbModule', Kotlin.Long.fromInt(224118482), 150, void 0, sceUtility$registerModule$lambda_2(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_0F3EEAAC', Kotlin.Long.fromInt(255781548), 150, void 0, sceUtility$registerModule$lambda_3(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityInstallInitStart', Kotlin.Long.fromInt(310499982), 150, void 0, sceUtility$registerModule$lambda_4(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_147F7C85', Kotlin.Long.fromInt(343899269), 150, void 0, sceUtility$registerModule$lambda_5(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_149A7895', Kotlin.Long.fromInt(345667733), 150, void 0, sceUtility$registerModule$lambda_6(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityLoadNetModule', Kotlin.Long.fromInt(360292697), 150, void 0, sceUtility$registerModule$lambda_7(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_16A1A8D8', Kotlin.Long.fromInt(379693272), 150, void 0, sceUtility$registerModule$lambda_8(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_16D02AF0', Kotlin.Long.fromInt(382741232), 150, void 0, sceUtility$registerModule$lambda_9(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_28D35634', Kotlin.Long.fromInt(684938804), 150, void 0, sceUtility$registerModule$lambda_10(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_2995D020', Kotlin.Long.fromInt(697684000), 150, void 0, sceUtility$registerModule$lambda_11(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityLoadModule', Kotlin.Long.fromInt(707476960), 150, void 0, sceUtility$registerModule$lambda_12(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityMsgDialogInitStart', Kotlin.Long.fromInt(718856761), 150, void 0, sceUtility$registerModule$lambda_13(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_2B96173B', Kotlin.Long.fromInt(731256635), 150, void 0, sceUtility$registerModule$lambda_14(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityGetSystemParamString', Kotlin.Long.fromInt(884441923), 150, void 0, sceUtility$registerModule$lambda_15(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_3AAD51DC', Kotlin.Long.fromInt(984437212), 150, void 0, sceUtility$registerModule$lambda_16(this));
-    this.registerFunctionRaw_gh35x6$('sceNetplayDialogInitStart', Kotlin.Long.fromInt(987040487), 150, void 0, sceUtility$registerModule$lambda_17(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityOskShutdownStart', Kotlin.Long.fromInt(1039854505), 150, void 0, sceUtility$registerModule$lambda_18(this));
-    this.registerFunctionRaw_gh35x6$('sceNetplayDialogUpdate', Kotlin.Long.fromInt(1098640724), 150, void 0, sceUtility$registerModule$lambda_19(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilitySetSystemParamString', Kotlin.Long.fromInt(1105397364), 150, void 0, sceUtility$registerModule$lambda_20(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_42071A83', Kotlin.Long.fromInt(1107761795), 150, void 0, sceUtility$registerModule$lambda_21(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityGetNetParam', Kotlin.Long.fromInt(1129139002), 150, void 0, sceUtility$registerModule$lambda_22(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilitySetSystemParamInt', Kotlin.Long.fromInt(1170310406), 150, void 0, sceUtility$registerModule$lambda_23(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityMsgDialogAbort', Kotlin.Long.fromInt(1227406742), 150, void 0, sceUtility$registerModule$lambda_24(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_4A833BA4', Kotlin.Long.fromInt(1250114468), 150, void 0, sceUtility$registerModule$lambda_25(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_4B0A8FE5', Kotlin.Long.fromInt(1258983397), 150, void 0, sceUtility$registerModule$lambda_26(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityOskUpdate', Kotlin.Long.fromInt(1267058785), 150, void 0, sceUtility$registerModule$lambda_27(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityNetconfInitStart', Kotlin.Long.fromInt(1303504697), 150, void 0, sceUtility$registerModule$lambda_28(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityGetNetParamLatestID', Kotlin.Long.fromInt(1340941528), 150, void 0, sceUtility$registerModule$lambda_29(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilitySavedataInitStart', Kotlin.Long.fromInt(1355074903), 150, void 0, sceUtility$registerModule$lambda_30(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_54A5C62F', Kotlin.Long.fromInt(1420150319), 150, void 0, sceUtility$registerModule$lambda_31(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityCheckNetParam', Kotlin.Long.fromInt(1592681800), 150, void 0, sceUtility$registerModule$lambda_32(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityInstallShutdownStart', Kotlin.Long.fromInt(1592902218), 150, void 0, sceUtility$registerModule$lambda_33(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityNetconfGetStatus', Kotlin.Long.fromInt(1664264761), 150, void 0, sceUtility$registerModule$lambda_34(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityUnloadNetModule', Kotlin.Long.fromInt(1691683926), 150, void 0, sceUtility$registerModule$lambda_35(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityMsgDialogShutdownStart', Kotlin.Long.fromInt(1739535400), 150, void 0, sceUtility$registerModule$lambda_36(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_6F56F9CF', Kotlin.Long.fromInt(1867971023), 150, void 0, sceUtility$registerModule$lambda_37(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_70267ADF', Kotlin.Long.fromInt(1881570015), 150, void 0, sceUtility$registerModule$lambda_38(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityGameSharingUpdate', Kotlin.Long.fromInt(2018711597), 150, void 0, sceUtility$registerModule$lambda_39(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_81C44706', new Kotlin.Long(-2117843194, 0), 150, void 0, sceUtility$registerModule$lambda_40(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_8326AB05', new Kotlin.Long(-2094617851, 0), 150, void 0, sceUtility$registerModule$lambda_41(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_86A03A27', new Kotlin.Long(-2036319705, 0), 150, void 0, sceUtility$registerModule$lambda_42(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_86ABDB1B', new Kotlin.Long(-2035557605, 0), 150, void 0, sceUtility$registerModule$lambda_43(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilitySavedataGetStatus', new Kotlin.Long(-2005607456, 0), 150, void 0, sceUtility$registerModule$lambda_44(this));
+    this.registerFunctionInt_9l82lv$('sceUtilitySavedataInitStart', Kotlin.Long.fromInt(1355074903), 150, void 0, sceUtility$registerModule$lambda(this));
+    this.registerFunctionInt_9l82lv$('sceUtilitySavedataGetStatus', new Kotlin.Long(-2005607456, 0), 150, void 0, sceUtility$registerModule$lambda_0(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_0251B134', Kotlin.Long.fromInt(38908212), 150, void 0, sceUtility$registerModule$lambda_1(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityHtmlViewerUpdate', Kotlin.Long.fromInt(95402468), 150, void 0, sceUtility$registerModule$lambda_2(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_06A48659', Kotlin.Long.fromInt(111445593), 150, void 0, sceUtility$registerModule$lambda_3(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityLoadUsbModule', Kotlin.Long.fromInt(224118482), 150, void 0, sceUtility$registerModule$lambda_4(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_0F3EEAAC', Kotlin.Long.fromInt(255781548), 150, void 0, sceUtility$registerModule$lambda_5(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityInstallInitStart', Kotlin.Long.fromInt(310499982), 150, void 0, sceUtility$registerModule$lambda_6(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_147F7C85', Kotlin.Long.fromInt(343899269), 150, void 0, sceUtility$registerModule$lambda_7(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_149A7895', Kotlin.Long.fromInt(345667733), 150, void 0, sceUtility$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityLoadNetModule', Kotlin.Long.fromInt(360292697), 150, void 0, sceUtility$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_16A1A8D8', Kotlin.Long.fromInt(379693272), 150, void 0, sceUtility$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_16D02AF0', Kotlin.Long.fromInt(382741232), 150, void 0, sceUtility$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_28D35634', Kotlin.Long.fromInt(684938804), 150, void 0, sceUtility$registerModule$lambda_12(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_2995D020', Kotlin.Long.fromInt(697684000), 150, void 0, sceUtility$registerModule$lambda_13(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityLoadModule', Kotlin.Long.fromInt(707476960), 150, void 0, sceUtility$registerModule$lambda_14(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityMsgDialogInitStart', Kotlin.Long.fromInt(718856761), 150, void 0, sceUtility$registerModule$lambda_15(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_2B96173B', Kotlin.Long.fromInt(731256635), 150, void 0, sceUtility$registerModule$lambda_16(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityGetSystemParamString', Kotlin.Long.fromInt(884441923), 150, void 0, sceUtility$registerModule$lambda_17(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_3AAD51DC', Kotlin.Long.fromInt(984437212), 150, void 0, sceUtility$registerModule$lambda_18(this));
+    this.registerFunctionRaw_gh35x6$('sceNetplayDialogInitStart', Kotlin.Long.fromInt(987040487), 150, void 0, sceUtility$registerModule$lambda_19(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityOskShutdownStart', Kotlin.Long.fromInt(1039854505), 150, void 0, sceUtility$registerModule$lambda_20(this));
+    this.registerFunctionRaw_gh35x6$('sceNetplayDialogUpdate', Kotlin.Long.fromInt(1098640724), 150, void 0, sceUtility$registerModule$lambda_21(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilitySetSystemParamString', Kotlin.Long.fromInt(1105397364), 150, void 0, sceUtility$registerModule$lambda_22(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_42071A83', Kotlin.Long.fromInt(1107761795), 150, void 0, sceUtility$registerModule$lambda_23(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityGetNetParam', Kotlin.Long.fromInt(1129139002), 150, void 0, sceUtility$registerModule$lambda_24(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilitySetSystemParamInt', Kotlin.Long.fromInt(1170310406), 150, void 0, sceUtility$registerModule$lambda_25(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityMsgDialogAbort', Kotlin.Long.fromInt(1227406742), 150, void 0, sceUtility$registerModule$lambda_26(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_4A833BA4', Kotlin.Long.fromInt(1250114468), 150, void 0, sceUtility$registerModule$lambda_27(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_4B0A8FE5', Kotlin.Long.fromInt(1258983397), 150, void 0, sceUtility$registerModule$lambda_28(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityOskUpdate', Kotlin.Long.fromInt(1267058785), 150, void 0, sceUtility$registerModule$lambda_29(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityNetconfInitStart', Kotlin.Long.fromInt(1303504697), 150, void 0, sceUtility$registerModule$lambda_30(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityGetNetParamLatestID', Kotlin.Long.fromInt(1340941528), 150, void 0, sceUtility$registerModule$lambda_31(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_54A5C62F', Kotlin.Long.fromInt(1420150319), 150, void 0, sceUtility$registerModule$lambda_32(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityCheckNetParam', Kotlin.Long.fromInt(1592681800), 150, void 0, sceUtility$registerModule$lambda_33(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityInstallShutdownStart', Kotlin.Long.fromInt(1592902218), 150, void 0, sceUtility$registerModule$lambda_34(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityNetconfGetStatus', Kotlin.Long.fromInt(1664264761), 150, void 0, sceUtility$registerModule$lambda_35(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityUnloadNetModule', Kotlin.Long.fromInt(1691683926), 150, void 0, sceUtility$registerModule$lambda_36(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityMsgDialogShutdownStart', Kotlin.Long.fromInt(1739535400), 150, void 0, sceUtility$registerModule$lambda_37(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_6F56F9CF', Kotlin.Long.fromInt(1867971023), 150, void 0, sceUtility$registerModule$lambda_38(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_70267ADF', Kotlin.Long.fromInt(1881570015), 150, void 0, sceUtility$registerModule$lambda_39(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityGameSharingUpdate', Kotlin.Long.fromInt(2018711597), 150, void 0, sceUtility$registerModule$lambda_40(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_81C44706', new Kotlin.Long(-2117843194, 0), 150, void 0, sceUtility$registerModule$lambda_41(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_8326AB05', new Kotlin.Long(-2094617851, 0), 150, void 0, sceUtility$registerModule$lambda_42(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_86A03A27', new Kotlin.Long(-2036319705, 0), 150, void 0, sceUtility$registerModule$lambda_43(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_86ABDB1B', new Kotlin.Long(-2035557605, 0), 150, void 0, sceUtility$registerModule$lambda_44(this));
     this.registerFunctionRaw_gh35x6$('sceUtility_88BC7406', new Kotlin.Long(-2000915450, 0), 150, void 0, sceUtility$registerModule$lambda_45(this));
     this.registerFunctionRaw_gh35x6$('sceUtility_89317C8F', new Kotlin.Long(-1993245553, 0), 150, void 0, sceUtility$registerModule$lambda_46(this));
     this.registerFunctionRaw_gh35x6$('sceUtilityNetconfUpdate', new Kotlin.Long(-1847128523, 0), 150, void 0, sceUtility$registerModule$lambda_47(this));
@@ -31010,6 +31639,7 @@
   }
   function ISO2() {
     ISO2_instance = this;
+    this.logger = Logger.Companion.invoke_61zpoe$('ISO2');
     this.SECTOR_SIZE = Kotlin.Long.fromInt(2048);
   }
   ISO2.prototype.read_axnxby$ = function (s, continuation) {
@@ -31495,6 +32125,12 @@
 
           case 4:
             this.local$file = new ISO2$IsoFile(this.$this, this.local$dr, this.local$parent);
+            var $this = ISO2_getInstance().logger;
+            var level = LogLevel.INFO;
+            if (level.index <= $this.processedLevel.index) {
+              $this.actualLog_t189ph$(level, 'IsoFile: ' + this.local$file.fullname);
+            }
+
             if (this.local$dr.isDirectory) {
               this.state_0 = 5;
               this.result_0 = this.$this.getSectorMemory_vux9f0$(this.local$dr.extent, this.local$dr.size, this);
@@ -34380,7 +35016,8 @@
   package$ge.init_333mji$ = init;
   package$ge.VertexRaw = VertexRaw;
   package$ge.VertexReader = VertexReader;
-  package$ge.setTo_66btca$ = setTo;
+  package$ge.setTo_ntbanj$ = setTo;
+  package$ge.unswizzleInline_q840pi$ = unswizzleInline;
   package$ge.Gpu = Gpu;
   package$ge.GpuRenderer = GpuRenderer;
   package$ge.DummyGpuRenderer = DummyGpuRenderer;
@@ -34482,6 +35119,9 @@
   package$manager.set__thread_fh26zs$ = set__thread;
   package$manager.get_thread_he8x89$ = get_thread;
   package$manager.PspEventFlag = PspEventFlag;
+  Object.defineProperty(package$manager, 'EventFlagWaitTypeSet', {
+    get: EventFlagWaitTypeSet_getInstance
+  });
   package$manager.TimeManager = TimeManager;
   Object.defineProperty(ScePspDateTime, 'Companion', {
     get: ScePspDateTime$Companion_getInstance
@@ -34504,7 +35144,10 @@
   package$modules.StdioForUser = StdioForUser;
   SysMemUserForUser.Partition = SysMemUserForUser$Partition;
   package$modules.SysMemUserForUser = SysMemUserForUser;
+  ThreadManForUser.Semaphore = ThreadManForUser$Semaphore;
+  ThreadManForUser.SemaphoreManager = ThreadManForUser$SemaphoreManager;
   package$modules.ThreadManForUser = ThreadManForUser;
+  package$modules.ThreadManForUser_EventFlags = ThreadManForUser_EventFlags;
   package$modules.UtilsForKernel = UtilsForKernel;
   package$modules.UtilsForUser = UtilsForUser;
   package$modules.sceAtrac3plus = sceAtrac3plus;
@@ -34517,6 +35160,7 @@
   package$modules.sceDisplay = sceDisplay;
   package$modules.sceDmac = sceDmac;
   package$modules.sceGe_user = sceGe_user;
+  package$modules.sceHprm = sceHprm;
   package$modules.sceImpose = sceImpose;
   package$modules.sceMpeg = sceMpeg;
   package$modules.sceNetInet = sceNetInet;
@@ -34638,9 +35282,19 @@
   ElfProgramHeaderType.prototype.hasFlag_89au20$ = Flags.prototype.hasFlag_89au20$;
   ElfSectionHeaderType.prototype.hasFlag_89au20$ = Flags.prototype.hasFlag_89au20$;
   ElfSectionHeaderFlags.prototype.hasFlag_89au20$ = Flags.prototype.hasFlag_89au20$;
+  ThreadManForUser.prototype.sceKernelCreateEventFlag_93yirb$ = ThreadManForUser_EventFlags.prototype.sceKernelCreateEventFlag_93yirb$;
+  ThreadManForUser.prototype.sceKernelPollEventFlag_iavwqw$ = ThreadManForUser_EventFlags.prototype.sceKernelPollEventFlag_iavwqw$;
+  ThreadManForUser.prototype.sceKernelCancelEventFlag_nqu1l6$ = ThreadManForUser_EventFlags.prototype.sceKernelCancelEventFlag_nqu1l6$;
+  ThreadManForUser.prototype.sceKernelReferEventFlagStatus_nqu1l6$ = ThreadManForUser_EventFlags.prototype.sceKernelReferEventFlagStatus_nqu1l6$;
+  ThreadManForUser.prototype.sceKernelSetEventFlag_nqu1l6$ = ThreadManForUser_EventFlags.prototype.sceKernelSetEventFlag_nqu1l6$;
+  ThreadManForUser.prototype.sceKernelWaitEventFlagCB_nqu1l6$ = ThreadManForUser_EventFlags.prototype.sceKernelWaitEventFlagCB_nqu1l6$;
+  ThreadManForUser.prototype.sceKernelWaitEventFlag_nqu1l6$ = ThreadManForUser_EventFlags.prototype.sceKernelWaitEventFlag_nqu1l6$;
+  ThreadManForUser.prototype.sceKernelClearEventFlag_nqu1l6$ = ThreadManForUser_EventFlags.prototype.sceKernelClearEventFlag_nqu1l6$;
+  ThreadManForUser.prototype.sceKernelDeleteEventFlag_nqu1l6$ = ThreadManForUser_EventFlags.prototype.sceKernelDeleteEventFlag_nqu1l6$;
+  ThreadManForUser.prototype.registerModuleEventFlags_i7y6ea$ = ThreadManForUser_EventFlags.prototype.registerModuleEventFlags_i7y6ea$;
   MemPtr.prototype.sdw_6svq3l$ = Ptr.prototype.sdw_6svq3l$;
   MemPtr.prototype.ldw_za3lpa$ = Ptr.prototype.ldw_za3lpa$;
-  KPSPEMU_VERSION = '0.3.0-SNAPSHOT';
+  KPSPEMU_VERSION = '0.3.1-SNAPSHOT';
   ADDR_TYPE_NONE = 0;
   ADDR_TYPE_REG = 1;
   ADDR_TYPE_16 = 2;
