@@ -3932,6 +3932,22 @@
     this.commands.clear();
     this.data.clear();
   };
+  Object.defineProperty(VectorPath.prototype, 'lastX', {
+    get: function () {
+      return this.lastX_sawik2$_0;
+    },
+    set: function (lastX) {
+      this.lastX_sawik2$_0 = lastX;
+    }
+  });
+  Object.defineProperty(VectorPath.prototype, 'lastY', {
+    get: function () {
+      return this.lastY_sawij7$_0;
+    },
+    set: function (lastY) {
+      this.lastY_sawij7$_0 = lastY;
+    }
+  });
   VectorPath.prototype.moveTo_r62tv1$ = function (p) {
     this.moveTo_lu1900$(p.x, p.y);
   };
@@ -3942,35 +3958,47 @@
     this.commands.plusAssign_za3lpa$(VectorPath$Command_getInstance().MOVE_TO);
     this.data.plusAssign_14dthe$(x);
     this.data.plusAssign_14dthe$(y);
-    this.lastX_sawik2$_0 = x;
-    this.lastY_sawij7$_0 = y;
+    this.lastX = x;
+    this.lastY = y;
   };
   VectorPath.prototype.moveTo_vux9f0$ = function (x, y) {
     this.moveTo_lu1900$(x, y);
   };
   VectorPath.prototype.moveToH_14dthe$ = function (x) {
-    this.moveTo_lu1900$(x, this.lastY_sawij7$_0);
+    this.moveTo_lu1900$(x, this.lastY);
   };
   VectorPath.prototype.rMoveToH_14dthe$ = function (x) {
-    this.moveTo_lu1900$(this.lastX_sawik2$_0 + x, this.lastY_sawij7$_0);
+    this.moveTo_lu1900$(this.lastX + x, this.lastY);
   };
   VectorPath.prototype.moveToV_14dthe$ = function (y) {
-    this.moveTo_lu1900$(this.lastX_sawik2$_0, y);
+    this.moveTo_lu1900$(this.lastX, y);
   };
   VectorPath.prototype.rMoveToV_14dthe$ = function (y) {
-    this.moveTo_lu1900$(this.lastX_sawik2$_0, this.lastY_sawij7$_0 + y);
+    this.moveTo_lu1900$(this.lastX, this.lastY + y);
+  };
+  VectorPath.prototype.lineToH_14dthe$ = function (x) {
+    this.lineTo_lu1900$(x, this.lastY);
+  };
+  VectorPath.prototype.rLineToH_14dthe$ = function (x) {
+    this.lineTo_lu1900$(this.lastX + x, this.lastY);
+  };
+  VectorPath.prototype.lineToV_14dthe$ = function (y) {
+    this.lineTo_lu1900$(this.lastX, y);
+  };
+  VectorPath.prototype.rLineToV_14dthe$ = function (y) {
+    this.lineTo_lu1900$(this.lastX, this.lastY + y);
   };
   VectorPath.prototype.rMoveTo_lu1900$ = function (x, y) {
-    this.moveTo_lu1900$(this.lastX_sawik2$_0 + x, this.lastY_sawij7$_0 + y);
+    this.moveTo_lu1900$(this.lastX + x, this.lastY + y);
   };
   VectorPath.prototype.rLineTo_lu1900$ = function (x, y) {
-    this.lineTo_lu1900$(this.lastX_sawik2$_0 + x, this.lastY_sawij7$_0 + y);
+    this.lineTo_lu1900$(this.lastX + x, this.lastY + y);
   };
   VectorPath.prototype.rQuadTo_6y0v78$ = function (cx, cy, ax, ay) {
-    this.quadTo_6y0v78$(this.lastX_sawik2$_0 + cx, this.lastY_sawij7$_0 + cy, this.lastX_sawik2$_0 + ax, this.lastY_sawij7$_0 + ay);
+    this.quadTo_6y0v78$(this.lastX + cx, this.lastY + cy, this.lastX + ax, this.lastY + ay);
   };
   VectorPath.prototype.rCubicTo_15yvbs$ = function (cx1, cy1, cx2, cy2, ax, ay) {
-    this.cubicTo_15yvbs$(this.lastX_sawik2$_0 + cx1, this.lastY_sawij7$_0 + cy1, this.lastX_sawik2$_0 + cx2, this.lastY_sawij7$_0 + cy2, this.lastX_sawik2$_0 + ax, this.lastY_sawij7$_0 + ay);
+    this.cubicTo_15yvbs$(this.lastX + cx1, this.lastY + cy1, this.lastX + cx2, this.lastY + cy2, this.lastX + ax, this.lastY + ay);
   };
   VectorPath.prototype.ensureMoveTo_okp98q$_0 = function (x, y) {
     if (this.isEmpty()) {
@@ -3982,8 +4010,8 @@
     this.commands.plusAssign_za3lpa$(VectorPath$Command_getInstance().LINE_TO);
     this.data.plusAssign_14dthe$(x);
     this.data.plusAssign_14dthe$(y);
-    this.lastX_sawik2$_0 = x;
-    this.lastY_sawij7$_0 = y;
+    this.lastX = x;
+    this.lastY = y;
   };
   VectorPath.prototype.lineTo_vux9f0$ = function (x, y) {
     this.lineTo_lu1900$(x, y);
@@ -4001,8 +4029,8 @@
     this.data.plusAssign_14dthe$(controlY);
     this.data.plusAssign_14dthe$(anchorX);
     this.data.plusAssign_14dthe$(anchorY);
-    this.lastX_sawik2$_0 = anchorX;
-    this.lastY_sawij7$_0 = anchorY;
+    this.lastX = anchorX;
+    this.lastY = anchorY;
   };
   VectorPath.prototype.cubicTo_15yvbs$ = function (cx1, cy1, cx2, cy2, ax, ay) {
     this.ensureMoveTo_okp98q$_0(cx1, cy1);
@@ -4013,13 +4041,13 @@
     this.data.plusAssign_14dthe$(cy2);
     this.data.plusAssign_14dthe$(ax);
     this.data.plusAssign_14dthe$(ay);
-    this.lastX_sawik2$_0 = ax;
-    this.lastY_sawij7$_0 = ay;
+    this.lastX = ax;
+    this.lastY = ay;
   };
   VectorPath.prototype.arcTo_1lq62i$ = function (ax, ay, cx, cy, r) {
     this.ensureMoveTo_okp98q$_0(ax, ay);
-    var bx = this.lastX_sawik2$_0;
-    var by = this.lastY_sawij7$_0;
+    var bx = this.lastX;
+    var by = this.lastY;
     var b = new Vector2(bx, by);
     var a = new Vector2(ax, ay);
     var c = new Vector2(cx, cy);
@@ -4170,6 +4198,48 @@
     this.addBounds_w97n1m$(bb);
     return bb.getBounds_2da8yn$(out);
   };
+  VectorPath.prototype.getPoints = function () {
+    var points = ArrayList_init();
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13;
+    var n = 0;
+    tmp$ = this.commands.iterator();
+    while (tmp$.hasNext()) {
+      var cmd = tmp$.next();
+      if (cmd === VectorPath.Command.MOVE_TO) {
+        var x = this.data.get_za3lpa$((tmp$_0 = n, n = tmp$_0 + 1 | 0, tmp$_0));
+        var y = this.data.get_za3lpa$((tmp$_1 = n, n = tmp$_1 + 1 | 0, tmp$_1));
+        var element = new Vector2(x, y);
+        points.add_11rb$(element);
+      }
+       else if (cmd === VectorPath.Command.LINE_TO) {
+        var x_0 = this.data.get_za3lpa$((tmp$_2 = n, n = tmp$_2 + 1 | 0, tmp$_2));
+        var y_0 = this.data.get_za3lpa$((tmp$_3 = n, n = tmp$_3 + 1 | 0, tmp$_3));
+        var element_0 = new Vector2(x_0, y_0);
+        points.add_11rb$(element_0);
+      }
+       else if (cmd === VectorPath.Command.QUAD_TO) {
+        var x1 = this.data.get_za3lpa$((tmp$_4 = n, n = tmp$_4 + 1 | 0, tmp$_4));
+        var y1 = this.data.get_za3lpa$((tmp$_5 = n, n = tmp$_5 + 1 | 0, tmp$_5));
+        var x2 = this.data.get_za3lpa$((tmp$_6 = n, n = tmp$_6 + 1 | 0, tmp$_6));
+        var y2 = this.data.get_za3lpa$((tmp$_7 = n, n = tmp$_7 + 1 | 0, tmp$_7));
+        var element_1 = new Vector2(x2, y2);
+        points.add_11rb$(element_1);
+      }
+       else if (cmd === VectorPath.Command.BEZIER_TO) {
+        var x1_0 = this.data.get_za3lpa$((tmp$_8 = n, n = tmp$_8 + 1 | 0, tmp$_8));
+        var y1_0 = this.data.get_za3lpa$((tmp$_9 = n, n = tmp$_9 + 1 | 0, tmp$_9));
+        var x2_0 = this.data.get_za3lpa$((tmp$_10 = n, n = tmp$_10 + 1 | 0, tmp$_10));
+        var y2_0 = this.data.get_za3lpa$((tmp$_11 = n, n = tmp$_11 + 1 | 0, tmp$_11));
+        var x3 = this.data.get_za3lpa$((tmp$_12 = n, n = tmp$_12 + 1 | 0, tmp$_12));
+        var y3 = this.data.get_za3lpa$((tmp$_13 = n, n = tmp$_13 + 1 | 0, tmp$_13));
+        var element_2 = new Vector2(x3, y3);
+        points.add_11rb$(element_2);
+      }
+       else
+        VectorPath.Command.CLOSE;
+    }
+    return points;
+  };
   VectorPath.prototype.containsPoint_lu1900$ = function (x, y) {
     var testx = x;
     var testy = y;
@@ -4303,8 +4373,8 @@
   VectorPath.prototype.write_3wv7u0$ = function (path) {
     this.commands.plusAssign_d3xoud$(path.commands);
     this.data.plusAssign_hlrnxz$(path.data);
-    this.lastX_sawik2$_0 = path.lastX_sawik2$_0;
-    this.lastY_sawij7$_0 = path.lastY_sawij7$_0;
+    this.lastX = path.lastX;
+    this.lastY = path.lastY;
   };
   VectorPath.$metadata$ = {
     kind: Kind_CLASS,
@@ -12967,7 +13037,7 @@
   Bezier$Quad.prototype.calc_dtnzs5$ = Bezier.prototype.calc_dtnzs5$;
   Bezier$Cubic.prototype.getBounds_2da8yn$ = Bezier.prototype.getBounds_2da8yn$;
   Bezier$Cubic.prototype.calc_dtnzs5$ = Bezier.prototype.calc_dtnzs5$;
-  KORMA_VERSION = '0.17.1';
+  KORMA_VERSION = '0.17.3-SNAPSHOT';
   Kotlin.defineModule('korma-js', _);
   return _;
 }));

@@ -1,8 +1,8 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd)
-    define(['exports', 'kotlin', 'korge-js', 'korag-js', 'korim-js', 'klogger-js', 'korio-js', 'korma-js', 'korinject-js', 'klock-js', 'kmem-js', 'kds-js', 'korau-js'], factory);
+    define(['exports', 'kotlin', 'korge-js', 'korag-js', 'korim-js', 'klogger-js', 'korio-js', 'korma-js', 'korau-atrac3plus-js', 'korinject-js', 'klock-js', 'kmem-js', 'kds-js', 'dynarek-js', 'korau-js'], factory);
   else if (typeof exports === 'object')
-    factory(module.exports, require('kotlin'), require('korge-js'), require('korag-js'), require('korim-js'), require('klogger-js'), require('korio-js'), require('korma-js'), require('korinject-js'), require('klock-js'), require('kmem-js'), require('kds-js'), require('korau-js'));
+    factory(module.exports, require('kotlin'), require('korge-js'), require('korag-js'), require('korim-js'), require('klogger-js'), require('korio-js'), require('korma-js'), require('korau-atrac3plus-js'), require('korinject-js'), require('klock-js'), require('kmem-js'), require('kds-js'), require('dynarek-js'), require('korau-js'));
   else {
     if (typeof kotlin === 'undefined') {
       throw new Error("Error loading module 'kpspemu'. Its dependency 'kotlin' was not found. Please, check whether 'kotlin' is loaded prior to 'kpspemu'.");
@@ -25,6 +25,9 @@
     if (typeof this['korma-js'] === 'undefined') {
       throw new Error("Error loading module 'kpspemu'. Its dependency 'korma-js' was not found. Please, check whether 'korma-js' is loaded prior to 'kpspemu'.");
     }
+    if (typeof this['korau-atrac3plus-js'] === 'undefined') {
+      throw new Error("Error loading module 'kpspemu'. Its dependency 'korau-atrac3plus-js' was not found. Please, check whether 'korau-atrac3plus-js' is loaded prior to 'kpspemu'.");
+    }
     if (typeof this['korinject-js'] === 'undefined') {
       throw new Error("Error loading module 'kpspemu'. Its dependency 'korinject-js' was not found. Please, check whether 'korinject-js' is loaded prior to 'kpspemu'.");
     }
@@ -37,12 +40,15 @@
     if (typeof this['kds-js'] === 'undefined') {
       throw new Error("Error loading module 'kpspemu'. Its dependency 'kds-js' was not found. Please, check whether 'kds-js' is loaded prior to 'kpspemu'.");
     }
+    if (typeof this['dynarek-js'] === 'undefined') {
+      throw new Error("Error loading module 'kpspemu'. Its dependency 'dynarek-js' was not found. Please, check whether 'dynarek-js' is loaded prior to 'kpspemu'.");
+    }
     if (typeof this['korau-js'] === 'undefined') {
       throw new Error("Error loading module 'kpspemu'. Its dependency 'korau-js' was not found. Please, check whether 'korau-js' is loaded prior to 'kpspemu'.");
     }
-    root.kpspemu = factory(typeof kpspemu === 'undefined' ? {} : kpspemu, kotlin, this['korge-js'], this['korag-js'], this['korim-js'], this['klogger-js'], this['korio-js'], this['korma-js'], this['korinject-js'], this['klock-js'], this['kmem-js'], this['kds-js'], this['korau-js']);
+    root.kpspemu = factory(typeof kpspemu === 'undefined' ? {} : kpspemu, kotlin, this['korge-js'], this['korag-js'], this['korim-js'], this['klogger-js'], this['korio-js'], this['korma-js'], this['korau-atrac3plus-js'], this['korinject-js'], this['klock-js'], this['kmem-js'], this['kds-js'], this['dynarek-js'], this['korau-js']);
   }
-}(this, function (_, Kotlin, $module$korge_js, $module$korag_js, $module$korim_js, $module$klogger_js, $module$korio_js, $module$korma_js, $module$korinject_js, $module$klock_js, $module$kmem_js, $module$kds_js, $module$korau_js) {
+}(this, function (_, Kotlin, $module$korge_js, $module$korag_js, $module$korim_js, $module$klogger_js, $module$korio_js, $module$korma_js, $module$korau_atrac3plus_js, $module$korinject_js, $module$klock_js, $module$kmem_js, $module$kds_js, $module$dynarek_js, $module$korau_js) {
   'use strict';
   var $$importsForInline$$ = _.$$importsForInline$$ || (_.$$importsForInline$$ = {});
   var Enum = Kotlin.kotlin.Enum;
@@ -88,7 +94,9 @@
   var AG$BlendEquation = $module$korag_js.com.soywiz.korag.AG.BlendEquation;
   var AG$DrawType = $module$korag_js.com.soywiz.korag.AG.DrawType;
   var AG$BlendFactor = $module$korag_js.com.soywiz.korag.AG.BlendFactor;
+  var get_eventLoop = $module$korio_js.com.soywiz.korio.async.get_eventLoop_45jet4$;
   var StringBuilder = Kotlin.kotlin.text.StringBuilder;
+  var IMemory = $module$korau_atrac3plus_js.com.soywiz.korau.format.util.IMemory;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
   var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var korge = $module$korge_js.com.soywiz.korge;
@@ -99,10 +107,9 @@
   var COROUTINE_SUSPENDED = Kotlin.kotlin.coroutines.experimental.intrinsics.COROUTINE_SUSPENDED;
   var SizeInt = $module$korma_js.com.soywiz.korma.geom.SizeInt;
   var Module = $module$korge_js.com.soywiz.korge.scene.Module;
+  var SVG_init = $module$korim_js.com.soywiz.korim.vector.format.SVG_init_61zpoe$;
   var PropertyMetadata = Kotlin.PropertyMetadata;
   var println = Kotlin.kotlin.io.println_s8jyv4$;
-  var vfs = $module$korio_js.com.soywiz.korio.vfs;
-  var util = $module$korio_js.com.soywiz.korio.util;
   var klock = $module$klock_js.com.soywiz.klock;
   var printStackTrace = $module$korio_js.com.soywiz.korio.lang.printStackTrace_dbl4o4$;
   var Throwable = Error;
@@ -112,7 +119,9 @@
   var color = $module$korim_js.com.soywiz.korim.color;
   var plusAssign = $module$korge_js.com.soywiz.korge.view.plusAssign_5hnngd$;
   var View = $module$korge_js.com.soywiz.korge.view.View;
+  var util = $module$korio_js.com.soywiz.korio.util;
   var trim = Kotlin.kotlin.text.trim_wqw3xr$;
+  var vfs = $module$korio_js.com.soywiz.korio.vfs;
   var getPropertyCallableRef = Kotlin.getPropertyCallableRef;
   var tween = $module$korge_js.com.soywiz.korge.tween.tween_wrai67$;
   var Scene = $module$korge_js.com.soywiz.korge.scene.Scene;
@@ -122,6 +131,7 @@
   var font = $module$korim_js.com.soywiz.korim.font;
   var AsyncThread = $module$korio_js.com.soywiz.korio.async.AsyncThread;
   var umod = $module$korio_js.com.soywiz.korio.util.umod_dqglrj$;
+  var roundToInt = Kotlin.kotlin.math.roundToInt_yrwdxr$;
   var openAsync = $module$korio_js.com.soywiz.korio.stream.openAsync_m1iwyb$;
   var asVfsFile = $module$korio_js.com.soywiz.korio.stream.asVfsFile_igl5gt$;
   var readBytesUpTo = $module$korio_js.com.soywiz.korio.stream.readBytesUpTo_a0g59h$;
@@ -136,6 +146,7 @@
   var insert = $module$korio_js.com.soywiz.korio.util.insert_4684dr$;
   var extract_0 = $module$korio_js.com.soywiz.korio.util.extract_dqglrj$;
   var insert_0 = $module$korio_js.com.soywiz.korio.util.insert_kvkj6u$;
+  var invalidArg = $module$korio_js.com.soywiz.korio.error.invalidArg_61zpoe$;
   var defineInlineFunction = Kotlin.defineInlineFunction;
   var wrapFunction = Kotlin.wrapFunction;
   var Extra = $module$kds_js.com.soywiz.kds.Extra;
@@ -148,6 +159,14 @@
   var unboxChar = Kotlin.unboxChar;
   var replace = Kotlin.kotlin.text.replace_r2fvfm$;
   var IndexOutOfBoundsException = Kotlin.kotlin.IndexOutOfBoundsException;
+  var dynarek = $module$dynarek_js.com.soywiz.dynarek;
+  var DClass = $module$dynarek_js.com.soywiz.dynarek.DClass;
+  var DFunction1 = $module$dynarek_js.com.soywiz.dynarek.DFunction1;
+  var DLiteral = $module$dynarek_js.com.soywiz.dynarek.DLiteral;
+  var IBinop = $module$dynarek_js.com.soywiz.dynarek.IBinop;
+  var DBinopInt = $module$dynarek_js.com.soywiz.dynarek.DBinopInt;
+  var kotlin = Kotlin.kotlin;
+  var StmBuilder = $module$dynarek_js.com.soywiz.dynarek.StmBuilder;
   var udiv = $module$korio_js.com.soywiz.korio.util.udiv_dqglrj$;
   var urem = $module$korio_js.com.soywiz.korio.util.urem_dqglrj$;
   var imul32_64 = $module$korio_js.com.soywiz.korio.util.imul32_64_nps3vt$;
@@ -158,6 +177,7 @@
   var isAlmostZero = $module$korma_js.com.soywiz.korma.math.isAlmostZero_81szk$;
   var clamp = $module$korma_js.com.soywiz.korma.math.clamp_wj6e7o$;
   var until = Kotlin.kotlin.ranges.until_dqglrj$;
+  var waitOne = $module$korio_js.com.soywiz.korio.async.waitOne_b1yv1r$;
   var Signal = $module$korio_js.com.soywiz.korio.async.Signal;
   var readStringz_0 = $module$korio_js.com.soywiz.korio.stream.readStringz_4xit9n$;
   var readS32_le = $module$korio_js.com.soywiz.korio.stream.readS32_le_yjldv$;
@@ -221,42 +241,60 @@
   var throwCCE = Kotlin.throwCCE;
   var contains = Kotlin.kotlin.text.contains_sgbm27$;
   var startsWith = Kotlin.kotlin.text.startsWith_sgbm27$;
-  var write64_le = $module$korio_js.com.soywiz.korio.stream.write64_le_7bhjh0$;
-  var writeStringz = $module$korio_js.com.soywiz.korio.stream.writeStringz_5iah4l$;
   var Pool_init = $module$kds_js.com.soywiz.kds.Pool_init_xsjjga$;
   var LinkedHashMap = Kotlin.kotlin.collections.LinkedHashMap;
   var splice = $module$kds_js.com.soywiz.kds.ext.splice_b7gcku$;
   var reduceAcumulate = $module$kds_js.com.soywiz.kds.ext.reduceAcumulate_l1hrho$;
   var getCallableRef = Kotlin.getCallableRef;
+  var first_0 = Kotlin.kotlin.collections.first_7wnvza$;
   var Extra$Property = $module$kds_js.com.soywiz.kds.Extra.Property;
   var DateTime = $module$klock_js.com.soywiz.klock.DateTime;
-  var write16_le = $module$korio_js.com.soywiz.korio.stream.write16_le_n5df9z$;
   var VfsOpenMode = $module$korio_js.com.soywiz.korio.vfs.VfsOpenMode;
   var get_createDate = $module$korio_js.com.soywiz.korio.vfs.get_createDate_9ayeyb$;
   var get_lastAccessDate = $module$korio_js.com.soywiz.korio.vfs.get_lastAccessDate_9ayeyb$;
   var get_modifiedDate = $module$korio_js.com.soywiz.korio.vfs.get_modifiedDate_9ayeyb$;
   var toString_0 = $module$korio_js.com.soywiz.korio.lang.toString_5kit73$;
+  var VfsFile = $module$korio_js.com.soywiz.korio.vfs.VfsFile;
+  var toList_3 = $module$korio_js.com.soywiz.korio.async.toList_otmutl$;
+  var spawn = $module$korio_js.com.soywiz.korio.async.spawn_lnyleu$;
   var kotlin_js_internal_IntCompanionObject = Kotlin.kotlin.js.internal.IntCompanionObject;
   var readByteArray = $module$kmem_js.com.soywiz.kmem.readByteArray_ietg8x$;
   var print = Kotlin.kotlin.io.print_s8jyv4$;
-  var waitOne = $module$korio_js.com.soywiz.korio.async.waitOne_b1yv1r$;
   var MtRand_init = $module$korma_js.com.soywiz.korma.random.MtRand_init_za3lpa$;
+  var Atrac3plusDecoder = $module$korau_atrac3plus_js.com.soywiz.korau.format.atrac3plus.Atrac3plusDecoder;
+  var util_0 = $module$korau_atrac3plus_js.com.soywiz.korau.format.atrac3plus.util;
+  var Atrac3PlusUtil$AtracFileInfo = $module$korau_atrac3plus_js.com.soywiz.korau.format.atrac3plus.util.Atrac3PlusUtil.AtracFileInfo;
+  var toIntCeil = $module$korio_js.com.soywiz.korio.util.toIntCeil_yrwdxr$;
   var NativeAudioStream = $module$korau_js.com.soywiz.korau.sound.NativeAudioStream;
+  var arraycopy_1 = $module$kmem_js.com.soywiz.kmem.arraycopy_ai5qaq$;
   var addSamples = $module$korau_js.com.soywiz.korau.sound.addSamples_ippixz$;
   var IntRange = Kotlin.kotlin.ranges.IntRange;
   var Month = $module$klock_js.com.soywiz.klock.Month;
   var clamp_0 = $module$korio_js.com.soywiz.korio.util.clamp_e4yvb3$;
+  var arrayListOf = Kotlin.kotlin.collections.arrayListOf_i5x0yv$;
   var get_0 = $module$korio_js.com.soywiz.korio.serialization.xml.get_h00kq4$;
-  var first_0 = Kotlin.kotlin.collections.first_7wnvza$;
   var parseInt = $module$korio_js.com.soywiz.korio.util.parseInt_pdl1vz$;
   var toByte = Kotlin.toByte;
   var error = $module$korio_js.com.soywiz.korio.error;
   var SyncStreamBase = $module$korio_js.com.soywiz.korio.stream.SyncStreamBase;
   var SyncStream = $module$korio_js.com.soywiz.korio.stream.SyncStream;
-  var arraycopy_1 = $module$kmem_js.com.soywiz.kmem.arraycopy_mwgkm6$;
+  var arraycopy_2 = $module$kmem_js.com.soywiz.kmem.arraycopy_mwgkm6$;
   var ByteArrayBuilderSmall_init = $module$korio_js.com.soywiz.korio.stream.ByteArrayBuilderSmall_init_za3lpa$;
   var toSyncStream = $module$korio_js.com.soywiz.korio.stream.toSyncStream_wrqxjw$;
   var LocalVfs = $module$korio_js.com.soywiz.korio.vfs.LocalVfs_61zpoe$;
+  var AtomicInteger = $module$korio_js.com.soywiz.korio.lang.AtomicInteger;
+  var ProduceConsumer = $module$korio_js.com.soywiz.korio.async.ProduceConsumer;
+  var sum = Kotlin.kotlin.collections.sum_plj8ka$;
+  var write8 = $module$korio_js.com.soywiz.korio.stream.write8_n5df9z$;
+  var write16_le = $module$korio_js.com.soywiz.korio.stream.write16_le_n5df9z$;
+  var write64_le = $module$korio_js.com.soywiz.korio.stream.write64_le_7bhjh0$;
+  var readS64_le_0 = $module$korio_js.com.soywiz.korio.stream.readS64_le_p2awyq$;
+  var writeF32_le = $module$korio_js.com.soywiz.korio.stream.writeF32_le_dpexvo$;
+  var writeStringz = $module$korio_js.com.soywiz.korio.stream.writeStringz_61lhbb$;
+  var writeStringz_0 = $module$korio_js.com.soywiz.korio.stream.writeStringz_5iah4l$;
+  var first_1 = Kotlin.kotlin.collections.first_us0mfu$;
+  var max = Kotlin.kotlin.collections.max_exjks8$;
+  var toInt = Kotlin.kotlin.text.toInt_6ic1pp$;
   var asyncGenerate = $module$korio_js.com.soywiz.korio.async.asyncGenerate_33q1hl$;
   var Vfs = $module$korio_js.com.soywiz.korio.vfs.Vfs;
   var withCoroutineContext = $module$korio_js.com.soywiz.korio.coroutine.withCoroutineContext_3hy5wj$;
@@ -266,7 +304,6 @@
   var split_0 = Kotlin.kotlin.text.split_ip8yn$;
   var IllegalStateException = Kotlin.kotlin.IllegalStateException;
   var trimStart = Kotlin.kotlin.text.trimStart_wqw3xr$;
-  var readS64_le_0 = $module$korio_js.com.soywiz.korio.stream.readS64_le_p2awyq$;
   var toLongArray = Kotlin.kotlin.collections.toLongArray_558emf$;
   var readS32_be = $module$korio_js.com.soywiz.korio.stream.readS32_be_p2awyq$;
   var readS16_be = $module$korio_js.com.soywiz.korio.stream.readS16_be_p2awyq$;
@@ -329,6 +366,10 @@
   InstructionOpcodeDecoder$ResultInstructionEvaluator.prototype.constructor = InstructionOpcodeDecoder$ResultInstructionEvaluator;
   Disassembler.prototype = Object.create(InstructionDecoder.prototype);
   Disassembler.prototype.constructor = Disassembler;
+  BaseDynarecMethodBuilder.prototype = Object.create(InstructionEvaluator.prototype);
+  BaseDynarecMethodBuilder.prototype.constructor = BaseDynarecMethodBuilder;
+  DynarekMethodBuilder.prototype = Object.create(BaseDynarecMethodBuilder.prototype);
+  DynarekMethodBuilder.prototype.constructor = DynarekMethodBuilder;
   InstructionInterpreter.prototype = Object.create(InstructionEvaluator.prototype);
   InstructionInterpreter.prototype.constructor = InstructionInterpreter;
   PspCtrlButtons.prototype = Object.create(Enum.prototype);
@@ -445,6 +486,10 @@
   CallbackManager.prototype.constructor = CallbackManager;
   PspCallback.prototype = Object.create(Resource.prototype);
   PspCallback.prototype.constructor = PspCallback;
+  SceIoStat$Companion.prototype = Object.create(Struct.prototype);
+  SceIoStat$Companion.prototype.constructor = SceIoStat$Companion;
+  HleIoDirent$Companion.prototype = Object.create(Struct.prototype);
+  HleIoDirent$Companion.prototype.constructor = HleIoDirent$Companion;
   MemoryAnchor.prototype = Object.create(Enum.prototype);
   MemoryAnchor.prototype.constructor = MemoryAnchor;
   OutOfMemoryError.prototype = Object.create(Exception.prototype);
@@ -463,6 +508,10 @@
   PspThread$Phase.prototype.constructor = PspThread$Phase;
   PspThread.prototype = Object.create(Resource.prototype);
   PspThread.prototype.constructor = PspThread;
+  SceKernelThreadInfo$Companion.prototype = Object.create(Struct.prototype);
+  SceKernelThreadInfo$Companion.prototype.constructor = SceKernelThreadInfo$Companion;
+  ScePspDateTime$Companion.prototype = Object.create(Struct.prototype);
+  ScePspDateTime$Companion.prototype.constructor = ScePspDateTime$Companion;
   ExceptionManagerForKernel.prototype = Object.create(SceModule.prototype);
   ExceptionManagerForKernel.prototype.constructor = ExceptionManagerForKernel;
   InterruptManager_0.prototype = Object.create(SceModule.prototype);
@@ -511,10 +560,22 @@
   sceImpose.prototype.constructor = sceImpose;
   sceMpeg.prototype = Object.create(SceModule.prototype);
   sceMpeg.prototype.constructor = sceMpeg;
+  sceNet.prototype = Object.create(SceModule.prototype);
+  sceNet.prototype.constructor = sceNet;
+  sceNetAdhoc.prototype = Object.create(SceModule.prototype);
+  sceNetAdhoc.prototype.constructor = sceNetAdhoc;
+  sceNetAdhocMatching.prototype = Object.create(SceModule.prototype);
+  sceNetAdhocMatching.prototype.constructor = sceNetAdhocMatching;
+  sceNetAdhocctl.prototype = Object.create(SceModule.prototype);
+  sceNetAdhocctl.prototype.constructor = sceNetAdhocctl;
   sceNetInet.prototype = Object.create(SceModule.prototype);
   sceNetInet.prototype.constructor = sceNetInet;
   scePower.prototype = Object.create(SceModule.prototype);
   scePower.prototype.constructor = scePower;
+  sceReg.prototype = Object.create(SceModule.prototype);
+  sceReg.prototype.constructor = sceReg;
+  RegParam$Companion.prototype = Object.create(Struct.prototype);
+  RegParam$Companion.prototype.constructor = RegParam$Companion;
   sceRtc.prototype = Object.create(SceModule.prototype);
   sceRtc.prototype.constructor = sceRtc;
   sceSasCore.prototype = Object.create(SceModule.prototype);
@@ -525,6 +586,46 @@
   sceUmdUser.prototype.constructor = sceUmdUser;
   sceUtility.prototype = Object.create(SceModule.prototype);
   sceUtility.prototype.constructor = sceUtility;
+  PspLanguages$Companion.prototype = Object.create(INT32_ENUM.prototype);
+  PspLanguages$Companion.prototype.constructor = PspLanguages$Companion;
+  PspLanguages.prototype = Object.create(Enum.prototype);
+  PspLanguages.prototype.constructor = PspLanguages;
+  PspUtilitySavedataMode$Companion.prototype = Object.create(INT32_ENUM.prototype);
+  PspUtilitySavedataMode$Companion.prototype.constructor = PspUtilitySavedataMode$Companion;
+  PspUtilitySavedataMode.prototype = Object.create(Enum.prototype);
+  PspUtilitySavedataMode.prototype.constructor = PspUtilitySavedataMode;
+  PspUtilitySavedataFocus$Companion.prototype = Object.create(INT32_ENUM.prototype);
+  PspUtilitySavedataFocus$Companion.prototype.constructor = PspUtilitySavedataFocus$Companion;
+  PspUtilitySavedataFocus.prototype = Object.create(Enum.prototype);
+  PspUtilitySavedataFocus.prototype.constructor = PspUtilitySavedataFocus;
+  PspUtilityDialogCommon$Companion.prototype = Object.create(Struct.prototype);
+  PspUtilityDialogCommon$Companion.prototype.constructor = PspUtilityDialogCommon$Companion;
+  PspUtilitySavedataSFOParam$Companion.prototype = Object.create(Struct.prototype);
+  PspUtilitySavedataSFOParam$Companion.prototype.constructor = PspUtilitySavedataSFOParam$Companion;
+  PspUtilitySavedataFileData$Companion.prototype = Object.create(Struct.prototype);
+  PspUtilitySavedataFileData$Companion.prototype.constructor = PspUtilitySavedataFileData$Companion;
+  SceUtilitySavedataParam$Companion.prototype = Object.create(Struct.prototype);
+  SceUtilitySavedataParam$Companion.prototype.constructor = SceUtilitySavedataParam$Companion;
+  PspUtilityMsgDialogMode$Companion.prototype = Object.create(INT32_ENUM.prototype);
+  PspUtilityMsgDialogMode$Companion.prototype.constructor = PspUtilityMsgDialogMode$Companion;
+  PspUtilityMsgDialogMode.prototype = Object.create(Enum.prototype);
+  PspUtilityMsgDialogMode.prototype.constructor = PspUtilityMsgDialogMode;
+  PspUtilityMsgDialogOption$Companion.prototype = Object.create(INT32_ENUM.prototype);
+  PspUtilityMsgDialogOption$Companion.prototype.constructor = PspUtilityMsgDialogOption$Companion;
+  PspUtilityMsgDialogOption.prototype = Object.create(Enum.prototype);
+  PspUtilityMsgDialogOption.prototype.constructor = PspUtilityMsgDialogOption;
+  PspUtilityMsgDialogPressed$Companion.prototype = Object.create(INT32_ENUM.prototype);
+  PspUtilityMsgDialogPressed$Companion.prototype.constructor = PspUtilityMsgDialogPressed$Companion;
+  PspUtilityMsgDialogPressed.prototype = Object.create(Enum.prototype);
+  PspUtilityMsgDialogPressed.prototype.constructor = PspUtilityMsgDialogPressed;
+  DialogStepEnum$Companion.prototype = Object.create(INT32_ENUM.prototype);
+  DialogStepEnum$Companion.prototype.constructor = DialogStepEnum$Companion;
+  DialogStepEnum.prototype = Object.create(Enum.prototype);
+  DialogStepEnum.prototype.constructor = DialogStepEnum;
+  PspUtilityMsgDialogParams$Companion.prototype = Object.create(Struct.prototype);
+  PspUtilityMsgDialogParams$Companion.prototype.constructor = PspUtilityMsgDialogParams$Companion;
+  sceWlanDrv.prototype = Object.create(SceModule.prototype);
+  sceWlanDrv.prototype.constructor = sceWlanDrv;
   DummyMemory.prototype = Object.create(Memory.prototype);
   DummyMemory.prototype.constructor = DummyMemory;
   TraceMemory.prototype = Object.create(Memory.prototype);
@@ -771,14 +872,20 @@
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.id, other.id) && Kotlin.equals(this.texture, other.texture) && Kotlin.equals(this.version, other.version) && Kotlin.equals(this.frame, other.frame) && Kotlin.equals(this.hash, other.hash)))));
   };
   AGRenderer.prototype.reset = function () {
-    var tmp$;
+    var tmp$, tmp$_0;
     tmp$ = this.texturesById.entries.iterator();
     while (tmp$.hasNext()) {
-      var tmp$_0 = tmp$.next();
-      var tex = tmp$_0.value;
+      var tmp$_1 = tmp$.next();
+      var tex = tmp$_1.value;
       tex.texture.close();
     }
+    tmp$_0 = this.programLayoutByVertexType.entries.iterator();
+    while (tmp$_0.hasNext()) {
+      var tmp$_2 = tmp$_0.next();
+      var vtype = tmp$_2.value;
+    }
     this.texturesById.clear();
+    this.programLayoutByVertexType.clear();
   };
   var LogLevel = $module$klogger_js.com.soywiz.klogger.LogLevel;
   AGRenderer.prototype.renderBatch_0 = function (views, ctx, batch, scale) {
@@ -947,11 +1054,16 @@
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.program, other.program) && Kotlin.equals(this.layout, other.layout)))));
   };
   AGRenderer.prototype.getProgramLayout_j5wazo$ = function (state) {
-    var hash = '' + toString(state.vertexType) + '_' + toString(state.texture.effect.id) + '_' + toString(state.alphaTest.hash);
+    var hash = '' + toString(state.vertexType) + '_' + toString(state.texture.effect.id) + '_' + toString(state.alphaTest.hash) + '_' + toString(state.texture.hasAlpha) + '_' + toString(state.texture.effect) + '_' + toString(state.alphaTest.enabled);
     var $receiver = this.programLayoutByVertexType;
     var tmp$;
     var value = $receiver.get_11rb$(hash);
     if (value == null) {
+      var $this = this.logger;
+      var level = LogLevel.WARN;
+      if (level.index <= $this.processedLevel.index) {
+        $this.actualLog_t189ph$(level, 'getProgramLayout[new]: ' + hash);
+      }
       var answer = this.createProgramLayout_j5wazo$(state);
       $receiver.put_xwzc9p$(hash, answer);
       tmp$ = answer;
@@ -1328,6 +1440,7 @@
     this.syscalls = syscalls;
     this.mem = mem;
     this.gpuRenderer = gpuRenderer;
+    this.eventLoop = get_eventLoop(this.coroutineContext);
     this.globalCpuState = new GlobalCpuState();
     this.logger = Logger.Companion.invoke_61zpoe$('Emulator');
     this.output = new StringBuilder();
@@ -1344,6 +1457,7 @@
     this.timeManager = new TimeManager(this);
     this.controller = new PspController(this);
     this.fileManager = new FileManager(this);
+    this.imem = new Emulator$imem$ObjectLiteral(this);
   }
   Object.defineProperty(Emulator.prototype, 'running', {
     get: function () {
@@ -1352,8 +1466,6 @@
   });
   Emulator.prototype.frameStep = function () {
     this.controller.startFrame_za3lpa$(this.timeManager.getTimeInMicrosecondsInt());
-    this.threadManager.vblank();
-    this.display.dispatchVsync();
     this.threadManager.step();
     this.ge.run();
     this.gpu.render();
@@ -1373,6 +1485,16 @@
       $this.actualLog_t189ph$(level, 'invalidateDcache()');
     }
   };
+  function Emulator$imem$ObjectLiteral(this$Emulator) {
+    this.this$Emulator = this$Emulator;
+  }
+  Emulator$imem$ObjectLiteral.prototype.read8_za3lpa$ = function (addr) {
+    return this.this$Emulator.mem.lbu_za3lpa$(addr);
+  };
+  Emulator$imem$ObjectLiteral.$metadata$ = {
+    kind: Kind_CLASS,
+    interfaces: [IMemory]
+  };
   Emulator.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'Emulator',
@@ -1387,6 +1509,9 @@
   };
   function get_mem($receiver) {
     return $receiver.emulator.mem;
+  }
+  function get_imem($receiver) {
+    return $receiver.emulator.imem;
   }
   function get_ge($receiver) {
     return $receiver.emulator.ge;
@@ -1439,6 +1564,22 @@
       new Kpspemu();
     }
     return Kpspemu_instance;
+  }
+  function KpspemuAssets() {
+    KpspemuAssets_instance = this;
+    this.LOGO = '<svg id="7fe010bd-4468-4253-af77-c0b7be09145b" data-name="Capa 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="462" height="462" viewBox="0 0 462 462">\n  <defs>\n    <linearGradient id="943f5ba0-08c6-4338-98b9-f347b4e8a88b" data-name="Degradado sin nombre 6" x1="16.79" y1="91.98" x2="231.92" y2="91.98" gradientTransform="translate(-10.42 21.95)" gradientUnits="userSpaceOnUse">\n      <stop offset="0" stop-color="#0071bc"/>\n      <stop offset="1" stop-color="#1b1464"/>\n    <\/linearGradient>\n    <linearGradient id="1dc29aca-506d-4532-94fb-b659ac65b67f" data-name="Degradado sin nombre 13" x1="19.32" y1="418.94" x2="234.45" y2="418.94" gradientTransform="translate(-12.95 -70.87)" gradientUnits="userSpaceOnUse">\n      <stop offset="0" stop-color="#f7931e"/>\n      <stop offset="1" stop-color="#f15a24"/>\n    <\/linearGradient>\n    <linearGradient id="04b2fd55-c3cf-4419-87c5-84e3e25bbd9b" x1="240.5" y1="113.93" x2="455.63" y2="113.93" gradientTransform="matrix(1, 0, 0, 1, 0, 0)" xlink:href="#1dc29aca-506d-4532-94fb-b659ac65b67f"/>\n    <linearGradient id="cd92637f-6abd-45fb-92c8-f0cf8f946c8d" x1="240.5" y1="348.07" x2="455.63" y2="348.07" gradientTransform="matrix(1, 0, 0, 1, 0, 0)" xlink:href="#943f5ba0-08c6-4338-98b9-f347b4e8a88b"/>\n  <\/defs>\n  <title>icon<\/title>\n  <g>\n    <polygon points="107.17 221.5 6.37 120.91 121.16 6.37 221.5 107.03 221.5 221.5 107.17 221.5" fill="url(#943f5ba0-08c6-4338-98b9-f347b4e8a88b)"/>\n    <path d="M145.15,36.73,241,132.89V241H133L36.74,144.91,145.15,36.73m0-12.73L24,144.91,129.07,249.76V250H250V129.17L145.16,24Z" transform="translate(-24 -24)" fill="#1b1464"/>\n  <\/g>\n  <g>\n    <polygon points="6.37 340.85 107.03 240.5 221.5 240.5 221.5 354.83 120.91 455.63 6.37 340.85" fill="url(#1dc29aca-506d-4532-94fb-b659ac65b67f)"/>\n    <path d="M241,269V377l-96.09,96.29L36.73,364.85,132.89,269H241m9-9H129.17L24,364.84,144.91,486,249.76,380.93H250V260Z" transform="translate(-24 -24)" fill="#f15a24"/>\n  <\/g>\n  <g>\n    <polygon points="240.5 107.17 341.09 6.37 455.63 121.15 354.73 221.31 240.5 221.49 240.5 107.17" fill="url(#04b2fd55-c3cf-4419-87c5-84e3e25bbd9b)"/>\n    <path d="M365.09,36.74,473.26,145.13l-96.39,95.69L269,241V133l96.09-96.29m0-12.74L260.24,129.07H260V250l120.58-.19L486,145.16,365.09,24Z" transform="translate(-24 -24)" fill="#f15a24"/>\n  <\/g>\n  <g>\n    <polygon points="240.5 354.97 240.5 240.5 354.83 240.5 455.63 341.09 340.85 455.63 240.5 354.97" fill="url(#cd92637f-6abd-45fb-92c8-f0cf8f946c8d)"/>\n    <path d="M377,269l96.29,96.09L364.85,473.27,269,377.11V269H377m4-9H260V380.83L364.84,486,486,365.09,380.93,260.24V260Z" transform="translate(-24 -24)" fill="#1b1464"/>\n  <\/g>\n<\/svg>\n\t';
+  }
+  KpspemuAssets.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'KpspemuAssets',
+    interfaces: []
+  };
+  var KpspemuAssets_instance = null;
+  function KpspemuAssets_getInstance() {
+    if (KpspemuAssets_instance === null) {
+      new KpspemuAssets();
+    }
+    return KpspemuAssets_instance;
   }
   var KPSPEMU_VERSION;
   function main(args) {
@@ -1559,7 +1700,8 @@
     Module.call(this);
     this.clearEachFrame_drvy51$_0 = true;
     this.mainScene_x1qskp$_0 = getKClass(KpspemuMainScene);
-    this.title_f8gi32$_0 = 'kpspemu';
+    this.title_f8gi32$_0 = 'kpspemu - 0.3.2-SNAPSHOT';
+    this.iconImage_hhmu94$_0 = SVG_init(KpspemuAssets_getInstance().LOGO);
   }
   Object.defineProperty(KpspemuModule.prototype, 'clearEachFrame', {
     get: function () {
@@ -1574,6 +1716,11 @@
   Object.defineProperty(KpspemuModule.prototype, 'title', {
     get: function () {
       return this.title_f8gi32$_0;
+    }
+  });
+  Object.defineProperty(KpspemuModule.prototype, 'iconImage', {
+    get: function () {
+      return this.iconImage_hhmu94$_0;
     }
   });
   Object.defineProperty(KpspemuModule.prototype, 'size', {
@@ -2329,7 +2476,6 @@
       try {
         switch (this.state_0) {
           case 0:
-            var tmp$;
             this.state_0 = 2;
             this.result_0 = this.$this.createEmulator(this);
             if (this.result_0 === COROUTINE_SUSPENDED)
@@ -2339,21 +2485,19 @@
             throw this.exception_0;
           case 2:
             this.$this.emulator = this.result_0;
-            println('KPSPEMU: 0.3.1-SNAPSHOT');
+            println('KPSPEMU: 0.3.2-SNAPSHOT');
+            println('DYNAREK: 0.0.4-SNAPSHOT');
             println('KORINJECT: 0.0.2-SNAPSHOT');
+            println('KLOGGER: 0.2.1');
             println('KMEM: 0.1.0');
             println('KLOCK: 0.2.2');
-            println('KORMA: 0.17.1');
+            println('KORMA: 0.17.3-SNAPSHOT');
             println('KORIO: 0.17.2-SNAPSHOT');
-            println('KORAG: 0.17.2-SNAPSHOT');
+            println('KORIM: 0.17.5-SNAPSHOT');
+            println('KORAG: 0.17.4');
             println('KORAU: 0.17.2');
             println('KORUI: 0.17.2-SNAPSHOT');
-            println('KORGE: 0.17.2-SNAPSHOT');
-            if (util.OS.isJs)
-              tmp$ = vfs.applicationVfs;
-            else
-              tmp$ = vfs.applicationVfs.get_61zpoe$('samples').jail();
-            var samplesFolder = tmp$;
+            println('KORGE: 0.17.3-SNAPSHOT');
             this.$this.hud = this.$this.views.container();
             this.local$sceneView.addUpdatable_b4k9x1$(KpspemuMainScene$sceneInit$lambda(this.$this));
             var keys = Kotlin.booleanArray(256);
@@ -2366,28 +2510,28 @@
             var $receiver_0 = simpleButton(this.$this.views, 'Load...', void 0, void 0, this.$this.hudFont);
             $receiver_0.x = 8.0;
             $receiver_0.y = 272.0 - 32.0 * 1;
-            var tmp$_0, tmp$_0_0;
-            (tmp$_0_0 = (tmp$_0 = $receiver_0 != null ? get_mouse($receiver_0) : null) != null ? tmp$_0.onClick : null) != null ? addSuspend(tmp$_0_0, $receiver_0.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_0(this.$this)) : null;
+            var tmp$, tmp$_0;
+            (tmp$_0 = (tmp$ = $receiver_0 != null ? get_mouse($receiver_0) : null) != null ? tmp$.onClick : null) != null ? addSuspend(tmp$_0, $receiver_0.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_0(this.$this)) : null;
             var loadButton = $receiver_0;
             var $receiver_1 = simpleButton(this.$this.views, 'Auto', void 0, void 0, this.$this.hudFont);
             $receiver_1.x = 8.0;
             $receiver_1.y = 272.0 - 32.0 * 2;
-            var tmp$_1, tmp$_0_1;
-            (tmp$_0_1 = (tmp$_1 = $receiver_1 != null ? get_mouse($receiver_1) : null) != null ? tmp$_1.onClick : null) != null ? addSuspend(tmp$_0_1, $receiver_1.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_1(this.$this)) : null;
+            var tmp$_1, tmp$_0_0;
+            (tmp$_0_0 = (tmp$_1 = $receiver_1 != null ? get_mouse($receiver_1) : null) != null ? tmp$_1.onClick : null) != null ? addSuspend(tmp$_0_0, $receiver_1.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_1(this.$this)) : null;
             var directButton = $receiver_1;
             var pauseButton = {v: null};
             var pause = KpspemuMainScene$sceneInit$pause(this.$this, pauseButton);
             var $receiver_2 = simpleButton(this.$this.views, 'Pause', void 0, void 0, this.$this.hudFont);
             $receiver_2.x = 8.0;
             $receiver_2.y = 272.0 - 32.0 * 3;
-            var tmp$_2, tmp$_0_2;
-            (tmp$_0_2 = (tmp$_2 = $receiver_2 != null ? get_mouse($receiver_2) : null) != null ? tmp$_2.onClick : null) != null ? addSuspend(tmp$_0_2, $receiver_2.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_2(this.$this, pause)) : null;
+            var tmp$_2, tmp$_0_1;
+            (tmp$_0_1 = (tmp$_2 = $receiver_2 != null ? get_mouse($receiver_2) : null) != null ? tmp$_2.onClick : null) != null ? addSuspend(tmp$_0_1, $receiver_2.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_2(this.$this, pause)) : null;
             pauseButton.v = ensureNotNull($receiver_2);
             var $receiver_3 = simpleButton(this.$this.views, 'Step', void 0, void 0, this.$this.hudFont);
             $receiver_3.x = 8.0;
             $receiver_3.y = 272.0 - 32.0 * 4;
-            var tmp$_3, tmp$_0_3;
-            (tmp$_0_3 = (tmp$_3 = $receiver_3 != null ? get_mouse($receiver_3) : null) != null ? tmp$_3.onClick : null) != null ? addSuspend(tmp$_0_3, $receiver_3.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_3(pause, this.$this)) : null;
+            var tmp$_3, tmp$_0_2;
+            (tmp$_0_2 = (tmp$_3 = $receiver_3 != null ? get_mouse($receiver_3) : null) != null ? tmp$_3.onClick : null) != null ? addSuspend(tmp$_0_2, $receiver_3.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_3(pause, this.$this)) : null;
             var stepButton = $receiver_3;
             var tmp$_4 = this.$this.hud;
             var $this = this.$this.views;
@@ -2404,14 +2548,14 @@
             var displayView = new KpspemuMainScene$sceneInit$ObjectLiteral(this.$this, getInfoText, infoText, this.$this.views);
             this.local$sceneView.plusAssign_l5rad2$(displayView);
             this.local$sceneView.plusAssign_l5rad2$(this.$this.hud);
-            var tmp$_5, tmp$_0_4;
-            (tmp$_0_4 = (tmp$_5 = this.local$sceneView != null ? get_mouse(this.local$sceneView) : null) != null ? tmp$_5.onOut : null) != null ? addSuspend(tmp$_0_4, this.local$sceneView.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_4(this.$this)) : null;
-            var tmp$_6, tmp$_0_5;
-            (tmp$_0_5 = (tmp$_6 = this.local$sceneView != null ? get_mouse(this.local$sceneView) : null) != null ? tmp$_6.onClick : null) != null ? addSuspend(tmp$_0_5, this.local$sceneView.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_5(this.$this)) : null;
-            var tmp$_7, tmp$_0_6;
-            (tmp$_0_6 = (tmp$_7 = this.local$sceneView != null ? get_keys(this.local$sceneView) : null) != null ? tmp$_7.onKeyDown : null) != null ? tmp$_0_6.add_25kf2w$(KpspemuMainScene$sceneInit$lambda_6(updateKey)) : null;
-            var tmp$_8, tmp$_0_7;
-            (tmp$_0_7 = (tmp$_8 = this.local$sceneView != null ? get_keys(this.local$sceneView) : null) != null ? tmp$_8.onKeyUp : null) != null ? tmp$_0_7.add_25kf2w$(KpspemuMainScene$sceneInit$lambda_7(updateKey)) : null;
+            var tmp$_5, tmp$_0_3;
+            (tmp$_0_3 = (tmp$_5 = this.local$sceneView != null ? get_mouse(this.local$sceneView) : null) != null ? tmp$_5.onOut : null) != null ? addSuspend(tmp$_0_3, this.local$sceneView.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_4(this.$this)) : null;
+            var tmp$_6, tmp$_0_4;
+            (tmp$_0_4 = (tmp$_6 = this.local$sceneView != null ? get_mouse(this.local$sceneView) : null) != null ? tmp$_6.onClick : null) != null ? addSuspend(tmp$_0_4, this.local$sceneView.views.coroutineContext, KpspemuMainScene$sceneInit$lambda_5(this.$this)) : null;
+            var tmp$_7, tmp$_0_5;
+            (tmp$_0_5 = (tmp$_7 = this.local$sceneView != null ? get_keys(this.local$sceneView) : null) != null ? tmp$_7.onKeyDown : null) != null ? tmp$_0_5.add_25kf2w$(KpspemuMainScene$sceneInit$lambda_6(updateKey)) : null;
+            var tmp$_8, tmp$_0_6;
+            (tmp$_0_6 = (tmp$_8 = this.local$sceneView != null ? get_keys(this.local$sceneView) : null) != null ? tmp$_8.onKeyUp : null) != null ? tmp$_0_6.add_25kf2w$(KpspemuMainScene$sceneInit$lambda_7(updateKey)) : null;
             if (util.OS.isBrowserJs) {
               var hash = trim(KPspEmuNative_getInstance().documentLocationHash, Kotlin.charArrayOf(35));
               var $receiver_5 = trim(hash, Kotlin.charArrayOf(35));
@@ -2827,7 +2971,7 @@
     return this.renderTimes[umod(this.renderTimeOffset - 1 - offset | 0, this.MAX_SAMPLES)];
   };
   FpsCounter.prototype.getFpsInt = function () {
-    return numberToInt(this.getFps());
+    return roundToInt(this.getFps());
   };
   FpsCounter.prototype.getFps = function () {
     if (this.renderCount === 0)
@@ -3315,18 +3459,32 @@
   }
   function PspBattery(emulator) {
     this.emulator = emulator;
+    this.volt = 4135;
+    this.temp = 28;
     this.charging = false;
-    this.percentage = 1.0;
-    this.isLowBattery = this.percentage < 0.22;
+    this.chargedRatio = 1.0;
+    this.lifetimeSeconds = 8.0 * 3600.0;
+    this.batteryExists = true;
+    this.isLowBattery = this.chargedRatio < 0.22;
     this.chargingType = ChargingEnum$Companion_getInstance().invoke_za3lpa$(this.charging ? 1 : 0);
   }
+  Object.defineProperty(PspBattery.prototype, 'level', {
+    get: function () {
+      return this.chargedRatio;
+    }
+  });
+  Object.defineProperty(PspBattery.prototype, 'percentage', {
+    get: function () {
+      return this.chargedRatio;
+    }
+  });
   Object.defineProperty(PspBattery.prototype, 'iconStatus', {
     get: function () {
-      if (this.percentage < 0.15)
+      if (this.chargedRatio < 0.15)
         return BatteryStatusEnum$VeryLow_getInstance();
-      else if (this.percentage < 0.3)
+      else if (this.chargedRatio < 0.3)
         return BatteryStatusEnum$Low_getInstance();
-      else if (this.percentage < 0.8)
+      else if (this.chargedRatio < 0.8)
         return BatteryStatusEnum$PartiallyFilled_getInstance();
       else
         return BatteryStatusEnum$FullyFilled_getInstance();
@@ -3491,6 +3649,8 @@
     CpuBreakException$Companion_instance = this;
     this.THREAD_WAIT = 10001;
     this.THREAD_EXIT_KILL = 10002;
+    this.INTERRUPT_RETURN = 10003;
+    this.INTERRUPT_RETURN_RA = Memory$Companion_getInstance().MAIN_OFFSET;
   }
   CpuBreakException$Companion.$metadata$ = {
     kind: Kind_OBJECT,
@@ -3566,6 +3726,7 @@
   var Float32Array_init = Float32Array;
   var Int32Array_init = Int32Array;
   function CpuState(globalCpuState, mem, syscalls) {
+    CpuState$Companion_getInstance();
     if (syscalls === void 0)
       syscalls = new TraceSyscallHandler();
     this.globalCpuState = globalCpuState;
@@ -3573,7 +3734,6 @@
     this.syscalls = syscalls;
     this.$delegate_xt3zvs$_0 = new Extra$Mixin();
     this.totalExecuted = Kotlin.Long.ZERO;
-    this._R = new Int32Array(32);
     this._FMem = new ArrayBuffer_init((32 * 4 | 0) + 15 & ~15);
     var $receiver = this._FMem;
     this._F = new Float32Array_init($receiver, 0 * 4 | 0, ($receiver.byteLength / 4 | 0) - 0 | 0);
@@ -3590,7 +3750,7 @@
     this.fcr27 = 0;
     this.fcr28 = 0;
     this.fcr31 = 3584;
-    this.GPR = new CpuState$Gpr(this);
+    this._R = new Int32Array(32);
     this.IR = 0;
     this._PC = 0;
     this._nPC = 0;
@@ -3641,6 +3801,217 @@
       this.fcr31 = insert(this.fcr31, value, 25, 7);
     }
   });
+  function CpuState$Companion() {
+    CpuState$Companion_instance = this;
+  }
+  CpuState$Companion.prototype.getReg_za3lpa$ = function (index) {
+    if (index === 0)
+      return getPropertyCallableRef('r0', 1, function ($receiver) {
+        return $receiver.r0;
+      }, function ($receiver, value) {
+        $receiver.r0 = value;
+      });
+    else if (index === 1)
+      return getPropertyCallableRef('r1', 1, function ($receiver) {
+        return $receiver.r1;
+      }, function ($receiver, value) {
+        $receiver.r1 = value;
+      });
+    else if (index === 2)
+      return getPropertyCallableRef('r2', 1, function ($receiver) {
+        return $receiver.r2;
+      }, function ($receiver, value) {
+        $receiver.r2 = value;
+      });
+    else if (index === 3)
+      return getPropertyCallableRef('r3', 1, function ($receiver) {
+        return $receiver.r3;
+      }, function ($receiver, value) {
+        $receiver.r3 = value;
+      });
+    else if (index === 4)
+      return getPropertyCallableRef('r4', 1, function ($receiver) {
+        return $receiver.r4;
+      }, function ($receiver, value) {
+        $receiver.r4 = value;
+      });
+    else if (index === 5)
+      return getPropertyCallableRef('r5', 1, function ($receiver) {
+        return $receiver.r5;
+      }, function ($receiver, value) {
+        $receiver.r5 = value;
+      });
+    else if (index === 6)
+      return getPropertyCallableRef('r6', 1, function ($receiver) {
+        return $receiver.r6;
+      }, function ($receiver, value) {
+        $receiver.r6 = value;
+      });
+    else if (index === 7)
+      return getPropertyCallableRef('r7', 1, function ($receiver) {
+        return $receiver.r7;
+      }, function ($receiver, value) {
+        $receiver.r7 = value;
+      });
+    else if (index === 8)
+      return getPropertyCallableRef('r8', 1, function ($receiver) {
+        return $receiver.r8;
+      }, function ($receiver, value) {
+        $receiver.r8 = value;
+      });
+    else if (index === 9)
+      return getPropertyCallableRef('r9', 1, function ($receiver) {
+        return $receiver.r9;
+      }, function ($receiver, value) {
+        $receiver.r9 = value;
+      });
+    else if (index === 10)
+      return getPropertyCallableRef('r10', 1, function ($receiver) {
+        return $receiver.r10;
+      }, function ($receiver, value) {
+        $receiver.r10 = value;
+      });
+    else if (index === 11)
+      return getPropertyCallableRef('r11', 1, function ($receiver) {
+        return $receiver.r11;
+      }, function ($receiver, value) {
+        $receiver.r11 = value;
+      });
+    else if (index === 12)
+      return getPropertyCallableRef('r12', 1, function ($receiver) {
+        return $receiver.r12;
+      }, function ($receiver, value) {
+        $receiver.r12 = value;
+      });
+    else if (index === 13)
+      return getPropertyCallableRef('r13', 1, function ($receiver) {
+        return $receiver.r13;
+      }, function ($receiver, value) {
+        $receiver.r13 = value;
+      });
+    else if (index === 14)
+      return getPropertyCallableRef('r14', 1, function ($receiver) {
+        return $receiver.r14;
+      }, function ($receiver, value) {
+        $receiver.r14 = value;
+      });
+    else if (index === 15)
+      return getPropertyCallableRef('r15', 1, function ($receiver) {
+        return $receiver.r15;
+      }, function ($receiver, value) {
+        $receiver.r15 = value;
+      });
+    else if (index === 16)
+      return getPropertyCallableRef('r16', 1, function ($receiver) {
+        return $receiver.r16;
+      }, function ($receiver, value) {
+        $receiver.r16 = value;
+      });
+    else if (index === 17)
+      return getPropertyCallableRef('r17', 1, function ($receiver) {
+        return $receiver.r17;
+      }, function ($receiver, value) {
+        $receiver.r17 = value;
+      });
+    else if (index === 18)
+      return getPropertyCallableRef('r18', 1, function ($receiver) {
+        return $receiver.r18;
+      }, function ($receiver, value) {
+        $receiver.r18 = value;
+      });
+    else if (index === 19)
+      return getPropertyCallableRef('r19', 1, function ($receiver) {
+        return $receiver.r19;
+      }, function ($receiver, value) {
+        $receiver.r19 = value;
+      });
+    else if (index === 20)
+      return getPropertyCallableRef('r20', 1, function ($receiver) {
+        return $receiver.r20;
+      }, function ($receiver, value) {
+        $receiver.r20 = value;
+      });
+    else if (index === 21)
+      return getPropertyCallableRef('r21', 1, function ($receiver) {
+        return $receiver.r21;
+      }, function ($receiver, value) {
+        $receiver.r21 = value;
+      });
+    else if (index === 22)
+      return getPropertyCallableRef('r22', 1, function ($receiver) {
+        return $receiver.r22;
+      }, function ($receiver, value) {
+        $receiver.r22 = value;
+      });
+    else if (index === 23)
+      return getPropertyCallableRef('r23', 1, function ($receiver) {
+        return $receiver.r23;
+      }, function ($receiver, value) {
+        $receiver.r23 = value;
+      });
+    else if (index === 24)
+      return getPropertyCallableRef('r24', 1, function ($receiver) {
+        return $receiver.r24;
+      }, function ($receiver, value) {
+        $receiver.r24 = value;
+      });
+    else if (index === 25)
+      return getPropertyCallableRef('r25', 1, function ($receiver) {
+        return $receiver.r25;
+      }, function ($receiver, value) {
+        $receiver.r25 = value;
+      });
+    else if (index === 26)
+      return getPropertyCallableRef('r26', 1, function ($receiver) {
+        return $receiver.r26;
+      }, function ($receiver, value) {
+        $receiver.r26 = value;
+      });
+    else if (index === 27)
+      return getPropertyCallableRef('r27', 1, function ($receiver) {
+        return $receiver.r27;
+      }, function ($receiver, value) {
+        $receiver.r27 = value;
+      });
+    else if (index === 28)
+      return getPropertyCallableRef('r28', 1, function ($receiver) {
+        return $receiver.r28;
+      }, function ($receiver, value) {
+        $receiver.r28 = value;
+      });
+    else if (index === 29)
+      return getPropertyCallableRef('r29', 1, function ($receiver) {
+        return $receiver.r29;
+      }, function ($receiver, value) {
+        $receiver.r29 = value;
+      });
+    else if (index === 30)
+      return getPropertyCallableRef('r30', 1, function ($receiver) {
+        return $receiver.r30;
+      }, function ($receiver, value) {
+        $receiver.r30 = value;
+      });
+    else if (index === 31)
+      return getPropertyCallableRef('r31', 1, function ($receiver) {
+        return $receiver.r31;
+      }, function ($receiver, value) {
+        $receiver.r31 = value;
+      });
+    else
+      return invalidArg('Invalid register ' + index);
+  };
+  CpuState$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: []
+  };
+  var CpuState$Companion_instance = null;
+  function CpuState$Companion_getInstance() {
+    if (CpuState$Companion_instance === null) {
+      new CpuState$Companion();
+    }
+    return CpuState$Companion_instance;
+  }
   Object.defineProperty(CpuState.prototype, 'r0', {
     get: function () {
       return 0;
@@ -3896,6 +4267,29 @@
       this._R[31] = value;
     }
   });
+  CpuState.prototype.getGpr_za3lpa$ = function (index) {
+    return this._R[index];
+  };
+  CpuState.prototype.setGpr_vux9f0$ = function (index, v) {
+    if (index !== 0)
+      this._R[index] = v;
+  };
+  CpuState.prototype.writeRegisters_qt1dr2$ = function (addr, start, count) {
+    if (start === void 0)
+      start = 0;
+    if (count === void 0)
+      count = 32 - start | 0;
+    for (var n = 0; n < count; n++)
+      this.mem.sw_vux9f0$(addr + (n * 4 | 0) | 0, this.getGpr_za3lpa$(start + n | 0));
+  };
+  CpuState.prototype.readRegisters_qt1dr2$ = function (addr, start, count) {
+    if (start === void 0)
+      start = 0;
+    if (count === void 0)
+      count = 32 - start | 0;
+    for (var n = 0; n < count; n++)
+      this.setGpr_vux9f0$(start + n | 0, this.mem.lw_za3lpa$(addr + (n * 4 | 0) | 0));
+  };
   Object.defineProperty(CpuState.prototype, 'PC', {
     get: function () {
       return this._PC;
@@ -3922,13 +4316,6 @@
     this._PC = this._nPC;
     this._nPC = this._nPC + offset | 0;
   });
-  CpuState.prototype.getGpr_za3lpa$ = function (index) {
-    return this._R[index];
-  };
-  CpuState.prototype.setGpr_vux9f0$ = function (index, v) {
-    if (index !== 0)
-      this._R[index] = v;
-  };
   CpuState.prototype.getFpr_za3lpa$ = function (index) {
     return this._F[index];
   };
@@ -3953,36 +4340,37 @@
   CpuState.prototype.getVfprI_za3lpa$ = function (index) {
     return this._VFPR_I[index];
   };
-  function CpuState$Gpr(state) {
-    this.state = state;
-  }
-  CpuState$Gpr.prototype.get_za3lpa$ = function (index) {
-    return this.state.getGpr_za3lpa$(index);
-  };
-  CpuState$Gpr.prototype.set_vux9f0$ = function (index, v) {
-    this.state.setGpr_vux9f0$(index, v);
-  };
-  CpuState$Gpr.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'Gpr',
-    interfaces: []
-  };
-  function CpuState$FprI(state) {
-    this.state = state;
-  }
-  CpuState$FprI.prototype.get_za3lpa$ = function (index) {
-    return this.state.getFprI_za3lpa$(index);
-  };
-  CpuState$FprI.prototype.set_vux9f0$ = function (index, v) {
-    this.state.setFprI_vux9f0$(index, v);
-  };
-  CpuState$FprI.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'FprI',
-    interfaces: []
-  };
   CpuState.prototype.syscall_za3lpa$ = function (syscall) {
     this.syscalls.syscall_acv9wa$(this, syscall);
+  };
+  CpuState.prototype.clone = function () {
+    var $receiver = new CpuState(this.globalCpuState, this.mem, this.syscalls);
+    this.copyTo_xt3zvs$($receiver);
+    return $receiver;
+  };
+  CpuState.prototype.setTo_xt3zvs$ = function (src) {
+    src.copyTo_xt3zvs$(this);
+  };
+  CpuState.prototype.copyTo_xt3zvs$ = function (dst) {
+    var src = this;
+    dst._PC = src._PC;
+    dst._nPC = src._nPC;
+    dst.HI = src.HI;
+    dst.LO = src.LO;
+    dst.IC = src.IC;
+    dst.IR = src.IR;
+    dst.fcr0 = src.fcr0;
+    dst.fcr25 = src.fcr25;
+    dst.fcr26 = src.fcr26;
+    dst.fcr27 = src.fcr27;
+    dst.fcr28 = src.fcr28;
+    dst.fcr31 = src.fcr31;
+    for (var n = 0; n < 32; n++)
+      dst.setGpr_vux9f0$(n, src.getGpr_za3lpa$(n));
+    for (var n_0 = 0; n_0 < 32; n_0++)
+      dst.setFpr_24o109$(n_0, src.getFpr_za3lpa$(n_0));
+    for (var n_1 = 0; n_1 < 128; n_1++)
+      dst.setVfpr_24o109$(n_1, src.getVfpr_za3lpa$(n_1));
   };
   Object.defineProperty(CpuState.prototype, 'extra', {
     get: function () {
@@ -3998,6 +4386,7 @@
     interfaces: [Extra]
   };
   function GlobalCpuState() {
+    this.insideInterrupt = false;
     this.interruptFlags = -1;
   }
   GlobalCpuState.$metadata$ = {
@@ -6436,6 +6825,139 @@
   function printInstructionAt($receiver, address) {
     lang.Console.error_s8jyv4$(getPrintInstructionAt($receiver, address));
   }
+  function BaseDynarecMethodBuilder() {
+    InstructionEvaluator.call(this);
+    this.stms = new StmBuilder(getKClass(Object.getPrototypeOf(kotlin.Unit).constructor), getKClass(CpuState), getKClass(Object.getPrototypeOf(kotlin.Unit).constructor));
+    this.dispatcher = new InstructionDispatcher(this);
+    this.ii_i058s4$_0 = new InstructionInfo(0, 0);
+  }
+  BaseDynarecMethodBuilder.prototype.generateFunction = function () {
+    return new DFunction1(dynarek.DVOID, new DClass(getKClass(CpuState)), this.stms.build());
+  };
+  BaseDynarecMethodBuilder.prototype.dispatch_vux9f0$ = function (pc, i) {
+    this.ii_i058s4$_0.PC = pc;
+    this.ii_i058s4$_0.IR = i;
+    return this.dispatcher.dispatch_8olpll$(this.ii_i058s4$_0, pc, i);
+  };
+  var DFieldAccess_init = $module$dynarek_js.com.soywiz.dynarek.DFieldAccess;
+  BaseDynarecMethodBuilder.prototype.getRegister_ehxf9o$ = function ($receiver, n) {
+    var tmp$;
+    if (n === 0)
+      tmp$ = $receiver.get_lit_vvk9$(0);
+    else {
+      var $receiver_0 = $receiver.p0;
+      var prop = CpuState$Companion_getInstance().getReg_za3lpa$(n);
+      tmp$ = new DFieldAccess_init(getKClass(CpuState), $receiver_0, prop);
+    }
+    return tmp$;
+  };
+  BaseDynarecMethodBuilder.prototype.setRegister_y6yzln$ = function ($receiver, n, value) {
+    if (n !== 0) {
+      var $receiver_0 = $receiver.p0;
+      var prop = CpuState$Companion_getInstance().getReg_za3lpa$(n);
+      $receiver.SET_jvnile$(new DFieldAccess_init(getKClass(CpuState), $receiver_0, prop), value);
+    }
+  };
+  BaseDynarecMethodBuilder.prototype.get_RD_ix2bh4$ = function ($receiver) {
+    return this.getRegister_ehxf9o$(this.stms, $receiver.IR >>> 11 & 31);
+  };
+  BaseDynarecMethodBuilder.prototype.set_RD_olxlj7$ = function ($receiver, value) {
+    this.setRegister_y6yzln$(this.stms, $receiver.IR >>> 11 & 31, value);
+  };
+  BaseDynarecMethodBuilder.prototype.get_RS_ix2bh4$ = function ($receiver) {
+    return this.getRegister_ehxf9o$(this.stms, $receiver.IR >>> 21 & 31);
+  };
+  BaseDynarecMethodBuilder.prototype.set_RS_olxlj7$ = function ($receiver, value) {
+    this.setRegister_y6yzln$(this.stms, $receiver.IR >>> 21 & 31, value);
+  };
+  BaseDynarecMethodBuilder.prototype.get_RT_ix2bh4$ = function ($receiver) {
+    return this.getRegister_ehxf9o$(this.stms, $receiver.IR >>> 16 & 31);
+  };
+  BaseDynarecMethodBuilder.prototype.set_RT_olxlj7$ = function ($receiver, value) {
+    this.setRegister_y6yzln$(this.stms, $receiver.IR >>> 16 & 31, value);
+  };
+  BaseDynarecMethodBuilder.prototype.get_POS_ix2bh4$ = function ($receiver) {
+    return this.stms.get_lit_vvk9$($receiver.IR >>> 6 & 31);
+  };
+  BaseDynarecMethodBuilder.prototype.get_S_IMM16_ix2bh4$ = function ($receiver) {
+    return this.stms.get_lit_vvk9$(($receiver.IR & 65535) << 16 >> 16);
+  };
+  BaseDynarecMethodBuilder.prototype.get_U_IMM16_ix2bh4$ = function ($receiver) {
+    return this.stms.get_lit_vvk9$($receiver.IR & 65535);
+  };
+  BaseDynarecMethodBuilder.prototype.get_S_IMM16_V_ix2bh4$ = function ($receiver) {
+    return ($receiver.IR & 65535) << 16 >> 16;
+  };
+  BaseDynarecMethodBuilder.prototype.get_U_IMM16_V_ix2bh4$ = function ($receiver) {
+    return $receiver.IR & 65535;
+  };
+  BaseDynarecMethodBuilder.prototype.get_lit_s8ev3n$ = function ($receiver) {
+    return new DLiteral($receiver);
+  };
+  BaseDynarecMethodBuilder.prototype.plus_hturld$ = function ($receiver, that) {
+    return new DBinopInt($receiver, IBinop.ADD, that);
+  };
+  BaseDynarecMethodBuilder.prototype.shl_hturld$ = function ($receiver, that) {
+    return new DBinopInt($receiver, IBinop.SHL, that);
+  };
+  BaseDynarecMethodBuilder.prototype.invoke_1485oo$ = defineInlineFunction('kpspemu.com.soywiz.kpspemu.cpu.dynarec.BaseDynarecMethodBuilder.invoke_1485oo$', function ($receiver, callback) {
+    callback($receiver);
+  });
+  BaseDynarecMethodBuilder.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'BaseDynarecMethodBuilder',
+    interfaces: [InstructionEvaluator]
+  };
+  function DynarekMethodBuilder() {
+    BaseDynarecMethodBuilder.call(this);
+  }
+  DynarekMethodBuilder.prototype.add_11rb$ = function (s) {
+    this.set_RD_olxlj7$(s, this.plus_hturld$(this.get_RS_ix2bh4$(s), this.get_RT_ix2bh4$(s)));
+  };
+  DynarekMethodBuilder.prototype.addiu_11rb$ = function (s) {
+    this.set_RT_olxlj7$(s, this.plus_hturld$(this.get_RS_ix2bh4$(s), this.get_S_IMM16_ix2bh4$(s)));
+  };
+  DynarekMethodBuilder.prototype.sll_11rb$ = function (s) {
+    this.set_RD_olxlj7$(s, this.shl_hturld$(this.get_RT_ix2bh4$(s), this.get_POS_ix2bh4$(s)));
+  };
+  DynarekMethodBuilder.prototype.lui_11rb$ = function (s) {
+    this.set_RT_olxlj7$(s, this.get_lit_s8ev3n$(this.get_U_IMM16_V_ix2bh4$(s) << 16));
+  };
+  DynarekMethodBuilder.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'DynarekMethodBuilder',
+    interfaces: [BaseDynarecMethodBuilder]
+  };
+  function InstructionInfo(PC, IR) {
+    this.PC = PC;
+    this.IR = IR;
+  }
+  InstructionInfo.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'InstructionInfo',
+    interfaces: []
+  };
+  InstructionInfo.prototype.component1 = function () {
+    return this.PC;
+  };
+  InstructionInfo.prototype.component2 = function () {
+    return this.IR;
+  };
+  InstructionInfo.prototype.copy_vux9f0$ = function (PC, IR) {
+    return new InstructionInfo(PC === void 0 ? this.PC : PC, IR === void 0 ? this.IR : IR);
+  };
+  InstructionInfo.prototype.toString = function () {
+    return 'InstructionInfo(PC=' + Kotlin.toString(this.PC) + (', IR=' + Kotlin.toString(this.IR)) + ')';
+  };
+  InstructionInfo.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.PC) | 0;
+    result = result * 31 + Kotlin.hashCode(this.IR) | 0;
+    return result;
+  };
+  InstructionInfo.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.PC, other.PC) && Kotlin.equals(this.IR, other.IR)))));
+  };
   function CpuInterpreter(cpu, trace) {
     if (trace === void 0)
       trace = false;
@@ -8330,6 +8852,7 @@
   }
   PspCtrlButtons.valueOf_61zpoe$ = PspCtrlButtons$valueOf;
   function PspDisplay(emulator) {
+    PspDisplay$Companion_getInstance();
     this.emulator_vu39pr$_0 = emulator;
     this.exposeDisplay = true;
     this.bmp = new Bitmap32(512, 272);
@@ -8342,20 +8865,42 @@
     this.displayWidth = 480;
     this.displayHeight = 272;
     this.vcount = 0;
-    this.onVsync = new Signal();
+    this.onVsyncStart = new Signal();
     this.temp_0 = new Int8Array((512 * 272 | 0) * 4 | 0);
+    this.inVBlank = false;
   }
   Object.defineProperty(PspDisplay.prototype, 'emulator', {
     get: function () {
       return this.emulator_vu39pr$_0;
     }
   });
+  function PspDisplay$Companion() {
+    PspDisplay$Companion_instance = this;
+    this.PROCESSED_PIXELS_PER_SECOND = 9000000;
+    this.CYCLES_PER_PIXEL = 1;
+    this.PIXELS_IN_A_ROW = 525;
+    this.VSYNC_ROW = 272;
+    this.NUMBER_OF_ROWS = 286;
+    this.HCOUNT_PER_VBLANK = 285.72;
+    this.HORIZONTAL_SYNC_HZ = Kotlin.imul(PspDisplay$Companion_getInstance().PROCESSED_PIXELS_PER_SECOND, PspDisplay$Companion_getInstance().CYCLES_PER_PIXEL) / PspDisplay$Companion_getInstance().PIXELS_IN_A_ROW | 0;
+    this.HORIZONTAL_SECONDS = 1 / PspDisplay$Companion_getInstance().HORIZONTAL_SYNC_HZ | 0;
+    this.VERTICAL_SYNC_HZ = PspDisplay$Companion_getInstance().HORIZONTAL_SYNC_HZ / PspDisplay$Companion_getInstance().HCOUNT_PER_VBLANK;
+    this.VERTICAL_SECONDS = 1 / PspDisplay$Companion_getInstance().VERTICAL_SYNC_HZ;
+  }
+  PspDisplay$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: []
+  };
+  var PspDisplay$Companion_instance = null;
+  function PspDisplay$Companion_getInstance() {
+    if (PspDisplay$Companion_instance === null) {
+      new PspDisplay$Companion();
+    }
+    return PspDisplay$Companion_instance;
+  }
   PspDisplay.prototype.fixedAddress = function () {
     return this.address;
-  };
-  PspDisplay.prototype.dispatchVsync = function () {
-    this.vcount = this.vcount + 1 | 0;
-    this.onVsync.invoke_11rb$(Unit);
   };
   PspDisplay.prototype.decodeToBitmap32_59u9qz$ = function (out) {
     var tmp$;
@@ -8378,6 +8923,104 @@
     for (var n = 0; n < tmp$; n++) {
       get_mem(this).sw_vux9f0$(this.address + (n * 4 | 0) | 0, ~get_mem(this).lw_za3lpa$(this.address + (n * 4 | 0) | 0));
     }
+  };
+  PspDisplay.prototype.waitVblankStart = function (continuation_0, suspended) {
+    var instance = new Coroutine$waitVblankStart(this, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  };
+  function Coroutine$waitVblankStart($this, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.$this = $this;
+  }
+  Coroutine$waitVblankStart.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$waitVblankStart.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$waitVblankStart.prototype.constructor = Coroutine$waitVblankStart;
+  Coroutine$waitVblankStart.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 2;
+            this.result_0 = waitOne(get_display(this.$this).onVsyncStart, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            return;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  PspDisplay.prototype.waitVblank = function (continuation_0, suspended) {
+    var instance = new Coroutine$waitVblank(this, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  };
+  function Coroutine$waitVblank($this, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.$this = $this;
+  }
+  Coroutine$waitVblank.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$waitVblank.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$waitVblank.prototype.constructor = Coroutine$waitVblank;
+  Coroutine$waitVblank.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 2;
+            this.result_0 = waitOne(get_display(this.$this).onVsyncStart, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            return;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  PspDisplay.prototype.startVsync = function () {
+    this.onVsyncStart.invoke_11rb$(Unit);
+    this.inVBlank = true;
+    this.vcount = this.vcount + 1 | 0;
+  };
+  PspDisplay.prototype.endVsync = function () {
+    this.inVBlank = false;
   };
   PspDisplay.$metadata$ = {
     kind: Kind_CLASS,
@@ -11299,7 +11942,7 @@
     return this.closure$comparison(a, b);
   };
   Comparator$ObjectLiteral.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
-  var max = Kotlin.kotlin.js.max_bug313$;
+  var max_0 = Kotlin.kotlin.js.max_bug313$;
   PspElf.prototype.allocateMemory_0 = function () {
     var tmp$, tmp$_0;
     this.baseAddress = 0;
@@ -11322,13 +11965,13 @@
     while (tmp$.hasNext()) {
       var section = tmp$.next();
       lowest = min(Math_0, lowest, Kotlin.Long.fromInt(this.baseAddress).add(Kotlin.Long.fromInt(section.address)));
-      highest = max(Math_0, highest, Kotlin.Long.fromInt(this.baseAddress).add(Kotlin.Long.fromInt(section.address)).add(Kotlin.Long.fromInt(section.size)));
+      highest = max_0(Math_0, highest, Kotlin.Long.fromInt(this.baseAddress).add(Kotlin.Long.fromInt(section.address)).add(Kotlin.Long.fromInt(section.size)));
     }
     tmp$_0 = this.elf.programHeaders.iterator();
     while (tmp$_0.hasNext()) {
       var program = tmp$_0.next();
       lowest = min(Math_0, lowest, Kotlin.Long.fromInt(this.baseAddress).add(Kotlin.Long.fromInt(program.virtualAddress)));
-      highest = max(Math_0, highest, Kotlin.Long.fromInt(this.baseAddress).add(Kotlin.Long.fromInt(program.virtualAddress)).add(Kotlin.Long.fromInt(program.memorySize)));
+      highest = max_0(Math_0, highest, Kotlin.Long.fromInt(this.baseAddress).add(Kotlin.Long.fromInt(program.virtualAddress)).add(Kotlin.Long.fromInt(program.memorySize)));
     }
     var $this = this.memoryManager_0.userPartition;
     var size = highest.subtract(lowest);
@@ -14165,6 +14808,12 @@
     }
     if (op === GeOpCodes_getInstance().PRIM)
       this.prim_0(p);
+    else if (op === GeOpCodes_getInstance().TRXKICK)
+      println('TRXKICK');
+    else if (op === GeOpCodes_getInstance().TRXSPOS)
+      println('TRXSPOS');
+    else if (op === GeOpCodes_getInstance().TRXDPOS)
+      println('TRXDPOS');
     else if (op === GeOpCodes_getInstance().BEZIER) {
       var $this_0 = this.logger;
       var level_0 = LogLevel.INFO;
@@ -16027,7 +16676,7 @@
     out = nextAlignedTo_0(out, this.pos.nbytes);
     this.posOffset = out;
     out = out + this.positionSize | 0;
-    this.size = nextAlignedTo_0(out, max_5(this.weight.nbytes, this.tex.nbytes, this.col.nbytes, this.normal.nbytes, this.pos.nbytes));
+    this.size = nextAlignedTo_0(out, max_6(this.weight.nbytes, this.tex.nbytes, this.col.nbytes, this.normal.nbytes, this.pos.nbytes));
     return this;
   };
   VertexType.prototype.toString = function () {
@@ -16191,7 +16840,7 @@
     this.readNumericType_3c2pba$(s, type.normalComponents, type.normal, out.normal, false);
     safeSkipToAlign(s, type.pos.nbytes);
     this.readNumericType_3c2pba$(s, type.posComponents, type.pos, out.pos, false);
-    safeSkipToAlign(s, max_5(type.weight.nbytes, type.tex.nbytes, type.col.nbytes, type.normal.nbytes, type.pos.nbytes));
+    safeSkipToAlign(s, max_6(type.weight.nbytes, type.tex.nbytes, type.col.nbytes, type.normal.nbytes, type.pos.nbytes));
     return out;
   };
   VertexReader.prototype.read_75t58$ = function (type, count, s) {
@@ -16241,8 +16890,8 @@
         tmp$_0 = $receiver.area / 2 | 0;
         for (var n = 0; n < tmp$_0; n++) {
           var byte = colorData[n] & 255;
-          $receiver.data[tmp$_1 = m, m = tmp$_1 + 1 | 0, tmp$_1] = colors[byte >>> 0 & 15];
-          $receiver.data[tmp$_2 = m, m = tmp$_2 + 1 | 0, tmp$_2] = colors[byte >>> 4 & 15];
+          $receiver.data[tmp$_1 = m, m = tmp$_1 + 1 | 0, tmp$_1] = colors[(byte >>> 0 & 15) % colors.length];
+          $receiver.data[tmp$_2 = m, m = tmp$_2 + 1 | 0, tmp$_2] = colors[(byte >>> 4 & 15) % colors.length];
         }
       }
        else if (tmp$ === 8) {
@@ -16250,7 +16899,7 @@
         tmp$_3 = $receiver.area;
         for (var n_0 = 0; n_0 < tmp$_3; n_0++) {
           var byte_0 = colorData[n_0];
-          $receiver.data[tmp$_4 = m_0, m_0 = tmp$_4 + 1 | 0, tmp$_4] = colors[byte_0 >>> 0 & 255];
+          $receiver.data[tmp$_4 = m_0, m_0 = tmp$_4 + 1 | 0, tmp$_4] = colors[(byte_0 >>> 0 & 255) % colors.length];
         }
       }
     }
@@ -16272,7 +16921,6 @@
     arraycopy(temp, 0, from, 0, size);
   }
   function unswizzle(input, output, rowWidth, textureHeight) {
-    var tmp$, tmp$_0;
     var pitch = (rowWidth - 16 | 0) / 4 | 0;
     var bxc = rowWidth / 16 | 0;
     var byc = textureHeight / 8 | 0;
@@ -16284,9 +16932,9 @@
       for (var bx = 0; bx < bxc; bx++) {
         var dest = xdest;
         for (var n = 0; n < 8; n++) {
-          for (var m = 0; m < 16; m++) {
-            output[tmp$_0 = dest, dest = tmp$_0 + 1 | 0, tmp$_0] = input[tmp$ = src, src = tmp$ + 1 | 0, tmp$];
-          }
+          arraycopy(input, src, output, dest, 16);
+          src = src + 16 | 0;
+          dest = dest + 16 | 0;
           dest = dest + pitch4 | 0;
         }
         xdest = xdest + 16 | 0;
@@ -16363,6 +17011,12 @@
     $receiver.register_q5jrol$(new ExceptionManagerForKernel($receiver.emulator));
     $receiver.register_q5jrol$(new LoadCoreForKernel($receiver.emulator));
     $receiver.register_q5jrol$(new sceHprm($receiver.emulator));
+    $receiver.register_q5jrol$(new sceNet($receiver.emulator));
+    $receiver.register_q5jrol$(new sceNetAdhoc($receiver.emulator));
+    $receiver.register_q5jrol$(new sceNetAdhocctl($receiver.emulator));
+    $receiver.register_q5jrol$(new sceNetAdhocMatching($receiver.emulator));
+    $receiver.register_q5jrol$(new sceWlanDrv($receiver.emulator));
+    $receiver.register_q5jrol$(new sceReg($receiver.emulator));
   }
   function RegisterReader() {
     this.pos = 4;
@@ -16406,21 +17060,26 @@
   Object.defineProperty(RegisterReader.prototype, 'int', {
     get: function () {
       var tmp$;
-      return this.cpu.GPR.get_za3lpa$((tmp$ = this.pos, this.pos = tmp$ + 1 | 0, tmp$));
+      return this.cpu.getGpr_za3lpa$((tmp$ = this.pos, this.pos = tmp$ + 1 | 0, tmp$));
     }
   });
   Object.defineProperty(RegisterReader.prototype, 'long', {
     get: function () {
       var tmp$, tmp$_0;
       this.pos = nextAlignedTo_0(this.pos, 2);
-      var low = this.cpu.GPR.get_za3lpa$((tmp$ = this.pos, this.pos = tmp$ + 1 | 0, tmp$));
-      var high = this.cpu.GPR.get_za3lpa$((tmp$_0 = this.pos, this.pos = tmp$_0 + 1 | 0, tmp$_0));
+      var low = this.cpu.getGpr_za3lpa$((tmp$ = this.pos, this.pos = tmp$ + 1 | 0, tmp$));
+      var high = this.cpu.getGpr_za3lpa$((tmp$_0 = this.pos, this.pos = tmp$_0 + 1 | 0, tmp$_0));
       return Kotlin.Long.fromInt(high).shiftLeft(32).or(Kotlin.Long.fromInt(low).and(new Kotlin.Long(-1, 0)));
     }
   });
   Object.defineProperty(RegisterReader.prototype, 'ptr', {
     get: function () {
       return new MemPtr(this.mem, this.int);
+    }
+  });
+  Object.defineProperty(RegisterReader.prototype, 'ptr32', {
+    get: function () {
+      return new Ptr32(this.ptr);
     }
   });
   Object.defineProperty(RegisterReader.prototype, 'str', {
@@ -16592,6 +17251,19 @@
       syscall = -1;
     this.registerFunctionRR_dc3d86$(name, uid, since, syscall, SceModule$registerFunctionInt$lambda(function_0));
   };
+  function SceModule$registerFunctionFloat$lambda(closure$function) {
+    return function ($receiver, it) {
+      $receiver.cpu.setFpr_24o109$(0, closure$function($receiver, it));
+      return Unit;
+    };
+  }
+  SceModule.prototype.registerFunctionFloat_jwgdqy$ = function (name, uid, since, syscall, function_0) {
+    if (since === void 0)
+      since = 150;
+    if (syscall === void 0)
+      syscall = -1;
+    this.registerFunctionRR_dc3d86$(name, uid, since, syscall, SceModule$registerFunctionFloat$lambda(function_0));
+  };
   function SceModule$registerFunctionLong$lambda(closure$function) {
     return function ($receiver, it) {
       var ret = closure$function($receiver, it);
@@ -16655,7 +17327,9 @@
       }
      while (true);
   };
-  function SceModule$registerFunctionSuspendInt$lambda$ObjectLiteral(this$, closure$completed, closure$it, this$SceModule) {
+  function SceModule$registerFunctionSuspendInt$lambda$ObjectLiteral(this$SceModule, closure$name, this$, closure$completed, closure$it) {
+    this.this$SceModule = this$SceModule;
+    this.closure$name = closure$name;
     this.this$ = this$;
     this.closure$completed = closure$completed;
     this.closure$it = closure$it;
@@ -16667,6 +17341,12 @@
     }
   });
   SceModule$registerFunctionSuspendInt$lambda$ObjectLiteral.prototype.resume_11rb$ = function (value) {
+    var $this = this.this$SceModule.logger;
+    this.closure$name;
+    var level = LogLevel.TRACE;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'Resumed ' + this.closure$name + ' with value: ' + value);
+    }
     this.this$.cpu.r2 = value;
     this.closure$completed.v = true;
     get_thread(this.closure$it).resume();
@@ -16684,11 +17364,11 @@
     kind: Kind_CLASS,
     interfaces: [Continuation]
   };
-  function SceModule$registerFunctionSuspendInt$lambda(closure$function, this$SceModule, closure$fullName, closure$cb) {
+  function SceModule$registerFunctionSuspendInt$lambda(closure$function, this$SceModule, closure$name, closure$fullName, closure$cb) {
     return function ($receiver, it) {
       var mfunction = SceModule$registerFunctionSuspendInt$lambda$lambda(closure$function);
       var completed = {v: false};
-      startCoroutine(mfunction, $receiver, new SceModule$registerFunctionSuspendInt$lambda$ObjectLiteral($receiver, completed, it, this$SceModule));
+      startCoroutine(mfunction, $receiver, new SceModule$registerFunctionSuspendInt$lambda$ObjectLiteral(this$SceModule, closure$name, $receiver, completed, it));
       if (!completed.v) {
         get_thread(it).markWaiting_p514vg$(new WaitObject$PROMISE(new Promise(), closure$fullName), closure$cb);
         get_threadManager(this$SceModule).suspend();
@@ -16704,7 +17384,7 @@
     if (cb === void 0)
       cb = false;
     var fullName = this.name + ':' + name;
-    this.registerFunctionRR_dc3d86$(name, uid, since, syscall, SceModule$registerFunctionSuspendInt$lambda(function_0, this, fullName, cb));
+    this.registerFunctionRR_dc3d86$(name, uid, since, syscall, SceModule$registerFunctionSuspendInt$lambda(function_0, this, name, fullName, cb));
   };
   function SceModule$registerFunctionSuspendLong$lambda$lambda(closure$function_0) {
     return function (it_0, continuation_0, suspended) {
@@ -17322,6 +18002,9 @@
     this.id_ocopab$_0 = id;
     this.file_xftuwy$_0 = this.file_xftuwy$_0;
     this.stream_clsh1a$_0 = this.stream_clsh1a$_0;
+    this.asyncPromise = null;
+    this.asyncResult = Kotlin.Long.ZERO;
+    this.asyncDone = false;
   }
   Object.defineProperty(FileDescriptor.prototype, 'id', {
     get: function () {
@@ -17386,6 +18069,19 @@
     interfaces: [ResourceItem]
   };
   function SceIoStat(mode, attributes, size, timeCreation, timeLastAccess, timeLastModification, device) {
+    SceIoStat$Companion_getInstance();
+    if (mode === void 0)
+      mode = 0;
+    if (attributes === void 0)
+      attributes = 0;
+    if (size === void 0)
+      size = Kotlin.Long.ZERO;
+    if (timeCreation === void 0)
+      timeCreation = ScePspDateTime_init_0(Kotlin.Long.ZERO);
+    if (timeLastAccess === void 0)
+      timeLastAccess = ScePspDateTime_init_0(Kotlin.Long.ZERO);
+    if (timeLastModification === void 0)
+      timeLastModification = ScePspDateTime_init_0(Kotlin.Long.ZERO);
     if (device === void 0)
       device = new Int32Array(6);
     this.mode = mode;
@@ -17396,16 +18092,53 @@
     this.timeLastModification = timeLastModification;
     this.device = device;
   }
-  SceIoStat.prototype.write_39qel5$ = function (s) {
-    write32_le(s, this.mode);
-    write32_le(s, this.attributes);
-    write64_le(s, this.size);
-    this.timeCreation.write_39qel5$(s);
-    this.timeLastAccess.write_39qel5$(s);
-    this.timeLastModification.write_39qel5$(s);
-    for (var n = 0; n < 6; n++)
-      write32_le(s, this.device[n]);
+  function SceIoStat$Companion() {
+    SceIoStat$Companion_instance = this;
+    Struct.call(this, SceIoStat$SceIoStat$Companion_init$lambda, [AS(getPropertyCallableRef('mode', 1, function ($receiver) {
+      return $receiver.mode;
+    }, function ($receiver, value) {
+      $receiver.mode = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('attributes', 1, function ($receiver) {
+      return $receiver.attributes;
+    }, function ($receiver, value) {
+      $receiver.attributes = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('size', 1, function ($receiver) {
+      return $receiver.size;
+    }, function ($receiver, value) {
+      $receiver.size = value;
+    }), INT64_getInstance()), AS(getPropertyCallableRef('timeCreation', 1, function ($receiver) {
+      return $receiver.timeCreation;
+    }, function ($receiver, value) {
+      $receiver.timeCreation = value;
+    }), ScePspDateTime$Companion_getInstance()), AS(getPropertyCallableRef('timeLastAccess', 1, function ($receiver) {
+      return $receiver.timeLastAccess;
+    }, function ($receiver, value) {
+      $receiver.timeLastAccess = value;
+    }), ScePspDateTime$Companion_getInstance()), AS(getPropertyCallableRef('timeLastModification', 1, function ($receiver) {
+      return $receiver.timeLastModification;
+    }, function ($receiver, value) {
+      $receiver.timeLastModification = value;
+    }), ScePspDateTime$Companion_getInstance()), AS(getPropertyCallableRef('device', 1, function ($receiver) {
+      return $receiver.device;
+    }, function ($receiver, value) {
+      $receiver.device = value;
+    }), new INTARRAY(INT32_getInstance(), 6))]);
+  }
+  function SceIoStat$SceIoStat$Companion_init$lambda() {
+    return new SceIoStat();
+  }
+  SceIoStat$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [Struct]
   };
+  var SceIoStat$Companion_instance = null;
+  function SceIoStat$Companion_getInstance() {
+    if (SceIoStat$Companion_instance === null) {
+      new SceIoStat$Companion();
+    }
+    return SceIoStat$Companion_instance;
+  }
   SceIoStat.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'SceIoStat',
@@ -17453,6 +18186,11 @@
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.mode, other.mode) && Kotlin.equals(this.attributes, other.attributes) && Kotlin.equals(this.size, other.size) && Kotlin.equals(this.timeCreation, other.timeCreation) && Kotlin.equals(this.timeLastAccess, other.timeLastAccess) && Kotlin.equals(this.timeLastModification, other.timeLastModification) && Kotlin.equals(this.device, other.device)))));
   };
   function HleIoDirent(stat, name, privateData, dummy) {
+    HleIoDirent$Companion_getInstance();
+    if (stat === void 0)
+      stat = new SceIoStat();
+    if (name === void 0)
+      name = '';
     if (privateData === void 0)
       privateData = 0;
     if (dummy === void 0)
@@ -17462,12 +18200,41 @@
     this.privateData = privateData;
     this.dummy = dummy;
   }
-  HleIoDirent.prototype.write_39qel5$ = function (s) {
-    this.stat.write_39qel5$(s);
-    writeStringz(s, this.name, 256, lang.ASCII);
-    write32_le(s, this.privateData);
-    write32_le(s, this.dummy);
+  function HleIoDirent$Companion() {
+    HleIoDirent$Companion_instance = this;
+    Struct.call(this, HleIoDirent$HleIoDirent$Companion_init$lambda, [AS(getPropertyCallableRef('stat', 1, function ($receiver) {
+      return $receiver.stat;
+    }, function ($receiver, value) {
+      $receiver.stat = value;
+    }), SceIoStat$Companion_getInstance()), AS(getPropertyCallableRef('name', 1, function ($receiver) {
+      return $receiver.name;
+    }, function ($receiver, value) {
+      $receiver.name = value;
+    }), new STRINGZ(lang.UTF8, 256)), AS(getPropertyCallableRef('privateData', 1, function ($receiver) {
+      return $receiver.privateData;
+    }, function ($receiver, value) {
+      $receiver.privateData = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('dummy', 1, function ($receiver) {
+      return $receiver.dummy;
+    }, function ($receiver, value) {
+      $receiver.dummy = value;
+    }), INT32_getInstance())]);
+  }
+  function HleIoDirent$HleIoDirent$Companion_init$lambda() {
+    return new HleIoDirent();
+  }
+  HleIoDirent$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [Struct]
   };
+  var HleIoDirent$Companion_instance = null;
+  function HleIoDirent$Companion_getInstance() {
+    if (HleIoDirent$Companion_instance === null) {
+      new HleIoDirent$Companion();
+    }
+    return HleIoDirent$Companion_instance;
+  }
   HleIoDirent.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'HleIoDirent',
@@ -17504,6 +18271,8 @@
   };
   function IOFileModes() {
     IOFileModes_instance = this;
+    this.DIR = 4096;
+    this.FILE = 8192;
     this.FormatMask = 56;
     this.SymbolicLink = 8;
     this.Directory = 16;
@@ -17573,7 +18342,9 @@
   }
   function InterruptManager(emulator) {
     this.emulator = emulator;
+    this.logger = Logger.Companion.invoke_61zpoe$('InterruptManager');
     this.state = this.emulator.globalCpuState;
+    this.interrupts_8jczsj$_0 = lazy(InterruptManager$interrupts$lambda);
   }
   InterruptManager.prototype.disableAllInterrupts = function () {
     var res = this.state.interruptFlags;
@@ -17583,11 +18354,185 @@
   InterruptManager.prototype.restoreInterrupts_za3lpa$ = function (value) {
     this.state.interruptFlags = this.state.interruptFlags | value;
   };
+  function InterruptManager$InterruptHandler(id, enabled, address, argument, cpuState) {
+    if (enabled === void 0)
+      enabled = false;
+    if (address === void 0)
+      address = 0;
+    if (argument === void 0)
+      argument = 0;
+    if (cpuState === void 0)
+      cpuState = null;
+    this.id = id;
+    this.enabled = enabled;
+    this.address = address;
+    this.argument = argument;
+    this.cpuState = cpuState;
+  }
+  InterruptManager$InterruptHandler.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'InterruptHandler',
+    interfaces: []
+  };
+  InterruptManager$InterruptHandler.prototype.component1 = function () {
+    return this.id;
+  };
+  InterruptManager$InterruptHandler.prototype.component2 = function () {
+    return this.enabled;
+  };
+  InterruptManager$InterruptHandler.prototype.component3 = function () {
+    return this.address;
+  };
+  InterruptManager$InterruptHandler.prototype.component4 = function () {
+    return this.argument;
+  };
+  InterruptManager$InterruptHandler.prototype.component5 = function () {
+    return this.cpuState;
+  };
+  InterruptManager$InterruptHandler.prototype.copy_xlnf5q$ = function (id, enabled, address, argument, cpuState) {
+    return new InterruptManager$InterruptHandler(id === void 0 ? this.id : id, enabled === void 0 ? this.enabled : enabled, address === void 0 ? this.address : address, argument === void 0 ? this.argument : argument, cpuState === void 0 ? this.cpuState : cpuState);
+  };
+  InterruptManager$InterruptHandler.prototype.toString = function () {
+    return 'InterruptHandler(id=' + Kotlin.toString(this.id) + (', enabled=' + Kotlin.toString(this.enabled)) + (', address=' + Kotlin.toString(this.address)) + (', argument=' + Kotlin.toString(this.argument)) + (', cpuState=' + Kotlin.toString(this.cpuState)) + ')';
+  };
+  InterruptManager$InterruptHandler.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.id) | 0;
+    result = result * 31 + Kotlin.hashCode(this.enabled) | 0;
+    result = result * 31 + Kotlin.hashCode(this.address) | 0;
+    result = result * 31 + Kotlin.hashCode(this.argument) | 0;
+    result = result * 31 + Kotlin.hashCode(this.cpuState) | 0;
+    return result;
+  };
+  InterruptManager$InterruptHandler.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.id, other.id) && Kotlin.equals(this.enabled, other.enabled) && Kotlin.equals(this.address, other.address) && Kotlin.equals(this.argument, other.argument) && Kotlin.equals(this.cpuState, other.cpuState)))));
+  };
+  function InterruptManager$InterruptKind(index) {
+    this.index = index;
+    this.handlers_y8on25$_0 = lazy(InterruptManager$InterruptKind$handlers$lambda);
+  }
+  Object.defineProperty(InterruptManager$InterruptKind.prototype, 'handlers', {
+    get: function () {
+      var $receiver = this.handlers_y8on25$_0;
+      new PropertyMetadata('handlers');
+      return $receiver.value;
+    }
+  });
+  function InterruptManager$InterruptKind$handlers$lambda() {
+    var $receiver = until(0, 32);
+    var destination = ArrayList_init(collectionSizeOrDefault($receiver, 10));
+    var tmp$;
+    tmp$ = $receiver.iterator();
+    while (tmp$.hasNext()) {
+      var item = tmp$.next();
+      destination.add_11rb$(new InterruptManager$InterruptHandler(item));
+    }
+    return destination;
+  }
+  InterruptManager$InterruptKind.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'InterruptKind',
+    interfaces: []
+  };
+  Object.defineProperty(InterruptManager.prototype, 'interrupts', {
+    get: function () {
+      var $receiver = this.interrupts_8jczsj$_0;
+      new PropertyMetadata('interrupts');
+      return $receiver.value;
+    }
+  });
+  InterruptManager.prototype.get_vux9f0$ = function (interrupt, handlerIndex) {
+    return this.interrupts.get_za3lpa$(interrupt).handlers.get_za3lpa$(handlerIndex);
+  };
+  InterruptManager.prototype.dispatchVsync = function () {
+    this.dispatchInterrupt_za3lpa$(PspInterrupts_getInstance().PSP_VBLANK_INT);
+  };
+  InterruptManager.prototype.isEnabled_za3lpa$ = function (id) {
+    return (this.state.interruptFlags & 1 << id) !== 0;
+  };
+  InterruptManager.prototype.dispatchInterrupt_za3lpa$ = function (id) {
+    var tmp$;
+    if (this.isEnabled_za3lpa$(id)) {
+      var int = this.interrupts.get_za3lpa$(id);
+      var $receiver = int.handlers;
+      var destination = ArrayList_init();
+      var tmp$_0;
+      tmp$_0 = $receiver.iterator();
+      while (tmp$_0.hasNext()) {
+        var element = tmp$_0.next();
+        if (element.enabled)
+          destination.add_11rb$(element);
+      }
+      tmp$ = destination.iterator();
+      while (tmp$.hasNext()) {
+        var handler = tmp$.next();
+        var $this = this.logger;
+        var level = LogLevel.TRACE;
+        if (level.index <= $this.processedLevel.index) {
+          $this.actualLog_t189ph$(level, 'Interrupt ' + id + ': ' + handler);
+        }
+        this.emulator.threadManager.executeInterrupt_vux9f0$(handler.address, handler.argument);
+      }
+    }
+  };
+  function InterruptManager$interrupts$lambda() {
+    var $receiver = until(0, 68);
+    var destination = ArrayList_init(collectionSizeOrDefault($receiver, 10));
+    var tmp$;
+    tmp$ = $receiver.iterator();
+    while (tmp$.hasNext()) {
+      var item = tmp$.next();
+      destination.add_11rb$(new InterruptManager$InterruptKind(item));
+    }
+    return destination;
+  }
   InterruptManager.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'InterruptManager',
     interfaces: []
   };
+  function PspInterrupts() {
+    PspInterrupts_instance = this;
+    this.PSP_GPIO_INT = 4;
+    this.PSP_ATA_INT = 5;
+    this.PSP_UMD_INT = 6;
+    this.PSP_MSCM0_INT = 7;
+    this.PSP_WLAN_INT = 8;
+    this.PSP_AUDIO_INT = 10;
+    this.PSP_I2C_INT = 12;
+    this.PSP_SIRCS_INT = 14;
+    this.PSP_SYSTIMER0_INT = 15;
+    this.PSP_SYSTIMER1_INT = 16;
+    this.PSP_SYSTIMER2_INT = 17;
+    this.PSP_SYSTIMER3_INT = 18;
+    this.PSP_THREAD0_INT = 19;
+    this.PSP_NAND_INT = 20;
+    this.PSP_DMACPLUS_INT = 21;
+    this.PSP_DMA0_INT = 22;
+    this.PSP_DMA1_INT = 23;
+    this.PSP_MEMLMD_INT = 24;
+    this.PSP_GE_INT = 25;
+    this.PSP_VBLANK_INT = 30;
+    this.PSP_MECODEC_INT = 31;
+    this.PSP_HPREMOTE_INT = 36;
+    this.PSP_MSCM1_INT = 60;
+    this.PSP_MSCM2_INT = 61;
+    this.PSP_THREAD1_INT = 65;
+    this.PSP_INTERRUPT_INT = 66;
+    this.PSP_NUMBER_INTERRUPTS = 67;
+  }
+  PspInterrupts.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'PspInterrupts',
+    interfaces: []
+  };
+  var PspInterrupts_instance = null;
+  function PspInterrupts_getInstance() {
+    if (PspInterrupts_instance === null) {
+      new PspInterrupts();
+    }
+    return PspInterrupts_instance;
+  }
   function Manager(name, emulator) {
     this.name = name;
     this.emulator_k3sv7h$_0 = emulator;
@@ -18371,8 +19316,12 @@
   ThreadManager.prototype.suspend = function () {
     throw new CpuBreakException(CpuBreakException$Companion_getInstance().THREAD_WAIT);
   };
-  ThreadManager.prototype.vblank = function () {
+  ThreadManager.prototype.step = function () {
     var tmp$;
+    var startTime = get_rtc(this).getTimeInMicrosecondsDouble();
+    var vsyncStarted = true;
+    get_display(this).startVsync();
+    this.emulator.interruptManager.dispatchVsync();
     var $receiver = this.resourcesById_8be2vx$.values;
     var destination = ArrayList_init();
     var tmp$_0;
@@ -18387,8 +19336,16 @@
       var t = tmp$.next();
       t.resume();
     }
+    while (get_rtc(this).getTimeInMicrosecondsDouble() - startTime < 16.0) {
+      this.stepOne();
+      this.emulator.eventLoop.step_za3lpa$(0);
+      if (vsyncStarted) {
+        get_display(this).endVsync();
+        vsyncStarted = false;
+      }
+    }
   };
-  function ThreadManager$step$lambda(it) {
+  function ThreadManager$stepOne$lambda(it) {
     return it.priority;
   }
   var compareBy$lambda_0 = wrapFunction(function () {
@@ -18407,7 +19364,7 @@
     return this.closure$comparison(a, b);
   };
   Comparator$ObjectLiteral_0.$metadata$ = {kind: Kind_CLASS, interfaces: [Comparator]};
-  ThreadManager.prototype.step = function () {
+  ThreadManager.prototype.stepOne = function () {
     var tmp$, tmp$_0, tmp$_1;
     var now = get_timeManager(this).getTimeInMicrosecondsDouble();
     var $receiver = this.resourcesById_8be2vx$.values;
@@ -18436,11 +19393,13 @@
       if (element_0.running)
         destination_0.add_11rb$(element_0);
     }
-    var availableThreads = sortedWith(destination_0, new Comparator$ObjectLiteral_0(compareBy$lambda_0(ThreadManager$step$lambda)));
+    var availableThreads = sortedWith(destination_0, new Comparator$ObjectLiteral_0(compareBy$lambda_0(ThreadManager$stepOne$lambda)));
     tmp$_1 = availableThreads.iterator();
     while (tmp$_1.hasNext()) {
       var t_0 = tmp$_1.next();
       t_0.step_14dthe$(now);
+      if (availableThreads.isEmpty())
+        break;
     }
   };
   ThreadManager.prototype.trace_ivxn3r$ = function (name, trace) {
@@ -18463,6 +19422,32 @@
       t.exitAndKill();
     }
     throw new CpuBreakException(CpuBreakException$Companion_getInstance().THREAD_EXIT_KILL);
+  };
+  ThreadManager.prototype.executeInterrupt_vux9f0$ = function (address, argument) {
+    var gcpustate = this.emulator.globalCpuState;
+    var oldInsideInterrupt = gcpustate.insideInterrupt;
+    gcpustate.insideInterrupt = true;
+    var thread = first_0(this.threads);
+    var cpu = thread.state;
+    var backCpu = cpu.clone();
+    try {
+      cpu._PC = address;
+      cpu._nPC = address + 4 | 0;
+      set_RA(cpu, CpuBreakException$Companion_getInstance().INTERRUPT_RETURN_RA);
+      cpu.r4 = argument;
+      get_mem(this).sw_vux9f0$(CpuBreakException$Companion_getInstance().INTERRUPT_RETURN_RA, 13 | CpuBreakException$Companion_getInstance().INTERRUPT_RETURN << 6);
+      thread.step_14dthe$(get_timeManager(this).getTimeInMicrosecondsDouble());
+    }
+     catch (e) {
+      if (!Kotlin.isType(e, CpuBreakException))
+        throw e;
+    }
+    finally {
+      cpu.setTo_xt3zvs$(backCpu);
+      gcpustate.insideInterrupt = oldInsideInterrupt;
+    }
+  };
+  ThreadManager.prototype.delayThread_za3lpa$ = function (micros) {
   };
   ThreadManager.$metadata$ = {
     kind: Kind_CLASS,
@@ -18573,6 +19558,7 @@
     this.initPriority = initPriority;
     this.attributes = attributes;
     this.optionPtr = optionPtr;
+    this.preemptionCount = 0;
     this.onEnd = new Signal();
     this.logger = Logger.Companion.invoke_61zpoe$('PspThread');
     this.acceptingCallbacks = false;
@@ -18653,6 +19639,18 @@
     }
   }
   PspThread$Phase.valueOf_61zpoe$ = PspThread$Phase$valueOf;
+  Object.defineProperty(PspThread.prototype, 'status', {
+    get: function () {
+      var out = 0;
+      if (this.running)
+        out = out | ThreadStatus_getInstance().RUNNING;
+      if (this.waiting)
+        out = out | ThreadStatus_getInstance().WAIT;
+      if (this.phase === PspThread$Phase$DELETED_getInstance())
+        out = out | ThreadStatus_getInstance().DEAD;
+      return out;
+    }
+  });
   Object.defineProperty(PspThread.prototype, 'running', {
     get: function () {
       return this.phase === PspThread$Phase$RUNNING_getInstance();
@@ -18724,6 +19722,7 @@
   };
   PspThread.prototype.step_14dthe$ = function (now) {
     var tmp$;
+    this.preemptionCount = this.preemptionCount + 1 | 0;
     try {
       this.interpreter.steps_za3lpa$(INSTRUCTIONS_PER_STEP);
     }
@@ -18857,6 +19856,13 @@
   };
   PspEventFlag.prototype.updateWaitingThreads_0 = function () {
   };
+  PspEventFlag.prototype.setBits_fzusl$ = function (bits, doUpdateWaitingThreads) {
+    if (doUpdateWaitingThreads === void 0)
+      doUpdateWaitingThreads = true;
+    this.currentPattern = this.currentPattern | bits;
+    if (doUpdateWaitingThreads)
+      this.updateWaitingThreads_0();
+  };
   PspEventFlag.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'PspEventFlag',
@@ -18899,6 +19905,188 @@
     }
     return EventFlagWaitTypeSet_instance;
   }
+  function ThreadStatus() {
+    ThreadStatus_instance = this;
+    this.RUNNING = 1;
+    this.READY = 2;
+    this.WAIT = 4;
+    this.SUSPEND = 8;
+    this.DORMANT = 16;
+    this.DEAD = 32;
+    this.WAITSUSPEND = this.WAIT | this.SUSPEND;
+  }
+  ThreadStatus.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'ThreadStatus',
+    interfaces: []
+  };
+  var ThreadStatus_instance = null;
+  function ThreadStatus_getInstance() {
+    if (ThreadStatus_instance === null) {
+      new ThreadStatus();
+    }
+    return ThreadStatus_instance;
+  }
+  function SceKernelThreadInfo(size, name, attributes, status, entryPoint, stackPointer, stackSize, GP, priorityInit, priority, waitType, waitId, wakeupCount, exitStatus, runClocksLow, runClocksHigh, interruptPreemptionCount, threadPreemptionCount, releaseCount) {
+    SceKernelThreadInfo$Companion_getInstance();
+    if (size === void 0)
+      size = 0;
+    if (name === void 0)
+      name = '';
+    if (attributes === void 0)
+      attributes = 0;
+    if (status === void 0)
+      status = 0;
+    if (entryPoint === void 0)
+      entryPoint = 0;
+    if (stackPointer === void 0)
+      stackPointer = 0;
+    if (stackSize === void 0)
+      stackSize = 0;
+    if (GP === void 0)
+      GP = 0;
+    if (priorityInit === void 0)
+      priorityInit = 0;
+    if (priority === void 0)
+      priority = 0;
+    if (waitType === void 0)
+      waitType = 0;
+    if (waitId === void 0)
+      waitId = 0;
+    if (wakeupCount === void 0)
+      wakeupCount = 0;
+    if (exitStatus === void 0)
+      exitStatus = 0;
+    if (runClocksLow === void 0)
+      runClocksLow = 0;
+    if (runClocksHigh === void 0)
+      runClocksHigh = 0;
+    if (interruptPreemptionCount === void 0)
+      interruptPreemptionCount = 0;
+    if (threadPreemptionCount === void 0)
+      threadPreemptionCount = 0;
+    if (releaseCount === void 0)
+      releaseCount = 0;
+    this.size = size;
+    this.name = name;
+    this.attributes = attributes;
+    this.status = status;
+    this.entryPoint = entryPoint;
+    this.stackPointer = stackPointer;
+    this.stackSize = stackSize;
+    this.GP = GP;
+    this.priorityInit = priorityInit;
+    this.priority = priority;
+    this.waitType = waitType;
+    this.waitId = waitId;
+    this.wakeupCount = wakeupCount;
+    this.exitStatus = exitStatus;
+    this.runClocksLow = runClocksLow;
+    this.runClocksHigh = runClocksHigh;
+    this.interruptPreemptionCount = interruptPreemptionCount;
+    this.threadPreemptionCount = threadPreemptionCount;
+    this.releaseCount = releaseCount;
+  }
+  function SceKernelThreadInfo$Companion() {
+    SceKernelThreadInfo$Companion_instance = this;
+    Struct.call(this, SceKernelThreadInfo$SceKernelThreadInfo$Companion_init$lambda, [AS(getPropertyCallableRef('size', 1, function ($receiver) {
+      return $receiver.size;
+    }, function ($receiver, value) {
+      $receiver.size = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('name', 1, function ($receiver) {
+      return $receiver.name;
+    }, function ($receiver, value) {
+      $receiver.name = value;
+    }), STRINGZ_init(32)), AS(getPropertyCallableRef('attributes', 1, function ($receiver) {
+      return $receiver.attributes;
+    }, function ($receiver, value) {
+      $receiver.attributes = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('status', 1, function ($receiver) {
+      return $receiver.status;
+    }, function ($receiver, value) {
+      $receiver.status = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('entryPoint', 1, function ($receiver) {
+      return $receiver.entryPoint;
+    }, function ($receiver, value) {
+      $receiver.entryPoint = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('stackPointer', 1, function ($receiver) {
+      return $receiver.stackPointer;
+    }, function ($receiver, value) {
+      $receiver.stackPointer = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('stackSize', 1, function ($receiver) {
+      return $receiver.stackSize;
+    }, function ($receiver, value) {
+      $receiver.stackSize = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('GP', 1, function ($receiver) {
+      return $receiver.GP;
+    }, function ($receiver, value) {
+      $receiver.GP = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('priorityInit', 1, function ($receiver) {
+      return $receiver.priorityInit;
+    }, function ($receiver, value) {
+      $receiver.priorityInit = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('priority', 1, function ($receiver) {
+      return $receiver.priority;
+    }, function ($receiver, value) {
+      $receiver.priority = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('waitType', 1, function ($receiver) {
+      return $receiver.waitType;
+    }, function ($receiver, value) {
+      $receiver.waitType = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('waitId', 1, function ($receiver) {
+      return $receiver.waitId;
+    }, function ($receiver, value) {
+      $receiver.waitId = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('wakeupCount', 1, function ($receiver) {
+      return $receiver.wakeupCount;
+    }, function ($receiver, value) {
+      $receiver.wakeupCount = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('exitStatus', 1, function ($receiver) {
+      return $receiver.exitStatus;
+    }, function ($receiver, value) {
+      $receiver.exitStatus = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('runClocksLow', 1, function ($receiver) {
+      return $receiver.runClocksLow;
+    }, function ($receiver, value) {
+      $receiver.runClocksLow = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('runClocksHigh', 1, function ($receiver) {
+      return $receiver.runClocksHigh;
+    }, function ($receiver, value) {
+      $receiver.runClocksHigh = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('interruptPreemptionCount', 1, function ($receiver) {
+      return $receiver.interruptPreemptionCount;
+    }, function ($receiver, value) {
+      $receiver.interruptPreemptionCount = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('threadPreemptionCount', 1, function ($receiver) {
+      return $receiver.threadPreemptionCount;
+    }, function ($receiver, value) {
+      $receiver.threadPreemptionCount = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('releaseCount', 1, function ($receiver) {
+      return $receiver.releaseCount;
+    }, function ($receiver, value) {
+      $receiver.releaseCount = value;
+    }), INT32_getInstance())]);
+  }
+  function SceKernelThreadInfo$SceKernelThreadInfo$Companion_init$lambda() {
+    return new SceKernelThreadInfo();
+  }
+  SceKernelThreadInfo$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [Struct]
+  };
+  var SceKernelThreadInfo$Companion_instance = null;
+  function SceKernelThreadInfo$Companion_getInstance() {
+    if (SceKernelThreadInfo$Companion_instance === null) {
+      new SceKernelThreadInfo$Companion();
+    }
+    return SceKernelThreadInfo$Companion_instance;
+  }
+  SceKernelThreadInfo.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'SceKernelThreadInfo',
+    interfaces: []
+  };
   function TimeManager(emulator) {
     this.emulator_gqh32o$_0 = emulator;
   }
@@ -18932,6 +20120,20 @@
   };
   function ScePspDateTime(year, month, day, hour, minute, second, microsecond) {
     ScePspDateTime$Companion_getInstance();
+    if (year === void 0)
+      year = 0;
+    if (month === void 0)
+      month = 0;
+    if (day === void 0)
+      day = 0;
+    if (hour === void 0)
+      hour = 0;
+    if (minute === void 0)
+      minute = 0;
+    if (second === void 0)
+      second = 0;
+    if (microsecond === void 0)
+      microsecond = 0;
     this.year = year;
     this.month = month;
     this.day = day;
@@ -18947,14 +20149,43 @@
   });
   function ScePspDateTime$Companion() {
     ScePspDateTime$Companion_instance = this;
+    Struct.call(this, ScePspDateTime$ScePspDateTime$Companion_init$lambda, [AS(getPropertyCallableRef('year', 1, function ($receiver) {
+      return $receiver.year;
+    }, function ($receiver, value) {
+      $receiver.year = value;
+    }), UINT16_getInstance()), AS(getPropertyCallableRef('month', 1, function ($receiver) {
+      return $receiver.month;
+    }, function ($receiver, value) {
+      $receiver.month = value;
+    }), UINT16_getInstance()), AS(getPropertyCallableRef('day', 1, function ($receiver) {
+      return $receiver.day;
+    }, function ($receiver, value) {
+      $receiver.day = value;
+    }), UINT16_getInstance()), AS(getPropertyCallableRef('hour', 1, function ($receiver) {
+      return $receiver.hour;
+    }, function ($receiver, value) {
+      $receiver.hour = value;
+    }), UINT16_getInstance()), AS(getPropertyCallableRef('minute', 1, function ($receiver) {
+      return $receiver.minute;
+    }, function ($receiver, value) {
+      $receiver.minute = value;
+    }), UINT16_getInstance()), AS(getPropertyCallableRef('second', 1, function ($receiver) {
+      return $receiver.second;
+    }, function ($receiver, value) {
+      $receiver.second = value;
+    }), UINT16_getInstance()), AS(getPropertyCallableRef('microsecond', 1, function ($receiver) {
+      return $receiver.microsecond;
+    }, function ($receiver, value) {
+      $receiver.microsecond = value;
+    }), INT32_getInstance())]);
   }
-  ScePspDateTime$Companion.prototype.read_39qel5$ = function (s) {
-    return new ScePspDateTime(readU16_le(s), readU16_le(s), readU16_le(s), readU16_le(s), readU16_le(s), readU16_le(s), readS32_le_0(s));
-  };
+  function ScePspDateTime$ScePspDateTime$Companion_init$lambda() {
+    return ScePspDateTime_init_0(Kotlin.Long.ZERO);
+  }
   ScePspDateTime$Companion.$metadata$ = {
     kind: Kind_OBJECT,
     simpleName: 'Companion',
-    interfaces: []
+    interfaces: [Struct]
   };
   var ScePspDateTime$Companion_instance = null;
   function ScePspDateTime$Companion_getInstance() {
@@ -18964,14 +20195,7 @@
     return ScePspDateTime$Companion_instance;
   }
   ScePspDateTime.prototype.write_39qel5$ = function (s) {
-    write16_le(s, this.year);
-    write16_le(s, this.month);
-    write16_le(s, this.day);
-    write16_le(s, this.hour);
-    write16_le(s, this.minute);
-    write16_le(s, this.second);
-    write32_le(s, this.microsecond);
-    return s;
+    write_0(s, ScePspDateTime$Companion_getInstance(), this);
   };
   ScePspDateTime.$metadata$ = {
     kind: Kind_CLASS,
@@ -18988,6 +20212,47 @@
     ScePspDateTime_init(DateTime.Companion.invoke_s8cxhz$(ticks), $this);
     return $this;
   }
+  ScePspDateTime.prototype.component1 = function () {
+    return this.year;
+  };
+  ScePspDateTime.prototype.component2 = function () {
+    return this.month;
+  };
+  ScePspDateTime.prototype.component3 = function () {
+    return this.day;
+  };
+  ScePspDateTime.prototype.component4 = function () {
+    return this.hour;
+  };
+  ScePspDateTime.prototype.component5 = function () {
+    return this.minute;
+  };
+  ScePspDateTime.prototype.component6 = function () {
+    return this.second;
+  };
+  ScePspDateTime.prototype.component7 = function () {
+    return this.microsecond;
+  };
+  ScePspDateTime.prototype.copy_ui44o2$ = function (year, month, day, hour, minute, second, microsecond) {
+    return new ScePspDateTime(year === void 0 ? this.year : year, month === void 0 ? this.month : month, day === void 0 ? this.day : day, hour === void 0 ? this.hour : hour, minute === void 0 ? this.minute : minute, second === void 0 ? this.second : second, microsecond === void 0 ? this.microsecond : microsecond);
+  };
+  ScePspDateTime.prototype.toString = function () {
+    return 'ScePspDateTime(year=' + Kotlin.toString(this.year) + (', month=' + Kotlin.toString(this.month)) + (', day=' + Kotlin.toString(this.day)) + (', hour=' + Kotlin.toString(this.hour)) + (', minute=' + Kotlin.toString(this.minute)) + (', second=' + Kotlin.toString(this.second)) + (', microsecond=' + Kotlin.toString(this.microsecond)) + ')';
+  };
+  ScePspDateTime.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.year) | 0;
+    result = result * 31 + Kotlin.hashCode(this.month) | 0;
+    result = result * 31 + Kotlin.hashCode(this.day) | 0;
+    result = result * 31 + Kotlin.hashCode(this.hour) | 0;
+    result = result * 31 + Kotlin.hashCode(this.minute) | 0;
+    result = result * 31 + Kotlin.hashCode(this.second) | 0;
+    result = result * 31 + Kotlin.hashCode(this.microsecond) | 0;
+    return result;
+  };
+  ScePspDateTime.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.year, other.year) && Kotlin.equals(this.month, other.month) && Kotlin.equals(this.day, other.day) && Kotlin.equals(this.hour, other.hour) && Kotlin.equals(this.minute, other.minute) && Kotlin.equals(this.second, other.second) && Kotlin.equals(this.microsecond, other.microsecond)))));
+  };
   function ExceptionManagerForKernel(emulator) {
     SceModule.call(this, emulator, 'ExceptionManagerForKernel', 65553, 'exceptionman.prx', 'sceExceptionManager');
   }
@@ -19099,18 +20364,31 @@
   };
   function InterruptManager_0(emulator) {
     SceModule.call(this, emulator, 'InterruptManager', 1073741841, 'interruptman.prx', 'sceInterruptManager');
+    this.interruptManager = emulator.interruptManager;
   }
+  InterruptManager_0.prototype.sceKernelRegisterSubIntrHandler_usgm40$ = function (thread, interrupt, handlerIndex, callbackAddress, callbackArgument) {
+    var intr = this.interruptManager.get_vux9f0$(interrupt, handlerIndex);
+    intr.address = callbackAddress;
+    intr.argument = callbackArgument;
+    intr.enabled = true;
+    intr.cpuState = thread.state;
+    return 0;
+  };
+  InterruptManager_0.prototype.sceKernelEnableSubIntr_vux9f0$ = function (interrupt, handlerIndex) {
+    var intr = this.interruptManager.get_vux9f0$(interrupt, handlerIndex);
+    intr.enabled = true;
+    return 0;
+  };
+  InterruptManager_0.prototype.sceKernelDisableSubIntr_vux9f0$ = function (interrupt, handlerIndex) {
+    var intr = this.interruptManager.get_vux9f0$(interrupt, handlerIndex);
+    intr.enabled = false;
+    return 0;
+  };
   InterruptManager_0.prototype.sceKernelSuspendSubIntr_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1555408779);
   };
   InterruptManager_0.prototype.sceKernelResumeSubIntr_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(2019614940);
-  };
-  InterruptManager_0.prototype.sceKernelDisableSubIntr_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1976003567, 0));
-  };
-  InterruptManager_0.prototype.sceKernelRegisterSubIntrHandler_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-905665863, 0));
   };
   InterruptManager_0.prototype.QueryIntrHandlerInfo_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-756533697, 0));
@@ -19121,57 +20399,51 @@
   InterruptManager_0.prototype.sceKernelRegisterUserSpaceIntrStack_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-287031481, 0));
   };
-  InterruptManager_0.prototype.sceKernelEnableSubIntr_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-74571028, 0));
-  };
   InterruptManager_0.prototype.sceKernelIsSubInterruptOccurred_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-62688072, 0));
   };
   function InterruptManager$registerModule$lambda(this$InterruptManager) {
+    return function ($receiver, it) {
+      return this$InterruptManager.sceKernelRegisterSubIntrHandler_usgm40$($receiver.thread, $receiver.int, $receiver.int, $receiver.int, $receiver.int);
+    };
+  }
+  function InterruptManager$registerModule$lambda_0(this$InterruptManager) {
+    return function ($receiver, it) {
+      return this$InterruptManager.sceKernelEnableSubIntr_vux9f0$($receiver.int, $receiver.int);
+    };
+  }
+  function InterruptManager$registerModule$lambda_1(this$InterruptManager) {
+    return function ($receiver, it) {
+      return this$InterruptManager.sceKernelDisableSubIntr_vux9f0$($receiver.int, $receiver.int);
+    };
+  }
+  function InterruptManager$registerModule$lambda_2(this$InterruptManager) {
     return function (it) {
       this$InterruptManager.sceKernelSuspendSubIntr_xt3zvs$(it);
       return Unit;
     };
   }
-  function InterruptManager$registerModule$lambda_0(this$InterruptManager) {
+  function InterruptManager$registerModule$lambda_3(this$InterruptManager) {
     return function (it) {
       this$InterruptManager.sceKernelResumeSubIntr_xt3zvs$(it);
       return Unit;
     };
   }
-  function InterruptManager$registerModule$lambda_1(this$InterruptManager) {
-    return function (it) {
-      this$InterruptManager.sceKernelDisableSubIntr_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function InterruptManager$registerModule$lambda_2(this$InterruptManager) {
-    return function (it) {
-      this$InterruptManager.sceKernelRegisterSubIntrHandler_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function InterruptManager$registerModule$lambda_3(this$InterruptManager) {
+  function InterruptManager$registerModule$lambda_4(this$InterruptManager) {
     return function (it) {
       this$InterruptManager.QueryIntrHandlerInfo_xt3zvs$(it);
       return Unit;
     };
   }
-  function InterruptManager$registerModule$lambda_4(this$InterruptManager) {
+  function InterruptManager$registerModule$lambda_5(this$InterruptManager) {
     return function (it) {
       this$InterruptManager.sceKernelReleaseSubIntrHandler_xt3zvs$(it);
       return Unit;
     };
   }
-  function InterruptManager$registerModule$lambda_5(this$InterruptManager) {
-    return function (it) {
-      this$InterruptManager.sceKernelRegisterUserSpaceIntrStack_xt3zvs$(it);
-      return Unit;
-    };
-  }
   function InterruptManager$registerModule$lambda_6(this$InterruptManager) {
     return function (it) {
-      this$InterruptManager.sceKernelEnableSubIntr_xt3zvs$(it);
+      this$InterruptManager.sceKernelRegisterUserSpaceIntrStack_xt3zvs$(it);
       return Unit;
     };
   }
@@ -19182,14 +20454,14 @@
     };
   }
   InterruptManager_0.prototype.registerModule = function () {
-    this.registerFunctionRaw_gh35x6$('sceKernelSuspendSubIntr', Kotlin.Long.fromInt(1555408779), 150, void 0, InterruptManager$registerModule$lambda(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelResumeSubIntr', Kotlin.Long.fromInt(2019614940), 150, void 0, InterruptManager$registerModule$lambda_0(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDisableSubIntr', new Kotlin.Long(-1976003567, 0), 150, void 0, InterruptManager$registerModule$lambda_1(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelRegisterSubIntrHandler', new Kotlin.Long(-905665863, 0), 150, void 0, InterruptManager$registerModule$lambda_2(this));
-    this.registerFunctionRaw_gh35x6$('QueryIntrHandlerInfo', new Kotlin.Long(-756533697, 0), 150, void 0, InterruptManager$registerModule$lambda_3(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReleaseSubIntrHandler', new Kotlin.Long(-702650015, 0), 150, void 0, InterruptManager$registerModule$lambda_4(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelRegisterUserSpaceIntrStack', new Kotlin.Long(-287031481, 0), 150, void 0, InterruptManager$registerModule$lambda_5(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelEnableSubIntr', new Kotlin.Long(-74571028, 0), 150, void 0, InterruptManager$registerModule$lambda_6(this));
+    this.registerFunctionInt_9l82lv$('sceKernelRegisterSubIntrHandler', new Kotlin.Long(-905665863, 0), 150, void 0, InterruptManager$registerModule$lambda(this));
+    this.registerFunctionInt_9l82lv$('sceKernelEnableSubIntr', new Kotlin.Long(-74571028, 0), 150, void 0, InterruptManager$registerModule$lambda_0(this));
+    this.registerFunctionInt_9l82lv$('sceKernelDisableSubIntr', new Kotlin.Long(-1976003567, 0), 150, void 0, InterruptManager$registerModule$lambda_1(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSuspendSubIntr', Kotlin.Long.fromInt(1555408779), 150, void 0, InterruptManager$registerModule$lambda_2(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelResumeSubIntr', Kotlin.Long.fromInt(2019614940), 150, void 0, InterruptManager$registerModule$lambda_3(this));
+    this.registerFunctionRaw_gh35x6$('QueryIntrHandlerInfo', new Kotlin.Long(-756533697, 0), 150, void 0, InterruptManager$registerModule$lambda_4(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReleaseSubIntrHandler', new Kotlin.Long(-702650015, 0), 150, void 0, InterruptManager$registerModule$lambda_5(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelRegisterUserSpaceIntrStack', new Kotlin.Long(-287031481, 0), 150, void 0, InterruptManager$registerModule$lambda_6(this));
     this.registerFunctionRaw_gh35x6$('sceKernelIsSubInterruptOccurred', new Kotlin.Long(-62688072, 0), 150, void 0, InterruptManager$registerModule$lambda_7(this));
   };
   InterruptManager_0.$metadata$ = {
@@ -19248,30 +20520,31 @@
     }
     return this._resolve_0(ensureNotNull(path));
   };
-  IoFileMgrForUser.prototype.sceIoOpen_hs9j5r$ = function (fileName_0, flags_0, mode_0, continuation_0, suspended) {
-    var instance = new Coroutine$sceIoOpen_hs9j5r$(this, fileName_0, flags_0, mode_0, continuation_0);
+  IoFileMgrForUser.prototype._sceIoOpen_iy4fud$ = function (fileId_0, fileName_0, flags_0, mode_0, continuation_0, suspended) {
+    var instance = new Coroutine$_sceIoOpen_iy4fud$(this, fileId_0, fileName_0, flags_0, mode_0, continuation_0);
     if (suspended)
       return instance;
     else
       return instance.doResume(null);
   };
-  function Coroutine$sceIoOpen_hs9j5r$($this, fileName_0, flags_0, mode_0, continuation_0) {
+  function Coroutine$_sceIoOpen_iy4fud$($this, fileId_0, fileName_0, flags_0, mode_0, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
     this.exceptionState_0 = 5;
     this.$this = $this;
     this.local$file = void 0;
+    this.local$fileId = fileId_0;
     this.local$fileName = fileName_0;
     this.local$flags = flags_0;
     this.local$mode = mode_0;
   }
-  Coroutine$sceIoOpen_hs9j5r$.$metadata$ = {
+  Coroutine$_sceIoOpen_iy4fud$.$metadata$ = {
     kind: Kotlin.Kind.CLASS,
     simpleName: null,
     interfaces: [CoroutineImpl]
   };
-  Coroutine$sceIoOpen_hs9j5r$.prototype = Object.create(CoroutineImpl.prototype);
-  Coroutine$sceIoOpen_hs9j5r$.prototype.constructor = Coroutine$sceIoOpen_hs9j5r$;
-  Coroutine$sceIoOpen_hs9j5r$.prototype.doResume = function () {
+  Coroutine$_sceIoOpen_iy4fud$.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$_sceIoOpen_iy4fud$.prototype.constructor = Coroutine$_sceIoOpen_iy4fud$;
+  Coroutine$_sceIoOpen_iy4fud$.prototype.doResume = function () {
     do
       try {
         switch (this.state_0) {
@@ -19280,11 +20553,11 @@
             var $this = this.$this.logger;
             var level = LogLevel.WARN;
             if (level.index <= $this.processedLevel.index) {
-              $this.actualLog_t189ph$(level, 'WIP: sceIoOpen: ' + toString(this.local$fileName) + ', ' + this.local$flags + ', ' + this.local$mode);
+              $this.actualLog_t189ph$(level, 'WIP: _sceIoOpen: ' + this.local$fileId + ', ' + toString(this.local$fileName) + ', ' + this.local$flags + ', ' + this.local$mode);
             }
 
             this.exceptionState_0 = 2;
-            this.local$file = this.$this.fileDescriptors.alloc();
+            this.local$file = this.$this.fileDescriptors.get_za3lpa$(this.local$fileId);
             this.local$file.file = this.$this.resolve_0(this.local$fileName);
             if ((this.local$flags & FileOpenFlags_getInstance().Truncate) !== 0)
               tmp$ = VfsOpenMode.CREATE_OR_TRUNCATE;
@@ -19302,6 +20575,12 @@
             break;
           case 1:
             this.local$file.stream = this.result_0;
+            var $this_0 = this.$this.logger;
+            var level_0 = LogLevel.WARN;
+            if (level_0.index <= $this_0.processedLevel.index) {
+              $this_0.actualLog_t189ph$(level_0, 'WIP: sceIoOpen --> ' + toString(this.local$fileName) + ', ' + this.local$file.id);
+            }
+
             return this.local$file.id;
           case 2:
             this.exceptionState_0 = 5;
@@ -19334,6 +20613,17 @@
       }
      while (true);
   };
+  IoFileMgrForUser.prototype.sceIoOpen_hs9j5r$ = function (fileName, flags, mode, continuation) {
+    return this._sceIoOpen_iy4fud$(this.fileDescriptors.alloc().id, fileName, flags, mode, continuation);
+  };
+  IoFileMgrForUser.prototype.toSce_9ayeyb$ = function ($receiver) {
+    var tmp$, tmp$_0, tmp$_1;
+    if ($receiver.isDirectory)
+      tmp$ = IOFileModes_getInstance().DIR | IOFileModes_getInstance().Directory | IOFileModes_getInstance().CanRead;
+    else
+      tmp$ = IOFileModes_getInstance().FILE | IOFileModes_getInstance().File | IOFileModes_getInstance().CanRead | IOFileModes_getInstance().CanExecute | IOFileModes_getInstance().CanWrite;
+    return new SceIoStat(511, tmp$, $receiver.size, ScePspDateTime_init(get_createDate($receiver)), ScePspDateTime_init(get_lastAccessDate($receiver)), ScePspDateTime_init(get_modifiedDate($receiver)), (tmp$_1 = (tmp$_0 = $receiver.extraInfo) == null || Kotlin.isIntArray(tmp$_0) ? tmp$_0 : null) != null ? tmp$_1 : new Int32Array([0, 0, 0, 0, 0, 0]));
+  };
   IoFileMgrForUser.prototype.sceIoGetstat_ejruhl$ = function (fileName_0, ptr_0, continuation_0, suspended) {
     var instance = new Coroutine$sceIoGetstat_ejruhl$(this, fileName_0, ptr_0, continuation_0);
     if (suspended)
@@ -19360,6 +20650,12 @@
       try {
         switch (this.state_0) {
           case 0:
+            var $this = this.$this.logger;
+            var level = LogLevel.WARN;
+            if (level.index <= $this.processedLevel.index) {
+              $this.actualLog_t189ph$(level, 'sceIoGetstat:' + toString(this.local$fileName) + ',' + this.local$ptr);
+            }
+
             var file = this.$this.resolve_0(this.local$fileName);
             this.state_0 = 2;
             this.result_0 = file.stat(this);
@@ -19370,8 +20666,14 @@
             throw this.exception_0;
           case 2:
             var fstat = this.result_0;
-            var stat = new SceIoStat(IOFileModes_getInstance().File, 0, fstat.size, ScePspDateTime_init(get_createDate(fstat)), ScePspDateTime_init(get_lastAccessDate(fstat)), ScePspDateTime_init(get_modifiedDate(fstat)), new Int32Array(6));
-            stat.write_39qel5$(openSync_1(this.local$ptr));
+            var stat = this.$this.toSce_9ayeyb$(fstat);
+            write_0(openSync_1(this.local$ptr), SceIoStat$Companion_getInstance(), stat);
+            var $this_0 = this.$this.logger;
+            var level_0 = LogLevel.WARN;
+            if (level_0.index <= $this_0.processedLevel.index) {
+              $this_0.actualLog_t189ph$(level_0, 'sceIoGetstat --> 0');
+            }
+
             return 0;
         }
       }
@@ -19466,7 +20768,7 @@
         switch (this.state_0) {
           case 0:
             var $this = this.$this.logger;
-            var level = LogLevel.INFO;
+            var level = LogLevel.TRACE;
             if (level.index <= $this.processedLevel.index) {
               $this.actualLog_t189ph$(level, 'WIP: _sceIoLseek: ' + this.local$fileId + ', ' + this.local$offset + ', ' + this.local$whence);
             }
@@ -19662,7 +20964,7 @@
   };
   IoFileMgrForUser.prototype.sceIoClose_za3lpa$ = function (fileId, continuation) {
     var $this = this.logger;
-    var level = LogLevel.INFO;
+    var level = LogLevel.WARN;
     if (level.index <= $this.processedLevel.index) {
       $this.actualLog_t189ph$(level, 'WIP: sceIoClose: ' + fileId);
     }
@@ -19697,16 +20999,171 @@
     this.logger.error_61zpoe$('WIP: sceIoDevctl: ' + toString(deviceName) + ', ' + command + ', ' + inputPointer + ', ' + inputLength + ', ' + outputPointer + ', ' + outputLength);
     return -1;
   };
-  IoFileMgrForUser.prototype.sceIoDopen_pdl1vj$ = function (path, continuation) {
-    return 0;
+  IoFileMgrForUser.prototype.sceIoDopen_pdl1vj$ = function (path_0, continuation_0, suspended) {
+    var instance = new Coroutine$sceIoDopen_pdl1vj$(this, path_0, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
   };
-  IoFileMgrForUser.prototype.sceIoDread_o62i3q$ = function (id, ptr, continuation) {
-    var $this = this.logger;
-    var level = LogLevel.ERROR;
-    if (level.index <= $this.processedLevel.index) {
-      $this.actualLog_t189ph$(level, 'sceIoDread:' + id + ',' + ptr);
-    }
-    return 0;
+  function Coroutine$sceIoDopen_pdl1vj$($this, path_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 6;
+    this.$this = $this;
+    this.local$tmp$ = void 0;
+    this.local$dd = void 0;
+    this.local$path = path_0;
+  }
+  Coroutine$sceIoDopen_pdl1vj$.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$sceIoDopen_pdl1vj$.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$sceIoDopen_pdl1vj$.prototype.constructor = Coroutine$sceIoDopen_pdl1vj$;
+  Coroutine$sceIoDopen_pdl1vj$.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            var $this = this.$this.logger;
+            var level = LogLevel.ERROR;
+            if (level.index <= $this.processedLevel.index) {
+              $this.actualLog_t189ph$(level, 'sceIoDopen:' + toString(this.local$path));
+            }
+
+            this.exceptionState_0 = 3;
+            var $this_0 = this.$this.logger;
+            var level_0 = LogLevel.ERROR;
+            if (level_0.index <= $this_0.processedLevel.index) {
+              $this_0.actualLog_t189ph$(level_0, 'sceIoDopen:' + toString(this.local$path));
+            }
+
+            this.local$dd = this.$this.directoryDescriptors.alloc();
+            var dir = this.$this.resolve_0(this.local$path);
+            this.local$dd.directory = dir;
+            this.local$dd.pos = 0;
+            this.local$tmp$ = listOf([new VfsFile(dir.vfs, dir.fullname + '/.'), new VfsFile(dir.vfs, dir.fullname + '/..')]);
+            this.state_0 = 1;
+            this.result_0 = this.local$dd.directory.list(this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            this.state_0 = 2;
+            this.result_0 = toList_3(this.result_0, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 2:
+            this.local$dd.files = plus(this.local$tmp$, this.result_0);
+            return this.local$dd.id;
+          case 3:
+            this.exceptionState_0 = 6;
+            var e = this.exception_0;
+            if (Kotlin.isType(e, Throwable)) {
+              printStackTrace(e);
+              return -1;
+            }
+             else {
+              throw e;
+            }
+
+          case 4:
+            this.state_0 = 5;
+            continue;
+          case 5:
+            return;
+          case 6:
+            throw this.exception_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 6)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  IoFileMgrForUser.prototype.sceIoDread_o62i3q$ = function (id_0, ptr_0, continuation_0, suspended) {
+    var instance = new Coroutine$sceIoDread_o62i3q$(this, id_0, ptr_0, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  };
+  function Coroutine$sceIoDread_o62i3q$($this, id_0, ptr_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.$this = $this;
+    this.local$dd = void 0;
+    this.local$file = void 0;
+    this.local$id = id_0;
+    this.local$ptr = ptr_0;
+  }
+  Coroutine$sceIoDread_o62i3q$.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$sceIoDread_o62i3q$.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$sceIoDread_o62i3q$.prototype.constructor = Coroutine$sceIoDread_o62i3q$;
+  Coroutine$sceIoDread_o62i3q$.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            var tmp$;
+            var $this = this.$this.logger;
+            var level = LogLevel.ERROR;
+            if (level.index <= $this.processedLevel.index) {
+              $this.actualLog_t189ph$(level, 'sceIoDread:' + this.local$id + ',' + this.local$ptr);
+            }
+
+            this.local$dd = this.$this.directoryDescriptors.get_za3lpa$(this.local$id);
+            if (this.local$dd.remaining > 0) {
+              this.local$file = this.local$dd.files.get_za3lpa$((tmp$ = this.local$dd.pos, this.local$dd.pos = tmp$ + 1 | 0, tmp$));
+              this.state_0 = 2;
+              this.result_0 = this.local$file.stat(this);
+              if (this.result_0 === COROUTINE_SUSPENDED)
+                return COROUTINE_SUSPENDED;
+              break;
+            }
+             else {
+              this.state_0 = 3;
+              continue;
+            }
+
+          case 1:
+            throw this.exception_0;
+          case 2:
+            var stat = this.result_0;
+            var dirent = new HleIoDirent(this.$this.toSce_9ayeyb$(stat), this.local$file.basename, 0, 0);
+            var $this_0 = this.$this.logger;
+            var level_0 = LogLevel.ERROR;
+            if (level_0.index <= $this_0.processedLevel.index) {
+              $this_0.actualLog_t189ph$(level_0, 'sceIoDread --> ' + dirent);
+            }
+
+            write_0(openSync_1(this.local$ptr), HleIoDirent$Companion_getInstance(), dirent);
+            this.state_0 = 3;
+            continue;
+          case 3:
+            return this.local$dd.remaining;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
   };
   IoFileMgrForUser.prototype.sceIoDclose_za3lpa$ = function (id, continuation) {
     var $this = this.logger;
@@ -19714,6 +21171,7 @@
     if (level.index <= $this.processedLevel.index) {
       $this.actualLog_t189ph$(level, 'sceIoDclose:' + id);
     }
+    this.directoryDescriptors.freeById_za3lpa$(id);
     return 0;
   };
   IoFileMgrForUser.prototype.sceIoChdir_pdl1vj$ = function (path, continuation) {
@@ -19828,6 +21286,403 @@
       }
      while (true);
   };
+  function IoFileMgrForUser$AsyncHandle(id, promise, result, done) {
+    if (promise === void 0)
+      promise = null;
+    if (result === void 0)
+      result = Kotlin.Long.ZERO;
+    if (done === void 0)
+      done = false;
+    this.id_nswocu$_0 = id;
+    this.promise = promise;
+    this.result = result;
+    this.done = done;
+  }
+  Object.defineProperty(IoFileMgrForUser$AsyncHandle.prototype, 'id', {
+    get: function () {
+      return this.id_nswocu$_0;
+    }
+  });
+  IoFileMgrForUser$AsyncHandle.prototype.reset = function () {
+    this.promise = null;
+    this.result = Kotlin.Long.ZERO;
+    this.done = false;
+  };
+  IoFileMgrForUser$AsyncHandle.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'AsyncHandle',
+    interfaces: [PoolItem]
+  };
+  function IoFileMgrForUser$async$lambda(closure$callback_0, closure$res_0, this$IoFileMgrForUser_0, closure$name_0) {
+    return function (continuation_0, suspended) {
+      var instance = new Coroutine$IoFileMgrForUser$async$lambda(closure$callback_0, closure$res_0, this$IoFileMgrForUser_0, closure$name_0, continuation_0);
+      if (suspended)
+        return instance;
+      else
+        return instance.doResume(null);
+    };
+  }
+  function Coroutine$IoFileMgrForUser$async$lambda(closure$callback_0, closure$res_0, this$IoFileMgrForUser_0, closure$name_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.local$closure$callback = closure$callback_0;
+    this.local$closure$res = closure$res_0;
+    this.local$this$IoFileMgrForUser = this$IoFileMgrForUser_0;
+    this.local$closure$name = closure$name_0;
+    this.local$tmp$ = void 0;
+  }
+  Coroutine$IoFileMgrForUser$async$lambda.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$IoFileMgrForUser$async$lambda.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$IoFileMgrForUser$async$lambda.prototype.constructor = Coroutine$IoFileMgrForUser$async$lambda;
+  Coroutine$IoFileMgrForUser$async$lambda.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.local$tmp$ = this.local$closure$res;
+            this.state_0 = 2;
+            this.result_0 = this.local$closure$callback(this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            this.local$tmp$.asyncResult = this.result_0;
+            var $this = this.local$this$IoFileMgrForUser.logger;
+            var level = LogLevel.ERROR;
+            if (level.index <= $this.processedLevel.index) {
+              $this.actualLog_t189ph$(level, '  async ' + this.local$closure$name + ' completed with result ' + this.local$closure$res.asyncResult);
+            }
+
+            return this.local$closure$res.asyncDone = true, Unit;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  IoFileMgrForUser.prototype.async_fd2017$ = function (fileId_0, name_0, callback_0, continuation_0, suspended) {
+    var instance = new Coroutine$async_fd2017$(this, fileId_0, name_0, callback_0, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  };
+  function Coroutine$async_fd2017$($this, fileId_0, name_0, callback_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.$this = $this;
+    this.local$res = void 0;
+    this.local$fileId = fileId_0;
+    this.local$name = name_0;
+    this.local$callback = callback_0;
+  }
+  Coroutine$async_fd2017$.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$async_fd2017$.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$async_fd2017$.prototype.constructor = Coroutine$async_fd2017$;
+  Coroutine$async_fd2017$.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            var $this = this.$this.logger;
+            var level = LogLevel.ERROR;
+            if (level.index <= $this.processedLevel.index) {
+              $this.actualLog_t189ph$(level, 'starting async ' + this.local$name);
+            }
+
+            this.local$res = this.$this.fileDescriptors.get_za3lpa$(this.local$fileId);
+            this.local$res.asyncDone = false;
+            this.state_0 = 2;
+            this.result_0 = spawn(IoFileMgrForUser$async$lambda(this.local$callback, this.local$res, this.$this, this.local$name), this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            this.local$res.asyncPromise = this.result_0;
+            var $this_0 = this.$this.logger;
+            var level_0 = LogLevel.ERROR;
+            if (level_0.index <= $this_0.processedLevel.index) {
+              $this_0.actualLog_t189ph$(level_0, '  async ' + this.local$name + ' ---> ' + this.local$res.id);
+            }
+
+            return this.local$res.id;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  function IoFileMgrForUser$sceIoOpenAsync$lambda(closure$fid_0, closure$filename_0, closure$flags_0, closure$mode_0, this$IoFileMgrForUser_0) {
+    return function (continuation_0, suspended) {
+      var instance = new Coroutine$IoFileMgrForUser$sceIoOpenAsync$lambda(closure$fid_0, closure$filename_0, closure$flags_0, closure$mode_0, this$IoFileMgrForUser_0, continuation_0);
+      if (suspended)
+        return instance;
+      else
+        return instance.doResume(null);
+    };
+  }
+  function Coroutine$IoFileMgrForUser$sceIoOpenAsync$lambda(closure$fid_0, closure$filename_0, closure$flags_0, closure$mode_0, this$IoFileMgrForUser_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.local$closure$fid = closure$fid_0;
+    this.local$closure$filename = closure$filename_0;
+    this.local$closure$flags = closure$flags_0;
+    this.local$closure$mode = closure$mode_0;
+    this.local$this$IoFileMgrForUser = this$IoFileMgrForUser_0;
+  }
+  Coroutine$IoFileMgrForUser$sceIoOpenAsync$lambda.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$IoFileMgrForUser$sceIoOpenAsync$lambda.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$IoFileMgrForUser$sceIoOpenAsync$lambda.prototype.constructor = Coroutine$IoFileMgrForUser$sceIoOpenAsync$lambda;
+  Coroutine$IoFileMgrForUser$sceIoOpenAsync$lambda.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 2;
+            this.result_0 = this.local$this$IoFileMgrForUser._sceIoOpen_iy4fud$(this.local$closure$fid, this.local$closure$filename, this.local$closure$flags, this.local$closure$mode, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            var res = this.result_0;
+            var $this = this.local$this$IoFileMgrForUser.logger;
+            var level = LogLevel.ERROR;
+            if (level.index <= $this.processedLevel.index) {
+              $this.actualLog_t189ph$(level, 'sceIoOpenAsync --> ' + res);
+            }
+
+            return Kotlin.Long.fromInt(res);
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  IoFileMgrForUser.prototype.sceIoOpenAsync_hs9j5r$ = function (filename_0, flags_0, mode_0, continuation_0, suspended) {
+    var instance = new Coroutine$sceIoOpenAsync_hs9j5r$(this, filename_0, flags_0, mode_0, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  };
+  function Coroutine$sceIoOpenAsync_hs9j5r$($this, filename_0, flags_0, mode_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.$this = $this;
+    this.local$filename = filename_0;
+    this.local$flags = flags_0;
+    this.local$mode = mode_0;
+  }
+  Coroutine$sceIoOpenAsync_hs9j5r$.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$sceIoOpenAsync_hs9j5r$.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$sceIoOpenAsync_hs9j5r$.prototype.constructor = Coroutine$sceIoOpenAsync_hs9j5r$;
+  Coroutine$sceIoOpenAsync_hs9j5r$.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            var $this = this.$this.logger;
+            var level = LogLevel.ERROR;
+            if (level.index <= $this.processedLevel.index) {
+              $this.actualLog_t189ph$(level, 'sceIoOpenAsync:' + toString(this.local$filename) + ',' + this.local$flags + ',' + this.local$mode);
+            }
+
+            var fid = this.$this.fileDescriptors.alloc().id;
+            this.state_0 = 2;
+            this.result_0 = this.$this.async_fd2017$(fid, 'sceIoOpenAsync', IoFileMgrForUser$sceIoOpenAsync$lambda(fid, this.local$filename, this.local$flags, this.local$mode, this.$this), this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            return this.result_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  function IoFileMgrForUser$sceIoReadAsync$lambda(closure$fileId_0, closure$outputPointer_0, closure$outputLength_0, this$IoFileMgrForUser_0) {
+    return function (continuation_0, suspended) {
+      var instance = new Coroutine$IoFileMgrForUser$sceIoReadAsync$lambda(closure$fileId_0, closure$outputPointer_0, closure$outputLength_0, this$IoFileMgrForUser_0, continuation_0);
+      if (suspended)
+        return instance;
+      else
+        return instance.doResume(null);
+    };
+  }
+  function Coroutine$IoFileMgrForUser$sceIoReadAsync$lambda(closure$fileId_0, closure$outputPointer_0, closure$outputLength_0, this$IoFileMgrForUser_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.local$closure$fileId = closure$fileId_0;
+    this.local$closure$outputPointer = closure$outputPointer_0;
+    this.local$closure$outputLength = closure$outputLength_0;
+    this.local$this$IoFileMgrForUser = this$IoFileMgrForUser_0;
+  }
+  Coroutine$IoFileMgrForUser$sceIoReadAsync$lambda.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$IoFileMgrForUser$sceIoReadAsync$lambda.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$IoFileMgrForUser$sceIoReadAsync$lambda.prototype.constructor = Coroutine$IoFileMgrForUser$sceIoReadAsync$lambda;
+  Coroutine$IoFileMgrForUser$sceIoReadAsync$lambda.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 2;
+            this.result_0 = this.local$this$IoFileMgrForUser.sceIoRead_xjseqw$(this.local$closure$fileId, this.local$closure$outputPointer, this.local$closure$outputLength, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            var res = this.result_0;
+            var $this = this.local$this$IoFileMgrForUser.logger;
+            var level = LogLevel.ERROR;
+            if (level.index <= $this.processedLevel.index) {
+              $this.actualLog_t189ph$(level, 'sceIoReadAsync --> ' + res);
+            }
+
+            return Kotlin.Long.ZERO;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  IoFileMgrForUser.prototype.sceIoReadAsync_xjseqw$ = function (fileId_0, outputPointer_0, outputLength_0, continuation_0, suspended) {
+    var instance = new Coroutine$sceIoReadAsync_xjseqw$(this, fileId_0, outputPointer_0, outputLength_0, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  };
+  function Coroutine$sceIoReadAsync_xjseqw$($this, fileId_0, outputPointer_0, outputLength_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.$this = $this;
+    this.local$fileId = fileId_0;
+    this.local$outputPointer = outputPointer_0;
+    this.local$outputLength = outputLength_0;
+  }
+  Coroutine$sceIoReadAsync_xjseqw$.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$sceIoReadAsync_xjseqw$.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$sceIoReadAsync_xjseqw$.prototype.constructor = Coroutine$sceIoReadAsync_xjseqw$;
+  Coroutine$sceIoReadAsync_xjseqw$.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            var $this = this.$this.logger;
+            var level = LogLevel.ERROR;
+            if (level.index <= $this.processedLevel.index) {
+              $this.actualLog_t189ph$(level, 'sceIoReadAsync:' + this.local$fileId + ',' + this.local$outputPointer + ',' + this.local$outputLength);
+            }
+
+            this.state_0 = 2;
+            this.result_0 = this.$this.async_fd2017$(this.local$fileId, 'sceIoReadAsync', IoFileMgrForUser$sceIoReadAsync$lambda(this.local$fileId, this.local$outputPointer, this.local$outputLength, this.$this), this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            return this.result_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  IoFileMgrForUser.prototype.sceIoPollAsync_o62i3q$ = function (fd, out) {
+    var tmp$, tmp$_0;
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceIoPollAsync:' + fd + ',' + out);
+    }
+    var res = this.fileDescriptors.tryGetById_za3lpa$(fd);
+    out.sdw_6svq3l$(0, (tmp$ = res != null ? res.asyncResult : null) != null ? tmp$ : Kotlin.Long.ZERO);
+    if (res == null)
+      tmp$_0 = -1;
+    else if (res.asyncDone)
+      tmp$_0 = 0;
+    else
+      tmp$_0 = 1;
+    var outv = tmp$_0;
+    var $this_0 = this.logger;
+    var level_0 = LogLevel.ERROR;
+    if (level_0.index <= $this_0.processedLevel.index) {
+      $this_0.actualLog_t189ph$(level_0, '   sceIoPollAsync:' + fd + ',' + out + ' -> valid=' + (res != null) + ' :: ' + toString(res != null ? res.asyncResult : null) + ' -> ' + outv);
+    }
+    return outv;
+  };
   IoFileMgrForUser.prototype.sceIoGetDevType_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(146633588);
   };
@@ -19836,9 +21691,6 @@
   };
   IoFileMgrForUser.prototype.sceIoLseek32Async_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(456678799);
-  };
-  IoFileMgrForUser.prototype.sceIoPollAsync_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(844229206);
   };
   IoFileMgrForUser.prototype.sceIoWaitAsyncCB_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(903599942);
@@ -19857,12 +21709,6 @@
   };
   IoFileMgrForUser.prototype.sceIoRename_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(2005992352);
-  };
-  IoFileMgrForUser.prototype.sceIoOpenAsync_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1985308410, 0));
-  };
-  IoFileMgrForUser.prototype.sceIoReadAsync_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1598707774, 0));
   };
   IoFileMgrForUser.prototype.sceIoSetAsyncCallback_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1591081708, 0));
@@ -20318,7 +22164,7 @@
         switch (this.state_0) {
           case 0:
             this.state_0 = 2;
-            this.result_0 = this.local$this$IoFileMgrForUser.sceIoDopen_pdl1vj$(this.local$$receiver.str, this);
+            this.result_0 = this.local$this$IoFileMgrForUser.sceIoOpenAsync_hs9j5r$(this.local$$receiver.str, this.local$$receiver.int, this.local$$receiver.int, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -20367,7 +22213,7 @@
         switch (this.state_0) {
           case 0:
             this.state_0 = 2;
-            this.result_0 = this.local$this$IoFileMgrForUser.sceIoDread_o62i3q$(this.local$$receiver.int, this.local$$receiver.ptr, this);
+            this.result_0 = this.local$this$IoFileMgrForUser.sceIoReadAsync_xjseqw$(this.local$$receiver.int, this.local$$receiver.ptr, this.local$$receiver.int, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -20387,7 +22233,18 @@
       }
      while (true);
   };
-  function IoFileMgrForUser$registerModule$lambda_9(this$IoFileMgrForUser_0) {
+  function IoFileMgrForUser$registerModule$lambda_9(this$IoFileMgrForUser) {
+    return function ($receiver, it) {
+      return this$IoFileMgrForUser.sceIoPollAsync_o62i3q$($receiver.int, $receiver.ptr);
+    };
+  }
+  function IoFileMgrForUser$registerModule$lambda_10(this$IoFileMgrForUser) {
+    return function (it) {
+      this$IoFileMgrForUser.sceIoCloseAsync_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function IoFileMgrForUser$registerModule$lambda_11(this$IoFileMgrForUser_0) {
     return function ($receiver_0, it, continuation_0, suspended) {
       var instance = new Coroutine$IoFileMgrForUser$registerModule$lambda_9(this$IoFileMgrForUser_0, $receiver_0, it, this, continuation_0);
       if (suspended)
@@ -20416,7 +22273,7 @@
         switch (this.state_0) {
           case 0:
             this.state_0 = 2;
-            this.result_0 = this.local$this$IoFileMgrForUser.sceIoDclose_za3lpa$(this.local$$receiver.int, this);
+            this.result_0 = this.local$this$IoFileMgrForUser.sceIoDopen_pdl1vj$(this.local$$receiver.str, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -20436,7 +22293,7 @@
       }
      while (true);
   };
-  function IoFileMgrForUser$registerModule$lambda_10(this$IoFileMgrForUser_0) {
+  function IoFileMgrForUser$registerModule$lambda_12(this$IoFileMgrForUser_0) {
     return function ($receiver_0, it, continuation_0, suspended) {
       var instance = new Coroutine$IoFileMgrForUser$registerModule$lambda_10(this$IoFileMgrForUser_0, $receiver_0, it, this, continuation_0);
       if (suspended)
@@ -20465,7 +22322,7 @@
         switch (this.state_0) {
           case 0:
             this.state_0 = 2;
-            this.result_0 = this.local$this$IoFileMgrForUser.sceIoMkdir_pdl1vj$(this.local$$receiver.str, this);
+            this.result_0 = this.local$this$IoFileMgrForUser.sceIoDread_o62i3q$(this.local$$receiver.int, this.local$$receiver.ptr, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -20485,7 +22342,7 @@
       }
      while (true);
   };
-  function IoFileMgrForUser$registerModule$lambda_11(this$IoFileMgrForUser_0) {
+  function IoFileMgrForUser$registerModule$lambda_13(this$IoFileMgrForUser_0) {
     return function ($receiver_0, it, continuation_0, suspended) {
       var instance = new Coroutine$IoFileMgrForUser$registerModule$lambda_11(this$IoFileMgrForUser_0, $receiver_0, it, this, continuation_0);
       if (suspended)
@@ -20514,7 +22371,7 @@
         switch (this.state_0) {
           case 0:
             this.state_0 = 2;
-            this.result_0 = this.local$this$IoFileMgrForUser.sceIoRmdir_pdl1vj$(this.local$$receiver.str, this);
+            this.result_0 = this.local$this$IoFileMgrForUser.sceIoDclose_za3lpa$(this.local$$receiver.int, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -20534,7 +22391,7 @@
       }
      while (true);
   };
-  function IoFileMgrForUser$registerModule$lambda_12(this$IoFileMgrForUser_0) {
+  function IoFileMgrForUser$registerModule$lambda_14(this$IoFileMgrForUser_0) {
     return function ($receiver_0, it, continuation_0, suspended) {
       var instance = new Coroutine$IoFileMgrForUser$registerModule$lambda_12(this$IoFileMgrForUser_0, $receiver_0, it, this, continuation_0);
       if (suspended)
@@ -20563,6 +22420,104 @@
         switch (this.state_0) {
           case 0:
             this.state_0 = 2;
+            this.result_0 = this.local$this$IoFileMgrForUser.sceIoMkdir_pdl1vj$(this.local$$receiver.str, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            return this.result_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  function IoFileMgrForUser$registerModule$lambda_15(this$IoFileMgrForUser_0) {
+    return function ($receiver_0, it, continuation_0, suspended) {
+      var instance = new Coroutine$IoFileMgrForUser$registerModule$lambda_13(this$IoFileMgrForUser_0, $receiver_0, it, this, continuation_0);
+      if (suspended)
+        return instance;
+      else
+        return instance.doResume(null);
+    };
+  }
+  function Coroutine$IoFileMgrForUser$registerModule$lambda_13(this$IoFileMgrForUser_0, $receiver_0, it, controller, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.$controller = controller;
+    this.exceptionState_0 = 1;
+    this.local$this$IoFileMgrForUser = this$IoFileMgrForUser_0;
+    this.local$$receiver = $receiver_0;
+  }
+  Coroutine$IoFileMgrForUser$registerModule$lambda_13.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$IoFileMgrForUser$registerModule$lambda_13.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$IoFileMgrForUser$registerModule$lambda_13.prototype.constructor = Coroutine$IoFileMgrForUser$registerModule$lambda_13;
+  Coroutine$IoFileMgrForUser$registerModule$lambda_13.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 2;
+            this.result_0 = this.local$this$IoFileMgrForUser.sceIoRmdir_pdl1vj$(this.local$$receiver.str, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            return this.result_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  function IoFileMgrForUser$registerModule$lambda_16(this$IoFileMgrForUser_0) {
+    return function ($receiver_0, it, continuation_0, suspended) {
+      var instance = new Coroutine$IoFileMgrForUser$registerModule$lambda_14(this$IoFileMgrForUser_0, $receiver_0, it, this, continuation_0);
+      if (suspended)
+        return instance;
+      else
+        return instance.doResume(null);
+    };
+  }
+  function Coroutine$IoFileMgrForUser$registerModule$lambda_14(this$IoFileMgrForUser_0, $receiver_0, it, controller, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.$controller = controller;
+    this.exceptionState_0 = 1;
+    this.local$this$IoFileMgrForUser = this$IoFileMgrForUser_0;
+    this.local$$receiver = $receiver_0;
+  }
+  Coroutine$IoFileMgrForUser$registerModule$lambda_14.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$IoFileMgrForUser$registerModule$lambda_14.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$IoFileMgrForUser$registerModule$lambda_14.prototype.constructor = Coroutine$IoFileMgrForUser$registerModule$lambda_14;
+  Coroutine$IoFileMgrForUser$registerModule$lambda_14.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 2;
             this.result_0 = this.local$this$IoFileMgrForUser.sceIoChdir_pdl1vj$(this.local$$receiver.str, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
@@ -20583,141 +22538,117 @@
       }
      while (true);
   };
-  function IoFileMgrForUser$registerModule$lambda_13(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_17(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoGetDevType_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_14(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_18(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoWriteAsync_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_15(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_19(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoLseek32Async_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_16(this$IoFileMgrForUser) {
-    return function (it) {
-      this$IoFileMgrForUser.sceIoPollAsync_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function IoFileMgrForUser$registerModule$lambda_17(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_20(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoWaitAsyncCB_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_18(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_21(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoGetFdList_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_19(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_22(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoIoctl_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_20(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_23(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoUnassign_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_21(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_24(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoLseekAsync_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_22(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_25(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoRename_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_23(this$IoFileMgrForUser) {
-    return function (it) {
-      this$IoFileMgrForUser.sceIoOpenAsync_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function IoFileMgrForUser$registerModule$lambda_24(this$IoFileMgrForUser) {
-    return function (it) {
-      this$IoFileMgrForUser.sceIoReadAsync_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function IoFileMgrForUser$registerModule$lambda_25(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_26(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoSetAsyncCallback_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_26(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_27(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoSync_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_27(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_28(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoChangeAsyncPriority_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_28(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_29(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoAssign_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_29(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_30(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoChstat_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_30(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_31(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoGetAsyncStat_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_31(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_32(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoWaitAsync_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_32(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_33(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoCancel_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_33(this$IoFileMgrForUser) {
+  function IoFileMgrForUser$registerModule$lambda_34(this$IoFileMgrForUser) {
     return function (it) {
       this$IoFileMgrForUser.sceIoIoctlAsync_xt3zvs$(it);
       return Unit;
     };
   }
-  function IoFileMgrForUser$registerModule$lambda_34(this$IoFileMgrForUser) {
-    return function (it) {
-      this$IoFileMgrForUser.sceIoRemove_xt3zvs$(it);
-      return Unit;
-    };
-  }
   function IoFileMgrForUser$registerModule$lambda_35(this$IoFileMgrForUser) {
     return function (it) {
-      this$IoFileMgrForUser.sceIoCloseAsync_xt3zvs$(it);
+      this$IoFileMgrForUser.sceIoRemove_xt3zvs$(it);
       return Unit;
     };
   }
@@ -20730,35 +22661,35 @@
     this.registerFunctionSuspendInt_q1rm4a$('sceIoRead', Kotlin.Long.fromInt(1784909187), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_4(this));
     this.registerFunctionSuspendInt_q1rm4a$('sceIoClose', new Kotlin.Long(-2129900605, 0), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_5(this));
     this.registerFunctionSuspendInt_q1rm4a$('sceIoGetstat', new Kotlin.Long(-1393998104, 0), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_6(this));
-    this.registerFunctionSuspendInt_q1rm4a$('sceIoDopen', new Kotlin.Long(-1298276452, 0), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_7(this));
-    this.registerFunctionSuspendInt_q1rm4a$('sceIoDread', new Kotlin.Long(-471138228, 0), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_8(this));
-    this.registerFunctionSuspendInt_q1rm4a$('sceIoDclose', new Kotlin.Long(-351722391, 0), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_9(this));
-    this.registerFunctionSuspendInt_q1rm4a$('sceIoMkdir', Kotlin.Long.fromInt(111607812), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_10(this));
-    this.registerFunctionSuspendInt_q1rm4a$('sceIoRmdir', Kotlin.Long.fromInt(286770783), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_11(this));
-    this.registerFunctionSuspendInt_q1rm4a$('sceIoChdir', Kotlin.Long.fromInt(1442083197), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_12(this));
-    this.registerFunctionRaw_gh35x6$('sceIoGetDevType', Kotlin.Long.fromInt(146633588), 150, void 0, IoFileMgrForUser$registerModule$lambda_13(this));
-    this.registerFunctionRaw_gh35x6$('sceIoWriteAsync', Kotlin.Long.fromInt(262974233), 150, void 0, IoFileMgrForUser$registerModule$lambda_14(this));
-    this.registerFunctionRaw_gh35x6$('sceIoLseek32Async', Kotlin.Long.fromInt(456678799), 150, void 0, IoFileMgrForUser$registerModule$lambda_15(this));
-    this.registerFunctionRaw_gh35x6$('sceIoPollAsync', Kotlin.Long.fromInt(844229206), 150, void 0, IoFileMgrForUser$registerModule$lambda_16(this));
-    this.registerFunctionRaw_gh35x6$('sceIoWaitAsyncCB', Kotlin.Long.fromInt(903599942), 150, void 0, IoFileMgrForUser$registerModule$lambda_17(this));
-    this.registerFunctionRaw_gh35x6$('sceIoGetFdList', Kotlin.Long.fromInt(1546379980), 150, void 0, IoFileMgrForUser$registerModule$lambda_18(this));
-    this.registerFunctionRaw_gh35x6$('sceIoIoctl', Kotlin.Long.fromInt(1667441737), 150, void 0, IoFileMgrForUser$registerModule$lambda_19(this));
-    this.registerFunctionRaw_gh35x6$('sceIoUnassign', Kotlin.Long.fromInt(1829283953), 150, void 0, IoFileMgrForUser$registerModule$lambda_20(this));
-    this.registerFunctionRaw_gh35x6$('sceIoLseekAsync', Kotlin.Long.fromInt(1907465847), 150, void 0, IoFileMgrForUser$registerModule$lambda_21(this));
-    this.registerFunctionRaw_gh35x6$('sceIoRename', Kotlin.Long.fromInt(2005992352), 150, void 0, IoFileMgrForUser$registerModule$lambda_22(this));
-    this.registerFunctionRaw_gh35x6$('sceIoOpenAsync', new Kotlin.Long(-1985308410, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_23(this));
-    this.registerFunctionRaw_gh35x6$('sceIoReadAsync', new Kotlin.Long(-1598707774, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_24(this));
-    this.registerFunctionRaw_gh35x6$('sceIoSetAsyncCallback', new Kotlin.Long(-1591081708, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_25(this));
-    this.registerFunctionRaw_gh35x6$('sceIoSync', new Kotlin.Long(-1416215681, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_26(this));
-    this.registerFunctionRaw_gh35x6$('sceIoChangeAsyncPriority', new Kotlin.Long(-1298959745, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_27(this));
-    this.registerFunctionRaw_gh35x6$('sceIoAssign', new Kotlin.Long(-1297733439, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_28(this));
-    this.registerFunctionRaw_gh35x6$('sceIoChstat', new Kotlin.Long(-1196998412, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_29(this));
-    this.registerFunctionRaw_gh35x6$('sceIoGetAsyncStat', new Kotlin.Long(-888801066, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_30(this));
-    this.registerFunctionRaw_gh35x6$('sceIoWaitAsync', new Kotlin.Long(-499192781, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_31(this));
-    this.registerFunctionRaw_gh35x6$('sceIoCancel', new Kotlin.Long(-390306447, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_32(this));
-    this.registerFunctionRaw_gh35x6$('sceIoIoctlAsync', new Kotlin.Long(-379977429, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_33(this));
-    this.registerFunctionRaw_gh35x6$('sceIoRemove', new Kotlin.Long(-226845615, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_34(this));
-    this.registerFunctionRaw_gh35x6$('sceIoCloseAsync', new Kotlin.Long(-10927946, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_35(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceIoOpenAsync', new Kotlin.Long(-1985308410, 0), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_7(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceIoReadAsync', new Kotlin.Long(-1598707774, 0), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_8(this));
+    this.registerFunctionInt_9l82lv$('sceIoPollAsync', Kotlin.Long.fromInt(844229206), 150, void 0, IoFileMgrForUser$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceIoCloseAsync', new Kotlin.Long(-10927946, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_10(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceIoDopen', new Kotlin.Long(-1298276452, 0), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_11(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceIoDread', new Kotlin.Long(-471138228, 0), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_12(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceIoDclose', new Kotlin.Long(-351722391, 0), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_13(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceIoMkdir', Kotlin.Long.fromInt(111607812), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_14(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceIoRmdir', Kotlin.Long.fromInt(286770783), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_15(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceIoChdir', Kotlin.Long.fromInt(1442083197), 150, void 0, void 0, IoFileMgrForUser$registerModule$lambda_16(this));
+    this.registerFunctionRaw_gh35x6$('sceIoGetDevType', Kotlin.Long.fromInt(146633588), 150, void 0, IoFileMgrForUser$registerModule$lambda_17(this));
+    this.registerFunctionRaw_gh35x6$('sceIoWriteAsync', Kotlin.Long.fromInt(262974233), 150, void 0, IoFileMgrForUser$registerModule$lambda_18(this));
+    this.registerFunctionRaw_gh35x6$('sceIoLseek32Async', Kotlin.Long.fromInt(456678799), 150, void 0, IoFileMgrForUser$registerModule$lambda_19(this));
+    this.registerFunctionRaw_gh35x6$('sceIoWaitAsyncCB', Kotlin.Long.fromInt(903599942), 150, void 0, IoFileMgrForUser$registerModule$lambda_20(this));
+    this.registerFunctionRaw_gh35x6$('sceIoGetFdList', Kotlin.Long.fromInt(1546379980), 150, void 0, IoFileMgrForUser$registerModule$lambda_21(this));
+    this.registerFunctionRaw_gh35x6$('sceIoIoctl', Kotlin.Long.fromInt(1667441737), 150, void 0, IoFileMgrForUser$registerModule$lambda_22(this));
+    this.registerFunctionRaw_gh35x6$('sceIoUnassign', Kotlin.Long.fromInt(1829283953), 150, void 0, IoFileMgrForUser$registerModule$lambda_23(this));
+    this.registerFunctionRaw_gh35x6$('sceIoLseekAsync', Kotlin.Long.fromInt(1907465847), 150, void 0, IoFileMgrForUser$registerModule$lambda_24(this));
+    this.registerFunctionRaw_gh35x6$('sceIoRename', Kotlin.Long.fromInt(2005992352), 150, void 0, IoFileMgrForUser$registerModule$lambda_25(this));
+    this.registerFunctionRaw_gh35x6$('sceIoSetAsyncCallback', new Kotlin.Long(-1591081708, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_26(this));
+    this.registerFunctionRaw_gh35x6$('sceIoSync', new Kotlin.Long(-1416215681, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_27(this));
+    this.registerFunctionRaw_gh35x6$('sceIoChangeAsyncPriority', new Kotlin.Long(-1298959745, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_28(this));
+    this.registerFunctionRaw_gh35x6$('sceIoAssign', new Kotlin.Long(-1297733439, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_29(this));
+    this.registerFunctionRaw_gh35x6$('sceIoChstat', new Kotlin.Long(-1196998412, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_30(this));
+    this.registerFunctionRaw_gh35x6$('sceIoGetAsyncStat', new Kotlin.Long(-888801066, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_31(this));
+    this.registerFunctionRaw_gh35x6$('sceIoWaitAsync', new Kotlin.Long(-499192781, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_32(this));
+    this.registerFunctionRaw_gh35x6$('sceIoCancel', new Kotlin.Long(-390306447, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_33(this));
+    this.registerFunctionRaw_gh35x6$('sceIoIoctlAsync', new Kotlin.Long(-379977429, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_34(this));
+    this.registerFunctionRaw_gh35x6$('sceIoRemove', new Kotlin.Long(-226845615, 0), 150, void 0, IoFileMgrForUser$registerModule$lambda_35(this));
   };
   IoFileMgrForUser.$metadata$ = {
     kind: Kind_CLASS,
@@ -22088,6 +24019,21 @@
     thread.start();
     return 0;
   };
+  ThreadManForUser.prototype.sceKernelExitThread_3bjp42$ = function (thread, exitStatus) {
+    thread.exitStatus = exitStatus;
+    thread.stop_61zpoe$();
+    get_threadManager(this).suspend();
+  };
+  ThreadManForUser.prototype.sceKernelChangeThreadPriority_vux9f0$ = function (threadId, priority) {
+    var tmp$;
+    tmp$ = get_threadManager(this).tryGetById_za3lpa$(threadId);
+    if (tmp$ == null) {
+      return SceKernelErrors_getInstance().ERROR_KERNEL_NOT_FOUND_THREAD;
+    }
+    var thread = tmp$;
+    thread.priority = priority;
+    return 0;
+  };
   ThreadManForUser.prototype.sceKernelDeleteThread_za3lpa$ = function (threadId) {
     get_threadManager(this).getById_za3lpa$(threadId).delete();
     return 0;
@@ -22187,7 +24133,29 @@
     return this._sceKernelWaitThreadEnd_cyzw2l$(currentThread, threadId, timeout, true, continuation);
   };
   ThreadManForUser.prototype.sceKernelReferThreadStatus_o62i3q$ = function (threadId, out) {
-    this.logger.fatal_61zpoe$('Not implemented: sceKernelReferThreadStatus');
+    var thread = get_threadManager(this).getById_za3lpa$(threadId);
+    var info = new SceKernelThreadInfo();
+    info.size = SceKernelThreadInfo$Companion_getInstance().size;
+    info.name = thread.name;
+    info.attributes = thread.attributes;
+    info.status = thread.status;
+    info.threadPreemptionCount = thread.preemptionCount;
+    info.entryPoint = thread.entryPoint;
+    info.stackPointer = numberToInt(thread.stack.high);
+    info.stackSize = numberToInt(thread.stack.size);
+    info.GP = get_GP(thread.state);
+    info.priorityInit = thread.initPriority;
+    info.priority = thread.priority;
+    info.waitType = 0;
+    info.waitId = 0;
+    info.wakeupCount = 0;
+    info.exitStatus = thread.exitStatus;
+    info.runClocksLow = 0;
+    info.runClocksHigh = 0;
+    info.interruptPreemptionCount = 0;
+    info.threadPreemptionCount = 0;
+    info.releaseCount = 0;
+    write(out, SceKernelThreadInfo$Companion_getInstance(), info);
     return 0;
   };
   ThreadManForUser.prototype.sceKernelGetThreadId_6r5tao$ = function (thread) {
@@ -22320,6 +24288,10 @@
     sema.free();
     return 0;
   };
+  ThreadManForUser.prototype.sceKernelChangeCurrentThreadAttr_4hsnk$ = function (currentThread, removeAttributes, addAttributes) {
+    currentThread.attributes = currentThread.attributes & ~removeAttributes | addAttributes;
+    return 0;
+  };
   ThreadManForUser.prototype.sceKernelGetVTimerTime_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(55218719);
   };
@@ -22449,9 +24421,6 @@
   ThreadManForUser.prototype.ThreadManForUser_71040D5C_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1896090972);
   };
-  ThreadManForUser.prototype.sceKernelChangeThreadPriority_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(1908185201);
-  };
   ThreadManForUser.prototype.sceKernelReleaseThreadEventHandler_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1928577349);
   };
@@ -22529,9 +24498,6 @@
   };
   ThreadManForUser.prototype.sceKernelReferMutexStatus_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1446851686, 0));
-  };
-  ThreadManForUser.prototype.sceKernelExitThread_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1435252427, 0));
   };
   ThreadManForUser.prototype.sceKernelTryAllocateVpl_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1355360504, 0));
@@ -22625,9 +24591,6 @@
   };
   ThreadManForUser.prototype.sceKernelSendMbx_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-374143458, 0));
-  };
-  ThreadManForUser.prototype.sceKernelChangeCurrentThreadAttr_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-361460175, 0));
   };
   ThreadManForUser.prototype.sceKernelAllocateVplCB_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-334862017, 0));
@@ -22827,15 +24790,26 @@
   }
   function ThreadManForUser$registerModule$lambda_14(this$ThreadManForUser) {
     return function ($receiver, it) {
-      return this$ThreadManForUser.sceKernelCreateCallback_z7cldz$($receiver.str, $receiver.ptr, $receiver.int);
+      this$ThreadManForUser.sceKernelExitThread_3bjp42$($receiver.thread, $receiver.int);
+      return Unit;
     };
   }
   function ThreadManForUser$registerModule$lambda_15(this$ThreadManForUser) {
     return function ($receiver, it) {
+      return this$ThreadManForUser.sceKernelChangeCurrentThreadAttr_4hsnk$($receiver.thread, $receiver.int, $receiver.int);
+    };
+  }
+  function ThreadManForUser$registerModule$lambda_16(this$ThreadManForUser) {
+    return function ($receiver, it) {
+      return this$ThreadManForUser.sceKernelCreateCallback_z7cldz$($receiver.str, $receiver.ptr, $receiver.int);
+    };
+  }
+  function ThreadManForUser$registerModule$lambda_17(this$ThreadManForUser) {
+    return function ($receiver, it) {
       return this$ThreadManForUser.sceKernelCreateSema_4xo6md$($receiver.str, $receiver.int, $receiver.int, $receiver.int, $receiver.ptr);
     };
   }
-  function ThreadManForUser$registerModule$lambda_16(this$ThreadManForUser_0) {
+  function ThreadManForUser$registerModule$lambda_18(this$ThreadManForUser_0) {
     return function ($receiver_0, it, continuation_0, suspended) {
       var instance = new Coroutine$ThreadManForUser$registerModule$lambda_1(this$ThreadManForUser_0, $receiver_0, it, this, continuation_0);
       if (suspended)
@@ -22884,7 +24858,7 @@
       }
      while (true);
   };
-  function ThreadManForUser$registerModule$lambda_17(this$ThreadManForUser_0) {
+  function ThreadManForUser$registerModule$lambda_19(this$ThreadManForUser_0) {
     return function ($receiver_0, it, continuation_0, suspended) {
       var instance = new Coroutine$ThreadManForUser$registerModule$lambda_2(this$ThreadManForUser_0, $receiver_0, it, this, continuation_0);
       if (suspended)
@@ -22933,625 +24907,612 @@
       }
      while (true);
   };
-  function ThreadManForUser$registerModule$lambda_18(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_20(this$ThreadManForUser) {
     return function ($receiver, it) {
       return this$ThreadManForUser.sceKernelSignalSema_4hsnk$($receiver.thread, $receiver.int, $receiver.int);
     };
   }
-  function ThreadManForUser$registerModule$lambda_19(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_21(this$ThreadManForUser) {
     return function ($receiver, it) {
       return this$ThreadManForUser.sceKernelDeleteSema_za3lpa$($receiver.int);
     };
   }
-  function ThreadManForUser$registerModule$lambda_20(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_22(this$ThreadManForUser) {
+    return function ($receiver, it) {
+      return this$ThreadManForUser.sceKernelChangeThreadPriority_vux9f0$($receiver.int, $receiver.int);
+    };
+  }
+  function ThreadManForUser$registerModule$lambda_23(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetVTimerTime_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_21(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_24(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelRegisterThreadEventHandler_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_22(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_25(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelPollMbx_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_23(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_26(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelTryLockMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_24(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_27(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser._sceKernelReturnFromTimerHandler_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_25(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_28(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelUSec2SysClock_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_26(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_29(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDelaySysClockThreadCB_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_27(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_30(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReceiveMbx_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_28(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_31(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCreateLwMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_29(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_32(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDonateWakeupThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_30(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_33(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelVpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_31(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_34(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCreateVTimer_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_32(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_35(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelResumeDispatchThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_33(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_36(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetCallbackCount_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_34(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_37(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReleaseWaitThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_35(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_38(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.ThreadManForUser_31327F19_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_36(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_39(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDeleteVTimer_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_37(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_40(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferMsgPipeStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_38(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_41(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelMsgPipe_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_39(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_42(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCheckCallback_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_40(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_43(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferThreadEventHandlerStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_41(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_44(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelTerminateDeleteThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_42(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_45(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferVplStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_43(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_46(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSuspendDispatchThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_44(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_47(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetThreadExitStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_45(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_48(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferLwMutexStatusByID_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_46(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_49(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetThreadStackFreeSize_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_47(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_50(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser._sceKernelExitThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_48(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_51(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSetVTimerHandlerWide_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_49(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_52(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSetVTimerTime_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_50(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_53(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCreateVpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_51(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_54(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetThreadmanIdType_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_52(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_55(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelPollSema_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_53(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_56(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelLockMutexCB_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_54(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_57(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferVTimerStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_55(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_58(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDeleteLwMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_56(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_59(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelTryAllocateFpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_57(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_60(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferSystemStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_58(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_61(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferThreadProfiler_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_59(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_62(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSetAlarm_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_60(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_63(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelUnlockMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_61(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_64(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser._sceKernelReturnFromCallback_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_62(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_65(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.ThreadManForUser_71040D5C_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_63(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelChangeThreadPriority_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_64(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_66(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReleaseThreadEventHandler_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_65(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_67(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferCallbackStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_66(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_68(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReceiveMsgPipe_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_67(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_69(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelResumeThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_68(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_70(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCreateMsgPipe_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_69(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_71(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSendMsgPipeCB_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_70(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_72(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.ThreadManForUser_7CFF8CF3_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_71(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_73(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelAlarm_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_72(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_74(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelExitDeleteThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_73(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_75(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCreateMbx_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_74(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_76(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferGlobalProfiler_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_75(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_77(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDeleteMbx_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_76(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_78(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.ThreadManForUser_8672E3D0_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_77(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_79(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSendMsgPipe_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_78(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_80(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelReceiveMbx_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_79(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_81(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_80(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_82(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelTrySendMsgPipe_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_81(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_83(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDeleteVpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_82(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_84(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelSema_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_83(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_85(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelRotateThreadReadyQueue_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_84(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_86(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetThreadmanIdList_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_85(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_87(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSuspendThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_86(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_88(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelFpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_87(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_89(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferMbxStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_88(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_90(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferMutexStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_89(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelExitThread_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser$registerModule$lambda_90(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_91(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelTryAllocateVpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_91(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_92(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelLockMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_92(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_93(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSetSysClockAlarm_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_93(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_94(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetVTimerBase_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_94(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_95(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelFreeVpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_95(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_96(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetVTimerBaseWide_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_96(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_97(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCreateMutex_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_97(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_98(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelCallback_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_98(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_99(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSysClock2USec_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_99(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_100(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferSemaStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_100(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_101(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelDelaySysClockThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_101(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_102(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelAllocateVpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_102(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_103(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.ThreadManForUser_BEED3A47_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_103(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_104(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCreateFpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_104(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_105(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetVTimerTimeWide_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_105(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_106(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelNotifyCallback_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_106(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_107(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelStartVTimer_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_107(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_108(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelUSec2SysClockWide_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_108(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_109(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelStopVTimer_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_109(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_110(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCheckThreadStack_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_110(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_111(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelCancelVTimerHandler_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_111(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_112(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelWakeupThread_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_112(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_113(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferFplStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_113(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_114(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSetVTimerHandler_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_114(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_115(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelAllocateFpl_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_115(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_116(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelReferAlarmStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_116(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_117(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelGetSystemTime_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_117(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_118(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelTryReceiveMsgPipe_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_118(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_119(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelSysClock2USecWide_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_119(this$ThreadManForUser) {
+  function ThreadManForUser$registerModule$lambda_120(this$ThreadManForUser) {
     return function (it) {
       this$ThreadManForUser.sceKernelAllocateFplCB_xt3zvs$(it);
       return Unit;
     };
   }
-  function ThreadManForUser$registerModule$lambda_120(this$ThreadManForUser) {
-    return function (it) {
-      this$ThreadManForUser.sceKernelSendMbx_xt3zvs$(it);
-      return Unit;
-    };
-  }
   function ThreadManForUser$registerModule$lambda_121(this$ThreadManForUser) {
     return function (it) {
-      this$ThreadManForUser.sceKernelChangeCurrentThreadAttr_xt3zvs$(it);
+      this$ThreadManForUser.sceKernelSendMbx_xt3zvs$(it);
       return Unit;
     };
   }
@@ -23638,114 +25599,114 @@
     this.registerFunctionInt_9l82lv$('sceKernelGetThreadId', Kotlin.Long.fromInt(691750328), 150, void 0, ThreadManForUser$registerModule$lambda_11(this));
     this.registerFunctionInt_9l82lv$('sceKernelTerminateThread', Kotlin.Long.fromInt(1633944506), 150, void 0, ThreadManForUser$registerModule$lambda_12(this));
     this.registerFunctionInt_9l82lv$('sceKernelDeleteThread', new Kotlin.Long(-1616888621, 0), 150, void 0, ThreadManForUser$registerModule$lambda_13(this));
-    this.registerFunctionInt_9l82lv$('sceKernelCreateCallback', new Kotlin.Long(-400773233, 0), 150, void 0, ThreadManForUser$registerModule$lambda_14(this));
-    this.registerFunctionInt_9l82lv$('sceKernelCreateSema', new Kotlin.Long(-690336863, 0), 150, void 0, ThreadManForUser$registerModule$lambda_15(this));
-    this.registerFunctionSuspendInt_q1rm4a$('sceKernelWaitSema', Kotlin.Long.fromInt(1312428293), 150, void 0, false, ThreadManForUser$registerModule$lambda_16(this));
-    this.registerFunctionSuspendInt_q1rm4a$('sceKernelWaitSemaCB', Kotlin.Long.fromInt(1830890412), 150, void 0, true, ThreadManForUser$registerModule$lambda_17(this));
-    this.registerFunctionInt_9l82lv$('sceKernelSignalSema', Kotlin.Long.fromInt(1062463040), 150, void 0, ThreadManForUser$registerModule$lambda_18(this));
-    this.registerFunctionInt_9l82lv$('sceKernelDeleteSema', Kotlin.Long.fromInt(683034780), 150, void 0, ThreadManForUser$registerModule$lambda_19(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerTime', Kotlin.Long.fromInt(55218719), 150, void 0, ThreadManForUser$registerModule$lambda_20(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelRegisterThreadEventHandler', Kotlin.Long.fromInt(202403411), 150, void 0, ThreadManForUser$registerModule$lambda_21(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelPollMbx', Kotlin.Long.fromInt(226586986), 150, void 0, ThreadManForUser$registerModule$lambda_22(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelTryLockMutex', Kotlin.Long.fromInt(232575689), 150, void 0, ThreadManForUser$registerModule$lambda_23(this));
-    this.registerFunctionRaw_gh35x6$('_sceKernelReturnFromTimerHandler', Kotlin.Long.fromInt(244480749), 150, void 0, ThreadManForUser$registerModule$lambda_24(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUSec2SysClock', Kotlin.Long.fromInt(286125210), 150, void 0, ThreadManForUser$registerModule$lambda_25(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDelaySysClockThreadCB', Kotlin.Long.fromInt(293726563), 150, void 0, ThreadManForUser$registerModule$lambda_26(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReceiveMbx', Kotlin.Long.fromInt(405144948), 150, void 0, ThreadManForUser$registerModule$lambda_27(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateLwMutex', Kotlin.Long.fromInt(433058117), 150, void 0, ThreadManForUser$registerModule$lambda_28(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDonateWakeupThread', Kotlin.Long.fromInt(452545795), 150, void 0, ThreadManForUser$registerModule$lambda_29(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelVpl', Kotlin.Long.fromInt(490150794), 150, void 0, ThreadManForUser$registerModule$lambda_30(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateVTimer', Kotlin.Long.fromInt(553645408), 150, void 0, ThreadManForUser$registerModule$lambda_31(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelResumeDispatchThread', Kotlin.Long.fromInt(669134530), 150, void 0, ThreadManForUser$registerModule$lambda_32(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetCallbackCount', Kotlin.Long.fromInt(708658431), 150, void 0, ThreadManForUser$registerModule$lambda_33(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReleaseWaitThread', Kotlin.Long.fromInt(741662803), 150, void 0, ThreadManForUser$registerModule$lambda_34(this));
-    this.registerFunctionRaw_gh35x6$('ThreadManForUser_31327F19', Kotlin.Long.fromInt(825392921), 150, void 0, ThreadManForUser$registerModule$lambda_35(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteVTimer', Kotlin.Long.fromInt(848272978), 150, void 0, ThreadManForUser$registerModule$lambda_36(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferMsgPipeStatus', Kotlin.Long.fromInt(868106276), 150, void 0, ThreadManForUser$registerModule$lambda_37(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelMsgPipe', Kotlin.Long.fromInt(882607693), 150, void 0, ThreadManForUser$registerModule$lambda_38(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCheckCallback', Kotlin.Long.fromInt(882732396), 150, void 0, ThreadManForUser$registerModule$lambda_39(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferThreadEventHandlerStatus', Kotlin.Long.fromInt(916384619), 150, void 0, ThreadManForUser$registerModule$lambda_40(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelTerminateDeleteThread', Kotlin.Long.fromInt(943684556), 150, void 0, ThreadManForUser$registerModule$lambda_41(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferVplStatus', Kotlin.Long.fromInt(964756069), 150, void 0, ThreadManForUser$registerModule$lambda_42(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSuspendDispatchThread', Kotlin.Long.fromInt(987073420), 150, void 0, ThreadManForUser$registerModule$lambda_43(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadExitStatus', Kotlin.Long.fromInt(991444518), 150, void 0, ThreadManForUser$registerModule$lambda_44(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferLwMutexStatusByID', Kotlin.Long.fromInt(1276401988), 150, void 0, ThreadManForUser$registerModule$lambda_45(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadStackFreeSize', Kotlin.Long.fromInt(1376296097), 150, void 0, ThreadManForUser$registerModule$lambda_46(this));
-    this.registerFunctionRaw_gh35x6$('_sceKernelExitThread', Kotlin.Long.fromInt(1395282478), 150, void 0, ThreadManForUser$registerModule$lambda_47(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetVTimerHandlerWide', Kotlin.Long.fromInt(1404047002), 150, void 0, ThreadManForUser$registerModule$lambda_48(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetVTimerTime', Kotlin.Long.fromInt(1412093488), 150, void 0, ThreadManForUser$registerModule$lambda_49(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateVpl', Kotlin.Long.fromInt(1455438261), 150, void 0, ThreadManForUser$registerModule$lambda_50(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadmanIdType', Kotlin.Long.fromInt(1473209053), 150, void 0, ThreadManForUser$registerModule$lambda_51(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelPollSema', Kotlin.Long.fromInt(1488058679), 150, void 0, ThreadManForUser$registerModule$lambda_52(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelLockMutexCB', Kotlin.Long.fromInt(1542774055), 150, void 0, ThreadManForUser$registerModule$lambda_53(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferVTimerStatus', Kotlin.Long.fromInt(1597161130), 150, void 0, ThreadManForUser$registerModule$lambda_54(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteLwMutex', Kotlin.Long.fromInt(1611691318), 150, void 0, ThreadManForUser$registerModule$lambda_55(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelTryAllocateFpl', Kotlin.Long.fromInt(1648027237), 150, void 0, ThreadManForUser$registerModule$lambda_56(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferSystemStatus', Kotlin.Long.fromInt(1652453178), 150, void 0, ThreadManForUser$registerModule$lambda_57(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferThreadProfiler', Kotlin.Long.fromInt(1691636750), 150, void 0, ThreadManForUser$registerModule$lambda_58(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetAlarm', Kotlin.Long.fromInt(1716697290), 150, void 0, ThreadManForUser$registerModule$lambda_59(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUnlockMutex', Kotlin.Long.fromInt(1798311951), 150, void 0, ThreadManForUser$registerModule$lambda_60(this));
-    this.registerFunctionRaw_gh35x6$('_sceKernelReturnFromCallback', Kotlin.Long.fromInt(1855890256), 150, void 0, ThreadManForUser$registerModule$lambda_61(this));
-    this.registerFunctionRaw_gh35x6$('ThreadManForUser_71040D5C', Kotlin.Long.fromInt(1896090972), 150, void 0, ThreadManForUser$registerModule$lambda_62(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelChangeThreadPriority', Kotlin.Long.fromInt(1908185201), 150, void 0, ThreadManForUser$registerModule$lambda_63(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReleaseThreadEventHandler', Kotlin.Long.fromInt(1928577349), 150, void 0, ThreadManForUser$registerModule$lambda_64(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferCallbackStatus', Kotlin.Long.fromInt(1930352828), 150, void 0, ThreadManForUser$registerModule$lambda_65(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReceiveMsgPipe', Kotlin.Long.fromInt(1954716534), 150, void 0, ThreadManForUser$registerModule$lambda_66(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelResumeThread', Kotlin.Long.fromInt(1964338831), 150, void 0, ThreadManForUser$registerModule$lambda_67(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateMsgPipe', Kotlin.Long.fromInt(2081276576), 150, void 0, ThreadManForUser$registerModule$lambda_68(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSendMsgPipeCB', Kotlin.Long.fromInt(2084696770), 150, void 0, ThreadManForUser$registerModule$lambda_69(this));
-    this.registerFunctionRaw_gh35x6$('ThreadManForUser_7CFF8CF3', Kotlin.Long.fromInt(2097122547), 150, void 0, ThreadManForUser$registerModule$lambda_70(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelAlarm', Kotlin.Long.fromInt(2120595865), 150, void 0, ThreadManForUser$registerModule$lambda_71(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelExitDeleteThread', new Kotlin.Long(-2137202021, 0), 150, void 0, ThreadManForUser$registerModule$lambda_72(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateMbx', new Kotlin.Long(-2128272867, 0), 150, void 0, ThreadManForUser$registerModule$lambda_73(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferGlobalProfiler', new Kotlin.Long(-2112310051, 0), 150, void 0, ThreadManForUser$registerModule$lambda_74(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteMbx', new Kotlin.Long(-2044372262, 0), 150, void 0, ThreadManForUser$registerModule$lambda_75(this));
-    this.registerFunctionRaw_gh35x6$('ThreadManForUser_8672E3D0', new Kotlin.Long(-2039290928, 0), 150, void 0, ThreadManForUser$registerModule$lambda_76(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSendMsgPipe', new Kotlin.Long(-2022850643, 0), 150, void 0, ThreadManForUser$registerModule$lambda_77(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelReceiveMbx', new Kotlin.Long(-2016092874, 0), 150, void 0, ThreadManForUser$registerModule$lambda_78(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelMutex', new Kotlin.Long(-2015813060, 0), 150, void 0, ThreadManForUser$registerModule$lambda_79(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelTrySendMsgPipe', new Kotlin.Long(-2008244336, 0), 150, void 0, ThreadManForUser$registerModule$lambda_80(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDeleteVpl', new Kotlin.Long(-1984703348, 0), 150, void 0, ThreadManForUser$registerModule$lambda_81(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelSema', new Kotlin.Long(-1879180894, 0), 150, void 0, ThreadManForUser$registerModule$lambda_82(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelRotateThreadReadyQueue', new Kotlin.Long(-1859955545, 0), 150, void 0, ThreadManForUser$registerModule$lambda_83(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadmanIdList', new Kotlin.Long(-1807654608, 0), 150, void 0, ThreadManForUser$registerModule$lambda_84(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSuspendThread', new Kotlin.Long(-1723534561, 0), 150, void 0, ThreadManForUser$registerModule$lambda_85(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelFpl', new Kotlin.Long(-1465231073, 0), 150, void 0, ThreadManForUser$registerModule$lambda_86(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferMbxStatus', new Kotlin.Long(-1461139386, 0), 150, void 0, ThreadManForUser$registerModule$lambda_87(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferMutexStatus', new Kotlin.Long(-1446851686, 0), 150, void 0, ThreadManForUser$registerModule$lambda_88(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelExitThread', new Kotlin.Long(-1435252427, 0), 150, void 0, ThreadManForUser$registerModule$lambda_89(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelTryAllocateVpl', new Kotlin.Long(-1355360504, 0), 150, void 0, ThreadManForUser$registerModule$lambda_90(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelLockMutex', new Kotlin.Long(-1341017825, 0), 150, void 0, ThreadManForUser$registerModule$lambda_91(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetSysClockAlarm', new Kotlin.Long(-1295888046, 0), 150, void 0, ThreadManForUser$registerModule$lambda_92(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerBase', new Kotlin.Long(-1280992912, 0), 150, void 0, ThreadManForUser$registerModule$lambda_93(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelFreeVpl', new Kotlin.Long(-1221137921, 0), 150, void 0, ThreadManForUser$registerModule$lambda_94(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerBaseWide', new Kotlin.Long(-1212052617, 0), 150, void 0, ThreadManForUser$registerModule$lambda_95(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateMutex', new Kotlin.Long(-1211066170, 0), 150, void 0, ThreadManForUser$registerModule$lambda_96(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelCallback', new Kotlin.Long(-1170189866, 0), 150, void 0, ThreadManForUser$registerModule$lambda_97(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSysClock2USec', new Kotlin.Long(-1167355166, 0), 150, void 0, ThreadManForUser$registerModule$lambda_98(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferSemaStatus', new Kotlin.Long(-1133515835, 0), 150, void 0, ThreadManForUser$registerModule$lambda_99(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDelaySysClockThread', new Kotlin.Long(-1122878050, 0), 150, void 0, ThreadManForUser$registerModule$lambda_100(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelAllocateVpl', new Kotlin.Long(-1093503947, 0), 150, void 0, ThreadManForUser$registerModule$lambda_101(this));
-    this.registerFunctionRaw_gh35x6$('ThreadManForUser_BEED3A47', new Kotlin.Long(-1091749305, 0), 150, void 0, ThreadManForUser$registerModule$lambda_102(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCreateFpl', new Kotlin.Long(-1065634704, 0), 150, void 0, ThreadManForUser$registerModule$lambda_103(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerTimeWide', new Kotlin.Long(-1061945390, 0), 150, void 0, ThreadManForUser$registerModule$lambda_104(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelNotifyCallback', new Kotlin.Long(-1055151932, 0), 150, void 0, ThreadManForUser$registerModule$lambda_105(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelStartVTimer', new Kotlin.Long(-963800009, 0), 150, void 0, ThreadManForUser$registerModule$lambda_106(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUSec2SysClockWide', new Kotlin.Long(-926083700, 0), 150, void 0, ThreadManForUser$registerModule$lambda_107(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelStopVTimer', new Kotlin.Long(-793842041, 0), 150, void 0, ThreadManForUser$registerModule$lambda_108(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCheckThreadStack', new Kotlin.Long(-784605547, 0), 150, void 0, ThreadManForUser$registerModule$lambda_109(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelCancelVTimerHandler', new Kotlin.Long(-757721617, 0), 150, void 0, ThreadManForUser$registerModule$lambda_110(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelWakeupThread', new Kotlin.Long(-711021265, 0), 150, void 0, ThreadManForUser$registerModule$lambda_111(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferFplStatus', new Kotlin.Long(-669409716, 0), 150, void 0, ThreadManForUser$registerModule$lambda_112(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetVTimerHandler', new Kotlin.Long(-659383890, 0), 150, void 0, ThreadManForUser$registerModule$lambda_113(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelAllocateFpl', new Kotlin.Long(-646321729, 0), 150, void 0, ThreadManForUser$registerModule$lambda_114(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReferAlarmStatus', new Kotlin.Long(-626789020, 0), 150, void 0, ThreadManForUser$registerModule$lambda_115(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetSystemTime', new Kotlin.Long(-613183691, 0), 150, void 0, ThreadManForUser$registerModule$lambda_116(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelTryReceiveMsgPipe', new Kotlin.Long(-548271729, 0), 150, void 0, ThreadManForUser$registerModule$lambda_117(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSysClock2USecWide', new Kotlin.Long(-513696388, 0), 150, void 0, ThreadManForUser$registerModule$lambda_118(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelAllocateFplCB', new Kotlin.Long(-416797514, 0), 150, void 0, ThreadManForUser$registerModule$lambda_119(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSendMbx', new Kotlin.Long(-374143458, 0), 150, void 0, ThreadManForUser$registerModule$lambda_120(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelChangeCurrentThreadAttr', new Kotlin.Long(-361460175, 0), 150, void 0, ThreadManForUser$registerModule$lambda_121(this));
+    this.registerFunctionVoid_dc3d86$('sceKernelExitThread', new Kotlin.Long(-1435252427, 0), 150, void 0, ThreadManForUser$registerModule$lambda_14(this));
+    this.registerFunctionInt_9l82lv$('sceKernelChangeCurrentThreadAttr', new Kotlin.Long(-361460175, 0), 150, void 0, ThreadManForUser$registerModule$lambda_15(this));
+    this.registerFunctionInt_9l82lv$('sceKernelCreateCallback', new Kotlin.Long(-400773233, 0), 150, void 0, ThreadManForUser$registerModule$lambda_16(this));
+    this.registerFunctionInt_9l82lv$('sceKernelCreateSema', new Kotlin.Long(-690336863, 0), 150, void 0, ThreadManForUser$registerModule$lambda_17(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceKernelWaitSema', Kotlin.Long.fromInt(1312428293), 150, void 0, false, ThreadManForUser$registerModule$lambda_18(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceKernelWaitSemaCB', Kotlin.Long.fromInt(1830890412), 150, void 0, true, ThreadManForUser$registerModule$lambda_19(this));
+    this.registerFunctionInt_9l82lv$('sceKernelSignalSema', Kotlin.Long.fromInt(1062463040), 150, void 0, ThreadManForUser$registerModule$lambda_20(this));
+    this.registerFunctionInt_9l82lv$('sceKernelDeleteSema', Kotlin.Long.fromInt(683034780), 150, void 0, ThreadManForUser$registerModule$lambda_21(this));
+    this.registerFunctionInt_9l82lv$('sceKernelChangeThreadPriority', Kotlin.Long.fromInt(1908185201), 150, void 0, ThreadManForUser$registerModule$lambda_22(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerTime', Kotlin.Long.fromInt(55218719), 150, void 0, ThreadManForUser$registerModule$lambda_23(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelRegisterThreadEventHandler', Kotlin.Long.fromInt(202403411), 150, void 0, ThreadManForUser$registerModule$lambda_24(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelPollMbx', Kotlin.Long.fromInt(226586986), 150, void 0, ThreadManForUser$registerModule$lambda_25(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelTryLockMutex', Kotlin.Long.fromInt(232575689), 150, void 0, ThreadManForUser$registerModule$lambda_26(this));
+    this.registerFunctionRaw_gh35x6$('_sceKernelReturnFromTimerHandler', Kotlin.Long.fromInt(244480749), 150, void 0, ThreadManForUser$registerModule$lambda_27(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUSec2SysClock', Kotlin.Long.fromInt(286125210), 150, void 0, ThreadManForUser$registerModule$lambda_28(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDelaySysClockThreadCB', Kotlin.Long.fromInt(293726563), 150, void 0, ThreadManForUser$registerModule$lambda_29(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReceiveMbx', Kotlin.Long.fromInt(405144948), 150, void 0, ThreadManForUser$registerModule$lambda_30(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCreateLwMutex', Kotlin.Long.fromInt(433058117), 150, void 0, ThreadManForUser$registerModule$lambda_31(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDonateWakeupThread', Kotlin.Long.fromInt(452545795), 150, void 0, ThreadManForUser$registerModule$lambda_32(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelVpl', Kotlin.Long.fromInt(490150794), 150, void 0, ThreadManForUser$registerModule$lambda_33(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCreateVTimer', Kotlin.Long.fromInt(553645408), 150, void 0, ThreadManForUser$registerModule$lambda_34(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelResumeDispatchThread', Kotlin.Long.fromInt(669134530), 150, void 0, ThreadManForUser$registerModule$lambda_35(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetCallbackCount', Kotlin.Long.fromInt(708658431), 150, void 0, ThreadManForUser$registerModule$lambda_36(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReleaseWaitThread', Kotlin.Long.fromInt(741662803), 150, void 0, ThreadManForUser$registerModule$lambda_37(this));
+    this.registerFunctionRaw_gh35x6$('ThreadManForUser_31327F19', Kotlin.Long.fromInt(825392921), 150, void 0, ThreadManForUser$registerModule$lambda_38(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDeleteVTimer', Kotlin.Long.fromInt(848272978), 150, void 0, ThreadManForUser$registerModule$lambda_39(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferMsgPipeStatus', Kotlin.Long.fromInt(868106276), 150, void 0, ThreadManForUser$registerModule$lambda_40(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelMsgPipe', Kotlin.Long.fromInt(882607693), 150, void 0, ThreadManForUser$registerModule$lambda_41(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCheckCallback', Kotlin.Long.fromInt(882732396), 150, void 0, ThreadManForUser$registerModule$lambda_42(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferThreadEventHandlerStatus', Kotlin.Long.fromInt(916384619), 150, void 0, ThreadManForUser$registerModule$lambda_43(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelTerminateDeleteThread', Kotlin.Long.fromInt(943684556), 150, void 0, ThreadManForUser$registerModule$lambda_44(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferVplStatus', Kotlin.Long.fromInt(964756069), 150, void 0, ThreadManForUser$registerModule$lambda_45(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSuspendDispatchThread', Kotlin.Long.fromInt(987073420), 150, void 0, ThreadManForUser$registerModule$lambda_46(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadExitStatus', Kotlin.Long.fromInt(991444518), 150, void 0, ThreadManForUser$registerModule$lambda_47(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferLwMutexStatusByID', Kotlin.Long.fromInt(1276401988), 150, void 0, ThreadManForUser$registerModule$lambda_48(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadStackFreeSize', Kotlin.Long.fromInt(1376296097), 150, void 0, ThreadManForUser$registerModule$lambda_49(this));
+    this.registerFunctionRaw_gh35x6$('_sceKernelExitThread', Kotlin.Long.fromInt(1395282478), 150, void 0, ThreadManForUser$registerModule$lambda_50(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetVTimerHandlerWide', Kotlin.Long.fromInt(1404047002), 150, void 0, ThreadManForUser$registerModule$lambda_51(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetVTimerTime', Kotlin.Long.fromInt(1412093488), 150, void 0, ThreadManForUser$registerModule$lambda_52(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCreateVpl', Kotlin.Long.fromInt(1455438261), 150, void 0, ThreadManForUser$registerModule$lambda_53(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadmanIdType', Kotlin.Long.fromInt(1473209053), 150, void 0, ThreadManForUser$registerModule$lambda_54(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelPollSema', Kotlin.Long.fromInt(1488058679), 150, void 0, ThreadManForUser$registerModule$lambda_55(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelLockMutexCB', Kotlin.Long.fromInt(1542774055), 150, void 0, ThreadManForUser$registerModule$lambda_56(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferVTimerStatus', Kotlin.Long.fromInt(1597161130), 150, void 0, ThreadManForUser$registerModule$lambda_57(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDeleteLwMutex', Kotlin.Long.fromInt(1611691318), 150, void 0, ThreadManForUser$registerModule$lambda_58(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelTryAllocateFpl', Kotlin.Long.fromInt(1648027237), 150, void 0, ThreadManForUser$registerModule$lambda_59(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferSystemStatus', Kotlin.Long.fromInt(1652453178), 150, void 0, ThreadManForUser$registerModule$lambda_60(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferThreadProfiler', Kotlin.Long.fromInt(1691636750), 150, void 0, ThreadManForUser$registerModule$lambda_61(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetAlarm', Kotlin.Long.fromInt(1716697290), 150, void 0, ThreadManForUser$registerModule$lambda_62(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUnlockMutex', Kotlin.Long.fromInt(1798311951), 150, void 0, ThreadManForUser$registerModule$lambda_63(this));
+    this.registerFunctionRaw_gh35x6$('_sceKernelReturnFromCallback', Kotlin.Long.fromInt(1855890256), 150, void 0, ThreadManForUser$registerModule$lambda_64(this));
+    this.registerFunctionRaw_gh35x6$('ThreadManForUser_71040D5C', Kotlin.Long.fromInt(1896090972), 150, void 0, ThreadManForUser$registerModule$lambda_65(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReleaseThreadEventHandler', Kotlin.Long.fromInt(1928577349), 150, void 0, ThreadManForUser$registerModule$lambda_66(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferCallbackStatus', Kotlin.Long.fromInt(1930352828), 150, void 0, ThreadManForUser$registerModule$lambda_67(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReceiveMsgPipe', Kotlin.Long.fromInt(1954716534), 150, void 0, ThreadManForUser$registerModule$lambda_68(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelResumeThread', Kotlin.Long.fromInt(1964338831), 150, void 0, ThreadManForUser$registerModule$lambda_69(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCreateMsgPipe', Kotlin.Long.fromInt(2081276576), 150, void 0, ThreadManForUser$registerModule$lambda_70(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSendMsgPipeCB', Kotlin.Long.fromInt(2084696770), 150, void 0, ThreadManForUser$registerModule$lambda_71(this));
+    this.registerFunctionRaw_gh35x6$('ThreadManForUser_7CFF8CF3', Kotlin.Long.fromInt(2097122547), 150, void 0, ThreadManForUser$registerModule$lambda_72(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelAlarm', Kotlin.Long.fromInt(2120595865), 150, void 0, ThreadManForUser$registerModule$lambda_73(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelExitDeleteThread', new Kotlin.Long(-2137202021, 0), 150, void 0, ThreadManForUser$registerModule$lambda_74(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCreateMbx', new Kotlin.Long(-2128272867, 0), 150, void 0, ThreadManForUser$registerModule$lambda_75(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferGlobalProfiler', new Kotlin.Long(-2112310051, 0), 150, void 0, ThreadManForUser$registerModule$lambda_76(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDeleteMbx', new Kotlin.Long(-2044372262, 0), 150, void 0, ThreadManForUser$registerModule$lambda_77(this));
+    this.registerFunctionRaw_gh35x6$('ThreadManForUser_8672E3D0', new Kotlin.Long(-2039290928, 0), 150, void 0, ThreadManForUser$registerModule$lambda_78(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSendMsgPipe', new Kotlin.Long(-2022850643, 0), 150, void 0, ThreadManForUser$registerModule$lambda_79(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelReceiveMbx', new Kotlin.Long(-2016092874, 0), 150, void 0, ThreadManForUser$registerModule$lambda_80(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelMutex', new Kotlin.Long(-2015813060, 0), 150, void 0, ThreadManForUser$registerModule$lambda_81(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelTrySendMsgPipe', new Kotlin.Long(-2008244336, 0), 150, void 0, ThreadManForUser$registerModule$lambda_82(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDeleteVpl', new Kotlin.Long(-1984703348, 0), 150, void 0, ThreadManForUser$registerModule$lambda_83(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelSema', new Kotlin.Long(-1879180894, 0), 150, void 0, ThreadManForUser$registerModule$lambda_84(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelRotateThreadReadyQueue', new Kotlin.Long(-1859955545, 0), 150, void 0, ThreadManForUser$registerModule$lambda_85(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetThreadmanIdList', new Kotlin.Long(-1807654608, 0), 150, void 0, ThreadManForUser$registerModule$lambda_86(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSuspendThread', new Kotlin.Long(-1723534561, 0), 150, void 0, ThreadManForUser$registerModule$lambda_87(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelFpl', new Kotlin.Long(-1465231073, 0), 150, void 0, ThreadManForUser$registerModule$lambda_88(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferMbxStatus', new Kotlin.Long(-1461139386, 0), 150, void 0, ThreadManForUser$registerModule$lambda_89(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferMutexStatus', new Kotlin.Long(-1446851686, 0), 150, void 0, ThreadManForUser$registerModule$lambda_90(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelTryAllocateVpl', new Kotlin.Long(-1355360504, 0), 150, void 0, ThreadManForUser$registerModule$lambda_91(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelLockMutex', new Kotlin.Long(-1341017825, 0), 150, void 0, ThreadManForUser$registerModule$lambda_92(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetSysClockAlarm', new Kotlin.Long(-1295888046, 0), 150, void 0, ThreadManForUser$registerModule$lambda_93(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerBase', new Kotlin.Long(-1280992912, 0), 150, void 0, ThreadManForUser$registerModule$lambda_94(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelFreeVpl', new Kotlin.Long(-1221137921, 0), 150, void 0, ThreadManForUser$registerModule$lambda_95(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerBaseWide', new Kotlin.Long(-1212052617, 0), 150, void 0, ThreadManForUser$registerModule$lambda_96(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCreateMutex', new Kotlin.Long(-1211066170, 0), 150, void 0, ThreadManForUser$registerModule$lambda_97(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelCallback', new Kotlin.Long(-1170189866, 0), 150, void 0, ThreadManForUser$registerModule$lambda_98(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSysClock2USec', new Kotlin.Long(-1167355166, 0), 150, void 0, ThreadManForUser$registerModule$lambda_99(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferSemaStatus', new Kotlin.Long(-1133515835, 0), 150, void 0, ThreadManForUser$registerModule$lambda_100(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDelaySysClockThread', new Kotlin.Long(-1122878050, 0), 150, void 0, ThreadManForUser$registerModule$lambda_101(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelAllocateVpl', new Kotlin.Long(-1093503947, 0), 150, void 0, ThreadManForUser$registerModule$lambda_102(this));
+    this.registerFunctionRaw_gh35x6$('ThreadManForUser_BEED3A47', new Kotlin.Long(-1091749305, 0), 150, void 0, ThreadManForUser$registerModule$lambda_103(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCreateFpl', new Kotlin.Long(-1065634704, 0), 150, void 0, ThreadManForUser$registerModule$lambda_104(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetVTimerTimeWide', new Kotlin.Long(-1061945390, 0), 150, void 0, ThreadManForUser$registerModule$lambda_105(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelNotifyCallback', new Kotlin.Long(-1055151932, 0), 150, void 0, ThreadManForUser$registerModule$lambda_106(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelStartVTimer', new Kotlin.Long(-963800009, 0), 150, void 0, ThreadManForUser$registerModule$lambda_107(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUSec2SysClockWide', new Kotlin.Long(-926083700, 0), 150, void 0, ThreadManForUser$registerModule$lambda_108(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelStopVTimer', new Kotlin.Long(-793842041, 0), 150, void 0, ThreadManForUser$registerModule$lambda_109(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCheckThreadStack', new Kotlin.Long(-784605547, 0), 150, void 0, ThreadManForUser$registerModule$lambda_110(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelCancelVTimerHandler', new Kotlin.Long(-757721617, 0), 150, void 0, ThreadManForUser$registerModule$lambda_111(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelWakeupThread', new Kotlin.Long(-711021265, 0), 150, void 0, ThreadManForUser$registerModule$lambda_112(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferFplStatus', new Kotlin.Long(-669409716, 0), 150, void 0, ThreadManForUser$registerModule$lambda_113(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetVTimerHandler', new Kotlin.Long(-659383890, 0), 150, void 0, ThreadManForUser$registerModule$lambda_114(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelAllocateFpl', new Kotlin.Long(-646321729, 0), 150, void 0, ThreadManForUser$registerModule$lambda_115(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReferAlarmStatus', new Kotlin.Long(-626789020, 0), 150, void 0, ThreadManForUser$registerModule$lambda_116(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetSystemTime', new Kotlin.Long(-613183691, 0), 150, void 0, ThreadManForUser$registerModule$lambda_117(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelTryReceiveMsgPipe', new Kotlin.Long(-548271729, 0), 150, void 0, ThreadManForUser$registerModule$lambda_118(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSysClock2USecWide', new Kotlin.Long(-513696388, 0), 150, void 0, ThreadManForUser$registerModule$lambda_119(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelAllocateFplCB', new Kotlin.Long(-416797514, 0), 150, void 0, ThreadManForUser$registerModule$lambda_120(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSendMbx', new Kotlin.Long(-374143458, 0), 150, void 0, ThreadManForUser$registerModule$lambda_121(this));
     this.registerFunctionRaw_gh35x6$('sceKernelAllocateVplCB', new Kotlin.Long(-334862017, 0), 150, void 0, ThreadManForUser$registerModule$lambda_122(this));
     this.registerFunctionRaw_gh35x6$('sceKernelDeleteFpl', new Kotlin.Long(-317452064, 0), 150, void 0, ThreadManForUser$registerModule$lambda_123(this));
     this.registerFunctionRaw_gh35x6$('sceKernelDeleteCallback', new Kotlin.Long(-306554812, 0), 150, void 0, ThreadManForUser$registerModule$lambda_124(this));
@@ -23781,9 +25742,12 @@
     $receiver_0.optionsPtr = optionsPtr;
     return $receiver_0.id;
   };
-  ThreadManForUser_EventFlags.prototype.sceKernelPollEventFlag_iavwqw$ = function ($receiver, id, bits, waitType, outBits) {
+  ThreadManForUser_EventFlags.prototype.getEventFlag_a5wnmx$_0 = function ($receiver, id) {
     var tmp$;
-    var eventFlag = (tmp$ = $receiver.eventFlags.tryGetById_za3lpa$(id)) != null ? tmp$ : sceKernelException(SceKernelErrors_getInstance().ERROR_KERNEL_NOT_FOUND_EVENT_FLAG);
+    return (tmp$ = $receiver.eventFlags.tryGetById_za3lpa$(id)) != null ? tmp$ : sceKernelException(SceKernelErrors_getInstance().ERROR_KERNEL_NOT_FOUND_EVENT_FLAG);
+  };
+  ThreadManForUser_EventFlags.prototype.sceKernelPollEventFlag_iavwqw$ = function ($receiver, id, bits, waitType, outBits) {
+    var eventFlag = this.getEventFlag_a5wnmx$_0($receiver, id);
     if ((waitType & ~EventFlagWaitTypeSet_getInstance().MaskValidBits) !== 0)
       return SceKernelErrors_getInstance().ERROR_KERNEL_ILLEGAL_MODE;
     if ((waitType & (EventFlagWaitTypeSet_getInstance().Clear | EventFlagWaitTypeSet_getInstance().ClearAll)) === (EventFlagWaitTypeSet_getInstance().Clear | EventFlagWaitTypeSet_getInstance().ClearAll)) {
@@ -23794,14 +25758,21 @@
     var matched = eventFlag.poll_bvjn38$(bits, waitType, outBits);
     return matched ? 0 : SceKernelErrors_getInstance().ERROR_KERNEL_EVENT_FLAG_POLL_FAILED;
   };
+  ThreadManForUser_EventFlags.prototype.sceKernelSetEventFlag_nxvkaa$ = function ($receiver, id, bitPattern) {
+    var eventFlag = this.getEventFlag_a5wnmx$_0($receiver, id);
+    eventFlag.setBits_fzusl$(bitPattern);
+    return 0;
+  };
+  ThreadManForUser_EventFlags.prototype.sceKernelDeleteEventFlag_ecxtkw$ = function ($receiver, id) {
+    this.getEventFlag_a5wnmx$_0($receiver, id);
+    $receiver.eventFlags.freeById_za3lpa$(id);
+    return 0;
+  };
   ThreadManForUser_EventFlags.prototype.sceKernelCancelEventFlag_nqu1l6$ = function ($receiver, cpu) {
     $receiver.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-853527918, 0));
   };
   ThreadManForUser_EventFlags.prototype.sceKernelReferEventFlagStatus_nqu1l6$ = function ($receiver, cpu) {
     $receiver.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1502936800, 0));
-  };
-  ThreadManForUser_EventFlags.prototype.sceKernelSetEventFlag_nqu1l6$ = function ($receiver, cpu) {
-    $receiver.UNIMPLEMENTED_za3lpa$(531716658);
   };
   ThreadManForUser_EventFlags.prototype.sceKernelWaitEventFlagCB_nqu1l6$ = function ($receiver, cpu) {
     $receiver.UNIMPLEMENTED_za3lpa$(848057450);
@@ -23811,9 +25782,6 @@
   };
   ThreadManForUser_EventFlags.prototype.sceKernelClearEventFlag_nqu1l6$ = function ($receiver, cpu) {
     $receiver.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2128394524, 0));
-  };
-  ThreadManForUser_EventFlags.prototype.sceKernelDeleteEventFlag_nqu1l6$ = function ($receiver, cpu) {
-    $receiver.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-274838416, 0));
   };
   function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda(this$registerModuleEventFlags) {
     return function ($receiver, it) {
@@ -23826,57 +25794,55 @@
     };
   }
   function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_1(this$registerModuleEventFlags) {
+    return function ($receiver, it) {
+      return this$registerModuleEventFlags.sceKernelSetEventFlag_nxvkaa$(this$registerModuleEventFlags, $receiver.int, $receiver.int);
+    };
+  }
+  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_2(this$registerModuleEventFlags) {
+    return function ($receiver, it) {
+      return this$registerModuleEventFlags.sceKernelDeleteEventFlag_ecxtkw$(this$registerModuleEventFlags, $receiver.int);
+    };
+  }
+  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_3(this$registerModuleEventFlags) {
     return function (it) {
       this$registerModuleEventFlags.sceKernelCancelEventFlag_nqu1l6$(this$registerModuleEventFlags, it);
       return Unit;
     };
   }
-  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_2(this$registerModuleEventFlags) {
+  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_4(this$registerModuleEventFlags) {
     return function (it) {
       this$registerModuleEventFlags.sceKernelReferEventFlagStatus_nqu1l6$(this$registerModuleEventFlags, it);
       return Unit;
     };
   }
-  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_3(this$registerModuleEventFlags) {
-    return function (it) {
-      this$registerModuleEventFlags.sceKernelSetEventFlag_nqu1l6$(this$registerModuleEventFlags, it);
-      return Unit;
-    };
-  }
-  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_4(this$registerModuleEventFlags) {
+  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_5(this$registerModuleEventFlags) {
     return function (it) {
       this$registerModuleEventFlags.sceKernelWaitEventFlagCB_nqu1l6$(this$registerModuleEventFlags, it);
       return Unit;
     };
   }
-  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_5(this$registerModuleEventFlags) {
+  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_6(this$registerModuleEventFlags) {
     return function (it) {
       this$registerModuleEventFlags.sceKernelWaitEventFlag_nqu1l6$(this$registerModuleEventFlags, it);
       return Unit;
     };
   }
-  function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_6(this$registerModuleEventFlags) {
-    return function (it) {
-      this$registerModuleEventFlags.sceKernelClearEventFlag_nqu1l6$(this$registerModuleEventFlags, it);
-      return Unit;
-    };
-  }
   function ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_7(this$registerModuleEventFlags) {
     return function (it) {
-      this$registerModuleEventFlags.sceKernelDeleteEventFlag_nqu1l6$(this$registerModuleEventFlags, it);
+      this$registerModuleEventFlags.sceKernelClearEventFlag_nqu1l6$(this$registerModuleEventFlags, it);
       return Unit;
     };
   }
   ThreadManForUser_EventFlags.prototype.registerModuleEventFlags_i7y6ea$ = function ($receiver) {
     $receiver.registerFunctionInt_9l82lv$('sceKernelCreateEventFlag', Kotlin.Long.fromInt(1438779904), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda($receiver));
     $receiver.registerFunctionInt_9l82lv$('sceKernelPollEventFlag', Kotlin.Long.fromInt(821905648), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_0($receiver));
-    $receiver.registerFunctionRaw_gh35x6$('sceKernelCancelEventFlag', new Kotlin.Long(-853527918, 0), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_1($receiver));
-    $receiver.registerFunctionRaw_gh35x6$('sceKernelReferEventFlagStatus', new Kotlin.Long(-1502936800, 0), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_2($receiver));
-    $receiver.registerFunctionRaw_gh35x6$('sceKernelSetEventFlag', Kotlin.Long.fromInt(531716658), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_3($receiver));
-    $receiver.registerFunctionRaw_gh35x6$('sceKernelWaitEventFlagCB', Kotlin.Long.fromInt(848057450), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_4($receiver));
-    $receiver.registerFunctionRaw_gh35x6$('sceKernelWaitEventFlag', Kotlin.Long.fromInt(1076875042), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_5($receiver));
-    $receiver.registerFunctionRaw_gh35x6$('sceKernelClearEventFlag', new Kotlin.Long(-2128394524, 0), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_6($receiver));
-    $receiver.registerFunctionRaw_gh35x6$('sceKernelDeleteEventFlag', new Kotlin.Long(-274838416, 0), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_7($receiver));
+    $receiver.registerFunctionInt_9l82lv$('sceKernelSetEventFlag', Kotlin.Long.fromInt(531716658), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_1($receiver));
+    $receiver.registerFunctionInt_9l82lv$('sceKernelDeleteEventFlag', new Kotlin.Long(-274838416, 0), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_2($receiver));
+    $receiver.registerFunctionRaw_gh35x6$('sceKernelCancelEventFlag', new Kotlin.Long(-853527918, 0), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_3($receiver));
+    $receiver.registerFunctionRaw_gh35x6$('sceKernelReferEventFlagStatus', new Kotlin.Long(-1502936800, 0), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_4($receiver));
+    $receiver.registerFunctionRaw_gh35x6$('sceKernelWaitEventFlagCB', Kotlin.Long.fromInt(848057450), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_5($receiver));
+    $receiver.registerFunctionRaw_gh35x6$('sceKernelWaitEventFlag', Kotlin.Long.fromInt(1076875042), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_6($receiver));
+    $receiver.registerFunctionRaw_gh35x6$('sceKernelClearEventFlag', new Kotlin.Long(-2128394524, 0), 150, void 0, ThreadManForUser_EventFlags$registerModuleEventFlags$lambda_7($receiver));
   };
   ThreadManForUser_EventFlags.$metadata$ = {
     kind: Kind_INTERFACE,
@@ -23891,6 +25857,9 @@
   };
   UtilsForKernel.prototype.sceKernelDcacheWritebackInvalidateRange_vux9f0$ = function (ptr, size) {
     this.emulator.invalidateDcache_vux9f0$(ptr, size);
+  };
+  UtilsForKernel.prototype.sceKernelLibcClock = function () {
+    return get_timeManager(this).getTimeInMicrosecondsInt();
   };
   UtilsForKernel.prototype.UtilsForKernel_004D4DEE_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(5066222);
@@ -24000,9 +25969,6 @@
   UtilsForKernel.prototype.sceKernelGzipGetComment_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1944076796, 0));
   };
-  UtilsForKernel.prototype.sceKernelLibcClock_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1847265625, 0));
-  };
   UtilsForKernel.prototype.sceKernelIcacheInvalidateAll_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1844506550, 0));
   };
@@ -24085,224 +26051,223 @@
     };
   }
   function UtilsForKernel$registerModule$lambda_1(this$UtilsForKernel) {
+    return function ($receiver, it) {
+      return this$UtilsForKernel.sceKernelLibcClock();
+    };
+  }
+  function UtilsForKernel$registerModule$lambda_2(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.UtilsForKernel_004D4DEE_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_2(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_3(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelUtilsMt19937UInt_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_3(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_4(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelSetPTRIGMask_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_4(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_5(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.UtilsForKernel_157A383A_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_5(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_6(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelDcacheReadTag_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_6(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_7(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelSetGPIMask_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_7(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_8(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.UtilsForKernel_1B0592A3_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_8(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_9(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelRegisterRtcFunc_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_9(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_10(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelGzipGetCompressedData_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_10(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_11(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelLibcTime_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_11(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_12(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelUtilsSha1BlockUpdate_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_12(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_13(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelGetGPI_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_13(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_14(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelGetPTRIG_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_14(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_15(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelDcacheWritebackRange_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_15(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_16(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.UtilsForKernel_3FD3D324_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_16(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_17(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelReleaseRtcFunc_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_17(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_18(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.UtilsForKernel_43C9A8DB_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_18(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_19(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelIcacheProbe_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_19(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_20(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.UtilsForKernel_515B4FAF_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_20(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_21(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelUtilsSha1BlockResult_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_21(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_22(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.UtilsForKernel_5C7F2B1A_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_22(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_23(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelUtilsMd5BlockUpdate_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_23(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_24(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelSetPTRIG_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_24(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_25(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelSetGPO_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_25(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_26(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.UtilsForKernel_6C6887EE_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_26(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_27(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelLibcGettimeofday_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_27(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_28(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.UtilsForKernel_7333E539_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_28(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_29(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.UtilsForKernel_740DF7F0_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_29(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_30(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelDcacheProbeRange_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_30(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_31(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelGzipDecompress_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_31(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_32(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelDcacheWritebackAll_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_32(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_33(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelDcacheProbe_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_33(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_34(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelUtilsSha1Digest_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_34(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_35(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelDcacheInvalidateAll_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_35(this$UtilsForKernel) {
+  function UtilsForKernel$registerModule$lambda_36(this$UtilsForKernel) {
     return function (it) {
       this$UtilsForKernel.sceKernelPutUserLog_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForKernel$registerModule$lambda_36(this$UtilsForKernel) {
-    return function (it) {
-      this$UtilsForKernel.sceKernelGzipGetComment_xt3zvs$(it);
-      return Unit;
-    };
-  }
   function UtilsForKernel$registerModule$lambda_37(this$UtilsForKernel) {
     return function (it) {
-      this$UtilsForKernel.sceKernelLibcClock_xt3zvs$(it);
+      this$UtilsForKernel.sceKernelGzipGetComment_xt3zvs$(it);
       return Unit;
     };
   }
@@ -24447,43 +26412,43 @@
   UtilsForKernel.prototype.registerModule = function () {
     this.registerFunctionVoid_dc3d86$('sceKernelIcacheInvalidateRange', new Kotlin.Long(-1025542386, 0), 150, void 0, UtilsForKernel$registerModule$lambda(this));
     this.registerFunctionVoid_dc3d86$('sceKernelDcacheWritebackInvalidateRange', Kotlin.Long.fromInt(884603550), 150, void 0, UtilsForKernel$registerModule$lambda_0(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForKernel_004D4DEE', Kotlin.Long.fromInt(5066222), 150, void 0, UtilsForKernel$registerModule$lambda_1(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUtilsMt19937UInt', Kotlin.Long.fromInt(117148259), 150, void 0, UtilsForKernel$registerModule$lambda_2(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetPTRIGMask', Kotlin.Long.fromInt(326050841), 150, void 0, UtilsForKernel$registerModule$lambda_3(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForKernel_157A383A', Kotlin.Long.fromInt(360331322), 150, void 0, UtilsForKernel$registerModule$lambda_4(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDcacheReadTag', Kotlin.Long.fromInt(375659888), 150, void 0, UtilsForKernel$registerModule$lambda_5(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetGPIMask', Kotlin.Long.fromInt(423444534), 150, void 0, UtilsForKernel$registerModule$lambda_6(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForKernel_1B0592A3', Kotlin.Long.fromInt(453350051), 150, void 0, UtilsForKernel$registerModule$lambda_7(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelRegisterRtcFunc', Kotlin.Long.fromInt(597738938), 150, void 0, UtilsForKernel$registerModule$lambda_8(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGzipGetCompressedData', Kotlin.Long.fromInt(603965480), 150, void 0, UtilsForKernel$registerModule$lambda_9(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelLibcTime', Kotlin.Long.fromInt(667703280), 150, void 0, UtilsForKernel$registerModule$lambda_10(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUtilsSha1BlockUpdate', Kotlin.Long.fromInt(879717800), 150, void 0, UtilsForKernel$registerModule$lambda_11(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetGPI', Kotlin.Long.fromInt(939220034), 150, void 0, UtilsForKernel$registerModule$lambda_12(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetPTRIG', Kotlin.Long.fromInt(972330512), 150, void 0, UtilsForKernel$registerModule$lambda_13(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDcacheWritebackRange', Kotlin.Long.fromInt(1055066145), 150, void 0, UtilsForKernel$registerModule$lambda_14(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForKernel_3FD3D324', Kotlin.Long.fromInt(1070846756), 150, void 0, UtilsForKernel$registerModule$lambda_15(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelReleaseRtcFunc', Kotlin.Long.fromInt(1099464436), 150, void 0, UtilsForKernel$registerModule$lambda_16(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForKernel_43C9A8DB', Kotlin.Long.fromInt(1137289435), 150, void 0, UtilsForKernel$registerModule$lambda_17(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelIcacheProbe', Kotlin.Long.fromInt(1339235485), 150, void 0, UtilsForKernel$registerModule$lambda_18(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForKernel_515B4FAF', Kotlin.Long.fromInt(1364938671), 150, void 0, UtilsForKernel$registerModule$lambda_19(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUtilsSha1BlockResult', Kotlin.Long.fromInt(1482628105), 150, void 0, UtilsForKernel$registerModule$lambda_20(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForKernel_5C7F2B1A', Kotlin.Long.fromInt(1551837978), 150, void 0, UtilsForKernel$registerModule$lambda_21(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUtilsMd5BlockUpdate', Kotlin.Long.fromInt(1642194213), 150, void 0, UtilsForKernel$registerModule$lambda_22(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetPTRIG', Kotlin.Long.fromInt(1647421213), 150, void 0, UtilsForKernel$registerModule$lambda_23(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetGPO', Kotlin.Long.fromInt(1792230871), 150, void 0, UtilsForKernel$registerModule$lambda_24(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForKernel_6C6887EE', Kotlin.Long.fromInt(1818789870), 150, void 0, UtilsForKernel$registerModule$lambda_25(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelLibcGettimeofday', Kotlin.Long.fromInt(1911308913), 150, void 0, UtilsForKernel$registerModule$lambda_26(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForKernel_7333E539', Kotlin.Long.fromInt(1932780857), 150, void 0, UtilsForKernel$registerModule$lambda_27(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForKernel_740DF7F0', Kotlin.Long.fromInt(1947072496), 150, void 0, UtilsForKernel$registerModule$lambda_28(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDcacheProbeRange', Kotlin.Long.fromInt(2011164807), 150, void 0, UtilsForKernel$registerModule$lambda_29(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGzipDecompress', Kotlin.Long.fromInt(2022918209), 150, void 0, UtilsForKernel$registerModule$lambda_30(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDcacheWritebackAll', Kotlin.Long.fromInt(2043790330), 150, void 0, UtilsForKernel$registerModule$lambda_31(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDcacheProbe', new Kotlin.Long(-2147476404, 0), 150, void 0, UtilsForKernel$registerModule$lambda_32(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUtilsSha1Digest', new Kotlin.Long(-2080220687, 0), 150, void 0, UtilsForKernel$registerModule$lambda_33(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDcacheInvalidateAll', new Kotlin.Long(-2041930382, 0), 150, void 0, UtilsForKernel$registerModule$lambda_34(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelPutUserLog', new Kotlin.Long(-2014833311, 0), 150, void 0, UtilsForKernel$registerModule$lambda_35(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGzipGetComment', new Kotlin.Long(-1944076796, 0), 150, void 0, UtilsForKernel$registerModule$lambda_36(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelLibcClock', new Kotlin.Long(-1847265625, 0), 150, void 0, UtilsForKernel$registerModule$lambda_37(this));
+    this.registerFunctionInt_9l82lv$('sceKernelLibcClock', new Kotlin.Long(-1847265625, 0), 150, void 0, UtilsForKernel$registerModule$lambda_1(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForKernel_004D4DEE', Kotlin.Long.fromInt(5066222), 150, void 0, UtilsForKernel$registerModule$lambda_2(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUtilsMt19937UInt', Kotlin.Long.fromInt(117148259), 150, void 0, UtilsForKernel$registerModule$lambda_3(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetPTRIGMask', Kotlin.Long.fromInt(326050841), 150, void 0, UtilsForKernel$registerModule$lambda_4(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForKernel_157A383A', Kotlin.Long.fromInt(360331322), 150, void 0, UtilsForKernel$registerModule$lambda_5(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDcacheReadTag', Kotlin.Long.fromInt(375659888), 150, void 0, UtilsForKernel$registerModule$lambda_6(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetGPIMask', Kotlin.Long.fromInt(423444534), 150, void 0, UtilsForKernel$registerModule$lambda_7(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForKernel_1B0592A3', Kotlin.Long.fromInt(453350051), 150, void 0, UtilsForKernel$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelRegisterRtcFunc', Kotlin.Long.fromInt(597738938), 150, void 0, UtilsForKernel$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGzipGetCompressedData', Kotlin.Long.fromInt(603965480), 150, void 0, UtilsForKernel$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelLibcTime', Kotlin.Long.fromInt(667703280), 150, void 0, UtilsForKernel$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUtilsSha1BlockUpdate', Kotlin.Long.fromInt(879717800), 150, void 0, UtilsForKernel$registerModule$lambda_12(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetGPI', Kotlin.Long.fromInt(939220034), 150, void 0, UtilsForKernel$registerModule$lambda_13(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetPTRIG', Kotlin.Long.fromInt(972330512), 150, void 0, UtilsForKernel$registerModule$lambda_14(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDcacheWritebackRange', Kotlin.Long.fromInt(1055066145), 150, void 0, UtilsForKernel$registerModule$lambda_15(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForKernel_3FD3D324', Kotlin.Long.fromInt(1070846756), 150, void 0, UtilsForKernel$registerModule$lambda_16(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelReleaseRtcFunc', Kotlin.Long.fromInt(1099464436), 150, void 0, UtilsForKernel$registerModule$lambda_17(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForKernel_43C9A8DB', Kotlin.Long.fromInt(1137289435), 150, void 0, UtilsForKernel$registerModule$lambda_18(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelIcacheProbe', Kotlin.Long.fromInt(1339235485), 150, void 0, UtilsForKernel$registerModule$lambda_19(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForKernel_515B4FAF', Kotlin.Long.fromInt(1364938671), 150, void 0, UtilsForKernel$registerModule$lambda_20(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUtilsSha1BlockResult', Kotlin.Long.fromInt(1482628105), 150, void 0, UtilsForKernel$registerModule$lambda_21(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForKernel_5C7F2B1A', Kotlin.Long.fromInt(1551837978), 150, void 0, UtilsForKernel$registerModule$lambda_22(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUtilsMd5BlockUpdate', Kotlin.Long.fromInt(1642194213), 150, void 0, UtilsForKernel$registerModule$lambda_23(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetPTRIG', Kotlin.Long.fromInt(1647421213), 150, void 0, UtilsForKernel$registerModule$lambda_24(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetGPO', Kotlin.Long.fromInt(1792230871), 150, void 0, UtilsForKernel$registerModule$lambda_25(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForKernel_6C6887EE', Kotlin.Long.fromInt(1818789870), 150, void 0, UtilsForKernel$registerModule$lambda_26(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelLibcGettimeofday', Kotlin.Long.fromInt(1911308913), 150, void 0, UtilsForKernel$registerModule$lambda_27(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForKernel_7333E539', Kotlin.Long.fromInt(1932780857), 150, void 0, UtilsForKernel$registerModule$lambda_28(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForKernel_740DF7F0', Kotlin.Long.fromInt(1947072496), 150, void 0, UtilsForKernel$registerModule$lambda_29(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDcacheProbeRange', Kotlin.Long.fromInt(2011164807), 150, void 0, UtilsForKernel$registerModule$lambda_30(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGzipDecompress', Kotlin.Long.fromInt(2022918209), 150, void 0, UtilsForKernel$registerModule$lambda_31(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDcacheWritebackAll', Kotlin.Long.fromInt(2043790330), 150, void 0, UtilsForKernel$registerModule$lambda_32(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDcacheProbe', new Kotlin.Long(-2147476404, 0), 150, void 0, UtilsForKernel$registerModule$lambda_33(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUtilsSha1Digest', new Kotlin.Long(-2080220687, 0), 150, void 0, UtilsForKernel$registerModule$lambda_34(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDcacheInvalidateAll', new Kotlin.Long(-2041930382, 0), 150, void 0, UtilsForKernel$registerModule$lambda_35(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelPutUserLog', new Kotlin.Long(-2014833311, 0), 150, void 0, UtilsForKernel$registerModule$lambda_36(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGzipGetComment', new Kotlin.Long(-1944076796, 0), 150, void 0, UtilsForKernel$registerModule$lambda_37(this));
     this.registerFunctionRaw_gh35x6$('sceKernelIcacheInvalidateAll', new Kotlin.Long(-1844506550, 0), 150, void 0, UtilsForKernel$registerModule$lambda_38(this));
     this.registerFunctionRaw_gh35x6$('sceKernelRegisterUserLogHandler', new Kotlin.Long(-1842861497, 0), 150, void 0, UtilsForKernel$registerModule$lambda_39(this));
     this.registerFunctionRaw_gh35x6$('sceKernelSetGPOMask', new Kotlin.Long(-1794940945, 0), 150, void 0, UtilsForKernel$registerModule$lambda_40(this));
@@ -24556,6 +26521,9 @@
   UtilsForUser.prototype.sceKernelDcacheWritebackInvalidateRange_vux9f0$ = function (ptr, size) {
     this.emulator.invalidateDcache_vux9f0$(ptr, size);
   };
+  UtilsForUser.prototype.sceKernelLibcClock = function () {
+    return get_timeManager(this).getTimeInMicrosecondsInt();
+  };
   UtilsForUser.prototype.UtilsForUser_004D4DEE_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(5066222);
   };
@@ -24627,9 +26595,6 @@
   };
   UtilsForUser.prototype.sceKernelPutUserLog_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2014833311, 0));
-  };
-  UtilsForUser.prototype.sceKernelLibcClock_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1847265625, 0));
   };
   UtilsForUser.prototype.sceKernelIcacheInvalidateAll_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1844506550, 0));
@@ -24708,146 +26673,145 @@
     };
   }
   function UtilsForUser$registerModule$lambda_5(this$UtilsForUser) {
+    return function ($receiver, it) {
+      return this$UtilsForUser.sceKernelLibcClock();
+    };
+  }
+  function UtilsForUser$registerModule$lambda_6(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.UtilsForUser_004D4DEE_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_6(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_7(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.UtilsForUser_157A383A_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_7(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_8(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.sceKernelDcacheReadTag_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_8(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_9(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.UtilsForUser_1B0592A3_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_9(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_10(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.sceKernelUtilsSha1BlockUpdate_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_10(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_11(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.sceKernelGetGPI_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_11(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_12(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.UtilsForUser_39F49610_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_12(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_13(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.sceKernelDcacheWritebackRange_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_13(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_14(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.UtilsForUser_3FD3D324_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_14(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_15(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.UtilsForUser_43C9A8DB_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_15(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_16(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.sceKernelIcacheProbe_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_16(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_17(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.UtilsForUser_515B4FAF_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_17(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_18(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.sceKernelUtilsSha1BlockResult_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_18(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_19(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.UtilsForUser_5C7F2B1A_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_19(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_20(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.sceKernelUtilsMd5BlockUpdate_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_20(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_21(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.UtilsForUser_6231A71D_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_21(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_22(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.sceKernelSetGPO_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_22(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_23(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.UtilsForUser_7333E539_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_23(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_24(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.UtilsForUser_740DF7F0_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_24(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_25(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.sceKernelDcacheProbeRange_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_25(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_26(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.sceKernelDcacheProbe_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_26(this$UtilsForUser) {
+  function UtilsForUser$registerModule$lambda_27(this$UtilsForUser) {
     return function (it) {
       this$UtilsForUser.sceKernelUtilsSha1Digest_xt3zvs$(it);
       return Unit;
     };
   }
-  function UtilsForUser$registerModule$lambda_27(this$UtilsForUser) {
-    return function (it) {
-      this$UtilsForUser.sceKernelPutUserLog_xt3zvs$(it);
-      return Unit;
-    };
-  }
   function UtilsForUser$registerModule$lambda_28(this$UtilsForUser) {
     return function (it) {
-      this$UtilsForUser.sceKernelLibcClock_xt3zvs$(it);
+      this$UtilsForUser.sceKernelPutUserLog_xt3zvs$(it);
       return Unit;
     };
   }
@@ -24942,30 +26906,30 @@
     this.registerFunctionInt_9l82lv$('sceKernelLibcTime', Kotlin.Long.fromInt(667703280), 150, void 0, UtilsForUser$registerModule$lambda_2(this));
     this.registerFunctionInt_9l82lv$('sceKernelDcacheWritebackAll', Kotlin.Long.fromInt(2043790330), 150, void 0, UtilsForUser$registerModule$lambda_3(this));
     this.registerFunctionVoid_dc3d86$('sceKernelDcacheWritebackInvalidateRange', Kotlin.Long.fromInt(884603550), 150, void 0, UtilsForUser$registerModule$lambda_4(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForUser_004D4DEE', Kotlin.Long.fromInt(5066222), 150, void 0, UtilsForUser$registerModule$lambda_5(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForUser_157A383A', Kotlin.Long.fromInt(360331322), 150, void 0, UtilsForUser$registerModule$lambda_6(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDcacheReadTag', Kotlin.Long.fromInt(375659888), 150, void 0, UtilsForUser$registerModule$lambda_7(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForUser_1B0592A3', Kotlin.Long.fromInt(453350051), 150, void 0, UtilsForUser$registerModule$lambda_8(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUtilsSha1BlockUpdate', Kotlin.Long.fromInt(879717800), 150, void 0, UtilsForUser$registerModule$lambda_9(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelGetGPI', Kotlin.Long.fromInt(939220034), 150, void 0, UtilsForUser$registerModule$lambda_10(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForUser_39F49610', Kotlin.Long.fromInt(972330512), 150, void 0, UtilsForUser$registerModule$lambda_11(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDcacheWritebackRange', Kotlin.Long.fromInt(1055066145), 150, void 0, UtilsForUser$registerModule$lambda_12(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForUser_3FD3D324', Kotlin.Long.fromInt(1070846756), 150, void 0, UtilsForUser$registerModule$lambda_13(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForUser_43C9A8DB', Kotlin.Long.fromInt(1137289435), 150, void 0, UtilsForUser$registerModule$lambda_14(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelIcacheProbe', Kotlin.Long.fromInt(1339235485), 150, void 0, UtilsForUser$registerModule$lambda_15(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForUser_515B4FAF', Kotlin.Long.fromInt(1364938671), 150, void 0, UtilsForUser$registerModule$lambda_16(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUtilsSha1BlockResult', Kotlin.Long.fromInt(1482628105), 150, void 0, UtilsForUser$registerModule$lambda_17(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForUser_5C7F2B1A', Kotlin.Long.fromInt(1551837978), 150, void 0, UtilsForUser$registerModule$lambda_18(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUtilsMd5BlockUpdate', Kotlin.Long.fromInt(1642194213), 150, void 0, UtilsForUser$registerModule$lambda_19(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForUser_6231A71D', Kotlin.Long.fromInt(1647421213), 150, void 0, UtilsForUser$registerModule$lambda_20(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelSetGPO', Kotlin.Long.fromInt(1792230871), 150, void 0, UtilsForUser$registerModule$lambda_21(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForUser_7333E539', Kotlin.Long.fromInt(1932780857), 150, void 0, UtilsForUser$registerModule$lambda_22(this));
-    this.registerFunctionRaw_gh35x6$('UtilsForUser_740DF7F0', Kotlin.Long.fromInt(1947072496), 150, void 0, UtilsForUser$registerModule$lambda_23(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDcacheProbeRange', Kotlin.Long.fromInt(2011164807), 150, void 0, UtilsForUser$registerModule$lambda_24(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelDcacheProbe', new Kotlin.Long(-2147476404, 0), 150, void 0, UtilsForUser$registerModule$lambda_25(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelUtilsSha1Digest', new Kotlin.Long(-2080220687, 0), 150, void 0, UtilsForUser$registerModule$lambda_26(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelPutUserLog', new Kotlin.Long(-2014833311, 0), 150, void 0, UtilsForUser$registerModule$lambda_27(this));
-    this.registerFunctionRaw_gh35x6$('sceKernelLibcClock', new Kotlin.Long(-1847265625, 0), 150, void 0, UtilsForUser$registerModule$lambda_28(this));
+    this.registerFunctionInt_9l82lv$('sceKernelLibcClock', new Kotlin.Long(-1847265625, 0), 150, void 0, UtilsForUser$registerModule$lambda_5(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForUser_004D4DEE', Kotlin.Long.fromInt(5066222), 150, void 0, UtilsForUser$registerModule$lambda_6(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForUser_157A383A', Kotlin.Long.fromInt(360331322), 150, void 0, UtilsForUser$registerModule$lambda_7(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDcacheReadTag', Kotlin.Long.fromInt(375659888), 150, void 0, UtilsForUser$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForUser_1B0592A3', Kotlin.Long.fromInt(453350051), 150, void 0, UtilsForUser$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUtilsSha1BlockUpdate', Kotlin.Long.fromInt(879717800), 150, void 0, UtilsForUser$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelGetGPI', Kotlin.Long.fromInt(939220034), 150, void 0, UtilsForUser$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForUser_39F49610', Kotlin.Long.fromInt(972330512), 150, void 0, UtilsForUser$registerModule$lambda_12(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDcacheWritebackRange', Kotlin.Long.fromInt(1055066145), 150, void 0, UtilsForUser$registerModule$lambda_13(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForUser_3FD3D324', Kotlin.Long.fromInt(1070846756), 150, void 0, UtilsForUser$registerModule$lambda_14(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForUser_43C9A8DB', Kotlin.Long.fromInt(1137289435), 150, void 0, UtilsForUser$registerModule$lambda_15(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelIcacheProbe', Kotlin.Long.fromInt(1339235485), 150, void 0, UtilsForUser$registerModule$lambda_16(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForUser_515B4FAF', Kotlin.Long.fromInt(1364938671), 150, void 0, UtilsForUser$registerModule$lambda_17(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUtilsSha1BlockResult', Kotlin.Long.fromInt(1482628105), 150, void 0, UtilsForUser$registerModule$lambda_18(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForUser_5C7F2B1A', Kotlin.Long.fromInt(1551837978), 150, void 0, UtilsForUser$registerModule$lambda_19(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUtilsMd5BlockUpdate', Kotlin.Long.fromInt(1642194213), 150, void 0, UtilsForUser$registerModule$lambda_20(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForUser_6231A71D', Kotlin.Long.fromInt(1647421213), 150, void 0, UtilsForUser$registerModule$lambda_21(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelSetGPO', Kotlin.Long.fromInt(1792230871), 150, void 0, UtilsForUser$registerModule$lambda_22(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForUser_7333E539', Kotlin.Long.fromInt(1932780857), 150, void 0, UtilsForUser$registerModule$lambda_23(this));
+    this.registerFunctionRaw_gh35x6$('UtilsForUser_740DF7F0', Kotlin.Long.fromInt(1947072496), 150, void 0, UtilsForUser$registerModule$lambda_24(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDcacheProbeRange', Kotlin.Long.fromInt(2011164807), 150, void 0, UtilsForUser$registerModule$lambda_25(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelDcacheProbe', new Kotlin.Long(-2147476404, 0), 150, void 0, UtilsForUser$registerModule$lambda_26(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelUtilsSha1Digest', new Kotlin.Long(-2080220687, 0), 150, void 0, UtilsForUser$registerModule$lambda_27(this));
+    this.registerFunctionRaw_gh35x6$('sceKernelPutUserLog', new Kotlin.Long(-2014833311, 0), 150, void 0, UtilsForUser$registerModule$lambda_28(this));
     this.registerFunctionRaw_gh35x6$('sceKernelIcacheInvalidateAll', new Kotlin.Long(-1844506550, 0), 150, void 0, UtilsForUser$registerModule$lambda_29(this));
     this.registerFunctionRaw_gh35x6$('UtilsForUser_99134C3F', new Kotlin.Long(-1726788545, 0), 150, void 0, UtilsForUser$registerModule$lambda_30(this));
     this.registerFunctionRaw_gh35x6$('sceKernelUtilsMd5BlockInit', new Kotlin.Long(-1638117242, 0), 150, void 0, UtilsForUser$registerModule$lambda_31(this));
@@ -24986,23 +26950,114 @@
     simpleName: 'UtilsForUser',
     interfaces: [SceModule]
   };
+  var Array_0 = Array;
   function sceAtrac3plus(emulator) {
     SceModule.call(this, emulator, 'sceAtrac3plus', 65553, 'libatrac3plus.prx', 'sceATRAC3plus_Library');
+    var array = Array_0(6);
+    var tmp$;
+    tmp$ = array.length - 1 | 0;
+    for (var i = 0; i <= tmp$; i++) {
+      array[i] = new sceAtrac3plus$AtracID(i);
+    }
+    this.atracIDs_0 = array;
   }
-  sceAtrac3plus.prototype.sceAtracSetDataAndGetID_xnxgf8$ = function (data) {
-    var $this = this.logger;
-    var level = LogLevel.ERROR;
-    if (level.index <= $this.processedLevel.index) {
-      $this.actualLog_t189ph$(level, 'sceAtracSetDataAndGetID Not implemented');
+  function sceAtrac3plus$AtracID(id) {
+    this.id = id;
+    this.decoder = new Atrac3plusDecoder();
+    this.inputBuffer = new PtrArray(DummyPtr_getInstance(), 0);
+    this.inUse = false;
+    this.isSecondBufferNeeded = false;
+    this.isSecondBufferSet = false;
+    this.info = new Atrac3PlusUtil$AtracFileInfo();
+    this.atracCurrentSample = 0;
+    this.secondBufferReadPosition = 0;
+    this.secondBufferSize = 0;
+    this.readAddr = 0;
+  }
+  Object.defineProperty(sceAtrac3plus$AtracID.prototype, 'atracEndSample', {
+    get: function () {
+      return this.info.atracEndSample;
     }
-    return 0;
+  });
+  Object.defineProperty(sceAtrac3plus$AtracID.prototype, 'remainFrames', {
+    get: function () {
+      return 0;
+    }
+  });
+  sceAtrac3plus$AtracID.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'AtracID',
+    interfaces: []
   };
-  sceAtrac3plus.prototype.sceAtracGetSecondBufferInfo_ypwtlu$ = function (id, puiPosition, puiDataByte) {
+  sceAtrac3plus.prototype.getAtrac_za3lpa$ = function (id) {
+    return this.atracIDs_0[id];
+  };
+  sceAtrac3plus.prototype.getStartSkippedSamples_za3lpa$ = function (codecType) {
+    if (codecType === util_0.Atrac3PlusUtil.PSP_CODEC_AT3)
+      return 69;
+    else if (codecType === util_0.Atrac3PlusUtil.PSP_CODEC_AT3PLUS)
+      return 368;
+    else
+      return 0;
+  };
+  sceAtrac3plus.prototype.getMaxSamples_za3lpa$ = function (codecType) {
+    if (codecType === util_0.Atrac3PlusUtil.PSP_CODEC_AT3)
+      return 1024;
+    else if (codecType === util_0.Atrac3PlusUtil.PSP_CODEC_AT3PLUS)
+      return Atrac3plusDecoder.Companion.ATRAC3P_FRAME_SAMPLES;
+    else
+      return 0;
+  };
+  sceAtrac3plus.prototype.sceAtracSetDataAndGetID_1fpi1a$ = function (data, bufferSize) {
+    var tmp$;
+    var $receiver = this.atracIDs_0;
+    var firstOrNull$result;
+    firstOrNull$break: do {
+      var tmp$_0;
+      for (tmp$_0 = 0; tmp$_0 !== $receiver.length; ++tmp$_0) {
+        var element = $receiver[tmp$_0];
+        if (!element.inUse) {
+          firstOrNull$result = element;
+          break firstOrNull$break;
+        }
+      }
+      firstOrNull$result = null;
+    }
+     while (false);
+    var id = (tmp$ = firstOrNull$result) != null ? tmp$ : sceKernelException(SceKernelErrors_getInstance().ERROR_ATRAC_NO_ID);
+    var info = id.info;
+    var $this = this.logger;
+    var level = LogLevel.TRACE;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceAtracSetDataAndGetID Partially implemented');
+    }
+    var res = util_0.Atrac3PlusUtil.analyzeRiffFile_rta5a5$(openSync_1(data), 0, bufferSize, id.info);
+    if (res < 0)
+      return res;
+    var outputChannels = 2;
+    id.inputBuffer = new PtrArray(data, bufferSize);
+    var startSkippedSamples = this.getStartSkippedSamples_za3lpa$(util_0.Atrac3PlusUtil.PSP_CODEC_AT3PLUS);
+    var maxSamples = this.getMaxSamples_za3lpa$(util_0.Atrac3PlusUtil.PSP_CODEC_AT3PLUS);
+    var skippedSamples = startSkippedSamples + info.atracSampleOffset | 0;
+    var skippedFrames = toIntCeil(skippedSamples / maxSamples);
+    id.readAddr = data.addr + id.info.inputFileDataOffset + Kotlin.imul(skippedFrames, info.atracBytesPerFrame) | 0;
+    id.decoder.init_tjonv8$(id.info.atracBytesPerFrame, id.info.atracChannels, outputChannels, 0);
+    return id.id;
+  };
+  sceAtrac3plus.prototype.sceAtracGetSecondBufferInfo_k085z6$ = function (atID, puiPosition, puiDataByte) {
     var $this = this.logger;
     var level = LogLevel.ERROR;
     if (level.index <= $this.processedLevel.index) {
-      $this.actualLog_t189ph$(level, 'sceAtracGetSecondBufferInfo Not implemented (' + id + ', ' + puiPosition + ', ' + puiDataByte + ')');
+      $this.actualLog_t189ph$(level, 'sceAtracGetSecondBufferInfo Not implemented (' + atID + ', ' + puiPosition + ', ' + puiDataByte + ')');
     }
+    var id = this.getAtrac_za3lpa$(atID);
+    if (!id.isSecondBufferNeeded) {
+      puiPosition.set_vux9f0$(0, 0);
+      puiDataByte.set_vux9f0$(0, 0);
+      return SceKernelErrors_getInstance().ERROR_ATRAC_SECOND_BUFFER_NOT_NEEDED;
+    }
+    puiPosition.set_vux9f0$(0, id.secondBufferReadPosition);
+    puiDataByte.set_vux9f0$(0, id.secondBufferSize);
     return 0;
   };
   sceAtrac3plus.prototype.sceAtracSetSecondBuffer_ypwtlu$ = function (id, puiPosition, puiDataByte) {
@@ -25029,39 +27084,76 @@
     }
     return 0;
   };
-  sceAtrac3plus.prototype.sceAtracGetRemainFrame_o62i3q$ = function (id, remainFramePtr) {
+  sceAtrac3plus.prototype.sceAtracGetRemainFrame_130naz$ = function (atID, remainFramePtr) {
     var $this = this.logger;
     var level = LogLevel.ERROR;
     if (level.index <= $this.processedLevel.index) {
-      $this.actualLog_t189ph$(level, 'sceAtracGetRemainFrame Not implemented (' + id + ', ' + remainFramePtr + ')');
+      $this.actualLog_t189ph$(level, 'sceAtracGetRemainFrame Not implemented (' + atID + ', ' + remainFramePtr + ')');
     }
+    var id = this.getAtrac_za3lpa$(atID);
+    remainFramePtr.set_za3lpa$(-1);
     return 0;
   };
-  sceAtrac3plus.prototype.sceAtracGetNextDecodePosition_o62i3q$ = function (id, samplePositionPtr) {
+  sceAtrac3plus.prototype.sceAtracGetNextDecodePosition_o62i3q$ = function (atracId, samplePositionPtr) {
+    var id = this.getAtrac_za3lpa$(atracId);
     var $this = this.logger;
-    var level = LogLevel.ERROR;
+    var level = LogLevel.INFO;
     if (level.index <= $this.processedLevel.index) {
       $this.actualLog_t189ph$(level, 'sceAtracGetNextDecodePosition Not implemented (' + id + ', ' + samplePositionPtr + ')');
     }
-    return 0;
-  };
-  sceAtrac3plus.prototype.sceAtracDecodeData_pre7by$ = function (id, samplesOutPtr, decodedSamplesCountPtr, reachedEndPtr, remainingFramesToDecodePtr) {
-    var $this = this.logger;
-    var level = LogLevel.ERROR;
-    if (level.index <= $this.processedLevel.index) {
-      $this.actualLog_t189ph$(level, 'sceAtracDecodeData Not implemented (' + id + ', ' + samplesOutPtr + ', ' + decodedSamplesCountPtr + ', ' + reachedEndPtr + ', ' + remainingFramesToDecodePtr + ')');
+    if (id.atracCurrentSample >= id.atracEndSample)
+      sceKernelException(SceKernelErrors_getInstance().ERROR_ATRAC_ALL_DATA_DECODED);
+    samplePositionPtr.sw_vux9f0$(0, id.atracCurrentSample);
+    var $this_0 = this.logger;
+    var level_0 = LogLevel.TRACE;
+    if (level_0.index <= $this_0.processedLevel.index) {
+      $this_0.actualLog_t189ph$(level_0, format('sceAtracGetNextDecodePosition returning pos=%d', [samplePositionPtr.lw_za3lpa$(0)]));
     }
     return 0;
   };
-  sceAtrac3plus.prototype.sceAtracGetStreamDataInfo_u114re$ = function (id, writePointerPointer, availableBytesPtr, readOffsetPtr) {
+  sceAtrac3plus.prototype.sceAtracDecodeData_jd53a8$ = function (idAT, samplesAddr, samplesNbrAddr, outEndAddr, remainFramesAddr) {
+    var $this = this.logger;
+    var level = LogLevel.TRACE;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceAtracDecodeData Not implemented (' + idAT + ', ' + samplesAddr + ', ' + samplesNbrAddr + ', ' + outEndAddr + ', ' + remainFramesAddr + ')');
+    }
+    var id = this.getAtrac_za3lpa$(idAT);
+    var info = id.info;
+    if (id.isSecondBufferNeeded && !id.isSecondBufferSet) {
+      var $this_0 = this.logger;
+      var level_0 = LogLevel.WARN;
+      if (level_0.index <= $this_0.processedLevel.index) {
+        $this_0.actualLog_t189ph$(level_0, format('sceAtracDecodeData atracID=0x%X needs second buffer!', [idAT]));
+      }
+      return SceKernelErrors_getInstance().ERROR_ATRAC_SECOND_BUFFER_NEEDED;
+    }
+    var result = id.decoder.decode_ojvk5q$(this.emulator.imem, id.readAddr, id.info.atracBytesPerFrame, openSync_1(samplesAddr));
+    if (result < 0) {
+      samplesNbrAddr.set_za3lpa$(0);
+      return result;
+    }
+    id.readAddr = id.readAddr + info.atracBytesPerFrame | 0;
+    samplesNbrAddr.set_za3lpa$(id.decoder.numberOfSamples);
+    remainFramesAddr.set_za3lpa$(id.remainFrames);
+    if (result === 0)
+      get_threadManager(this).delayThread_za3lpa$(2300);
+    return result;
+  };
+  sceAtrac3plus.prototype.sceAtracGetStreamDataInfo_u114re$ = function (idAT, writePointerPointer, availableBytesPtr, readOffsetPtr) {
     var $this = this.logger;
     var level = LogLevel.ERROR;
     if (level.index <= $this.processedLevel.index) {
-      $this.actualLog_t189ph$(level, 'sceAtracGetStreamDataInfo Not implemented (' + id + ', ' + writePointerPointer + ', ' + availableBytesPtr + ', ' + readOffsetPtr + ')');
+      $this.actualLog_t189ph$(level, 'sceAtracGetStreamDataInfo Not implemented (' + idAT + ', ' + writePointerPointer + ', ' + availableBytesPtr + ', ' + readOffsetPtr + ')');
     }
+    var id = this.getAtrac_za3lpa$(idAT);
     return 0;
   };
   sceAtrac3plus.prototype.sceAtracAddStreamData_vux9f0$ = function (id, bytesToAdd) {
+    return 0;
+  };
+  sceAtrac3plus.prototype.sceAtracReleaseAtracID_za3lpa$ = function (id) {
+    var atrac = this.getAtrac_za3lpa$(id);
+    atrac.inUse = false;
     return 0;
   };
   sceAtrac3plus.prototype.sceAtracSetData_xt3zvs$ = function (cpu) {
@@ -25093,9 +27185,6 @@
   };
   sceAtrac3plus.prototype.sceAtracSetAA3HalfwayBufferAndGetID_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1574331784);
-  };
-  sceAtrac3plus.prototype.sceAtracReleaseAtracID_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(1642804213);
   };
   sceAtrac3plus.prototype.sceAtracResetPlayPosition_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1682855431);
@@ -25135,117 +27224,116 @@
   };
   function sceAtrac3plus$registerModule$lambda(this$sceAtrac3plus) {
     return function ($receiver, it) {
-      return this$sceAtrac3plus.sceAtracSetDataAndGetID_xnxgf8$($receiver.ptr);
+      return this$sceAtrac3plus.sceAtracSetDataAndGetID_1fpi1a$($receiver.ptr, $receiver.int);
     };
   }
   function sceAtrac3plus$registerModule$lambda_0(this$sceAtrac3plus) {
     return function ($receiver, it) {
-      return this$sceAtrac3plus.sceAtracGetSecondBufferInfo_ypwtlu$($receiver.int, $receiver.ptr, $receiver.ptr);
+      return this$sceAtrac3plus.sceAtracReleaseAtracID_za3lpa$($receiver.int);
     };
   }
   function sceAtrac3plus$registerModule$lambda_1(this$sceAtrac3plus) {
     return function ($receiver, it) {
-      return this$sceAtrac3plus.sceAtracSetSecondBuffer_ypwtlu$($receiver.int, $receiver.ptr, $receiver.ptr);
+      return this$sceAtrac3plus.sceAtracGetSecondBufferInfo_k085z6$($receiver.int, $receiver.ptr32, $receiver.ptr32);
     };
   }
   function sceAtrac3plus$registerModule$lambda_2(this$sceAtrac3plus) {
     return function ($receiver, it) {
-      return this$sceAtrac3plus.sceAtracGetSoundSample_u114re$($receiver.int, $receiver.ptr, $receiver.ptr, $receiver.ptr);
+      return this$sceAtrac3plus.sceAtracSetSecondBuffer_ypwtlu$($receiver.int, $receiver.ptr, $receiver.ptr);
     };
   }
   function sceAtrac3plus$registerModule$lambda_3(this$sceAtrac3plus) {
     return function ($receiver, it) {
-      return this$sceAtrac3plus.sceAtracSetLoopNum_vux9f0$($receiver.int, $receiver.int);
+      return this$sceAtrac3plus.sceAtracGetSoundSample_u114re$($receiver.int, $receiver.ptr, $receiver.ptr, $receiver.ptr);
     };
   }
   function sceAtrac3plus$registerModule$lambda_4(this$sceAtrac3plus) {
     return function ($receiver, it) {
-      return this$sceAtrac3plus.sceAtracGetRemainFrame_o62i3q$($receiver.int, $receiver.ptr);
+      return this$sceAtrac3plus.sceAtracSetLoopNum_vux9f0$($receiver.int, $receiver.int);
     };
   }
   function sceAtrac3plus$registerModule$lambda_5(this$sceAtrac3plus) {
     return function ($receiver, it) {
-      return this$sceAtrac3plus.sceAtracGetNextDecodePosition_o62i3q$($receiver.int, $receiver.ptr);
+      return this$sceAtrac3plus.sceAtracGetRemainFrame_130naz$($receiver.int, $receiver.ptr32);
     };
   }
   function sceAtrac3plus$registerModule$lambda_6(this$sceAtrac3plus) {
     return function ($receiver, it) {
-      return this$sceAtrac3plus.sceAtracDecodeData_pre7by$($receiver.int, $receiver.ptr, $receiver.ptr, $receiver.ptr, $receiver.ptr);
+      return this$sceAtrac3plus.sceAtracGetNextDecodePosition_o62i3q$($receiver.int, $receiver.ptr);
     };
   }
   function sceAtrac3plus$registerModule$lambda_7(this$sceAtrac3plus) {
     return function ($receiver, it) {
-      return this$sceAtrac3plus.sceAtracGetStreamDataInfo_u114re$($receiver.int, $receiver.ptr, $receiver.ptr, $receiver.ptr);
+      return this$sceAtrac3plus.sceAtracDecodeData_jd53a8$($receiver.int, $receiver.ptr, $receiver.ptr32, $receiver.ptr, $receiver.ptr32);
     };
   }
   function sceAtrac3plus$registerModule$lambda_8(this$sceAtrac3plus) {
     return function ($receiver, it) {
-      return this$sceAtrac3plus.sceAtracAddStreamData_vux9f0$($receiver.int, $receiver.int);
+      return this$sceAtrac3plus.sceAtracGetStreamDataInfo_u114re$($receiver.int, $receiver.ptr, $receiver.ptr, $receiver.ptr);
     };
   }
   function sceAtrac3plus$registerModule$lambda_9(this$sceAtrac3plus) {
+    return function ($receiver, it) {
+      return this$sceAtrac3plus.sceAtracAddStreamData_vux9f0$($receiver.int, $receiver.int);
+    };
+  }
+  function sceAtrac3plus$registerModule$lambda_10(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracSetData_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_10(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_11(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracSetHalfwayBufferAndGetID_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_11(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_12(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracReinit_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_12(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_13(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtrac3plus_2DD3E298_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_13(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_14(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracGetChannel_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_14(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_15(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracGetNextSample_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_15(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_16(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracSetHalfwayBuffer_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_16(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_17(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracSetAA3DataAndGetID_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_17(this$sceAtrac3plus) {
+  function sceAtrac3plus$registerModule$lambda_18(this$sceAtrac3plus) {
     return function (it) {
       this$sceAtrac3plus.sceAtracSetMOutHalfwayBuffer_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAtrac3plus$registerModule$lambda_18(this$sceAtrac3plus) {
-    return function (it) {
-      this$sceAtrac3plus.sceAtracSetAA3HalfwayBufferAndGetID_xt3zvs$(it);
-      return Unit;
-    };
-  }
   function sceAtrac3plus$registerModule$lambda_19(this$sceAtrac3plus) {
     return function (it) {
-      this$sceAtrac3plus.sceAtracReleaseAtracID_xt3zvs$(it);
+      this$sceAtrac3plus.sceAtracSetAA3HalfwayBufferAndGetID_xt3zvs$(it);
       return Unit;
     };
   }
@@ -25323,26 +27411,26 @@
   }
   sceAtrac3plus.prototype.registerModule = function () {
     this.registerFunctionInt_9l82lv$('sceAtracSetDataAndGetID', Kotlin.Long.fromInt(2048976815), 150, void 0, sceAtrac3plus$registerModule$lambda(this));
-    this.registerFunctionInt_9l82lv$('sceAtracGetSecondBufferInfo', new Kotlin.Long(-2081923424, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_0(this));
-    this.registerFunctionInt_9l82lv$('sceAtracSetSecondBuffer', new Kotlin.Long(-2084603139, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_1(this));
-    this.registerFunctionInt_9l82lv$('sceAtracGetSoundSample', new Kotlin.Long(-1564759874, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_2(this));
-    this.registerFunctionInt_9l82lv$('sceAtracSetLoopNum', new Kotlin.Long(-2038357835, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_3(this));
-    this.registerFunctionInt_9l82lv$('sceAtracGetRemainFrame', new Kotlin.Long(-1696052825, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_4(this));
-    this.registerFunctionInt_9l82lv$('sceAtracGetNextDecodePosition', new Kotlin.Long(-499238347, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_5(this));
-    this.registerFunctionInt_9l82lv$('sceAtracDecodeData', Kotlin.Long.fromInt(1787575509), 150, void 0, sceAtrac3plus$registerModule$lambda_6(this));
-    this.registerFunctionInt_9l82lv$('sceAtracGetStreamDataInfo', Kotlin.Long.fromInt(1562806023), 150, void 0, sceAtrac3plus$registerModule$lambda_7(this));
-    this.registerFunctionInt_9l82lv$('sceAtracAddStreamData', Kotlin.Long.fromInt(2108887633), 150, void 0, sceAtrac3plus$registerModule$lambda_8(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetData', Kotlin.Long.fromInt(237663147), 150, void 0, sceAtrac3plus$registerModule$lambda_9(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetHalfwayBufferAndGetID', Kotlin.Long.fromInt(263075598), 150, void 0, sceAtrac3plus$registerModule$lambda_10(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracReinit', Kotlin.Long.fromInt(321855178), 150, void 0, sceAtrac3plus$registerModule$lambda_11(this));
-    this.registerFunctionRaw_gh35x6$('sceAtrac3plus_2DD3E298', Kotlin.Long.fromInt(768860824), 150, void 0, sceAtrac3plus$registerModule$lambda_12(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracGetChannel', Kotlin.Long.fromInt(828804010), 150, void 0, sceAtrac3plus$registerModule$lambda_13(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracGetNextSample', Kotlin.Long.fromInt(922397691), 150, void 0, sceAtrac3plus$registerModule$lambda_14(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetHalfwayBuffer', Kotlin.Long.fromInt(1064183477), 150, void 0, sceAtrac3plus$registerModule$lambda_15(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetAA3DataAndGetID', Kotlin.Long.fromInt(1445115841), 150, void 0, sceAtrac3plus$registerModule$lambda_16(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetMOutHalfwayBuffer', Kotlin.Long.fromInt(1559877714), 150, void 0, sceAtrac3plus$registerModule$lambda_17(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracSetAA3HalfwayBufferAndGetID', Kotlin.Long.fromInt(1574331784), 150, void 0, sceAtrac3plus$registerModule$lambda_18(this));
-    this.registerFunctionRaw_gh35x6$('sceAtracReleaseAtracID', Kotlin.Long.fromInt(1642804213), 150, void 0, sceAtrac3plus$registerModule$lambda_19(this));
+    this.registerFunctionInt_9l82lv$('sceAtracReleaseAtracID', Kotlin.Long.fromInt(1642804213), 150, void 0, sceAtrac3plus$registerModule$lambda_0(this));
+    this.registerFunctionInt_9l82lv$('sceAtracGetSecondBufferInfo', new Kotlin.Long(-2081923424, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_1(this));
+    this.registerFunctionInt_9l82lv$('sceAtracSetSecondBuffer', new Kotlin.Long(-2084603139, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_2(this));
+    this.registerFunctionInt_9l82lv$('sceAtracGetSoundSample', new Kotlin.Long(-1564759874, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_3(this));
+    this.registerFunctionInt_9l82lv$('sceAtracSetLoopNum', new Kotlin.Long(-2038357835, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_4(this));
+    this.registerFunctionInt_9l82lv$('sceAtracGetRemainFrame', new Kotlin.Long(-1696052825, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_5(this));
+    this.registerFunctionInt_9l82lv$('sceAtracGetNextDecodePosition', new Kotlin.Long(-499238347, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_6(this));
+    this.registerFunctionInt_9l82lv$('sceAtracDecodeData', Kotlin.Long.fromInt(1787575509), 150, void 0, sceAtrac3plus$registerModule$lambda_7(this));
+    this.registerFunctionInt_9l82lv$('sceAtracGetStreamDataInfo', Kotlin.Long.fromInt(1562806023), 150, void 0, sceAtrac3plus$registerModule$lambda_8(this));
+    this.registerFunctionInt_9l82lv$('sceAtracAddStreamData', Kotlin.Long.fromInt(2108887633), 150, void 0, sceAtrac3plus$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracSetData', Kotlin.Long.fromInt(237663147), 150, void 0, sceAtrac3plus$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracSetHalfwayBufferAndGetID', Kotlin.Long.fromInt(263075598), 150, void 0, sceAtrac3plus$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracReinit', Kotlin.Long.fromInt(321855178), 150, void 0, sceAtrac3plus$registerModule$lambda_12(this));
+    this.registerFunctionRaw_gh35x6$('sceAtrac3plus_2DD3E298', Kotlin.Long.fromInt(768860824), 150, void 0, sceAtrac3plus$registerModule$lambda_13(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracGetChannel', Kotlin.Long.fromInt(828804010), 150, void 0, sceAtrac3plus$registerModule$lambda_14(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracGetNextSample', Kotlin.Long.fromInt(922397691), 150, void 0, sceAtrac3plus$registerModule$lambda_15(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracSetHalfwayBuffer', Kotlin.Long.fromInt(1064183477), 150, void 0, sceAtrac3plus$registerModule$lambda_16(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracSetAA3DataAndGetID', Kotlin.Long.fromInt(1445115841), 150, void 0, sceAtrac3plus$registerModule$lambda_17(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracSetMOutHalfwayBuffer', Kotlin.Long.fromInt(1559877714), 150, void 0, sceAtrac3plus$registerModule$lambda_18(this));
+    this.registerFunctionRaw_gh35x6$('sceAtracSetAA3HalfwayBufferAndGetID', Kotlin.Long.fromInt(1574331784), 150, void 0, sceAtrac3plus$registerModule$lambda_19(this));
     this.registerFunctionRaw_gh35x6$('sceAtracResetPlayPosition', Kotlin.Long.fromInt(1682855431), 150, void 0, sceAtrac3plus$registerModule$lambda_20(this));
     this.registerFunctionRaw_gh35x6$('sceAtracGetAtracID', Kotlin.Long.fromInt(2014283985), 150, void 0, sceAtrac3plus$registerModule$lambda_21(this));
     this.registerFunctionRaw_gh35x6$('sceAtracSetMOutHalfwayBufferAndGetID', new Kotlin.Long(-1663574525, 0), 150, void 0, sceAtrac3plus$registerModule$lambda_22(this));
@@ -25396,11 +27484,12 @@
     this.id = id;
     this.reserved = false;
     this.stream_toy6ih$_0 = lazy(sceAudio$AudioChannel$stream$lambda);
-    this.sampleCount = 0;
     this.audioFormat = 0;
     this.line = new Int16Array(0);
+    this.lineEx = new Int16Array(0);
     this.volumeLeft = 1.0;
     this.volumeRight = 1.0;
+    this.sampleCount_eadmoa$_0 = 0;
   }
   Object.defineProperty(sceAudio$AudioChannel.prototype, 'stream', {
     get: function () {
@@ -25419,6 +27508,19 @@
       return this.isStereo ? 2 : 1;
     }
   });
+  Object.defineProperty(sceAudio$AudioChannel.prototype, 'sampleCount', {
+    get: function () {
+      return this.sampleCount_eadmoa$_0;
+    },
+    set: function (value) {
+      this.sampleCount_eadmoa$_0 = value;
+      this.line = new Int16Array(Kotlin.imul(this.sampleCount, this.shortsPerSamples));
+      this.lineEx = new Int16Array(this.sampleCount * 2 | 0);
+    }
+  });
+  sceAudio$AudioChannel.prototype.ensureInitStream = function () {
+    return this.stream;
+  };
   function sceAudio$AudioChannel$stream$lambda() {
     return new NativeAudioStream();
   }
@@ -25458,11 +27560,10 @@
     if (level.index <= $this.processedLevel.index) {
       $this.actualLog_t189ph$(level, 'WIP: sceAudioChReserve: ' + channelId + ', ' + sampleCount + ', ' + audioFormat);
     }
-    channel.stream;
+    channel.ensureInitStream();
     channel.reserved = true;
-    channel.sampleCount = sampleCount;
     channel.audioFormat = audioFormat;
-    channel.line = new Int16Array(Kotlin.imul(sampleCount, channel.shortsPerSamples));
+    channel.sampleCount = sampleCount;
     return actualChannelId;
   };
   sceAudio.prototype._sceAudioOutputPannedBlocking_myfpo8$ = function (channelId_0, leftVolume_0, rightVolume_0, ptr_0, continuation_0, suspended) {
@@ -25493,6 +27594,7 @@
       try {
         switch (this.state_0) {
           case 0:
+            var tmp$, tmp$_0, tmp$_1;
             var $this = this.$this.logger;
             var level = LogLevel.TRACE;
             if (level.index <= $this.processedLevel.index) {
@@ -25501,8 +27603,25 @@
 
             var channel = this.$this.channels.get_za3lpa$(this.local$channelId);
             get_mem(this.$this).read_r43jz4$(this.local$ptr, channel.line, 0, channel.line.length);
+            if (channel.isStereo) {
+              var tmp$_2 = channel.line;
+              var tmp$_3 = channel.lineEx;
+              var a = channel.line.length;
+              var b = channel.lineEx.length;
+              arraycopy_1(tmp$_2, 0, tmp$_3, 0, Math_0.min(a, b));
+            }
+             else {
+              var m = 0;
+              tmp$ = channel.sampleCount;
+              for (var n = 0; n < tmp$; n++) {
+                var sh = channel.line[n];
+                channel.lineEx[tmp$_0 = m, m = tmp$_0 + 1 | 0, tmp$_0] = sh;
+                channel.lineEx[tmp$_1 = m, m = tmp$_1 + 1 | 0, tmp$_1] = sh;
+              }
+            }
+
             this.state_0 = 2;
-            this.result_0 = addSamples(channel.stream, channel.line, this);
+            this.result_0 = addSamples(channel.stream, channel.lineEx, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -25542,6 +27661,11 @@
     var channel = this.channels.get_za3lpa$(channelId);
     channel.volumeLeft = this.shortVolumeToDouble_0(volumeLeft);
     channel.volumeRight = this.shortVolumeToDouble_0(volumeRight);
+    return 0;
+  };
+  sceAudio.prototype.sceAudioSetChannelDataLen_vux9f0$ = function (channelId, sampleCount) {
+    var channel = this.channels.get_za3lpa$(channelId);
+    channel.sampleCount = sampleCount;
     return 0;
   };
   sceAudio.prototype.sceAudioChReserve_xt3zvs$ = function (cpu) {
@@ -25600,9 +27724,6 @@
   };
   sceAudio.prototype.sceAudioGetChannelRestLength_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1341025745, 0));
-  };
-  sceAudio.prototype.sceAudioSetChannelDataLen_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-886160482, 0));
   };
   sceAudio.prototype.sceAudioSRCOutputBlocking_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-529371050, 0));
@@ -25725,116 +27846,115 @@
      while (true);
   };
   function sceAudio$registerModule$lambda_3(this$sceAudio) {
+    return function ($receiver, it) {
+      return this$sceAudio.sceAudioSetChannelDataLen_vux9f0$($receiver.int, $receiver.int);
+    };
+  }
+  function sceAudio$registerModule$lambda_4(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioOutput2Reserve_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_4(this$sceAudio) {
+  function sceAudio$registerModule$lambda_5(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioInputBlocking_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_5(this$sceAudio) {
+  function sceAudio$registerModule$lambda_6(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioOutput2OutputBlocking_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_6(this$sceAudio) {
+  function sceAudio$registerModule$lambda_7(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioSRCChReserve_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_7(this$sceAudio) {
+  function sceAudio$registerModule$lambda_8(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioOneshotOutput_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_8(this$sceAudio) {
+  function sceAudio$registerModule$lambda_9(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioOutput2Release_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_9(this$sceAudio) {
+  function sceAudio$registerModule$lambda_10(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioSRCChRelease_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_10(this$sceAudio) {
+  function sceAudio$registerModule$lambda_11(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioOutput2ChangeLength_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_11(this$sceAudio) {
+  function sceAudio$registerModule$lambda_12(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioOutput2GetRestSample_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_12(this$sceAudio) {
+  function sceAudio$registerModule$lambda_13(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioInput_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_13(this$sceAudio) {
+  function sceAudio$registerModule$lambda_14(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioChRelease_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_14(this$sceAudio) {
+  function sceAudio$registerModule$lambda_15(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioInputInit_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_15(this$sceAudio) {
+  function sceAudio$registerModule$lambda_16(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioWaitInputEnd_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_16(this$sceAudio) {
+  function sceAudio$registerModule$lambda_17(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioOutput_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_17(this$sceAudio) {
+  function sceAudio$registerModule$lambda_18(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioChangeChannelConfig_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_18(this$sceAudio) {
+  function sceAudio$registerModule$lambda_19(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioPollInputEnd_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_19(this$sceAudio) {
+  function sceAudio$registerModule$lambda_20(this$sceAudio) {
     return function (it) {
       this$sceAudio.sceAudioGetInputLength_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceAudio$registerModule$lambda_20(this$sceAudio) {
-    return function (it) {
-      this$sceAudio.sceAudioGetChannelRestLength_xt3zvs$(it);
-      return Unit;
-    };
-  }
   function sceAudio$registerModule$lambda_21(this$sceAudio) {
     return function (it) {
-      this$sceAudio.sceAudioSetChannelDataLen_xt3zvs$(it);
+      this$sceAudio.sceAudioGetChannelRestLength_xt3zvs$(it);
       return Unit;
     };
   }
@@ -25867,25 +27987,25 @@
     this.registerFunctionInt_9l82lv$('sceAudioChangeChannelVolume', new Kotlin.Long(-1209935641, 0), 150, void 0, sceAudio$registerModule$lambda_0(this));
     this.registerFunctionSuspendInt_q1rm4a$('sceAudioOutputPannedBlocking', Kotlin.Long.fromInt(334860988), 150, void 0, void 0, sceAudio$registerModule$lambda_1(this));
     this.registerFunctionSuspendInt_q1rm4a$('sceAudioOutputBlocking', Kotlin.Long.fromInt(325889873), 150, void 0, void 0, sceAudio$registerModule$lambda_2(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOutput2Reserve', Kotlin.Long.fromInt(22424483), 150, void 0, sceAudio$registerModule$lambda_3(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioInputBlocking', Kotlin.Long.fromInt(141449365), 150, void 0, sceAudio$registerModule$lambda_4(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOutput2OutputBlocking', Kotlin.Long.fromInt(760476526), 150, void 0, sceAudio$registerModule$lambda_5(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioSRCChReserve', Kotlin.Long.fromInt(945107217), 150, void 0, sceAudio$registerModule$lambda_6(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOneshotOutput', Kotlin.Long.fromInt(1106226663), 150, void 0, sceAudio$registerModule$lambda_7(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOutput2Release', Kotlin.Long.fromInt(1125738565), 150, void 0, sceAudio$registerModule$lambda_8(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioSRCChRelease', Kotlin.Long.fromInt(1547157678), 150, void 0, sceAudio$registerModule$lambda_9(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOutput2ChangeLength', Kotlin.Long.fromInt(1676839068), 150, void 0, sceAudio$registerModule$lambda_10(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOutput2GetRestSample', Kotlin.Long.fromInt(1685909299), 150, void 0, sceAudio$registerModule$lambda_11(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioInput', Kotlin.Long.fromInt(1833692264), 150, void 0, sceAudio$registerModule$lambda_12(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioChRelease', Kotlin.Long.fromInt(1875142739), 150, void 0, sceAudio$registerModule$lambda_13(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioInputInit', Kotlin.Long.fromInt(2112231048), 150, void 0, sceAudio$registerModule$lambda_14(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioWaitInputEnd', new Kotlin.Long(-2018318767, 0), 150, void 0, sceAudio$registerModule$lambda_15(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioOutput', new Kotlin.Long(-1945105998, 0), 150, void 0, sceAudio$registerModule$lambda_16(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioChangeChannelConfig', new Kotlin.Long(-1778578387, 0), 150, void 0, sceAudio$registerModule$lambda_17(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioPollInputEnd', new Kotlin.Long(-1506605938, 0), 150, void 0, sceAudio$registerModule$lambda_18(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioGetInputLength', new Kotlin.Long(-1492597082, 0), 150, void 0, sceAudio$registerModule$lambda_19(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioGetChannelRestLength', new Kotlin.Long(-1341025745, 0), 150, void 0, sceAudio$registerModule$lambda_20(this));
-    this.registerFunctionRaw_gh35x6$('sceAudioSetChannelDataLen', new Kotlin.Long(-886160482, 0), 150, void 0, sceAudio$registerModule$lambda_21(this));
+    this.registerFunctionInt_9l82lv$('sceAudioSetChannelDataLen', new Kotlin.Long(-886160482, 0), 150, void 0, sceAudio$registerModule$lambda_3(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioOutput2Reserve', Kotlin.Long.fromInt(22424483), 150, void 0, sceAudio$registerModule$lambda_4(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioInputBlocking', Kotlin.Long.fromInt(141449365), 150, void 0, sceAudio$registerModule$lambda_5(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioOutput2OutputBlocking', Kotlin.Long.fromInt(760476526), 150, void 0, sceAudio$registerModule$lambda_6(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioSRCChReserve', Kotlin.Long.fromInt(945107217), 150, void 0, sceAudio$registerModule$lambda_7(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioOneshotOutput', Kotlin.Long.fromInt(1106226663), 150, void 0, sceAudio$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioOutput2Release', Kotlin.Long.fromInt(1125738565), 150, void 0, sceAudio$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioSRCChRelease', Kotlin.Long.fromInt(1547157678), 150, void 0, sceAudio$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioOutput2ChangeLength', Kotlin.Long.fromInt(1676839068), 150, void 0, sceAudio$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioOutput2GetRestSample', Kotlin.Long.fromInt(1685909299), 150, void 0, sceAudio$registerModule$lambda_12(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioInput', Kotlin.Long.fromInt(1833692264), 150, void 0, sceAudio$registerModule$lambda_13(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioChRelease', Kotlin.Long.fromInt(1875142739), 150, void 0, sceAudio$registerModule$lambda_14(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioInputInit', Kotlin.Long.fromInt(2112231048), 150, void 0, sceAudio$registerModule$lambda_15(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioWaitInputEnd', new Kotlin.Long(-2018318767, 0), 150, void 0, sceAudio$registerModule$lambda_16(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioOutput', new Kotlin.Long(-1945105998, 0), 150, void 0, sceAudio$registerModule$lambda_17(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioChangeChannelConfig', new Kotlin.Long(-1778578387, 0), 150, void 0, sceAudio$registerModule$lambda_18(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioPollInputEnd', new Kotlin.Long(-1506605938, 0), 150, void 0, sceAudio$registerModule$lambda_19(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioGetInputLength', new Kotlin.Long(-1492597082, 0), 150, void 0, sceAudio$registerModule$lambda_20(this));
+    this.registerFunctionRaw_gh35x6$('sceAudioGetChannelRestLength', new Kotlin.Long(-1341025745, 0), 150, void 0, sceAudio$registerModule$lambda_21(this));
     this.registerFunctionRaw_gh35x6$('sceAudioSRCOutputBlocking', new Kotlin.Long(-529371050, 0), 150, void 0, sceAudio$registerModule$lambda_22(this));
     this.registerFunctionRaw_gh35x6$('sceAudioOutputPanned', new Kotlin.Long(-489329875, 0), 150, void 0, sceAudio$registerModule$lambda_23(this));
     this.registerFunctionRaw_gh35x6$('sceAudioInputInitEx', new Kotlin.Long(-383331333, 0), 150, void 0, sceAudio$registerModule$lambda_24(this));
@@ -25920,7 +28040,7 @@
   sceCtrl.prototype.sceCtrlPeekBufferPositive_1fpi1a$ = function (sceCtrlDataPtr, count) {
     return this._sceCtrlPeekBuffer_0(sceCtrlDataPtr, count, true);
   };
-  sceCtrl.prototype.sceCtrlReadBufferPositive_1fpi1a$ = function (sceCtrlDataPtr, count) {
+  sceCtrl.prototype.sceCtrlReadBufferPositive_1fpi1a$ = function (sceCtrlDataPtr, count, continuation) {
     return this.sceCtrlPeekBufferPositive_1fpi1a$(sceCtrlDataPtr, count);
   };
   sceCtrl.prototype.sceCtrlSetSamplingCycle_za3lpa$ = function (samplingCycle) {
@@ -25986,11 +28106,55 @@
       return this$sceCtrl.sceCtrlPeekBufferPositive_1fpi1a$($receiver.ptr, $receiver.int);
     };
   }
-  function sceCtrl$registerModule$lambda_0(this$sceCtrl) {
-    return function ($receiver, it) {
-      return this$sceCtrl.sceCtrlReadBufferPositive_1fpi1a$($receiver.ptr, $receiver.int);
+  function sceCtrl$registerModule$lambda_0(this$sceCtrl_0) {
+    return function ($receiver_0, it, continuation_0, suspended) {
+      var instance = new Coroutine$sceCtrl$registerModule$lambda(this$sceCtrl_0, $receiver_0, it, this, continuation_0);
+      if (suspended)
+        return instance;
+      else
+        return instance.doResume(null);
     };
   }
+  function Coroutine$sceCtrl$registerModule$lambda(this$sceCtrl_0, $receiver_0, it, controller, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.$controller = controller;
+    this.exceptionState_0 = 1;
+    this.local$this$sceCtrl = this$sceCtrl_0;
+    this.local$$receiver = $receiver_0;
+  }
+  Coroutine$sceCtrl$registerModule$lambda.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$sceCtrl$registerModule$lambda.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$sceCtrl$registerModule$lambda.prototype.constructor = Coroutine$sceCtrl$registerModule$lambda;
+  Coroutine$sceCtrl$registerModule$lambda.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 2;
+            this.result_0 = this.local$this$sceCtrl.sceCtrlReadBufferPositive_1fpi1a$(this.local$$receiver.ptr, this.local$$receiver.int, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            return this.result_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
   function sceCtrl$registerModule$lambda_1(this$sceCtrl) {
     return function ($receiver, it) {
       return this$sceCtrl.sceCtrlSetSamplingCycle_za3lpa$($receiver.int);
@@ -26074,7 +28238,7 @@
   }
   sceCtrl.prototype.registerModule = function () {
     this.registerFunctionInt_9l82lv$('sceCtrlPeekBufferPositive', Kotlin.Long.fromInt(979510608), 150, 8528, sceCtrl$registerModule$lambda(this));
-    this.registerFunctionInt_9l82lv$('sceCtrlReadBufferPositive', Kotlin.Long.fromInt(528496952), 150, void 0, sceCtrl$registerModule$lambda_0(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceCtrlReadBufferPositive', Kotlin.Long.fromInt(528496952), 150, void 0, void 0, sceCtrl$registerModule$lambda_0(this));
     this.registerFunctionInt_9l82lv$('sceCtrlSetSamplingCycle', Kotlin.Long.fromInt(1780970739), 150, void 0, sceCtrl$registerModule$lambda_1(this));
     this.registerFunctionInt_9l82lv$('sceCtrlSetSamplingMode', Kotlin.Long.fromInt(524292582), 150, void 0, sceCtrl$registerModule$lambda_2(this));
     this.registerFunctionInt_9l82lv$('sceCtrlReadLatch', Kotlin.Long.fromInt(190350593), 150, void 0, sceCtrl$registerModule$lambda_3(this));
@@ -26129,7 +28293,7 @@
         switch (this.state_0) {
           case 0:
             this.state_0 = 2;
-            this.result_0 = waitOne(get_display(this.$this).onVsync, this);
+            this.result_0 = get_display(this.$this).waitVblankStart(this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -26149,8 +28313,50 @@
       }
      while (true);
   };
-  sceDisplay.prototype.sceDisplayWaitVblank = function (continuation) {
-    return 0;
+  sceDisplay.prototype.sceDisplayWaitVblank = function (continuation_0, suspended) {
+    var instance = new Coroutine$sceDisplayWaitVblank(this, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  };
+  function Coroutine$sceDisplayWaitVblank($this, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.$this = $this;
+  }
+  Coroutine$sceDisplayWaitVblank.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$sceDisplayWaitVblank.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$sceDisplayWaitVblank.prototype.constructor = Coroutine$sceDisplayWaitVblank;
+  Coroutine$sceDisplayWaitVblank.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 2;
+            this.result_0 = get_display(this.$this).waitVblank(this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            return 0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
   };
   sceDisplay.prototype.sceDisplaySetFrameBuf_tjonv8$ = function (address, bufferWidth, pixelFormat, sync) {
     get_display(this).address = address;
@@ -26161,6 +28367,9 @@
   };
   sceDisplay.prototype.sceDisplayGetVcount = function () {
     return this.emulator.display.vcount;
+  };
+  sceDisplay.prototype.sceDisplayGetCurrentHcount = function () {
+    return 0;
   };
   sceDisplay.prototype.sceDisplayIsVsync_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(553879827);
@@ -26179,9 +28388,6 @@
   };
   sceDisplay.prototype.sceDisplayGetVblankRest_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1773483329);
-  };
-  sceDisplay.prototype.sceDisplayGetCurrentHcount_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(2000540579);
   };
   sceDisplay.prototype.sceDisplay_77ED8B3A_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(2012056378);
@@ -26418,44 +28624,43 @@
     };
   }
   function sceDisplay$registerModule$lambda_6(this$sceDisplay) {
+    return function ($receiver, it) {
+      return this$sceDisplay.sceDisplayGetCurrentHcount();
+    };
+  }
+  function sceDisplay$registerModule$lambda_7(this$sceDisplay) {
     return function (it) {
       this$sceDisplay.sceDisplayIsVsync_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceDisplay$registerModule$lambda_7(this$sceDisplay) {
+  function sceDisplay$registerModule$lambda_8(this$sceDisplay) {
     return function (it) {
       this$sceDisplay.sceDisplayGetAccumulatedHcount_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceDisplay$registerModule$lambda_8(this$sceDisplay) {
+  function sceDisplay$registerModule$lambda_9(this$sceDisplay) {
     return function (it) {
       this$sceDisplay.sceDisplayGetBrightness_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceDisplay$registerModule$lambda_9(this$sceDisplay) {
+  function sceDisplay$registerModule$lambda_10(this$sceDisplay) {
     return function (it) {
       this$sceDisplay.sceDisplay_40F1469C_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceDisplay$registerModule$lambda_10(this$sceDisplay) {
+  function sceDisplay$registerModule$lambda_11(this$sceDisplay) {
     return function (it) {
       this$sceDisplay.sceDisplayIsVblank_xt3zvs$(it);
       return Unit;
     };
   }
-  function sceDisplay$registerModule$lambda_11(this$sceDisplay) {
-    return function (it) {
-      this$sceDisplay.sceDisplayGetVblankRest_xt3zvs$(it);
-      return Unit;
-    };
-  }
   function sceDisplay$registerModule$lambda_12(this$sceDisplay) {
     return function (it) {
-      this$sceDisplay.sceDisplayGetCurrentHcount_xt3zvs$(it);
+      this$sceDisplay.sceDisplayGetVblankRest_xt3zvs$(it);
       return Unit;
     };
   }
@@ -26521,13 +28726,13 @@
     this.registerFunctionSuspendInt_q1rm4a$('sceDisplayWaitVblankStart', new Kotlin.Long(-1739839513, 0), 150, 8519, false, sceDisplay$registerModule$lambda_3(this));
     this.registerFunctionSuspendInt_q1rm4a$('sceDisplayWaitVblankStartCB', Kotlin.Long.fromInt(1190233795), 150, void 0, true, sceDisplay$registerModule$lambda_4(this));
     this.registerFunctionInt_9l82lv$('sceDisplayGetVcount', new Kotlin.Long(-1670468905, 0), 150, void 0, sceDisplay$registerModule$lambda_5(this));
-    this.registerFunctionRaw_gh35x6$('sceDisplayIsVsync', Kotlin.Long.fromInt(553879827), 150, void 0, sceDisplay$registerModule$lambda_6(this));
-    this.registerFunctionRaw_gh35x6$('sceDisplayGetAccumulatedHcount', Kotlin.Long.fromInt(554609466), 150, void 0, sceDisplay$registerModule$lambda_7(this));
-    this.registerFunctionRaw_gh35x6$('sceDisplayGetBrightness', Kotlin.Long.fromInt(834976424), 150, void 0, sceDisplay$registerModule$lambda_8(this));
-    this.registerFunctionRaw_gh35x6$('sceDisplay_40F1469C', Kotlin.Long.fromInt(1089554076), 150, void 0, sceDisplay$registerModule$lambda_9(this));
-    this.registerFunctionRaw_gh35x6$('sceDisplayIsVblank', Kotlin.Long.fromInt(1296961772), 150, void 0, sceDisplay$registerModule$lambda_10(this));
-    this.registerFunctionRaw_gh35x6$('sceDisplayGetVblankRest', Kotlin.Long.fromInt(1773483329), 150, void 0, sceDisplay$registerModule$lambda_11(this));
-    this.registerFunctionRaw_gh35x6$('sceDisplayGetCurrentHcount', Kotlin.Long.fromInt(2000540579), 150, void 0, sceDisplay$registerModule$lambda_12(this));
+    this.registerFunctionInt_9l82lv$('sceDisplayGetCurrentHcount', Kotlin.Long.fromInt(2000540579), 150, void 0, sceDisplay$registerModule$lambda_6(this));
+    this.registerFunctionRaw_gh35x6$('sceDisplayIsVsync', Kotlin.Long.fromInt(553879827), 150, void 0, sceDisplay$registerModule$lambda_7(this));
+    this.registerFunctionRaw_gh35x6$('sceDisplayGetAccumulatedHcount', Kotlin.Long.fromInt(554609466), 150, void 0, sceDisplay$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceDisplayGetBrightness', Kotlin.Long.fromInt(834976424), 150, void 0, sceDisplay$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceDisplay_40F1469C', Kotlin.Long.fromInt(1089554076), 150, void 0, sceDisplay$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceDisplayIsVblank', Kotlin.Long.fromInt(1296961772), 150, void 0, sceDisplay$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('sceDisplayGetVblankRest', Kotlin.Long.fromInt(1773483329), 150, void 0, sceDisplay$registerModule$lambda_12(this));
     this.registerFunctionRaw_gh35x6$('sceDisplay_77ED8B3A', Kotlin.Long.fromInt(2012056378), 150, void 0, sceDisplay$registerModule$lambda_13(this));
     this.registerFunctionRaw_gh35x6$('sceDisplaySetHoldMode', Kotlin.Long.fromInt(2127928260), 150, void 0, sceDisplay$registerModule$lambda_14(this));
     this.registerFunctionRaw_gh35x6$('sceDisplaySetResumeMode', new Kotlin.Long(-1522219898, 0), 150, void 0, sceDisplay$registerModule$lambda_15(this));
@@ -26616,7 +28821,7 @@
     displayList.sync_za3lpa$(syncType);
     return 0;
   };
-  sceGe_user.prototype.sceGeDrawSync_za3lpa$ = function (syncType) {
+  sceGe_user.prototype.sceGeDrawSync_za3lpa$ = function (syncType, continuation) {
     get_ge(this).sync_za3lpa$(syncType);
     return 0;
   };
@@ -26686,11 +28891,55 @@
       return this$sceGe_user.sceGeListSync_vux9f0$($receiver.int, $receiver.int);
     };
   }
-  function sceGe_user$registerModule$lambda_4(this$sceGe_user) {
-    return function ($receiver, it) {
-      return this$sceGe_user.sceGeDrawSync_za3lpa$($receiver.int);
+  function sceGe_user$registerModule$lambda_4(this$sceGe_user_0) {
+    return function ($receiver_0, it, continuation_0, suspended) {
+      var instance = new Coroutine$sceGe_user$registerModule$lambda(this$sceGe_user_0, $receiver_0, it, this, continuation_0);
+      if (suspended)
+        return instance;
+      else
+        return instance.doResume(null);
     };
   }
+  function Coroutine$sceGe_user$registerModule$lambda(this$sceGe_user_0, $receiver_0, it, controller, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.$controller = controller;
+    this.exceptionState_0 = 1;
+    this.local$this$sceGe_user = this$sceGe_user_0;
+    this.local$$receiver = $receiver_0;
+  }
+  Coroutine$sceGe_user$registerModule$lambda.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$sceGe_user$registerModule$lambda.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$sceGe_user$registerModule$lambda.prototype.constructor = Coroutine$sceGe_user$registerModule$lambda;
+  Coroutine$sceGe_user$registerModule$lambda.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 2;
+            this.result_0 = this.local$this$sceGe_user.sceGeDrawSync_za3lpa$(this.local$$receiver.int, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            return this.result_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
   function sceGe_user$registerModule$lambda_5(this$sceGe_user) {
     return function ($receiver, it) {
       return this$sceGe_user.sceGeSetCallback_xnxgf8$($receiver.ptr);
@@ -26765,7 +29014,7 @@
     this.registerFunctionInt_9l82lv$('sceGeListUpdateStallAddr', new Kotlin.Long(-522813112, 0), 150, void 0, sceGe_user$registerModule$lambda_1(this));
     this.registerFunctionInt_9l82lv$('sceGeListEnQueue', new Kotlin.Long(-1421219990, 0), 150, void 0, sceGe_user$registerModule$lambda_2(this));
     this.registerFunctionInt_9l82lv$('sceGeListSync', Kotlin.Long.fromInt(54808244), 150, void 0, sceGe_user$registerModule$lambda_3(this));
-    this.registerFunctionInt_9l82lv$('sceGeDrawSync', new Kotlin.Long(-1299727007, 0), 150, void 0, sceGe_user$registerModule$lambda_4(this));
+    this.registerFunctionSuspendInt_q1rm4a$('sceGeDrawSync', new Kotlin.Long(-1299727007, 0), 150, void 0, void 0, sceGe_user$registerModule$lambda_4(this));
     this.registerFunctionInt_9l82lv$('sceGeSetCallback', new Kotlin.Long(-1526987100, 0), 150, void 0, sceGe_user$registerModule$lambda_5(this));
     this.registerFunctionInt_9l82lv$('sceGeUnsetCallback', Kotlin.Long.fromInt(98247374), 150, void 0, sceGe_user$registerModule$lambda_6(this));
     this.registerFunctionInt_9l82lv$('sceGeSaveContext', Kotlin.Long.fromInt(1133131866), 150, void 0, sceGe_user$registerModule$lambda_7(this));
@@ -27695,6 +29944,826 @@
     simpleName: 'sceMpeg',
     interfaces: [SceModule]
   };
+  function sceNet(emulator) {
+    SceModule.call(this, emulator, 'sceNet', 65553, 'pspnet.prx', 'sceNet_Library');
+  }
+  sceNet.prototype.sceNetGetLocalEtherAddr_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(200319918);
+  };
+  sceNet.prototype.sceNetTerm_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(672737449);
+  };
+  sceNet.prototype.sceNetInit_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(967784870);
+  };
+  sceNet.prototype.sceNet_3B617AA0_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(996244128);
+  };
+  sceNet.prototype.sceNetFreeThreadinfo_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1348760880);
+  };
+  sceNet.prototype.sceNetEtherNtostr_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1992947376, 0));
+  };
+  sceNet.prototype.sceNetThreadAbort_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1385675578, 0));
+  };
+  sceNet.prototype.sceNet_B6FC0A5B_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1224996261, 0));
+  };
+  sceNet.prototype.sceNet_BFCFEFF6_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1076891658, 0));
+  };
+  sceNet.prototype.sceNet_C431A214_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1003380204, 0));
+  };
+  sceNet.prototype.sceNetGetMallocStat_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-868663736, 0));
+  };
+  sceNet.prototype.sceNetEtherStrton_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-763797047, 0));
+  };
+  sceNet.prototype.sceNet_DB88F458_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-611781544, 0));
+  };
+  sceNet.prototype.sceNet_E1F4696F_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-504075921, 0));
+  };
+  function sceNet$registerModule$lambda(this$sceNet) {
+    return function (it) {
+      this$sceNet.sceNetGetLocalEtherAddr_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNet$registerModule$lambda_0(this$sceNet) {
+    return function (it) {
+      this$sceNet.sceNetTerm_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNet$registerModule$lambda_1(this$sceNet) {
+    return function (it) {
+      this$sceNet.sceNetInit_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNet$registerModule$lambda_2(this$sceNet) {
+    return function (it) {
+      this$sceNet.sceNet_3B617AA0_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNet$registerModule$lambda_3(this$sceNet) {
+    return function (it) {
+      this$sceNet.sceNetFreeThreadinfo_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNet$registerModule$lambda_4(this$sceNet) {
+    return function (it) {
+      this$sceNet.sceNetEtherNtostr_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNet$registerModule$lambda_5(this$sceNet) {
+    return function (it) {
+      this$sceNet.sceNetThreadAbort_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNet$registerModule$lambda_6(this$sceNet) {
+    return function (it) {
+      this$sceNet.sceNet_B6FC0A5B_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNet$registerModule$lambda_7(this$sceNet) {
+    return function (it) {
+      this$sceNet.sceNet_BFCFEFF6_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNet$registerModule$lambda_8(this$sceNet) {
+    return function (it) {
+      this$sceNet.sceNet_C431A214_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNet$registerModule$lambda_9(this$sceNet) {
+    return function (it) {
+      this$sceNet.sceNetGetMallocStat_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNet$registerModule$lambda_10(this$sceNet) {
+    return function (it) {
+      this$sceNet.sceNetEtherStrton_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNet$registerModule$lambda_11(this$sceNet) {
+    return function (it) {
+      this$sceNet.sceNet_DB88F458_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNet$registerModule$lambda_12(this$sceNet) {
+    return function (it) {
+      this$sceNet.sceNet_E1F4696F_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  sceNet.prototype.registerModule = function () {
+    this.registerFunctionRaw_gh35x6$('sceNetGetLocalEtherAddr', Kotlin.Long.fromInt(200319918), 150, void 0, sceNet$registerModule$lambda(this));
+    this.registerFunctionRaw_gh35x6$('sceNetTerm', Kotlin.Long.fromInt(672737449), 150, void 0, sceNet$registerModule$lambda_0(this));
+    this.registerFunctionRaw_gh35x6$('sceNetInit', Kotlin.Long.fromInt(967784870), 150, void 0, sceNet$registerModule$lambda_1(this));
+    this.registerFunctionRaw_gh35x6$('sceNet_3B617AA0', Kotlin.Long.fromInt(996244128), 150, void 0, sceNet$registerModule$lambda_2(this));
+    this.registerFunctionRaw_gh35x6$('sceNetFreeThreadinfo', Kotlin.Long.fromInt(1348760880), 150, void 0, sceNet$registerModule$lambda_3(this));
+    this.registerFunctionRaw_gh35x6$('sceNetEtherNtostr', new Kotlin.Long(-1992947376, 0), 150, void 0, sceNet$registerModule$lambda_4(this));
+    this.registerFunctionRaw_gh35x6$('sceNetThreadAbort', new Kotlin.Long(-1385675578, 0), 150, void 0, sceNet$registerModule$lambda_5(this));
+    this.registerFunctionRaw_gh35x6$('sceNet_B6FC0A5B', new Kotlin.Long(-1224996261, 0), 150, void 0, sceNet$registerModule$lambda_6(this));
+    this.registerFunctionRaw_gh35x6$('sceNet_BFCFEFF6', new Kotlin.Long(-1076891658, 0), 150, void 0, sceNet$registerModule$lambda_7(this));
+    this.registerFunctionRaw_gh35x6$('sceNet_C431A214', new Kotlin.Long(-1003380204, 0), 150, void 0, sceNet$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceNetGetMallocStat', new Kotlin.Long(-868663736, 0), 150, void 0, sceNet$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceNetEtherStrton', new Kotlin.Long(-763797047, 0), 150, void 0, sceNet$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceNet_DB88F458', new Kotlin.Long(-611781544, 0), 150, void 0, sceNet$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('sceNet_E1F4696F', new Kotlin.Long(-504075921, 0), 150, void 0, sceNet$registerModule$lambda_12(this));
+  };
+  sceNet.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'sceNet',
+    interfaces: [SceModule]
+  };
+  function sceNetAdhoc(emulator) {
+    SceModule.call(this, emulator, 'sceNetAdhoc', 65553, 'pspnet_adhoc.prx', 'sceNetAdhoc_Library');
+  }
+  sceNetAdhoc.prototype.sceNetAdhocGameModeDeleteReplica_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(186788073);
+  };
+  sceNetAdhoc.prototype.sceNetAdhocPtpClose_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(360604197);
+  };
+  sceNetAdhoc.prototype.sceNetAdhocGameModeCreateReplica_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(846768908);
+  };
+  sceNetAdhoc.prototype.sceNetAdhocGetSocketAlert_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1294786969);
+  };
+  sceNetAdhoc.prototype.sceNetAdhocPtpSend_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1302644616);
+  };
+  sceNetAdhoc.prototype.sceNetAdhoc_67346A2A_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1731488298);
+  };
+  sceNetAdhoc.prototype.sceNetAdhocPdpCreate_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1871868955);
+  };
+  sceNetAdhoc.prototype.sceNetAdhocSetSocketAlert_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1941951789);
+  };
+  sceNetAdhoc.prototype.sceNetAdhocPollSocket_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(2053516651);
+  };
+  sceNetAdhoc.prototype.sceNetAdhocPdpDelete_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(2133310302);
+  };
+  sceNetAdhoc.prototype.sceNetAdhocGameModeCreateMaster_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(2138424120);
+  };
+  sceNetAdhoc.prototype.sceNetAdhocPtpOpen_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2021692058, 0));
+  };
+  sceNetAdhoc.prototype.sceNetAdhocPtpRecv_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1947587778, 0));
+  };
+  sceNetAdhoc.prototype.sceNetAdhocGameModeUpdateMaster_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1732115256, 0));
+  };
+  sceNetAdhoc.prototype.sceNetAdhocPtpFlush_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1698500948, 0));
+  };
+  sceNetAdhoc.prototype.sceNetAdhocPtpAccept_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1644686952, 0));
+  };
+  sceNetAdhoc.prototype.sceNetAdhocGameModeDeleteMaster_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1608346782, 0));
+  };
+  sceNetAdhoc.prototype.sceNetAdhocTerm_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1507037353, 0));
+  };
+  sceNetAdhoc.prototype.sceNetAdhocPdpSend_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1410517104, 0));
+  };
+  sceNetAdhoc.prototype.sceNetAdhocGetPtpStat_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1184345832, 0));
+  };
+  sceNetAdhoc.prototype.sceNetAdhocGetPdpStat_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-943588265, 0));
+  };
+  sceNetAdhoc.prototype.sceNetAdhocPdpRecv_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-538624509, 0));
+  };
+  sceNetAdhoc.prototype.sceNetAdhocPtpListen_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-527705407, 0));
+  };
+  sceNetAdhoc.prototype.sceNetAdhocInit_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-506060329, 0));
+  };
+  sceNetAdhoc.prototype.sceNetAdhocGameModeUpdateReplica_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-97367218, 0));
+  };
+  sceNetAdhoc.prototype.sceNetAdhocPtpConnect_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-59785093, 0));
+  };
+  function sceNetAdhoc$registerModule$lambda(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocGameModeDeleteReplica_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_0(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocPtpClose_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_1(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocGameModeCreateReplica_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_2(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocGetSocketAlert_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_3(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocPtpSend_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_4(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhoc_67346A2A_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_5(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocPdpCreate_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_6(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocSetSocketAlert_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_7(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocPollSocket_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_8(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocPdpDelete_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_9(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocGameModeCreateMaster_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_10(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocPtpOpen_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_11(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocPtpRecv_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_12(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocGameModeUpdateMaster_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_13(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocPtpFlush_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_14(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocPtpAccept_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_15(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocGameModeDeleteMaster_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_16(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocTerm_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_17(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocPdpSend_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_18(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocGetPtpStat_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_19(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocGetPdpStat_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_20(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocPdpRecv_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_21(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocPtpListen_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_22(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocInit_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_23(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocGameModeUpdateReplica_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhoc$registerModule$lambda_24(this$sceNetAdhoc) {
+    return function (it) {
+      this$sceNetAdhoc.sceNetAdhocPtpConnect_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  sceNetAdhoc.prototype.registerModule = function () {
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocGameModeDeleteReplica', Kotlin.Long.fromInt(186788073), 150, void 0, sceNetAdhoc$registerModule$lambda(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocPtpClose', Kotlin.Long.fromInt(360604197), 150, void 0, sceNetAdhoc$registerModule$lambda_0(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocGameModeCreateReplica', Kotlin.Long.fromInt(846768908), 150, void 0, sceNetAdhoc$registerModule$lambda_1(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocGetSocketAlert', Kotlin.Long.fromInt(1294786969), 150, void 0, sceNetAdhoc$registerModule$lambda_2(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocPtpSend', Kotlin.Long.fromInt(1302644616), 150, void 0, sceNetAdhoc$registerModule$lambda_3(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhoc_67346A2A', Kotlin.Long.fromInt(1731488298), 150, void 0, sceNetAdhoc$registerModule$lambda_4(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocPdpCreate', Kotlin.Long.fromInt(1871868955), 150, void 0, sceNetAdhoc$registerModule$lambda_5(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocSetSocketAlert', Kotlin.Long.fromInt(1941951789), 150, void 0, sceNetAdhoc$registerModule$lambda_6(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocPollSocket', Kotlin.Long.fromInt(2053516651), 150, void 0, sceNetAdhoc$registerModule$lambda_7(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocPdpDelete', Kotlin.Long.fromInt(2133310302), 150, void 0, sceNetAdhoc$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocGameModeCreateMaster', Kotlin.Long.fromInt(2138424120), 150, void 0, sceNetAdhoc$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocPtpOpen', new Kotlin.Long(-2021692058, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocPtpRecv', new Kotlin.Long(-1947587778, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocGameModeUpdateMaster', new Kotlin.Long(-1732115256, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_12(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocPtpFlush', new Kotlin.Long(-1698500948, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_13(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocPtpAccept', new Kotlin.Long(-1644686952, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_14(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocGameModeDeleteMaster', new Kotlin.Long(-1608346782, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_15(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocTerm', new Kotlin.Long(-1507037353, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_16(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocPdpSend', new Kotlin.Long(-1410517104, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_17(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocGetPtpStat', new Kotlin.Long(-1184345832, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_18(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocGetPdpStat', new Kotlin.Long(-943588265, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_19(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocPdpRecv', new Kotlin.Long(-538624509, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_20(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocPtpListen', new Kotlin.Long(-527705407, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_21(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocInit', new Kotlin.Long(-506060329, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_22(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocGameModeUpdateReplica', new Kotlin.Long(-97367218, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_23(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocPtpConnect', new Kotlin.Long(-59785093, 0), 150, void 0, sceNetAdhoc$registerModule$lambda_24(this));
+  };
+  sceNetAdhoc.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'sceNetAdhoc',
+    interfaces: [SceModule]
+  };
+  function sceNetAdhocMatching(emulator) {
+    SceModule.call(this, emulator, 'sceNetAdhocMatching', 65553, 'pspnet_adhoc_matching.prx', 'sceNetAdhocMatching_Library');
+  }
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingInit_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(707403271);
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingStop_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(850482867);
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingGetPoolMaxAlloc_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1090057269);
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingSelectTarget_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1581075321);
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingTerm_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(2034625754);
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingCancelTargetWithOpt_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1890009377, 0));
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingStart_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1813039037, 0));
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingGetPoolStat_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1671627907, 0));
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingSetHelloOpt_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1248960073, 0));
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingGetHelloOpt_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1244042198, 0));
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingGetMembers_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-980693602, 0));
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingCreate_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-899753361, 0));
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingCancelTarget_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-365141752, 0));
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingAbortSendData_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-333892739, 0));
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingDelete_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-244404401, 0));
+  };
+  sceNetAdhocMatching.prototype.sceNetAdhocMatchingSendData_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-141266217, 0));
+  };
+  function sceNetAdhocMatching$registerModule$lambda(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingInit_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_0(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingStop_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_1(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingGetPoolMaxAlloc_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_2(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingSelectTarget_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_3(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingTerm_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_4(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingCancelTargetWithOpt_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_5(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingStart_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_6(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingGetPoolStat_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_7(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingSetHelloOpt_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_8(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingGetHelloOpt_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_9(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingGetMembers_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_10(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingCreate_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_11(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingCancelTarget_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_12(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingAbortSendData_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_13(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingDelete_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocMatching$registerModule$lambda_14(this$sceNetAdhocMatching) {
+    return function (it) {
+      this$sceNetAdhocMatching.sceNetAdhocMatchingSendData_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  sceNetAdhocMatching.prototype.registerModule = function () {
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingInit', Kotlin.Long.fromInt(707403271), 150, void 0, sceNetAdhocMatching$registerModule$lambda(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingStop', Kotlin.Long.fromInt(850482867), 150, void 0, sceNetAdhocMatching$registerModule$lambda_0(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingGetPoolMaxAlloc', Kotlin.Long.fromInt(1090057269), 150, void 0, sceNetAdhocMatching$registerModule$lambda_1(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingSelectTarget', Kotlin.Long.fromInt(1581075321), 150, void 0, sceNetAdhocMatching$registerModule$lambda_2(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingTerm', Kotlin.Long.fromInt(2034625754), 150, void 0, sceNetAdhocMatching$registerModule$lambda_3(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingCancelTargetWithOpt', new Kotlin.Long(-1890009377, 0), 150, void 0, sceNetAdhocMatching$registerModule$lambda_4(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingStart', new Kotlin.Long(-1813039037, 0), 150, void 0, sceNetAdhocMatching$registerModule$lambda_5(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingGetPoolStat', new Kotlin.Long(-1671627907, 0), 150, void 0, sceNetAdhocMatching$registerModule$lambda_6(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingSetHelloOpt', new Kotlin.Long(-1248960073, 0), 150, void 0, sceNetAdhocMatching$registerModule$lambda_7(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingGetHelloOpt', new Kotlin.Long(-1244042198, 0), 150, void 0, sceNetAdhocMatching$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingGetMembers', new Kotlin.Long(-980693602, 0), 150, void 0, sceNetAdhocMatching$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingCreate', new Kotlin.Long(-899753361, 0), 150, void 0, sceNetAdhocMatching$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingCancelTarget', new Kotlin.Long(-365141752, 0), 150, void 0, sceNetAdhocMatching$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingAbortSendData', new Kotlin.Long(-333892739, 0), 150, void 0, sceNetAdhocMatching$registerModule$lambda_12(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingDelete', new Kotlin.Long(-244404401, 0), 150, void 0, sceNetAdhocMatching$registerModule$lambda_13(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocMatchingSendData', new Kotlin.Long(-141266217, 0), 150, void 0, sceNetAdhocMatching$registerModule$lambda_14(this));
+  };
+  sceNetAdhocMatching.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'sceNetAdhocMatching',
+    interfaces: [SceModule]
+  };
+  function sceNetAdhocctl(emulator) {
+    SceModule.call(this, emulator, 'sceNetAdhocctl', 65553, 'pspnet_adhocctl.prx', 'sceNetAdhocctl_Library');
+  }
+  sceNetAdhocctl.prototype.sceNetAdhocctlScan_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(150992800);
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlConnect_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(181421037);
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlJoinEnterGameMode_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(536385349);
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlAddHandler_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(548607904);
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlDisconnect_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(876617061);
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlGetAdhocId_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(908902031);
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlGetGameModeInfo_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1510034656);
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlJoin_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1585412553);
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlDelHandler_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1677871371);
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlGetState_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1978454918);
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlGetScanInfo_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2119245378, 0));
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlGetNameByAddr_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1994997757, 0));
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlGetPeerInfo_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1917304868, 0));
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlGetAddrByName_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1722414402, 0));
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlTerm_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1654088173, 0));
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlCreateEnterGameMode_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1514121778, 0));
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctl_B0B80E80_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1330114944, 0));
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlExitGameMode_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-812775347, 0));
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlGetParameter_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-556150130, 0));
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlGetPeerList_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-513619180, 0));
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlInit_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-496033170, 0));
+  };
+  sceNetAdhocctl.prototype.sceNetAdhocctlCreate_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-335137343, 0));
+  };
+  function sceNetAdhocctl$registerModule$lambda(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlScan_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_0(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlConnect_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_1(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlJoinEnterGameMode_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_2(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlAddHandler_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_3(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlDisconnect_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_4(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlGetAdhocId_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_5(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlGetGameModeInfo_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_6(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlJoin_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_7(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlDelHandler_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_8(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlGetState_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_9(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlGetScanInfo_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_10(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlGetNameByAddr_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_11(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlGetPeerInfo_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_12(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlGetAddrByName_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_13(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlTerm_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_14(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlCreateEnterGameMode_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_15(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctl_B0B80E80_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_16(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlExitGameMode_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_17(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlGetParameter_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_18(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlGetPeerList_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_19(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlInit_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceNetAdhocctl$registerModule$lambda_20(this$sceNetAdhocctl) {
+    return function (it) {
+      this$sceNetAdhocctl.sceNetAdhocctlCreate_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  sceNetAdhocctl.prototype.registerModule = function () {
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlScan', Kotlin.Long.fromInt(150992800), 150, void 0, sceNetAdhocctl$registerModule$lambda(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlConnect', Kotlin.Long.fromInt(181421037), 150, void 0, sceNetAdhocctl$registerModule$lambda_0(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlJoinEnterGameMode', Kotlin.Long.fromInt(536385349), 150, void 0, sceNetAdhocctl$registerModule$lambda_1(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlAddHandler', Kotlin.Long.fromInt(548607904), 150, void 0, sceNetAdhocctl$registerModule$lambda_2(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlDisconnect', Kotlin.Long.fromInt(876617061), 150, void 0, sceNetAdhocctl$registerModule$lambda_3(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlGetAdhocId', Kotlin.Long.fromInt(908902031), 150, void 0, sceNetAdhocctl$registerModule$lambda_4(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlGetGameModeInfo', Kotlin.Long.fromInt(1510034656), 150, void 0, sceNetAdhocctl$registerModule$lambda_5(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlJoin', Kotlin.Long.fromInt(1585412553), 150, void 0, sceNetAdhocctl$registerModule$lambda_6(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlDelHandler', Kotlin.Long.fromInt(1677871371), 150, void 0, sceNetAdhocctl$registerModule$lambda_7(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlGetState', Kotlin.Long.fromInt(1978454918), 150, void 0, sceNetAdhocctl$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlGetScanInfo', new Kotlin.Long(-2119245378, 0), 150, void 0, sceNetAdhocctl$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlGetNameByAddr', new Kotlin.Long(-1994997757, 0), 150, void 0, sceNetAdhocctl$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlGetPeerInfo', new Kotlin.Long(-1917304868, 0), 150, void 0, sceNetAdhocctl$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlGetAddrByName', new Kotlin.Long(-1722414402, 0), 150, void 0, sceNetAdhocctl$registerModule$lambda_12(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlTerm', new Kotlin.Long(-1654088173, 0), 150, void 0, sceNetAdhocctl$registerModule$lambda_13(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlCreateEnterGameMode', new Kotlin.Long(-1514121778, 0), 150, void 0, sceNetAdhocctl$registerModule$lambda_14(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctl_B0B80E80', new Kotlin.Long(-1330114944, 0), 150, void 0, sceNetAdhocctl$registerModule$lambda_15(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlExitGameMode', new Kotlin.Long(-812775347, 0), 150, void 0, sceNetAdhocctl$registerModule$lambda_16(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlGetParameter', new Kotlin.Long(-556150130, 0), 150, void 0, sceNetAdhocctl$registerModule$lambda_17(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlGetPeerList', new Kotlin.Long(-513619180, 0), 150, void 0, sceNetAdhocctl$registerModule$lambda_18(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlInit', new Kotlin.Long(-496033170, 0), 150, void 0, sceNetAdhocctl$registerModule$lambda_19(this));
+    this.registerFunctionRaw_gh35x6$('sceNetAdhocctlCreate', new Kotlin.Long(-335137343, 0), 150, void 0, sceNetAdhocctl$registerModule$lambda_20(this));
+  };
+  sceNetAdhocctl.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'sceNetAdhocctl',
+    interfaces: [SceModule]
+  };
   function sceNetInet(emulator) {
     SceModule.call(this, emulator, 'sceNetInet', 65553, 'pspnet_inet.prx', 'sceNetInet_Library');
   }
@@ -28076,8 +31145,29 @@
       tmp$ = cpuFreq / this._getCpuMult();
     this.cpuMult_0 = tmp$;
   };
+  scePower.prototype.scePowerGetCpuClockFrequency = function () {
+    return numberToInt(this._getCpuFreq());
+  };
   scePower.prototype.scePowerGetCpuClockFrequencyInt = function () {
     return numberToInt(this._getCpuFreq());
+  };
+  scePower.prototype.scePowerGetCpuClockFrequencyFloat = function () {
+    return this._getCpuFreq();
+  };
+  scePower.prototype.scePowerGetBusClockFrequency = function () {
+    return numberToInt(this.busFreq_0);
+  };
+  scePower.prototype.scePowerGetBusClockFrequencyInt = function () {
+    return numberToInt(this.busFreq_0);
+  };
+  scePower.prototype.scePowerGetBusClockFrequencyFloat = function () {
+    return this.busFreq_0;
+  };
+  scePower.prototype.scePowerGetPllClockFrequencyInt = function () {
+    return numberToInt(this.pllFreq_0);
+  };
+  scePower.prototype.scePowerGetPllClockFrequencyFloat = function () {
+    return this.pllFreq_0;
   };
   scePower.prototype.scePowerSetBusClockFrequency_za3lpa$ = function (busFreq) {
     if (!this._isValidBusFreq_za3lpa$(busFreq))
@@ -28099,6 +31189,30 @@
     }
     return 0;
   };
+  scePower.prototype.scePowerIsBatteryExist = function () {
+    return this.emulator.battery.batteryExists ? 1 : 0;
+  };
+  scePower.prototype.scePowerIsLowBattery = function () {
+    return this.emulator.battery.isLowBattery ? 1 : 0;
+  };
+  scePower.prototype.scePowerIsPowerOnline = function () {
+    return this.emulator.battery.charging ? 1 : 0;
+  };
+  scePower.prototype.scePowerIsBatteryCharging = function () {
+    return this.emulator.battery.charging ? 1 : 0;
+  };
+  scePower.prototype.scePowerGetBatteryLifeTime = function () {
+    return numberToInt(this.emulator.battery.lifetimeSeconds / 60.0);
+  };
+  scePower.prototype.scePowerGetBatteryLifePercent = function () {
+    return numberToInt(this.emulator.battery.chargedRatio * 100);
+  };
+  scePower.prototype.scePowerGetBatteryVolt = function () {
+    return this.emulator.battery.volt;
+  };
+  scePower.prototype.scePowerGetBatteryTemp = function () {
+    return this.emulator.battery.temp;
+  };
   scePower.prototype.scePowerGetResumeCount_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(7663515);
   };
@@ -28108,20 +31222,11 @@
   scePower.prototype.scePowerRegisterCallback_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(79132270);
   };
-  scePower.prototype.scePowerIsBatteryExist_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(184356235);
-  };
   scePower.prototype.scePowerSetPowerSwMode_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(215096095);
   };
   scePower.prototype.scePowerGetPowerSwMode_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(375185541);
-  };
-  scePower.prototype.scePowerIsBatteryCharging_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(508101633);
-  };
-  scePower.prototype.scePowerGetBatteryLifePercent_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(545640797);
   };
   scePower.prototype.scePowerGetInnerTemp_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(591620682);
@@ -28135,29 +31240,17 @@
   scePower.prototype.scePower_2875994B_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(678795595);
   };
-  scePower.prototype.scePowerGetBatteryTemp_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(685842467);
-  };
   scePower.prototype.scePower_2B51FE2F_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(726793775);
   };
   scePower.prototype.scePowerRequestStandby_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(729578740);
   };
-  scePower.prototype.scePowerGetPllClockFrequencyInt_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(888783971);
-  };
   scePower.prototype.scePowerWaitRequestCompletion_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(961654611);
   };
   scePower.prototype.scePowerGetBacklightMaximum_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1143733164);
-  };
-  scePower.prototype.scePowerGetBusClockFrequency_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(1200613109);
-  };
-  scePower.prototype.scePowerGetBatteryVolt_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(1211951211);
   };
   scePower.prototype.scePower_545A7F3C_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1415216956);
@@ -28174,20 +31267,11 @@
   scePower.prototype.scePowerGetBatteryElec_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2044010074, 0));
   };
-  scePower.prototype.scePowerIsPowerOnline_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2025582754, 0));
-  };
-  scePower.prototype.scePowerGetBatteryLifeTime_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1896136798, 0));
-  };
   scePower.prototype.scePowerGetBatteryRemainCapacity_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1795840705, 0));
   };
   scePower.prototype.scePowerIdleTimerDisable_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1758664383, 0));
-  };
-  scePower.prototype.scePowerGetBusClockFrequencyFloat_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1683115029, 0));
   };
   scePower.prototype.scePower_A4E93389_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1528220791, 0));
@@ -28197,9 +31281,6 @@
   };
   scePower.prototype.scePowerRequestSuspend_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1405957684, 0));
-  };
-  scePower.prototype.scePowerGetCpuClockFrequencyFloat_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1314575229, 0));
   };
   scePower.prototype.scePowerVolatileMemUnlock_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1276258303, 0));
@@ -28213,17 +31294,11 @@
   scePower.prototype.scePowerGetCallbackMode_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1158005264, 0));
   };
-  scePower.prototype.scePowerGetBusClockFrequencyInt_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1117251223, 0));
-  };
   scePower.prototype.scePowerUnlock_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-901958463, 0));
   };
   scePower.prototype.scePowerGetBatteryChargeCycle_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-884345394, 0));
-  };
-  scePower.prototype.scePowerIsLowBattery_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-754493146, 0));
   };
   scePower.prototype.scePowerLock_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-691005713, 0));
@@ -28240,9 +31315,6 @@
   scePower.prototype.scePower_E8E4E204_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-387653116, 0));
   };
-  scePower.prototype.scePowerGetPllClockFrequencyFloat_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-365417945, 0));
-  };
   scePower.prototype.scePower_EBD177D6_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-338593834, 0));
   };
@@ -28258,417 +31330,738 @@
   scePower.prototype.scePowerGetBatteryFullCapacity_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-48717569, 0));
   };
-  scePower.prototype.scePowerGetCpuClockFrequency_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-18859473, 0));
-  };
   function scePower$registerModule$lambda(this$scePower) {
     return function ($receiver, it) {
-      return this$scePower.scePowerGetCpuClockFrequencyInt();
+      return this$scePower.scePowerGetCpuClockFrequency();
     };
   }
   function scePower$registerModule$lambda_0(this$scePower) {
     return function ($receiver, it) {
-      return this$scePower.scePowerSetBusClockFrequency_za3lpa$($receiver.int);
+      return this$scePower.scePowerGetCpuClockFrequencyInt();
     };
   }
   function scePower$registerModule$lambda_1(this$scePower) {
     return function ($receiver, it) {
-      return this$scePower.scePowerSetCpuClockFrequency_za3lpa$($receiver.int);
+      return this$scePower.scePowerGetCpuClockFrequencyFloat();
     };
   }
   function scePower$registerModule$lambda_2(this$scePower) {
     return function ($receiver, it) {
-      return this$scePower.scePowerSetClockFrequency_qt1dr2$($receiver.int, $receiver.int, $receiver.int);
+      return this$scePower.scePowerGetPllClockFrequencyInt();
     };
   }
   function scePower$registerModule$lambda_3(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerGetPllClockFrequencyFloat();
+    };
+  }
+  function scePower$registerModule$lambda_4(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerGetBusClockFrequency();
+    };
+  }
+  function scePower$registerModule$lambda_5(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerGetBusClockFrequencyInt();
+    };
+  }
+  function scePower$registerModule$lambda_6(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerGetBusClockFrequencyFloat();
+    };
+  }
+  function scePower$registerModule$lambda_7(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerSetBusClockFrequency_za3lpa$($receiver.int);
+    };
+  }
+  function scePower$registerModule$lambda_8(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerSetCpuClockFrequency_za3lpa$($receiver.int);
+    };
+  }
+  function scePower$registerModule$lambda_9(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerSetClockFrequency_qt1dr2$($receiver.int, $receiver.int, $receiver.int);
+    };
+  }
+  function scePower$registerModule$lambda_10(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerIsBatteryExist();
+    };
+  }
+  function scePower$registerModule$lambda_11(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerIsLowBattery();
+    };
+  }
+  function scePower$registerModule$lambda_12(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerIsPowerOnline();
+    };
+  }
+  function scePower$registerModule$lambda_13(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerIsBatteryCharging();
+    };
+  }
+  function scePower$registerModule$lambda_14(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerGetBatteryLifeTime();
+    };
+  }
+  function scePower$registerModule$lambda_15(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerGetBatteryLifePercent();
+    };
+  }
+  function scePower$registerModule$lambda_16(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerGetBatteryVolt();
+    };
+  }
+  function scePower$registerModule$lambda_17(this$scePower) {
+    return function ($receiver, it) {
+      return this$scePower.scePowerGetBatteryTemp();
+    };
+  }
+  function scePower$registerModule$lambda_18(this$scePower) {
     return function (it) {
       this$scePower.scePowerGetResumeCount_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_4(this$scePower) {
+  function scePower$registerModule$lambda_19(this$scePower) {
     return function (it) {
       this$scePower.scePowerRequestColdReset_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_5(this$scePower) {
+  function scePower$registerModule$lambda_20(this$scePower) {
     return function (it) {
       this$scePower.scePowerRegisterCallback_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_6(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerIsBatteryExist_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function scePower$registerModule$lambda_7(this$scePower) {
+  function scePower$registerModule$lambda_21(this$scePower) {
     return function (it) {
       this$scePower.scePowerSetPowerSwMode_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_8(this$scePower) {
+  function scePower$registerModule$lambda_22(this$scePower) {
     return function (it) {
       this$scePower.scePowerGetPowerSwMode_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_9(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerIsBatteryCharging_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function scePower$registerModule$lambda_10(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerGetBatteryLifePercent_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function scePower$registerModule$lambda_11(this$scePower) {
+  function scePower$registerModule$lambda_23(this$scePower) {
     return function (it) {
       this$scePower.scePowerGetInnerTemp_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_12(this$scePower) {
+  function scePower$registerModule$lambda_24(this$scePower) {
     return function (it) {
       this$scePower.scePowerVolatileMemLock_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_13(this$scePower) {
+  function scePower$registerModule$lambda_25(this$scePower) {
     return function (it) {
       this$scePower.scePowerBatteryUpdateInfo_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_14(this$scePower) {
+  function scePower$registerModule$lambda_26(this$scePower) {
     return function (it) {
       this$scePower.scePower_2875994B_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_15(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerGetBatteryTemp_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function scePower$registerModule$lambda_16(this$scePower) {
+  function scePower$registerModule$lambda_27(this$scePower) {
     return function (it) {
       this$scePower.scePower_2B51FE2F_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_17(this$scePower) {
+  function scePower$registerModule$lambda_28(this$scePower) {
     return function (it) {
       this$scePower.scePowerRequestStandby_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_18(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerGetPllClockFrequencyInt_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function scePower$registerModule$lambda_19(this$scePower) {
+  function scePower$registerModule$lambda_29(this$scePower) {
     return function (it) {
       this$scePower.scePowerWaitRequestCompletion_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_20(this$scePower) {
+  function scePower$registerModule$lambda_30(this$scePower) {
     return function (it) {
       this$scePower.scePowerGetBacklightMaximum_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_21(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerGetBusClockFrequency_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function scePower$registerModule$lambda_22(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerGetBatteryVolt_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function scePower$registerModule$lambda_23(this$scePower) {
+  function scePower$registerModule$lambda_31(this$scePower) {
     return function (it) {
       this$scePower.scePower_545A7F3C_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_24(this$scePower) {
+  function scePower$registerModule$lambda_32(this$scePower) {
     return function (it) {
       this$scePower.scePowerIsSuspendRequired_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_25(this$scePower) {
+  function scePower$registerModule$lambda_33(this$scePower) {
     return function (it) {
       this$scePower.scePowerIdleTimerEnable_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_26(this$scePower) {
+  function scePower$registerModule$lambda_34(this$scePower) {
     return function (it) {
       this$scePower.scePowerIsRequest_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_27(this$scePower) {
+  function scePower$registerModule$lambda_35(this$scePower) {
     return function (it) {
       this$scePower.scePowerGetBatteryElec_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_28(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerIsPowerOnline_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function scePower$registerModule$lambda_29(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerGetBatteryLifeTime_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function scePower$registerModule$lambda_30(this$scePower) {
+  function scePower$registerModule$lambda_36(this$scePower) {
     return function (it) {
       this$scePower.scePowerGetBatteryRemainCapacity_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_31(this$scePower) {
+  function scePower$registerModule$lambda_37(this$scePower) {
     return function (it) {
       this$scePower.scePowerIdleTimerDisable_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_32(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerGetBusClockFrequencyFloat_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function scePower$registerModule$lambda_33(this$scePower) {
+  function scePower$registerModule$lambda_38(this$scePower) {
     return function (it) {
       this$scePower.scePower_A4E93389_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_34(this$scePower) {
+  function scePower$registerModule$lambda_39(this$scePower) {
     return function (it) {
       this$scePower.scePowerSetCallbackMode_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_35(this$scePower) {
+  function scePower$registerModule$lambda_40(this$scePower) {
     return function (it) {
       this$scePower.scePowerRequestSuspend_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_36(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerGetCpuClockFrequencyFloat_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function scePower$registerModule$lambda_37(this$scePower) {
+  function scePower$registerModule$lambda_41(this$scePower) {
     return function (it) {
       this$scePower.scePowerVolatileMemUnlock_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_38(this$scePower) {
+  function scePower$registerModule$lambda_42(this$scePower) {
     return function (it) {
       this$scePower.scePowerGetBatteryChargingStatus_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_39(this$scePower) {
+  function scePower$registerModule$lambda_43(this$scePower) {
     return function (it) {
       this$scePower.scePowerGetLowBatteryCapacity_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_40(this$scePower) {
+  function scePower$registerModule$lambda_44(this$scePower) {
     return function (it) {
       this$scePower.scePowerGetCallbackMode_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_41(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerGetBusClockFrequencyInt_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function scePower$registerModule$lambda_42(this$scePower) {
+  function scePower$registerModule$lambda_45(this$scePower) {
     return function (it) {
       this$scePower.scePowerUnlock_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_43(this$scePower) {
+  function scePower$registerModule$lambda_46(this$scePower) {
     return function (it) {
       this$scePower.scePowerGetBatteryChargeCycle_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_44(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerIsLowBattery_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function scePower$registerModule$lambda_45(this$scePower) {
+  function scePower$registerModule$lambda_47(this$scePower) {
     return function (it) {
       this$scePower.scePowerLock_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_46(this$scePower) {
+  function scePower$registerModule$lambda_48(this$scePower) {
     return function (it) {
       this$scePower.scePowerCancelRequest_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_47(this$scePower) {
+  function scePower$registerModule$lambda_49(this$scePower) {
     return function (it) {
       this$scePower.scePowerUnregitserCallback_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_48(this$scePower) {
+  function scePower$registerModule$lambda_50(this$scePower) {
     return function (it) {
       this$scePower.scePowerUnregisterCallback_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_49(this$scePower) {
+  function scePower$registerModule$lambda_51(this$scePower) {
     return function (it) {
       this$scePower.scePower_E8E4E204_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_50(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerGetPllClockFrequencyFloat_xt3zvs$(it);
-      return Unit;
-    };
-  }
-  function scePower$registerModule$lambda_51(this$scePower) {
+  function scePower$registerModule$lambda_52(this$scePower) {
     return function (it) {
       this$scePower.scePower_EBD177D6_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_52(this$scePower) {
+  function scePower$registerModule$lambda_53(this$scePower) {
     return function (it) {
       this$scePower.scePowerGetIdleTimer_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_53(this$scePower) {
+  function scePower$registerModule$lambda_54(this$scePower) {
     return function (it) {
       this$scePower.scePowerTick_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_54(this$scePower) {
+  function scePower$registerModule$lambda_55(this$scePower) {
     return function (it) {
       this$scePower.scePowerVolatileMemTryLock_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_55(this$scePower) {
+  function scePower$registerModule$lambda_56(this$scePower) {
     return function (it) {
       this$scePower.scePowerGetBatteryFullCapacity_xt3zvs$(it);
       return Unit;
     };
   }
-  function scePower$registerModule$lambda_56(this$scePower) {
-    return function (it) {
-      this$scePower.scePowerGetCpuClockFrequency_xt3zvs$(it);
-      return Unit;
-    };
-  }
   scePower.prototype.registerModule = function () {
-    this.registerFunctionInt_9l82lv$('scePowerGetCpuClockFrequencyInt', new Kotlin.Long(-38420503, 0), 150, void 0, scePower$registerModule$lambda(this));
-    this.registerFunctionInt_9l82lv$('scePowerSetBusClockFrequency', new Kotlin.Long(-1193823237, 0), 150, void 0, scePower$registerModule$lambda_0(this));
-    this.registerFunctionInt_9l82lv$('scePowerSetCpuClockFrequency', new Kotlin.Long(-2076197053, 0), 150, void 0, scePower$registerModule$lambda_1(this));
-    this.registerFunctionInt_9l82lv$('scePowerSetClockFrequency', Kotlin.Long.fromInt(1937016562), 150, void 0, scePower$registerModule$lambda_2(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetResumeCount', Kotlin.Long.fromInt(7663515), 150, void 0, scePower$registerModule$lambda_3(this));
-    this.registerFunctionRaw_gh35x6$('scePowerRequestColdReset', Kotlin.Long.fromInt(71489618), 150, void 0, scePower$registerModule$lambda_4(this));
-    this.registerFunctionRaw_gh35x6$('scePowerRegisterCallback', Kotlin.Long.fromInt(79132270), 150, void 0, scePower$registerModule$lambda_5(this));
-    this.registerFunctionRaw_gh35x6$('scePowerIsBatteryExist', Kotlin.Long.fromInt(184356235), 150, void 0, scePower$registerModule$lambda_6(this));
-    this.registerFunctionRaw_gh35x6$('scePowerSetPowerSwMode', Kotlin.Long.fromInt(215096095), 150, void 0, scePower$registerModule$lambda_7(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetPowerSwMode', Kotlin.Long.fromInt(375185541), 150, void 0, scePower$registerModule$lambda_8(this));
-    this.registerFunctionRaw_gh35x6$('scePowerIsBatteryCharging', Kotlin.Long.fromInt(508101633), 150, void 0, scePower$registerModule$lambda_9(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetBatteryLifePercent', Kotlin.Long.fromInt(545640797), 150, void 0, scePower$registerModule$lambda_10(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetInnerTemp', Kotlin.Long.fromInt(591620682), 150, void 0, scePower$registerModule$lambda_11(this));
-    this.registerFunctionRaw_gh35x6$('scePowerVolatileMemLock', Kotlin.Long.fromInt(599990270), 150, void 0, scePower$registerModule$lambda_12(this));
-    this.registerFunctionRaw_gh35x6$('scePowerBatteryUpdateInfo', Kotlin.Long.fromInt(670247212), 150, void 0, scePower$registerModule$lambda_13(this));
-    this.registerFunctionRaw_gh35x6$('scePower_2875994B', Kotlin.Long.fromInt(678795595), 150, void 0, scePower$registerModule$lambda_14(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetBatteryTemp', Kotlin.Long.fromInt(685842467), 150, void 0, scePower$registerModule$lambda_15(this));
-    this.registerFunctionRaw_gh35x6$('scePower_2B51FE2F', Kotlin.Long.fromInt(726793775), 150, void 0, scePower$registerModule$lambda_16(this));
-    this.registerFunctionRaw_gh35x6$('scePowerRequestStandby', Kotlin.Long.fromInt(729578740), 150, void 0, scePower$registerModule$lambda_17(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetPllClockFrequencyInt', Kotlin.Long.fromInt(888783971), 150, void 0, scePower$registerModule$lambda_18(this));
-    this.registerFunctionRaw_gh35x6$('scePowerWaitRequestCompletion', Kotlin.Long.fromInt(961654611), 150, void 0, scePower$registerModule$lambda_19(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetBacklightMaximum', Kotlin.Long.fromInt(1143733164), 150, void 0, scePower$registerModule$lambda_20(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetBusClockFrequency', Kotlin.Long.fromInt(1200613109), 150, void 0, scePower$registerModule$lambda_21(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetBatteryVolt', Kotlin.Long.fromInt(1211951211), 150, void 0, scePower$registerModule$lambda_22(this));
-    this.registerFunctionRaw_gh35x6$('scePower_545A7F3C', Kotlin.Long.fromInt(1415216956), 150, void 0, scePower$registerModule$lambda_23(this));
-    this.registerFunctionRaw_gh35x6$('scePowerIsSuspendRequired', Kotlin.Long.fromInt(2023860118), 150, void 0, scePower$registerModule$lambda_24(this));
-    this.registerFunctionRaw_gh35x6$('scePowerIdleTimerEnable', Kotlin.Long.fromInt(2133898161), 150, void 0, scePower$registerModule$lambda_25(this));
-    this.registerFunctionRaw_gh35x6$('scePowerIsRequest', Kotlin.Long.fromInt(2141456093), 150, void 0, scePower$registerModule$lambda_26(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetBatteryElec', new Kotlin.Long(-2044010074, 0), 150, void 0, scePower$registerModule$lambda_27(this));
-    this.registerFunctionRaw_gh35x6$('scePowerIsPowerOnline', new Kotlin.Long(-2025582754, 0), 150, void 0, scePower$registerModule$lambda_28(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetBatteryLifeTime', new Kotlin.Long(-1896136798, 0), 150, void 0, scePower$registerModule$lambda_29(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetBatteryRemainCapacity', new Kotlin.Long(-1795840705, 0), 150, void 0, scePower$registerModule$lambda_30(this));
-    this.registerFunctionRaw_gh35x6$('scePowerIdleTimerDisable', new Kotlin.Long(-1758664383, 0), 150, void 0, scePower$registerModule$lambda_31(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetBusClockFrequencyFloat', new Kotlin.Long(-1683115029, 0), 150, void 0, scePower$registerModule$lambda_32(this));
-    this.registerFunctionRaw_gh35x6$('scePower_A4E93389', new Kotlin.Long(-1528220791, 0), 150, void 0, scePower$registerModule$lambda_33(this));
-    this.registerFunctionRaw_gh35x6$('scePowerSetCallbackMode', new Kotlin.Long(-1445846478, 0), 150, void 0, scePower$registerModule$lambda_34(this));
-    this.registerFunctionRaw_gh35x6$('scePowerRequestSuspend', new Kotlin.Long(-1405957684, 0), 150, void 0, scePower$registerModule$lambda_35(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetCpuClockFrequencyFloat', new Kotlin.Long(-1314575229, 0), 150, void 0, scePower$registerModule$lambda_36(this));
-    this.registerFunctionRaw_gh35x6$('scePowerVolatileMemUnlock', new Kotlin.Long(-1276258303, 0), 150, void 0, scePower$registerModule$lambda_37(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetBatteryChargingStatus', new Kotlin.Long(-1270666296, 0), 150, void 0, scePower$registerModule$lambda_38(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetLowBatteryCapacity', new Kotlin.Long(-1181149108, 0), 150, void 0, scePower$registerModule$lambda_39(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetCallbackMode', new Kotlin.Long(-1158005264, 0), 150, void 0, scePower$registerModule$lambda_40(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetBusClockFrequencyInt', new Kotlin.Long(-1117251223, 0), 150, void 0, scePower$registerModule$lambda_41(this));
-    this.registerFunctionRaw_gh35x6$('scePowerUnlock', new Kotlin.Long(-901958463, 0), 150, void 0, scePower$registerModule$lambda_42(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetBatteryChargeCycle', new Kotlin.Long(-884345394, 0), 150, void 0, scePower$registerModule$lambda_43(this));
-    this.registerFunctionRaw_gh35x6$('scePowerIsLowBattery', new Kotlin.Long(-754493146, 0), 150, void 0, scePower$registerModule$lambda_44(this));
-    this.registerFunctionRaw_gh35x6$('scePowerLock', new Kotlin.Long(-691005713, 0), 150, void 0, scePower$registerModule$lambda_45(this));
-    this.registerFunctionRaw_gh35x6$('scePowerCancelRequest', new Kotlin.Long(-614282801, 0), 150, void 0, scePower$registerModule$lambda_46(this));
-    this.registerFunctionRaw_gh35x6$('scePowerUnregitserCallback', new Kotlin.Long(-610457379, 0), 150, void 0, scePower$registerModule$lambda_47(this));
-    this.registerFunctionRaw_gh35x6$('scePowerUnregisterCallback', new Kotlin.Long(-542590216, 0), 150, void 0, scePower$registerModule$lambda_48(this));
-    this.registerFunctionRaw_gh35x6$('scePower_E8E4E204', new Kotlin.Long(-387653116, 0), 150, void 0, scePower$registerModule$lambda_49(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetPllClockFrequencyFloat', new Kotlin.Long(-365417945, 0), 150, void 0, scePower$registerModule$lambda_50(this));
-    this.registerFunctionRaw_gh35x6$('scePower_EBD177D6', new Kotlin.Long(-338593834, 0), 150, void 0, scePower$registerModule$lambda_51(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetIdleTimer', new Kotlin.Long(-306102299, 0), 150, void 0, scePower$registerModule$lambda_52(this));
-    this.registerFunctionRaw_gh35x6$('scePowerTick', new Kotlin.Long(-271333021, 0), 150, void 0, scePower$registerModule$lambda_53(this));
-    this.registerFunctionRaw_gh35x6$('scePowerVolatileMemTryLock', new Kotlin.Long(-90724967, 0), 150, void 0, scePower$registerModule$lambda_54(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetBatteryFullCapacity', new Kotlin.Long(-48717569, 0), 150, void 0, scePower$registerModule$lambda_55(this));
-    this.registerFunctionRaw_gh35x6$('scePowerGetCpuClockFrequency', new Kotlin.Long(-18859473, 0), 150, void 0, scePower$registerModule$lambda_56(this));
+    this.registerFunctionInt_9l82lv$('scePowerGetCpuClockFrequency', new Kotlin.Long(-18859473, 0), 150, void 0, scePower$registerModule$lambda(this));
+    this.registerFunctionInt_9l82lv$('scePowerGetCpuClockFrequencyInt', new Kotlin.Long(-38420503, 0), 150, void 0, scePower$registerModule$lambda_0(this));
+    this.registerFunctionFloat_jwgdqy$('scePowerGetCpuClockFrequencyFloat', new Kotlin.Long(-1314575229, 0), 150, void 0, scePower$registerModule$lambda_1(this));
+    this.registerFunctionInt_9l82lv$('scePowerGetPllClockFrequencyInt', Kotlin.Long.fromInt(888783971), 150, void 0, scePower$registerModule$lambda_2(this));
+    this.registerFunctionFloat_jwgdqy$('scePowerGetPllClockFrequencyFloat', new Kotlin.Long(-365417945, 0), 150, void 0, scePower$registerModule$lambda_3(this));
+    this.registerFunctionInt_9l82lv$('scePowerGetBusClockFrequency', Kotlin.Long.fromInt(1200613109), 150, void 0, scePower$registerModule$lambda_4(this));
+    this.registerFunctionInt_9l82lv$('scePowerGetBusClockFrequencyInt', new Kotlin.Long(-1117251223, 0), 150, void 0, scePower$registerModule$lambda_5(this));
+    this.registerFunctionFloat_jwgdqy$('scePowerGetBusClockFrequencyFloat', new Kotlin.Long(-1683115029, 0), 150, void 0, scePower$registerModule$lambda_6(this));
+    this.registerFunctionInt_9l82lv$('scePowerSetBusClockFrequency', new Kotlin.Long(-1193823237, 0), 150, void 0, scePower$registerModule$lambda_7(this));
+    this.registerFunctionInt_9l82lv$('scePowerSetCpuClockFrequency', new Kotlin.Long(-2076197053, 0), 150, void 0, scePower$registerModule$lambda_8(this));
+    this.registerFunctionInt_9l82lv$('scePowerSetClockFrequency', Kotlin.Long.fromInt(1937016562), 150, void 0, scePower$registerModule$lambda_9(this));
+    this.registerFunctionInt_9l82lv$('scePowerIsBatteryExist', Kotlin.Long.fromInt(184356235), 150, void 0, scePower$registerModule$lambda_10(this));
+    this.registerFunctionInt_9l82lv$('scePowerIsLowBattery', new Kotlin.Long(-754493146, 0), 150, void 0, scePower$registerModule$lambda_11(this));
+    this.registerFunctionInt_9l82lv$('scePowerIsPowerOnline', new Kotlin.Long(-2025582754, 0), 150, void 0, scePower$registerModule$lambda_12(this));
+    this.registerFunctionInt_9l82lv$('scePowerIsBatteryCharging', Kotlin.Long.fromInt(508101633), 150, void 0, scePower$registerModule$lambda_13(this));
+    this.registerFunctionInt_9l82lv$('scePowerGetBatteryLifeTime', new Kotlin.Long(-1896136798, 0), 150, void 0, scePower$registerModule$lambda_14(this));
+    this.registerFunctionInt_9l82lv$('scePowerGetBatteryLifePercent', Kotlin.Long.fromInt(545640797), 150, void 0, scePower$registerModule$lambda_15(this));
+    this.registerFunctionInt_9l82lv$('scePowerGetBatteryVolt', Kotlin.Long.fromInt(1211951211), 150, void 0, scePower$registerModule$lambda_16(this));
+    this.registerFunctionInt_9l82lv$('scePowerGetBatteryTemp', Kotlin.Long.fromInt(685842467), 150, void 0, scePower$registerModule$lambda_17(this));
+    this.registerFunctionRaw_gh35x6$('scePowerGetResumeCount', Kotlin.Long.fromInt(7663515), 150, void 0, scePower$registerModule$lambda_18(this));
+    this.registerFunctionRaw_gh35x6$('scePowerRequestColdReset', Kotlin.Long.fromInt(71489618), 150, void 0, scePower$registerModule$lambda_19(this));
+    this.registerFunctionRaw_gh35x6$('scePowerRegisterCallback', Kotlin.Long.fromInt(79132270), 150, void 0, scePower$registerModule$lambda_20(this));
+    this.registerFunctionRaw_gh35x6$('scePowerSetPowerSwMode', Kotlin.Long.fromInt(215096095), 150, void 0, scePower$registerModule$lambda_21(this));
+    this.registerFunctionRaw_gh35x6$('scePowerGetPowerSwMode', Kotlin.Long.fromInt(375185541), 150, void 0, scePower$registerModule$lambda_22(this));
+    this.registerFunctionRaw_gh35x6$('scePowerGetInnerTemp', Kotlin.Long.fromInt(591620682), 150, void 0, scePower$registerModule$lambda_23(this));
+    this.registerFunctionRaw_gh35x6$('scePowerVolatileMemLock', Kotlin.Long.fromInt(599990270), 150, void 0, scePower$registerModule$lambda_24(this));
+    this.registerFunctionRaw_gh35x6$('scePowerBatteryUpdateInfo', Kotlin.Long.fromInt(670247212), 150, void 0, scePower$registerModule$lambda_25(this));
+    this.registerFunctionRaw_gh35x6$('scePower_2875994B', Kotlin.Long.fromInt(678795595), 150, void 0, scePower$registerModule$lambda_26(this));
+    this.registerFunctionRaw_gh35x6$('scePower_2B51FE2F', Kotlin.Long.fromInt(726793775), 150, void 0, scePower$registerModule$lambda_27(this));
+    this.registerFunctionRaw_gh35x6$('scePowerRequestStandby', Kotlin.Long.fromInt(729578740), 150, void 0, scePower$registerModule$lambda_28(this));
+    this.registerFunctionRaw_gh35x6$('scePowerWaitRequestCompletion', Kotlin.Long.fromInt(961654611), 150, void 0, scePower$registerModule$lambda_29(this));
+    this.registerFunctionRaw_gh35x6$('scePowerGetBacklightMaximum', Kotlin.Long.fromInt(1143733164), 150, void 0, scePower$registerModule$lambda_30(this));
+    this.registerFunctionRaw_gh35x6$('scePower_545A7F3C', Kotlin.Long.fromInt(1415216956), 150, void 0, scePower$registerModule$lambda_31(this));
+    this.registerFunctionRaw_gh35x6$('scePowerIsSuspendRequired', Kotlin.Long.fromInt(2023860118), 150, void 0, scePower$registerModule$lambda_32(this));
+    this.registerFunctionRaw_gh35x6$('scePowerIdleTimerEnable', Kotlin.Long.fromInt(2133898161), 150, void 0, scePower$registerModule$lambda_33(this));
+    this.registerFunctionRaw_gh35x6$('scePowerIsRequest', Kotlin.Long.fromInt(2141456093), 150, void 0, scePower$registerModule$lambda_34(this));
+    this.registerFunctionRaw_gh35x6$('scePowerGetBatteryElec', new Kotlin.Long(-2044010074, 0), 150, void 0, scePower$registerModule$lambda_35(this));
+    this.registerFunctionRaw_gh35x6$('scePowerGetBatteryRemainCapacity', new Kotlin.Long(-1795840705, 0), 150, void 0, scePower$registerModule$lambda_36(this));
+    this.registerFunctionRaw_gh35x6$('scePowerIdleTimerDisable', new Kotlin.Long(-1758664383, 0), 150, void 0, scePower$registerModule$lambda_37(this));
+    this.registerFunctionRaw_gh35x6$('scePower_A4E93389', new Kotlin.Long(-1528220791, 0), 150, void 0, scePower$registerModule$lambda_38(this));
+    this.registerFunctionRaw_gh35x6$('scePowerSetCallbackMode', new Kotlin.Long(-1445846478, 0), 150, void 0, scePower$registerModule$lambda_39(this));
+    this.registerFunctionRaw_gh35x6$('scePowerRequestSuspend', new Kotlin.Long(-1405957684, 0), 150, void 0, scePower$registerModule$lambda_40(this));
+    this.registerFunctionRaw_gh35x6$('scePowerVolatileMemUnlock', new Kotlin.Long(-1276258303, 0), 150, void 0, scePower$registerModule$lambda_41(this));
+    this.registerFunctionRaw_gh35x6$('scePowerGetBatteryChargingStatus', new Kotlin.Long(-1270666296, 0), 150, void 0, scePower$registerModule$lambda_42(this));
+    this.registerFunctionRaw_gh35x6$('scePowerGetLowBatteryCapacity', new Kotlin.Long(-1181149108, 0), 150, void 0, scePower$registerModule$lambda_43(this));
+    this.registerFunctionRaw_gh35x6$('scePowerGetCallbackMode', new Kotlin.Long(-1158005264, 0), 150, void 0, scePower$registerModule$lambda_44(this));
+    this.registerFunctionRaw_gh35x6$('scePowerUnlock', new Kotlin.Long(-901958463, 0), 150, void 0, scePower$registerModule$lambda_45(this));
+    this.registerFunctionRaw_gh35x6$('scePowerGetBatteryChargeCycle', new Kotlin.Long(-884345394, 0), 150, void 0, scePower$registerModule$lambda_46(this));
+    this.registerFunctionRaw_gh35x6$('scePowerLock', new Kotlin.Long(-691005713, 0), 150, void 0, scePower$registerModule$lambda_47(this));
+    this.registerFunctionRaw_gh35x6$('scePowerCancelRequest', new Kotlin.Long(-614282801, 0), 150, void 0, scePower$registerModule$lambda_48(this));
+    this.registerFunctionRaw_gh35x6$('scePowerUnregitserCallback', new Kotlin.Long(-610457379, 0), 150, void 0, scePower$registerModule$lambda_49(this));
+    this.registerFunctionRaw_gh35x6$('scePowerUnregisterCallback', new Kotlin.Long(-542590216, 0), 150, void 0, scePower$registerModule$lambda_50(this));
+    this.registerFunctionRaw_gh35x6$('scePower_E8E4E204', new Kotlin.Long(-387653116, 0), 150, void 0, scePower$registerModule$lambda_51(this));
+    this.registerFunctionRaw_gh35x6$('scePower_EBD177D6', new Kotlin.Long(-338593834, 0), 150, void 0, scePower$registerModule$lambda_52(this));
+    this.registerFunctionRaw_gh35x6$('scePowerGetIdleTimer', new Kotlin.Long(-306102299, 0), 150, void 0, scePower$registerModule$lambda_53(this));
+    this.registerFunctionRaw_gh35x6$('scePowerTick', new Kotlin.Long(-271333021, 0), 150, void 0, scePower$registerModule$lambda_54(this));
+    this.registerFunctionRaw_gh35x6$('scePowerVolatileMemTryLock', new Kotlin.Long(-90724967, 0), 150, void 0, scePower$registerModule$lambda_55(this));
+    this.registerFunctionRaw_gh35x6$('scePowerGetBatteryFullCapacity', new Kotlin.Long(-48717569, 0), 150, void 0, scePower$registerModule$lambda_56(this));
   };
   scePower.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'scePower',
     interfaces: [SceModule]
+  };
+  function sceReg(emulator) {
+    SceModule.call(this, emulator, 'sceReg', 1073807377, 'registry.prx', 'sceRegistry_Service');
+  }
+  sceReg.prototype.sceRegOpenRegistry_km1ogm$ = function (regParamPtr, mode, regHandlePtr) {
+    var param = read(regParamPtr, RegParam$Companion_getInstance());
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceRegOpenRegistry:' + param + ',' + mode + ',' + regHandlePtr);
+    }
+    regHandlePtr.sw_vux9f0$(0, 0);
+    return 0;
+  };
+  sceReg.prototype.sceRegOpenCategory_nfdkp1$ = function (regHandle, name, mode, regCategoryHandlePtr) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceRegOpenCategory:' + regHandle + ',' + toString(name) + ',' + mode + ',' + regCategoryHandlePtr);
+    }
+    return 0;
+  };
+  sceReg.prototype.sceRegGetKeyInfo_8hb1i5$ = function (categoryHandle, name, regKeyHandlePtr, regKeyTypesPtr, sizePtr) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceRegGetKeyInfo:' + categoryHandle + ',' + toString(name) + ',' + regKeyHandlePtr + ',' + regKeyTypesPtr + ',' + sizePtr);
+    }
+    return 0;
+  };
+  sceReg.prototype.sceRegGetKeyValue_bunovm$ = function (categoryHandle, regKeyHandle, bufferPtr, size) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceRegGetKeyValue:' + categoryHandle + ',' + regKeyHandle + ',' + bufferPtr + ',' + size);
+    }
+    return 0;
+  };
+  sceReg.prototype.sceRegFlushCategory_za3lpa$ = function (categoryHandle) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceRegFlushCategory:' + categoryHandle);
+    }
+    return 0;
+  };
+  sceReg.prototype.sceRegCloseCategory_za3lpa$ = function (categoryHandle) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceRegCloseCategory:' + categoryHandle);
+    }
+    return 0;
+  };
+  sceReg.prototype.sceRegFlushRegistry_za3lpa$ = function (regHandle) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceRegFlushRegistry:' + regHandle);
+    }
+    return 0;
+  };
+  sceReg.prototype.sceRegCloseRegistry_za3lpa$ = function (regHandle) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceRegCloseRegistry:' + regHandle);
+    }
+    return 0;
+  };
+  sceReg.prototype.sceRegSetKeyValue_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(393645588);
+  };
+  sceReg.prototype.sceRegGetKeysNum_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(739097053);
+  };
+  sceReg.prototype.sceRegGetKeys_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(757141813);
+  };
+  sceReg.prototype.sceRegGetKeyValueByName_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(817758809);
+  };
+  sceReg.prototype.sceRegRemoveKey_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(907394183);
+  };
+  sceReg.prototype.sceRegRemoveCategory_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1285646483);
+  };
+  sceReg.prototype.sceRegCreateKey_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(1466178177);
+  };
+  sceReg.prototype.sceReg_835ECE6F_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-2090938769, 0));
+  };
+  sceReg.prototype.sceRegExit_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1692013071, 0));
+  };
+  sceReg.prototype.sceReg_BE8C1263_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1098116509, 0));
+  };
+  sceReg.prototype.sceRegGetKeyInfoByName_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-982086398, 0));
+  };
+  sceReg.prototype.sceRegRemoveRegistry_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-556100929, 0));
+  };
+  function sceReg$registerModule$lambda(this$sceReg) {
+    return function ($receiver, it) {
+      return this$sceReg.sceRegOpenRegistry_km1ogm$($receiver.ptr, $receiver.int, $receiver.ptr);
+    };
+  }
+  function sceReg$registerModule$lambda_0(this$sceReg) {
+    return function ($receiver, it) {
+      return this$sceReg.sceRegOpenCategory_nfdkp1$($receiver.int, $receiver.str, $receiver.int, $receiver.ptr);
+    };
+  }
+  function sceReg$registerModule$lambda_1(this$sceReg) {
+    return function ($receiver, it) {
+      return this$sceReg.sceRegGetKeyInfo_8hb1i5$($receiver.int, $receiver.str, $receiver.ptr, $receiver.ptr, $receiver.ptr);
+    };
+  }
+  function sceReg$registerModule$lambda_2(this$sceReg) {
+    return function ($receiver, it) {
+      return this$sceReg.sceRegGetKeyValue_bunovm$($receiver.int, $receiver.int, $receiver.ptr, $receiver.int);
+    };
+  }
+  function sceReg$registerModule$lambda_3(this$sceReg) {
+    return function ($receiver, it) {
+      return this$sceReg.sceRegFlushCategory_za3lpa$($receiver.int);
+    };
+  }
+  function sceReg$registerModule$lambda_4(this$sceReg) {
+    return function ($receiver, it) {
+      return this$sceReg.sceRegCloseCategory_za3lpa$($receiver.int);
+    };
+  }
+  function sceReg$registerModule$lambda_5(this$sceReg) {
+    return function ($receiver, it) {
+      return this$sceReg.sceRegFlushRegistry_za3lpa$($receiver.int);
+    };
+  }
+  function sceReg$registerModule$lambda_6(this$sceReg) {
+    return function ($receiver, it) {
+      return this$sceReg.sceRegCloseRegistry_za3lpa$($receiver.int);
+    };
+  }
+  function sceReg$registerModule$lambda_7(this$sceReg) {
+    return function (it) {
+      this$sceReg.sceRegSetKeyValue_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceReg$registerModule$lambda_8(this$sceReg) {
+    return function (it) {
+      this$sceReg.sceRegGetKeysNum_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceReg$registerModule$lambda_9(this$sceReg) {
+    return function (it) {
+      this$sceReg.sceRegGetKeys_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceReg$registerModule$lambda_10(this$sceReg) {
+    return function (it) {
+      this$sceReg.sceRegGetKeyValueByName_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceReg$registerModule$lambda_11(this$sceReg) {
+    return function (it) {
+      this$sceReg.sceRegRemoveKey_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceReg$registerModule$lambda_12(this$sceReg) {
+    return function (it) {
+      this$sceReg.sceRegRemoveCategory_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceReg$registerModule$lambda_13(this$sceReg) {
+    return function (it) {
+      this$sceReg.sceRegCreateKey_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceReg$registerModule$lambda_14(this$sceReg) {
+    return function (it) {
+      this$sceReg.sceReg_835ECE6F_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceReg$registerModule$lambda_15(this$sceReg) {
+    return function (it) {
+      this$sceReg.sceRegExit_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceReg$registerModule$lambda_16(this$sceReg) {
+    return function (it) {
+      this$sceReg.sceReg_BE8C1263_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceReg$registerModule$lambda_17(this$sceReg) {
+    return function (it) {
+      this$sceReg.sceRegGetKeyInfoByName_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceReg$registerModule$lambda_18(this$sceReg) {
+    return function (it) {
+      this$sceReg.sceRegRemoveRegistry_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  sceReg.prototype.registerModule = function () {
+    this.registerFunctionInt_9l82lv$('sceRegOpenRegistry', new Kotlin.Long(-1830546816, 0), 150, void 0, sceReg$registerModule$lambda(this));
+    this.registerFunctionInt_9l82lv$('sceRegOpenCategory', Kotlin.Long.fromInt(495613486), 150, void 0, sceReg$registerModule$lambda_0(this));
+    this.registerFunctionInt_9l82lv$('sceRegGetKeyInfo', new Kotlin.Long(-733521240, 0), 150, void 0, sceReg$registerModule$lambda_1(this));
+    this.registerFunctionInt_9l82lv$('sceRegGetKeyValue', Kotlin.Long.fromInt(682158474), 150, void 0, sceReg$registerModule$lambda_2(this));
+    this.registerFunctionInt_9l82lv$('sceRegFlushCategory', Kotlin.Long.fromInt(225034048), 150, void 0, sceReg$registerModule$lambda_3(this));
+    this.registerFunctionInt_9l82lv$('sceRegCloseCategory', Kotlin.Long.fromInt(212763435), 150, void 0, sceReg$registerModule$lambda_4(this));
+    this.registerFunctionInt_9l82lv$('sceRegFlushRegistry', Kotlin.Long.fromInt(960895821), 150, void 0, sceReg$registerModule$lambda_5(this));
+    this.registerFunctionInt_9l82lv$('sceRegCloseRegistry', new Kotlin.Long(-91596999, 0), 150, void 0, sceReg$registerModule$lambda_6(this));
+    this.registerFunctionRaw_gh35x6$('sceRegSetKeyValue', Kotlin.Long.fromInt(393645588), 150, void 0, sceReg$registerModule$lambda_7(this));
+    this.registerFunctionRaw_gh35x6$('sceRegGetKeysNum', Kotlin.Long.fromInt(739097053), 150, void 0, sceReg$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceRegGetKeys', Kotlin.Long.fromInt(757141813), 150, void 0, sceReg$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceRegGetKeyValueByName', Kotlin.Long.fromInt(817758809), 150, void 0, sceReg$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceRegRemoveKey', Kotlin.Long.fromInt(907394183), 150, void 0, sceReg$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('sceRegRemoveCategory', Kotlin.Long.fromInt(1285646483), 150, void 0, sceReg$registerModule$lambda_12(this));
+    this.registerFunctionRaw_gh35x6$('sceRegCreateKey', Kotlin.Long.fromInt(1466178177), 150, void 0, sceReg$registerModule$lambda_13(this));
+    this.registerFunctionRaw_gh35x6$('sceReg_835ECE6F', new Kotlin.Long(-2090938769, 0), 150, void 0, sceReg$registerModule$lambda_14(this));
+    this.registerFunctionRaw_gh35x6$('sceRegExit', new Kotlin.Long(-1692013071, 0), 150, void 0, sceReg$registerModule$lambda_15(this));
+    this.registerFunctionRaw_gh35x6$('sceReg_BE8C1263', new Kotlin.Long(-1098116509, 0), 150, void 0, sceReg$registerModule$lambda_16(this));
+    this.registerFunctionRaw_gh35x6$('sceRegGetKeyInfoByName', new Kotlin.Long(-982086398, 0), 150, void 0, sceReg$registerModule$lambda_17(this));
+    this.registerFunctionRaw_gh35x6$('sceRegRemoveRegistry', new Kotlin.Long(-556100929, 0), 150, void 0, sceReg$registerModule$lambda_18(this));
+  };
+  sceReg.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'sceReg',
+    interfaces: [SceModule]
+  };
+  function RegParam(regType, name, nameLength, unknown2, unknown3) {
+    RegParam$Companion_getInstance();
+    if (regType === void 0)
+      regType = 0;
+    if (name === void 0)
+      name = '';
+    if (nameLength === void 0)
+      nameLength = 0;
+    if (unknown2 === void 0)
+      unknown2 = 0;
+    if (unknown3 === void 0)
+      unknown3 = 0;
+    this.regType = regType;
+    this.name = name;
+    this.nameLength = nameLength;
+    this.unknown2 = unknown2;
+    this.unknown3 = unknown3;
+  }
+  function RegParam$Companion() {
+    RegParam$Companion_instance = this;
+    Struct.call(this, RegParam$RegParam$Companion_init$lambda, [AS(getPropertyCallableRef('regType', 1, function ($receiver) {
+      return $receiver.regType;
+    }, function ($receiver, value) {
+      $receiver.regType = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('name', 1, function ($receiver) {
+      return $receiver.name;
+    }, function ($receiver, value) {
+      $receiver.name = value;
+    }), STRINGZ_init(256)), AS(getPropertyCallableRef('nameLength', 1, function ($receiver) {
+      return $receiver.nameLength;
+    }, function ($receiver, value) {
+      $receiver.nameLength = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('unknown2', 1, function ($receiver) {
+      return $receiver.unknown2;
+    }, function ($receiver, value) {
+      $receiver.unknown2 = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('unknown3', 1, function ($receiver) {
+      return $receiver.unknown3;
+    }, function ($receiver, value) {
+      $receiver.unknown3 = value;
+    }), INT32_getInstance())]);
+  }
+  function RegParam$RegParam$Companion_init$lambda() {
+    return new RegParam();
+  }
+  RegParam$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [Struct]
+  };
+  var RegParam$Companion_instance = null;
+  function RegParam$Companion_getInstance() {
+    if (RegParam$Companion_instance === null) {
+      new RegParam$Companion();
+    }
+    return RegParam$Companion_instance;
+  }
+  RegParam.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'RegParam',
+    interfaces: []
+  };
+  RegParam.prototype.component1 = function () {
+    return this.regType;
+  };
+  RegParam.prototype.component2 = function () {
+    return this.name;
+  };
+  RegParam.prototype.component3 = function () {
+    return this.nameLength;
+  };
+  RegParam.prototype.component4 = function () {
+    return this.unknown2;
+  };
+  RegParam.prototype.component5 = function () {
+    return this.unknown3;
+  };
+  RegParam.prototype.copy_k592oq$ = function (regType, name, nameLength, unknown2, unknown3) {
+    return new RegParam(regType === void 0 ? this.regType : regType, name === void 0 ? this.name : name, nameLength === void 0 ? this.nameLength : nameLength, unknown2 === void 0 ? this.unknown2 : unknown2, unknown3 === void 0 ? this.unknown3 : unknown3);
+  };
+  RegParam.prototype.toString = function () {
+    return 'RegParam(regType=' + Kotlin.toString(this.regType) + (', name=' + Kotlin.toString(this.name)) + (', nameLength=' + Kotlin.toString(this.nameLength)) + (', unknown2=' + Kotlin.toString(this.unknown2)) + (', unknown3=' + Kotlin.toString(this.unknown3)) + ')';
+  };
+  RegParam.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.regType) | 0;
+    result = result * 31 + Kotlin.hashCode(this.name) | 0;
+    result = result * 31 + Kotlin.hashCode(this.nameLength) | 0;
+    result = result * 31 + Kotlin.hashCode(this.unknown2) | 0;
+    result = result * 31 + Kotlin.hashCode(this.unknown3) | 0;
+    return result;
+  };
+  RegParam.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.regType, other.regType) && Kotlin.equals(this.name, other.name) && Kotlin.equals(this.nameLength, other.nameLength) && Kotlin.equals(this.unknown2, other.unknown2) && Kotlin.equals(this.unknown3, other.unknown3)))));
   };
   function sceRtc(emulator) {
     SceModule.call(this, emulator, 'sceRtc', 1073807377, 'rtc.prx', 'sceRTC_Service');
@@ -28689,7 +32082,7 @@
   sceRtc.prototype.sceRtcSetTick_dyqe6s$ = function (datePtr, ticksPtr) {
     var ticks = ticksPtr.ldw_za3lpa$(0);
     var time = ScePspDateTime_init(DateTime.Companion.invoke_s8cxhz$(ticks));
-    time.write_39qel5$(openSync_1(datePtr));
+    write(datePtr, ScePspDateTime$Companion_getInstance(), time);
     return 0;
   };
   sceRtc.prototype.sceRtcGetTick_dyqe6s$ = function (datePtr, ticksPtr) {
@@ -29673,18 +33066,163 @@
     interfaces: [SceModule]
   };
   function sceUtility(emulator) {
+    sceUtility$Companion_getInstance();
     SceModule.call(this, emulator, 'sceUtility', 1073807377, 'utility.prx', 'sceUtility_Driver');
+    this.adhocChannel = 0;
+    this.wlanPowersave = 0;
+    this.dateFormat = sceUtility$Companion_getInstance().PSP_SYSTEMPARAM_DATE_FORMAT_YYYYMMDD;
+    this.timeFormat = sceUtility$Companion_getInstance().PSP_SYSTEMPARAM_TIME_FORMAT_24HR;
+    this.language = sceUtility$Companion_getInstance().PSP_SYSTEMPARAM_LANGUAGE_ENGLISH;
+    this.timezone = 0;
+    this.daylightSavings = sceUtility$Companion_getInstance().PSP_SYSTEMPARAM_DAYLIGHTSAVINGS_STD;
+    this.currentStep = DialogStepEnum$NONE_getInstance();
   }
-  sceUtility.prototype.sceUtilitySavedataInitStart_xnxgf8$ = function (params) {
+  sceUtility.prototype.sceUtilitySavedataInitStart_xnxgf8$ = function (paramsPtr) {
     var $this = this.logger;
-    var level = LogLevel.WARN;
+    var level = LogLevel.ERROR;
     if (level.index <= $this.processedLevel.index) {
-      $this.actualLog_t189ph$(level, 'sceUtilitySavedataInitStart: ' + params);
+      $this.actualLog_t189ph$(level, 'sceUtilitySavedataInitStart: ' + paramsPtr);
+    }
+    var struct = SceUtilitySavedataParam$Companion_getInstance();
+    var ptr = paramsPtr;
+    var obj = read_0(openSync_1(ptr), struct);
+    try {
+      obj.base.result = SceKernelErrors_getInstance().ERROR_SAVEDATA_LOAD_NO_DATA;
+    }
+    finally {
+      write_0(openSync_1(ptr), struct, obj);
     }
     return 0;
   };
   sceUtility.prototype.sceUtilitySavedataGetStatus = function () {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceUtilitySavedataGetStatus');
+    }
     return 0;
+  };
+  function sceUtility$Companion() {
+    sceUtility$Companion_instance = this;
+    this.PSP_SYSTEMPARAM_ID_STRING_NICKNAME = 1;
+    this.PSP_SYSTEMPARAM_ID_INT_ADHOC_CHANNEL = 2;
+    this.PSP_SYSTEMPARAM_ID_INT_WLAN_POWERSAVE = 3;
+    this.PSP_SYSTEMPARAM_ID_INT_DATE_FORMAT = 4;
+    this.PSP_SYSTEMPARAM_ID_INT_TIME_FORMAT = 5;
+    this.PSP_SYSTEMPARAM_ID_INT_TIMEZONE = 6;
+    this.PSP_SYSTEMPARAM_ID_INT_DAYLIGHTSAVINGS = 7;
+    this.PSP_SYSTEMPARAM_ID_INT_LANGUAGE = 8;
+    this.PSP_SYSTEMPARAM_ID_INT_UNKNOWN = 9;
+    this.PSP_SYSTEMPARAM_RETVAL_OK = 0;
+    this.PSP_SYSTEMPARAM_RETVAL_FAIL = new Kotlin.Long(-2146369277, 0);
+    this.PSP_SYSTEMPARAM_ADHOC_CHANNEL_AUTOMATIC = 0;
+    this.PSP_SYSTEMPARAM_ADHOC_CHANNEL_1 = 1;
+    this.PSP_SYSTEMPARAM_ADHOC_CHANNEL_6 = 6;
+    this.PSP_SYSTEMPARAM_ADHOC_CHANNEL_11 = 11;
+    this.PSP_SYSTEMPARAM_WLAN_POWERSAVE_OFF = 0;
+    this.PSP_SYSTEMPARAM_WLAN_POWERSAVE_ON = 1;
+    this.PSP_SYSTEMPARAM_DATE_FORMAT_YYYYMMDD = 0;
+    this.PSP_SYSTEMPARAM_DATE_FORMAT_MMDDYYYY = 1;
+    this.PSP_SYSTEMPARAM_DATE_FORMAT_DDMMYYYY = 2;
+    this.PSP_SYSTEMPARAM_TIME_FORMAT_24HR = 0;
+    this.PSP_SYSTEMPARAM_TIME_FORMAT_12HR = 1;
+    this.PSP_SYSTEMPARAM_DAYLIGHTSAVINGS_STD = 0;
+    this.PSP_SYSTEMPARAM_DAYLIGHTSAVINGS_SAVING = 1;
+    this.PSP_SYSTEMPARAM_LANGUAGE_JAPANESE = 0;
+    this.PSP_SYSTEMPARAM_LANGUAGE_ENGLISH = 1;
+    this.PSP_SYSTEMPARAM_LANGUAGE_FRENCH = 2;
+    this.PSP_SYSTEMPARAM_LANGUAGE_SPANISH = 3;
+    this.PSP_SYSTEMPARAM_LANGUAGE_GERMAN = 4;
+    this.PSP_SYSTEMPARAM_LANGUAGE_ITALIAN = 5;
+    this.PSP_SYSTEMPARAM_LANGUAGE_DUTCH = 6;
+    this.PSP_SYSTEMPARAM_LANGUAGE_PORTUGUESE = 7;
+    this.PSP_SYSTEMPARAM_LANGUAGE_RUSSIAN = 8;
+    this.PSP_SYSTEMPARAM_LANGUAGE_KOREAN = 9;
+    this.PSP_SYSTEMPARAM_LANGUAGE_CHINESE_TRADITIONAL = 10;
+    this.PSP_SYSTEMPARAM_LANGUAGE_CHINESE_SIMPLIFIED = 11;
+  }
+  sceUtility$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: []
+  };
+  var sceUtility$Companion_instance = null;
+  function sceUtility$Companion_getInstance() {
+    if (sceUtility$Companion_instance === null) {
+      new sceUtility$Companion();
+    }
+    return sceUtility$Companion_instance;
+  }
+  sceUtility.prototype.sceUtilityGetSystemParamInt_o62i3q$ = function (id, value) {
+    var tmp$;
+    var $this = this.logger;
+    var level = LogLevel.TRACE;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'Not implemented: sceUtilityGetSystemParamInt:' + id + ',' + value);
+    }
+    if (id === sceUtility$Companion_getInstance().PSP_SYSTEMPARAM_ID_STRING_NICKNAME)
+      tmp$ = -1;
+    else if (id === sceUtility$Companion_getInstance().PSP_SYSTEMPARAM_ID_INT_ADHOC_CHANNEL)
+      tmp$ = this.adhocChannel;
+    else if (id === sceUtility$Companion_getInstance().PSP_SYSTEMPARAM_ID_INT_WLAN_POWERSAVE)
+      tmp$ = this.wlanPowersave;
+    else if (id === sceUtility$Companion_getInstance().PSP_SYSTEMPARAM_ID_INT_DATE_FORMAT)
+      tmp$ = this.dateFormat;
+    else if (id === sceUtility$Companion_getInstance().PSP_SYSTEMPARAM_ID_INT_TIME_FORMAT)
+      tmp$ = this.timeFormat;
+    else if (id === sceUtility$Companion_getInstance().PSP_SYSTEMPARAM_ID_INT_TIMEZONE)
+      tmp$ = this.timezone;
+    else if (id === sceUtility$Companion_getInstance().PSP_SYSTEMPARAM_ID_INT_DAYLIGHTSAVINGS)
+      tmp$ = this.daylightSavings;
+    else if (id === sceUtility$Companion_getInstance().PSP_SYSTEMPARAM_ID_INT_LANGUAGE)
+      tmp$ = this.language;
+    else if (id === sceUtility$Companion_getInstance().PSP_SYSTEMPARAM_ID_INT_UNKNOWN)
+      tmp$ = -1;
+    else
+      tmp$ = -1;
+    var avalue = tmp$;
+    value.sw_vux9f0$(0, avalue);
+    return sceUtility$Companion_getInstance().PSP_SYSTEMPARAM_RETVAL_OK;
+  };
+  sceUtility.prototype.sceUtilityMsgDialogInitStart_xnxgf8$ = function (paramsPtr) {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceUtilityMsgDialogInitStart:' + paramsPtr);
+    }
+    var struct = PspUtilityMsgDialogParams$Companion_getInstance();
+    var ptr = paramsPtr;
+    var obj = read_0(openSync_1(ptr), struct);
+    try {
+      obj.buttonPressed = PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_YES_getInstance();
+      this.currentStep = DialogStepEnum$SUCCESS_getInstance();
+    }
+    finally {
+      write_0(openSync_1(ptr), struct, obj);
+    }
+    return 0;
+  };
+  sceUtility.prototype.sceUtilityMsgDialogGetStatus = function () {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceUtilityMsgDialogGetStatus');
+    }
+    try {
+      return this.currentStep.id;
+    }
+    finally {
+      if (this.currentStep === DialogStepEnum$SHUTDOWN_getInstance())
+        this.currentStep = DialogStepEnum$NONE_getInstance();
+    }
+  };
+  sceUtility.prototype.sceUtilityMsgDialogShutdownStart = function () {
+    var $this = this.logger;
+    var level = LogLevel.ERROR;
+    if (level.index <= $this.processedLevel.index) {
+      $this.actualLog_t189ph$(level, 'sceUtilityMsgDialogShutdownStart');
+    }
+    this.currentStep = DialogStepEnum$SHUTDOWN_getInstance();
   };
   sceUtility.prototype.sceUtility_0251B134_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(38908212);
@@ -29727,9 +33265,6 @@
   };
   sceUtility.prototype.sceUtilityLoadModule_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(707476960);
-  };
-  sceUtility.prototype.sceUtilityMsgDialogInitStart_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(718856761);
   };
   sceUtility.prototype.sceUtility_2B96173B_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(731256635);
@@ -29794,9 +33329,6 @@
   sceUtility.prototype.sceUtilityUnloadNetModule_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1691683926);
   };
-  sceUtility.prototype.sceUtilityMsgDialogShutdownStart_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_za3lpa$(1739535400);
-  };
   sceUtility.prototype.sceUtility_6F56F9CF_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_za3lpa$(1867971023);
   };
@@ -29839,9 +33371,6 @@
   sceUtility.prototype.sceUtilitySavedataShutdownStart_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1752124612, 0));
   };
-  sceUtility.prototype.sceUtilityMsgDialogGetStatus_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1709403689, 0));
-  };
   sceUtility.prototype.sceUtilityInstallUpdate_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1606604358, 0));
   };
@@ -29850,9 +33379,6 @@
   };
   sceUtility.prototype.sceUtility_A50E5B30_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1525785808, 0));
-  };
-  sceUtility.prototype.sceUtilityGetSystemParamInt_xt3zvs$ = function (cpu) {
-    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1512430586, 0));
   };
   sceUtility.prototype.sceUtility_AB083EA9_xt3zvs$ = function (cpu) {
     this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1425523031, 0));
@@ -29961,338 +33487,335 @@
     };
   }
   function sceUtility$registerModule$lambda_1(this$sceUtility) {
-    return function (it) {
-      this$sceUtility.sceUtility_0251B134_xt3zvs$(it);
-      return Unit;
+    return function ($receiver, it) {
+      return this$sceUtility.sceUtilityGetSystemParamInt_o62i3q$($receiver.int, $receiver.ptr);
     };
   }
   function sceUtility$registerModule$lambda_2(this$sceUtility) {
-    return function (it) {
-      this$sceUtility.sceUtilityHtmlViewerUpdate_xt3zvs$(it);
-      return Unit;
+    return function ($receiver, it) {
+      return this$sceUtility.sceUtilityMsgDialogInitStart_xnxgf8$($receiver.ptr);
     };
   }
   function sceUtility$registerModule$lambda_3(this$sceUtility) {
-    return function (it) {
-      this$sceUtility.sceUtility_06A48659_xt3zvs$(it);
-      return Unit;
+    return function ($receiver, it) {
+      return this$sceUtility.sceUtilityMsgDialogGetStatus();
     };
   }
   function sceUtility$registerModule$lambda_4(this$sceUtility) {
-    return function (it) {
-      this$sceUtility.sceUtilityLoadUsbModule_xt3zvs$(it);
+    return function ($receiver, it) {
+      this$sceUtility.sceUtilityMsgDialogShutdownStart();
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_5(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_0F3EEAAC_xt3zvs$(it);
+      this$sceUtility.sceUtility_0251B134_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_6(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityInstallInitStart_xt3zvs$(it);
+      this$sceUtility.sceUtilityHtmlViewerUpdate_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_7(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_147F7C85_xt3zvs$(it);
+      this$sceUtility.sceUtility_06A48659_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_8(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_149A7895_xt3zvs$(it);
+      this$sceUtility.sceUtilityLoadUsbModule_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_9(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityLoadNetModule_xt3zvs$(it);
+      this$sceUtility.sceUtility_0F3EEAAC_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_10(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_16A1A8D8_xt3zvs$(it);
+      this$sceUtility.sceUtilityInstallInitStart_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_11(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_16D02AF0_xt3zvs$(it);
+      this$sceUtility.sceUtility_147F7C85_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_12(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_28D35634_xt3zvs$(it);
+      this$sceUtility.sceUtility_149A7895_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_13(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_2995D020_xt3zvs$(it);
+      this$sceUtility.sceUtilityLoadNetModule_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_14(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityLoadModule_xt3zvs$(it);
+      this$sceUtility.sceUtility_16A1A8D8_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_15(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityMsgDialogInitStart_xt3zvs$(it);
+      this$sceUtility.sceUtility_16D02AF0_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_16(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_2B96173B_xt3zvs$(it);
+      this$sceUtility.sceUtility_28D35634_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_17(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityGetSystemParamString_xt3zvs$(it);
+      this$sceUtility.sceUtility_2995D020_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_18(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_3AAD51DC_xt3zvs$(it);
+      this$sceUtility.sceUtilityLoadModule_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_19(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceNetplayDialogInitStart_xt3zvs$(it);
+      this$sceUtility.sceUtility_2B96173B_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_20(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityOskShutdownStart_xt3zvs$(it);
+      this$sceUtility.sceUtilityGetSystemParamString_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_21(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceNetplayDialogUpdate_xt3zvs$(it);
+      this$sceUtility.sceUtility_3AAD51DC_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_22(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilitySetSystemParamString_xt3zvs$(it);
+      this$sceUtility.sceNetplayDialogInitStart_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_23(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_42071A83_xt3zvs$(it);
+      this$sceUtility.sceUtilityOskShutdownStart_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_24(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityGetNetParam_xt3zvs$(it);
+      this$sceUtility.sceNetplayDialogUpdate_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_25(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilitySetSystemParamInt_xt3zvs$(it);
+      this$sceUtility.sceUtilitySetSystemParamString_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_26(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityMsgDialogAbort_xt3zvs$(it);
+      this$sceUtility.sceUtility_42071A83_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_27(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_4A833BA4_xt3zvs$(it);
+      this$sceUtility.sceUtilityGetNetParam_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_28(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_4B0A8FE5_xt3zvs$(it);
+      this$sceUtility.sceUtilitySetSystemParamInt_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_29(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityOskUpdate_xt3zvs$(it);
+      this$sceUtility.sceUtilityMsgDialogAbort_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_30(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityNetconfInitStart_xt3zvs$(it);
+      this$sceUtility.sceUtility_4A833BA4_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_31(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityGetNetParamLatestID_xt3zvs$(it);
+      this$sceUtility.sceUtility_4B0A8FE5_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_32(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_54A5C62F_xt3zvs$(it);
+      this$sceUtility.sceUtilityOskUpdate_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_33(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityCheckNetParam_xt3zvs$(it);
+      this$sceUtility.sceUtilityNetconfInitStart_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_34(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityInstallShutdownStart_xt3zvs$(it);
+      this$sceUtility.sceUtilityGetNetParamLatestID_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_35(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityNetconfGetStatus_xt3zvs$(it);
+      this$sceUtility.sceUtility_54A5C62F_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_36(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityUnloadNetModule_xt3zvs$(it);
+      this$sceUtility.sceUtilityCheckNetParam_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_37(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityMsgDialogShutdownStart_xt3zvs$(it);
+      this$sceUtility.sceUtilityInstallShutdownStart_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_38(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_6F56F9CF_xt3zvs$(it);
+      this$sceUtility.sceUtilityNetconfGetStatus_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_39(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_70267ADF_xt3zvs$(it);
+      this$sceUtility.sceUtilityUnloadNetModule_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_40(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityGameSharingUpdate_xt3zvs$(it);
+      this$sceUtility.sceUtility_6F56F9CF_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_41(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_81C44706_xt3zvs$(it);
+      this$sceUtility.sceUtility_70267ADF_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_42(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_8326AB05_xt3zvs$(it);
+      this$sceUtility.sceUtilityGameSharingUpdate_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_43(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_86A03A27_xt3zvs$(it);
+      this$sceUtility.sceUtility_81C44706_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_44(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_86ABDB1B_xt3zvs$(it);
+      this$sceUtility.sceUtility_8326AB05_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_45(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_88BC7406_xt3zvs$(it);
+      this$sceUtility.sceUtility_86A03A27_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_46(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_89317C8F_xt3zvs$(it);
+      this$sceUtility.sceUtility_86ABDB1B_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_47(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityNetconfUpdate_xt3zvs$(it);
+      this$sceUtility.sceUtility_88BC7406_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_48(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_943CBA46_xt3zvs$(it);
+      this$sceUtility.sceUtility_89317C8F_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_49(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityGameSharingGetStatus_xt3zvs$(it);
+      this$sceUtility.sceUtilityNetconfUpdate_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_50(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityMsgDialogUpdate_xt3zvs$(it);
+      this$sceUtility.sceUtility_943CBA46_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_51(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilitySavedataShutdownStart_xt3zvs$(it);
+      this$sceUtility.sceUtilityGameSharingGetStatus_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_52(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityMsgDialogGetStatus_xt3zvs$(it);
+      this$sceUtility.sceUtilityMsgDialogUpdate_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_53(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityInstallUpdate_xt3zvs$(it);
+      this$sceUtility.sceUtilitySavedataShutdownStart_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_54(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_A084E056_xt3zvs$(it);
+      this$sceUtility.sceUtilityInstallUpdate_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_55(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtility_A50E5B30_xt3zvs$(it);
+      this$sceUtility.sceUtility_A084E056_xt3zvs$(it);
       return Unit;
     };
   }
   function sceUtility$registerModule$lambda_56(this$sceUtility) {
     return function (it) {
-      this$sceUtility.sceUtilityGetSystemParamInt_xt3zvs$(it);
+      this$sceUtility.sceUtility_A50E5B30_xt3zvs$(it);
       return Unit;
     };
   }
@@ -30491,62 +34014,62 @@
   sceUtility.prototype.registerModule = function () {
     this.registerFunctionInt_9l82lv$('sceUtilitySavedataInitStart', Kotlin.Long.fromInt(1355074903), 150, void 0, sceUtility$registerModule$lambda(this));
     this.registerFunctionInt_9l82lv$('sceUtilitySavedataGetStatus', new Kotlin.Long(-2005607456, 0), 150, void 0, sceUtility$registerModule$lambda_0(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_0251B134', Kotlin.Long.fromInt(38908212), 150, void 0, sceUtility$registerModule$lambda_1(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityHtmlViewerUpdate', Kotlin.Long.fromInt(95402468), 150, void 0, sceUtility$registerModule$lambda_2(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_06A48659', Kotlin.Long.fromInt(111445593), 150, void 0, sceUtility$registerModule$lambda_3(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityLoadUsbModule', Kotlin.Long.fromInt(224118482), 150, void 0, sceUtility$registerModule$lambda_4(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_0F3EEAAC', Kotlin.Long.fromInt(255781548), 150, void 0, sceUtility$registerModule$lambda_5(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityInstallInitStart', Kotlin.Long.fromInt(310499982), 150, void 0, sceUtility$registerModule$lambda_6(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_147F7C85', Kotlin.Long.fromInt(343899269), 150, void 0, sceUtility$registerModule$lambda_7(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_149A7895', Kotlin.Long.fromInt(345667733), 150, void 0, sceUtility$registerModule$lambda_8(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityLoadNetModule', Kotlin.Long.fromInt(360292697), 150, void 0, sceUtility$registerModule$lambda_9(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_16A1A8D8', Kotlin.Long.fromInt(379693272), 150, void 0, sceUtility$registerModule$lambda_10(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_16D02AF0', Kotlin.Long.fromInt(382741232), 150, void 0, sceUtility$registerModule$lambda_11(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_28D35634', Kotlin.Long.fromInt(684938804), 150, void 0, sceUtility$registerModule$lambda_12(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_2995D020', Kotlin.Long.fromInt(697684000), 150, void 0, sceUtility$registerModule$lambda_13(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityLoadModule', Kotlin.Long.fromInt(707476960), 150, void 0, sceUtility$registerModule$lambda_14(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityMsgDialogInitStart', Kotlin.Long.fromInt(718856761), 150, void 0, sceUtility$registerModule$lambda_15(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_2B96173B', Kotlin.Long.fromInt(731256635), 150, void 0, sceUtility$registerModule$lambda_16(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityGetSystemParamString', Kotlin.Long.fromInt(884441923), 150, void 0, sceUtility$registerModule$lambda_17(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_3AAD51DC', Kotlin.Long.fromInt(984437212), 150, void 0, sceUtility$registerModule$lambda_18(this));
-    this.registerFunctionRaw_gh35x6$('sceNetplayDialogInitStart', Kotlin.Long.fromInt(987040487), 150, void 0, sceUtility$registerModule$lambda_19(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityOskShutdownStart', Kotlin.Long.fromInt(1039854505), 150, void 0, sceUtility$registerModule$lambda_20(this));
-    this.registerFunctionRaw_gh35x6$('sceNetplayDialogUpdate', Kotlin.Long.fromInt(1098640724), 150, void 0, sceUtility$registerModule$lambda_21(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilitySetSystemParamString', Kotlin.Long.fromInt(1105397364), 150, void 0, sceUtility$registerModule$lambda_22(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_42071A83', Kotlin.Long.fromInt(1107761795), 150, void 0, sceUtility$registerModule$lambda_23(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityGetNetParam', Kotlin.Long.fromInt(1129139002), 150, void 0, sceUtility$registerModule$lambda_24(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilitySetSystemParamInt', Kotlin.Long.fromInt(1170310406), 150, void 0, sceUtility$registerModule$lambda_25(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityMsgDialogAbort', Kotlin.Long.fromInt(1227406742), 150, void 0, sceUtility$registerModule$lambda_26(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_4A833BA4', Kotlin.Long.fromInt(1250114468), 150, void 0, sceUtility$registerModule$lambda_27(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_4B0A8FE5', Kotlin.Long.fromInt(1258983397), 150, void 0, sceUtility$registerModule$lambda_28(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityOskUpdate', Kotlin.Long.fromInt(1267058785), 150, void 0, sceUtility$registerModule$lambda_29(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityNetconfInitStart', Kotlin.Long.fromInt(1303504697), 150, void 0, sceUtility$registerModule$lambda_30(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityGetNetParamLatestID', Kotlin.Long.fromInt(1340941528), 150, void 0, sceUtility$registerModule$lambda_31(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_54A5C62F', Kotlin.Long.fromInt(1420150319), 150, void 0, sceUtility$registerModule$lambda_32(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityCheckNetParam', Kotlin.Long.fromInt(1592681800), 150, void 0, sceUtility$registerModule$lambda_33(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityInstallShutdownStart', Kotlin.Long.fromInt(1592902218), 150, void 0, sceUtility$registerModule$lambda_34(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityNetconfGetStatus', Kotlin.Long.fromInt(1664264761), 150, void 0, sceUtility$registerModule$lambda_35(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityUnloadNetModule', Kotlin.Long.fromInt(1691683926), 150, void 0, sceUtility$registerModule$lambda_36(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityMsgDialogShutdownStart', Kotlin.Long.fromInt(1739535400), 150, void 0, sceUtility$registerModule$lambda_37(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_6F56F9CF', Kotlin.Long.fromInt(1867971023), 150, void 0, sceUtility$registerModule$lambda_38(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_70267ADF', Kotlin.Long.fromInt(1881570015), 150, void 0, sceUtility$registerModule$lambda_39(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityGameSharingUpdate', Kotlin.Long.fromInt(2018711597), 150, void 0, sceUtility$registerModule$lambda_40(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_81C44706', new Kotlin.Long(-2117843194, 0), 150, void 0, sceUtility$registerModule$lambda_41(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_8326AB05', new Kotlin.Long(-2094617851, 0), 150, void 0, sceUtility$registerModule$lambda_42(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_86A03A27', new Kotlin.Long(-2036319705, 0), 150, void 0, sceUtility$registerModule$lambda_43(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_86ABDB1B', new Kotlin.Long(-2035557605, 0), 150, void 0, sceUtility$registerModule$lambda_44(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_88BC7406', new Kotlin.Long(-2000915450, 0), 150, void 0, sceUtility$registerModule$lambda_45(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_89317C8F', new Kotlin.Long(-1993245553, 0), 150, void 0, sceUtility$registerModule$lambda_46(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityNetconfUpdate', new Kotlin.Long(-1847128523, 0), 150, void 0, sceUtility$registerModule$lambda_47(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_943CBA46', new Kotlin.Long(-1807959482, 0), 150, void 0, sceUtility$registerModule$lambda_48(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityGameSharingGetStatus', new Kotlin.Long(-1805032461, 0), 150, void 0, sceUtility$registerModule$lambda_49(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityMsgDialogUpdate', new Kotlin.Long(-1778637509, 0), 150, void 0, sceUtility$registerModule$lambda_50(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilitySavedataShutdownStart', new Kotlin.Long(-1752124612, 0), 150, void 0, sceUtility$registerModule$lambda_51(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityMsgDialogGetStatus', new Kotlin.Long(-1709403689, 0), 150, void 0, sceUtility$registerModule$lambda_52(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityInstallUpdate', new Kotlin.Long(-1606604358, 0), 150, void 0, sceUtility$registerModule$lambda_53(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_A084E056', new Kotlin.Long(-1601904554, 0), 150, void 0, sceUtility$registerModule$lambda_54(this));
-    this.registerFunctionRaw_gh35x6$('sceUtility_A50E5B30', new Kotlin.Long(-1525785808, 0), 150, void 0, sceUtility$registerModule$lambda_55(this));
-    this.registerFunctionRaw_gh35x6$('sceUtilityGetSystemParamInt', new Kotlin.Long(-1512430586, 0), 150, void 0, sceUtility$registerModule$lambda_56(this));
+    this.registerFunctionInt_9l82lv$('sceUtilityGetSystemParamInt', new Kotlin.Long(-1512430586, 0), 150, void 0, sceUtility$registerModule$lambda_1(this));
+    this.registerFunctionInt_9l82lv$('sceUtilityMsgDialogInitStart', Kotlin.Long.fromInt(718856761), 150, void 0, sceUtility$registerModule$lambda_2(this));
+    this.registerFunctionInt_9l82lv$('sceUtilityMsgDialogGetStatus', new Kotlin.Long(-1709403689, 0), 150, void 0, sceUtility$registerModule$lambda_3(this));
+    this.registerFunctionVoid_dc3d86$('sceUtilityMsgDialogShutdownStart', Kotlin.Long.fromInt(1739535400), 150, void 0, sceUtility$registerModule$lambda_4(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_0251B134', Kotlin.Long.fromInt(38908212), 150, void 0, sceUtility$registerModule$lambda_5(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityHtmlViewerUpdate', Kotlin.Long.fromInt(95402468), 150, void 0, sceUtility$registerModule$lambda_6(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_06A48659', Kotlin.Long.fromInt(111445593), 150, void 0, sceUtility$registerModule$lambda_7(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityLoadUsbModule', Kotlin.Long.fromInt(224118482), 150, void 0, sceUtility$registerModule$lambda_8(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_0F3EEAAC', Kotlin.Long.fromInt(255781548), 150, void 0, sceUtility$registerModule$lambda_9(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityInstallInitStart', Kotlin.Long.fromInt(310499982), 150, void 0, sceUtility$registerModule$lambda_10(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_147F7C85', Kotlin.Long.fromInt(343899269), 150, void 0, sceUtility$registerModule$lambda_11(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_149A7895', Kotlin.Long.fromInt(345667733), 150, void 0, sceUtility$registerModule$lambda_12(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityLoadNetModule', Kotlin.Long.fromInt(360292697), 150, void 0, sceUtility$registerModule$lambda_13(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_16A1A8D8', Kotlin.Long.fromInt(379693272), 150, void 0, sceUtility$registerModule$lambda_14(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_16D02AF0', Kotlin.Long.fromInt(382741232), 150, void 0, sceUtility$registerModule$lambda_15(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_28D35634', Kotlin.Long.fromInt(684938804), 150, void 0, sceUtility$registerModule$lambda_16(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_2995D020', Kotlin.Long.fromInt(697684000), 150, void 0, sceUtility$registerModule$lambda_17(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityLoadModule', Kotlin.Long.fromInt(707476960), 150, void 0, sceUtility$registerModule$lambda_18(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_2B96173B', Kotlin.Long.fromInt(731256635), 150, void 0, sceUtility$registerModule$lambda_19(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityGetSystemParamString', Kotlin.Long.fromInt(884441923), 150, void 0, sceUtility$registerModule$lambda_20(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_3AAD51DC', Kotlin.Long.fromInt(984437212), 150, void 0, sceUtility$registerModule$lambda_21(this));
+    this.registerFunctionRaw_gh35x6$('sceNetplayDialogInitStart', Kotlin.Long.fromInt(987040487), 150, void 0, sceUtility$registerModule$lambda_22(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityOskShutdownStart', Kotlin.Long.fromInt(1039854505), 150, void 0, sceUtility$registerModule$lambda_23(this));
+    this.registerFunctionRaw_gh35x6$('sceNetplayDialogUpdate', Kotlin.Long.fromInt(1098640724), 150, void 0, sceUtility$registerModule$lambda_24(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilitySetSystemParamString', Kotlin.Long.fromInt(1105397364), 150, void 0, sceUtility$registerModule$lambda_25(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_42071A83', Kotlin.Long.fromInt(1107761795), 150, void 0, sceUtility$registerModule$lambda_26(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityGetNetParam', Kotlin.Long.fromInt(1129139002), 150, void 0, sceUtility$registerModule$lambda_27(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilitySetSystemParamInt', Kotlin.Long.fromInt(1170310406), 150, void 0, sceUtility$registerModule$lambda_28(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityMsgDialogAbort', Kotlin.Long.fromInt(1227406742), 150, void 0, sceUtility$registerModule$lambda_29(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_4A833BA4', Kotlin.Long.fromInt(1250114468), 150, void 0, sceUtility$registerModule$lambda_30(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_4B0A8FE5', Kotlin.Long.fromInt(1258983397), 150, void 0, sceUtility$registerModule$lambda_31(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityOskUpdate', Kotlin.Long.fromInt(1267058785), 150, void 0, sceUtility$registerModule$lambda_32(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityNetconfInitStart', Kotlin.Long.fromInt(1303504697), 150, void 0, sceUtility$registerModule$lambda_33(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityGetNetParamLatestID', Kotlin.Long.fromInt(1340941528), 150, void 0, sceUtility$registerModule$lambda_34(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_54A5C62F', Kotlin.Long.fromInt(1420150319), 150, void 0, sceUtility$registerModule$lambda_35(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityCheckNetParam', Kotlin.Long.fromInt(1592681800), 150, void 0, sceUtility$registerModule$lambda_36(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityInstallShutdownStart', Kotlin.Long.fromInt(1592902218), 150, void 0, sceUtility$registerModule$lambda_37(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityNetconfGetStatus', Kotlin.Long.fromInt(1664264761), 150, void 0, sceUtility$registerModule$lambda_38(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityUnloadNetModule', Kotlin.Long.fromInt(1691683926), 150, void 0, sceUtility$registerModule$lambda_39(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_6F56F9CF', Kotlin.Long.fromInt(1867971023), 150, void 0, sceUtility$registerModule$lambda_40(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_70267ADF', Kotlin.Long.fromInt(1881570015), 150, void 0, sceUtility$registerModule$lambda_41(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityGameSharingUpdate', Kotlin.Long.fromInt(2018711597), 150, void 0, sceUtility$registerModule$lambda_42(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_81C44706', new Kotlin.Long(-2117843194, 0), 150, void 0, sceUtility$registerModule$lambda_43(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_8326AB05', new Kotlin.Long(-2094617851, 0), 150, void 0, sceUtility$registerModule$lambda_44(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_86A03A27', new Kotlin.Long(-2036319705, 0), 150, void 0, sceUtility$registerModule$lambda_45(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_86ABDB1B', new Kotlin.Long(-2035557605, 0), 150, void 0, sceUtility$registerModule$lambda_46(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_88BC7406', new Kotlin.Long(-2000915450, 0), 150, void 0, sceUtility$registerModule$lambda_47(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_89317C8F', new Kotlin.Long(-1993245553, 0), 150, void 0, sceUtility$registerModule$lambda_48(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityNetconfUpdate', new Kotlin.Long(-1847128523, 0), 150, void 0, sceUtility$registerModule$lambda_49(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_943CBA46', new Kotlin.Long(-1807959482, 0), 150, void 0, sceUtility$registerModule$lambda_50(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityGameSharingGetStatus', new Kotlin.Long(-1805032461, 0), 150, void 0, sceUtility$registerModule$lambda_51(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityMsgDialogUpdate', new Kotlin.Long(-1778637509, 0), 150, void 0, sceUtility$registerModule$lambda_52(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilitySavedataShutdownStart', new Kotlin.Long(-1752124612, 0), 150, void 0, sceUtility$registerModule$lambda_53(this));
+    this.registerFunctionRaw_gh35x6$('sceUtilityInstallUpdate', new Kotlin.Long(-1606604358, 0), 150, void 0, sceUtility$registerModule$lambda_54(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_A084E056', new Kotlin.Long(-1601904554, 0), 150, void 0, sceUtility$registerModule$lambda_55(this));
+    this.registerFunctionRaw_gh35x6$('sceUtility_A50E5B30', new Kotlin.Long(-1525785808, 0), 150, void 0, sceUtility$registerModule$lambda_56(this));
     this.registerFunctionRaw_gh35x6$('sceUtility_AB083EA9', new Kotlin.Long(-1425523031, 0), 150, void 0, sceUtility$registerModule$lambda_57(this));
     this.registerFunctionRaw_gh35x6$('sceUtility_B0FB7FF5', new Kotlin.Long(-1325694987, 0), 150, void 0, sceUtility$registerModule$lambda_58(this));
     this.registerFunctionRaw_gh35x6$('sceUtility_B62A4061', new Kotlin.Long(-1238744991, 0), 150, void 0, sceUtility$registerModule$lambda_59(this));
@@ -30583,6 +34106,1657 @@
   sceUtility.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'sceUtility',
+    interfaces: [SceModule]
+  };
+  function PspLanguages(name, ordinal, id) {
+    Enum.call(this);
+    this.id_quihkc$_0 = id;
+    this.name$ = name;
+    this.ordinal$ = ordinal;
+  }
+  function PspLanguages_initFields() {
+    PspLanguages_initFields = function () {
+    };
+    PspLanguages$JAPANESE_instance = new PspLanguages('JAPANESE', 0, 0);
+    PspLanguages$ENGLISH_instance = new PspLanguages('ENGLISH', 1, 1);
+    PspLanguages$FRENCH_instance = new PspLanguages('FRENCH', 2, 2);
+    PspLanguages$SPANISH_instance = new PspLanguages('SPANISH', 3, 3);
+    PspLanguages$GERMAN_instance = new PspLanguages('GERMAN', 4, 4);
+    PspLanguages$ITALIAN_instance = new PspLanguages('ITALIAN', 5, 5);
+    PspLanguages$DUTCH_instance = new PspLanguages('DUTCH', 6, 6);
+    PspLanguages$PORTUGUESE_instance = new PspLanguages('PORTUGUESE', 7, 7);
+    PspLanguages$RUSSIAN_instance = new PspLanguages('RUSSIAN', 8, 8);
+    PspLanguages$KOREAN_instance = new PspLanguages('KOREAN', 9, 9);
+    PspLanguages$TRADITIONAL_CHINESE_instance = new PspLanguages('TRADITIONAL_CHINESE', 10, 10);
+    PspLanguages$SIMPLIFIED_CHINESE_instance = new PspLanguages('SIMPLIFIED_CHINESE', 11, 11);
+    PspLanguages$Companion_getInstance();
+  }
+  Object.defineProperty(PspLanguages.prototype, 'id', {
+    get: function () {
+      return this.id_quihkc$_0;
+    }
+  });
+  var PspLanguages$JAPANESE_instance;
+  function PspLanguages$JAPANESE_getInstance() {
+    PspLanguages_initFields();
+    return PspLanguages$JAPANESE_instance;
+  }
+  var PspLanguages$ENGLISH_instance;
+  function PspLanguages$ENGLISH_getInstance() {
+    PspLanguages_initFields();
+    return PspLanguages$ENGLISH_instance;
+  }
+  var PspLanguages$FRENCH_instance;
+  function PspLanguages$FRENCH_getInstance() {
+    PspLanguages_initFields();
+    return PspLanguages$FRENCH_instance;
+  }
+  var PspLanguages$SPANISH_instance;
+  function PspLanguages$SPANISH_getInstance() {
+    PspLanguages_initFields();
+    return PspLanguages$SPANISH_instance;
+  }
+  var PspLanguages$GERMAN_instance;
+  function PspLanguages$GERMAN_getInstance() {
+    PspLanguages_initFields();
+    return PspLanguages$GERMAN_instance;
+  }
+  var PspLanguages$ITALIAN_instance;
+  function PspLanguages$ITALIAN_getInstance() {
+    PspLanguages_initFields();
+    return PspLanguages$ITALIAN_instance;
+  }
+  var PspLanguages$DUTCH_instance;
+  function PspLanguages$DUTCH_getInstance() {
+    PspLanguages_initFields();
+    return PspLanguages$DUTCH_instance;
+  }
+  var PspLanguages$PORTUGUESE_instance;
+  function PspLanguages$PORTUGUESE_getInstance() {
+    PspLanguages_initFields();
+    return PspLanguages$PORTUGUESE_instance;
+  }
+  var PspLanguages$RUSSIAN_instance;
+  function PspLanguages$RUSSIAN_getInstance() {
+    PspLanguages_initFields();
+    return PspLanguages$RUSSIAN_instance;
+  }
+  var PspLanguages$KOREAN_instance;
+  function PspLanguages$KOREAN_getInstance() {
+    PspLanguages_initFields();
+    return PspLanguages$KOREAN_instance;
+  }
+  var PspLanguages$TRADITIONAL_CHINESE_instance;
+  function PspLanguages$TRADITIONAL_CHINESE_getInstance() {
+    PspLanguages_initFields();
+    return PspLanguages$TRADITIONAL_CHINESE_instance;
+  }
+  var PspLanguages$SIMPLIFIED_CHINESE_instance;
+  function PspLanguages$SIMPLIFIED_CHINESE_getInstance() {
+    PspLanguages_initFields();
+    return PspLanguages$SIMPLIFIED_CHINESE_instance;
+  }
+  function PspLanguages$Companion() {
+    PspLanguages$Companion_instance = this;
+    INT32_ENUM.call(this, PspLanguages$values());
+  }
+  PspLanguages$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [INT32_ENUM]
+  };
+  var PspLanguages$Companion_instance = null;
+  function PspLanguages$Companion_getInstance() {
+    PspLanguages_initFields();
+    if (PspLanguages$Companion_instance === null) {
+      new PspLanguages$Companion();
+    }
+    return PspLanguages$Companion_instance;
+  }
+  PspLanguages.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PspLanguages',
+    interfaces: [IdEnum, Enum]
+  };
+  function PspLanguages$values() {
+    return [PspLanguages$JAPANESE_getInstance(), PspLanguages$ENGLISH_getInstance(), PspLanguages$FRENCH_getInstance(), PspLanguages$SPANISH_getInstance(), PspLanguages$GERMAN_getInstance(), PspLanguages$ITALIAN_getInstance(), PspLanguages$DUTCH_getInstance(), PspLanguages$PORTUGUESE_getInstance(), PspLanguages$RUSSIAN_getInstance(), PspLanguages$KOREAN_getInstance(), PspLanguages$TRADITIONAL_CHINESE_getInstance(), PspLanguages$SIMPLIFIED_CHINESE_getInstance()];
+  }
+  PspLanguages.values = PspLanguages$values;
+  function PspLanguages$valueOf(name) {
+    switch (name) {
+      case 'JAPANESE':
+        return PspLanguages$JAPANESE_getInstance();
+      case 'ENGLISH':
+        return PspLanguages$ENGLISH_getInstance();
+      case 'FRENCH':
+        return PspLanguages$FRENCH_getInstance();
+      case 'SPANISH':
+        return PspLanguages$SPANISH_getInstance();
+      case 'GERMAN':
+        return PspLanguages$GERMAN_getInstance();
+      case 'ITALIAN':
+        return PspLanguages$ITALIAN_getInstance();
+      case 'DUTCH':
+        return PspLanguages$DUTCH_getInstance();
+      case 'PORTUGUESE':
+        return PspLanguages$PORTUGUESE_getInstance();
+      case 'RUSSIAN':
+        return PspLanguages$RUSSIAN_getInstance();
+      case 'KOREAN':
+        return PspLanguages$KOREAN_getInstance();
+      case 'TRADITIONAL_CHINESE':
+        return PspLanguages$TRADITIONAL_CHINESE_getInstance();
+      case 'SIMPLIFIED_CHINESE':
+        return PspLanguages$SIMPLIFIED_CHINESE_getInstance();
+      default:throwISE('No enum constant com.soywiz.kpspemu.hle.modules.PspLanguages.' + name);
+    }
+  }
+  PspLanguages.valueOf_61zpoe$ = PspLanguages$valueOf;
+  function PspUtilitySavedataMode(name, ordinal, id) {
+    Enum.call(this);
+    this.id_xtlbcp$_0 = id;
+    this.name$ = name;
+    this.ordinal$ = ordinal;
+  }
+  function PspUtilitySavedataMode_initFields() {
+    PspUtilitySavedataMode_initFields = function () {
+    };
+    PspUtilitySavedataMode$Autoload_instance = new PspUtilitySavedataMode('Autoload', 0, 0);
+    PspUtilitySavedataMode$Autosave_instance = new PspUtilitySavedataMode('Autosave', 1, 1);
+    PspUtilitySavedataMode$Load_instance = new PspUtilitySavedataMode('Load', 2, 2);
+    PspUtilitySavedataMode$Save_instance = new PspUtilitySavedataMode('Save', 3, 3);
+    PspUtilitySavedataMode$ListLoad_instance = new PspUtilitySavedataMode('ListLoad', 4, 4);
+    PspUtilitySavedataMode$ListSave_instance = new PspUtilitySavedataMode('ListSave', 5, 5);
+    PspUtilitySavedataMode$ListDelete_instance = new PspUtilitySavedataMode('ListDelete', 6, 6);
+    PspUtilitySavedataMode$Delete_instance = new PspUtilitySavedataMode('Delete', 7, 7);
+    PspUtilitySavedataMode$Sizes_instance = new PspUtilitySavedataMode('Sizes', 8, 8);
+    PspUtilitySavedataMode$AutoDelete_instance = new PspUtilitySavedataMode('AutoDelete', 9, 9);
+    PspUtilitySavedataMode$SingleDelete_instance = new PspUtilitySavedataMode('SingleDelete', 10, 10);
+    PspUtilitySavedataMode$List_instance = new PspUtilitySavedataMode('List', 11, 11);
+    PspUtilitySavedataMode$Files_instance = new PspUtilitySavedataMode('Files', 12, 12);
+    PspUtilitySavedataMode$MakeDataSecure_instance = new PspUtilitySavedataMode('MakeDataSecure', 13, 13);
+    PspUtilitySavedataMode$MakeData_instance = new PspUtilitySavedataMode('MakeData', 14, 14);
+    PspUtilitySavedataMode$ReadSecure_instance = new PspUtilitySavedataMode('ReadSecure', 15, 15);
+    PspUtilitySavedataMode$Read_instance = new PspUtilitySavedataMode('Read', 16, 16);
+    PspUtilitySavedataMode$WriteSecure_instance = new PspUtilitySavedataMode('WriteSecure', 17, 17);
+    PspUtilitySavedataMode$Write_instance = new PspUtilitySavedataMode('Write', 18, 18);
+    PspUtilitySavedataMode$EraseSecure_instance = new PspUtilitySavedataMode('EraseSecure', 19, 19);
+    PspUtilitySavedataMode$Erase_instance = new PspUtilitySavedataMode('Erase', 20, 20);
+    PspUtilitySavedataMode$DeleteData_instance = new PspUtilitySavedataMode('DeleteData', 21, 21);
+    PspUtilitySavedataMode$GetSize_instance = new PspUtilitySavedataMode('GetSize', 22, 22);
+    PspUtilitySavedataMode$Companion_getInstance();
+  }
+  Object.defineProperty(PspUtilitySavedataMode.prototype, 'id', {
+    get: function () {
+      return this.id_xtlbcp$_0;
+    }
+  });
+  var PspUtilitySavedataMode$Autoload_instance;
+  function PspUtilitySavedataMode$Autoload_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$Autoload_instance;
+  }
+  var PspUtilitySavedataMode$Autosave_instance;
+  function PspUtilitySavedataMode$Autosave_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$Autosave_instance;
+  }
+  var PspUtilitySavedataMode$Load_instance;
+  function PspUtilitySavedataMode$Load_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$Load_instance;
+  }
+  var PspUtilitySavedataMode$Save_instance;
+  function PspUtilitySavedataMode$Save_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$Save_instance;
+  }
+  var PspUtilitySavedataMode$ListLoad_instance;
+  function PspUtilitySavedataMode$ListLoad_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$ListLoad_instance;
+  }
+  var PspUtilitySavedataMode$ListSave_instance;
+  function PspUtilitySavedataMode$ListSave_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$ListSave_instance;
+  }
+  var PspUtilitySavedataMode$ListDelete_instance;
+  function PspUtilitySavedataMode$ListDelete_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$ListDelete_instance;
+  }
+  var PspUtilitySavedataMode$Delete_instance;
+  function PspUtilitySavedataMode$Delete_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$Delete_instance;
+  }
+  var PspUtilitySavedataMode$Sizes_instance;
+  function PspUtilitySavedataMode$Sizes_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$Sizes_instance;
+  }
+  var PspUtilitySavedataMode$AutoDelete_instance;
+  function PspUtilitySavedataMode$AutoDelete_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$AutoDelete_instance;
+  }
+  var PspUtilitySavedataMode$SingleDelete_instance;
+  function PspUtilitySavedataMode$SingleDelete_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$SingleDelete_instance;
+  }
+  var PspUtilitySavedataMode$List_instance;
+  function PspUtilitySavedataMode$List_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$List_instance;
+  }
+  var PspUtilitySavedataMode$Files_instance;
+  function PspUtilitySavedataMode$Files_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$Files_instance;
+  }
+  var PspUtilitySavedataMode$MakeDataSecure_instance;
+  function PspUtilitySavedataMode$MakeDataSecure_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$MakeDataSecure_instance;
+  }
+  var PspUtilitySavedataMode$MakeData_instance;
+  function PspUtilitySavedataMode$MakeData_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$MakeData_instance;
+  }
+  var PspUtilitySavedataMode$ReadSecure_instance;
+  function PspUtilitySavedataMode$ReadSecure_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$ReadSecure_instance;
+  }
+  var PspUtilitySavedataMode$Read_instance;
+  function PspUtilitySavedataMode$Read_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$Read_instance;
+  }
+  var PspUtilitySavedataMode$WriteSecure_instance;
+  function PspUtilitySavedataMode$WriteSecure_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$WriteSecure_instance;
+  }
+  var PspUtilitySavedataMode$Write_instance;
+  function PspUtilitySavedataMode$Write_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$Write_instance;
+  }
+  var PspUtilitySavedataMode$EraseSecure_instance;
+  function PspUtilitySavedataMode$EraseSecure_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$EraseSecure_instance;
+  }
+  var PspUtilitySavedataMode$Erase_instance;
+  function PspUtilitySavedataMode$Erase_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$Erase_instance;
+  }
+  var PspUtilitySavedataMode$DeleteData_instance;
+  function PspUtilitySavedataMode$DeleteData_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$DeleteData_instance;
+  }
+  var PspUtilitySavedataMode$GetSize_instance;
+  function PspUtilitySavedataMode$GetSize_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    return PspUtilitySavedataMode$GetSize_instance;
+  }
+  function PspUtilitySavedataMode$Companion() {
+    PspUtilitySavedataMode$Companion_instance = this;
+    INT32_ENUM.call(this, PspUtilitySavedataMode$values());
+  }
+  PspUtilitySavedataMode$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [INT32_ENUM]
+  };
+  var PspUtilitySavedataMode$Companion_instance = null;
+  function PspUtilitySavedataMode$Companion_getInstance() {
+    PspUtilitySavedataMode_initFields();
+    if (PspUtilitySavedataMode$Companion_instance === null) {
+      new PspUtilitySavedataMode$Companion();
+    }
+    return PspUtilitySavedataMode$Companion_instance;
+  }
+  PspUtilitySavedataMode.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PspUtilitySavedataMode',
+    interfaces: [IdEnum, Enum]
+  };
+  function PspUtilitySavedataMode$values() {
+    return [PspUtilitySavedataMode$Autoload_getInstance(), PspUtilitySavedataMode$Autosave_getInstance(), PspUtilitySavedataMode$Load_getInstance(), PspUtilitySavedataMode$Save_getInstance(), PspUtilitySavedataMode$ListLoad_getInstance(), PspUtilitySavedataMode$ListSave_getInstance(), PspUtilitySavedataMode$ListDelete_getInstance(), PspUtilitySavedataMode$Delete_getInstance(), PspUtilitySavedataMode$Sizes_getInstance(), PspUtilitySavedataMode$AutoDelete_getInstance(), PspUtilitySavedataMode$SingleDelete_getInstance(), PspUtilitySavedataMode$List_getInstance(), PspUtilitySavedataMode$Files_getInstance(), PspUtilitySavedataMode$MakeDataSecure_getInstance(), PspUtilitySavedataMode$MakeData_getInstance(), PspUtilitySavedataMode$ReadSecure_getInstance(), PspUtilitySavedataMode$Read_getInstance(), PspUtilitySavedataMode$WriteSecure_getInstance(), PspUtilitySavedataMode$Write_getInstance(), PspUtilitySavedataMode$EraseSecure_getInstance(), PspUtilitySavedataMode$Erase_getInstance(), PspUtilitySavedataMode$DeleteData_getInstance(), PspUtilitySavedataMode$GetSize_getInstance()];
+  }
+  PspUtilitySavedataMode.values = PspUtilitySavedataMode$values;
+  function PspUtilitySavedataMode$valueOf(name) {
+    switch (name) {
+      case 'Autoload':
+        return PspUtilitySavedataMode$Autoload_getInstance();
+      case 'Autosave':
+        return PspUtilitySavedataMode$Autosave_getInstance();
+      case 'Load':
+        return PspUtilitySavedataMode$Load_getInstance();
+      case 'Save':
+        return PspUtilitySavedataMode$Save_getInstance();
+      case 'ListLoad':
+        return PspUtilitySavedataMode$ListLoad_getInstance();
+      case 'ListSave':
+        return PspUtilitySavedataMode$ListSave_getInstance();
+      case 'ListDelete':
+        return PspUtilitySavedataMode$ListDelete_getInstance();
+      case 'Delete':
+        return PspUtilitySavedataMode$Delete_getInstance();
+      case 'Sizes':
+        return PspUtilitySavedataMode$Sizes_getInstance();
+      case 'AutoDelete':
+        return PspUtilitySavedataMode$AutoDelete_getInstance();
+      case 'SingleDelete':
+        return PspUtilitySavedataMode$SingleDelete_getInstance();
+      case 'List':
+        return PspUtilitySavedataMode$List_getInstance();
+      case 'Files':
+        return PspUtilitySavedataMode$Files_getInstance();
+      case 'MakeDataSecure':
+        return PspUtilitySavedataMode$MakeDataSecure_getInstance();
+      case 'MakeData':
+        return PspUtilitySavedataMode$MakeData_getInstance();
+      case 'ReadSecure':
+        return PspUtilitySavedataMode$ReadSecure_getInstance();
+      case 'Read':
+        return PspUtilitySavedataMode$Read_getInstance();
+      case 'WriteSecure':
+        return PspUtilitySavedataMode$WriteSecure_getInstance();
+      case 'Write':
+        return PspUtilitySavedataMode$Write_getInstance();
+      case 'EraseSecure':
+        return PspUtilitySavedataMode$EraseSecure_getInstance();
+      case 'Erase':
+        return PspUtilitySavedataMode$Erase_getInstance();
+      case 'DeleteData':
+        return PspUtilitySavedataMode$DeleteData_getInstance();
+      case 'GetSize':
+        return PspUtilitySavedataMode$GetSize_getInstance();
+      default:throwISE('No enum constant com.soywiz.kpspemu.hle.modules.PspUtilitySavedataMode.' + name);
+    }
+  }
+  PspUtilitySavedataMode.valueOf_61zpoe$ = PspUtilitySavedataMode$valueOf;
+  function PspUtilitySavedataFocus(name, ordinal, id) {
+    Enum.call(this);
+    this.id_71zyuu$_0 = id;
+    this.name$ = name;
+    this.ordinal$ = ordinal;
+  }
+  function PspUtilitySavedataFocus_initFields() {
+    PspUtilitySavedataFocus_initFields = function () {
+    };
+    PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN_instance = new PspUtilitySavedataFocus('PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN', 0, 0);
+    PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_FIRSTLIST_instance = new PspUtilitySavedataFocus('PSP_UTILITY_SAVEDATA_FOCUS_FIRSTLIST', 1, 1);
+    PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LASTLIST_instance = new PspUtilitySavedataFocus('PSP_UTILITY_SAVEDATA_FOCUS_LASTLIST', 2, 2);
+    PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LATEST_instance = new PspUtilitySavedataFocus('PSP_UTILITY_SAVEDATA_FOCUS_LATEST', 3, 3);
+    PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_OLDEST_instance = new PspUtilitySavedataFocus('PSP_UTILITY_SAVEDATA_FOCUS_OLDEST', 4, 4);
+    PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN2_instance = new PspUtilitySavedataFocus('PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN2', 5, 5);
+    PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN3_instance = new PspUtilitySavedataFocus('PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN3', 6, 6);
+    PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_FIRSTEMPTY_instance = new PspUtilitySavedataFocus('PSP_UTILITY_SAVEDATA_FOCUS_FIRSTEMPTY', 7, 7);
+    PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LASTEMPTY_instance = new PspUtilitySavedataFocus('PSP_UTILITY_SAVEDATA_FOCUS_LASTEMPTY', 8, 8);
+    PspUtilitySavedataFocus$Companion_getInstance();
+  }
+  Object.defineProperty(PspUtilitySavedataFocus.prototype, 'id', {
+    get: function () {
+      return this.id_71zyuu$_0;
+    }
+  });
+  var PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN_instance;
+  function PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN_getInstance() {
+    PspUtilitySavedataFocus_initFields();
+    return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN_instance;
+  }
+  var PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_FIRSTLIST_instance;
+  function PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_FIRSTLIST_getInstance() {
+    PspUtilitySavedataFocus_initFields();
+    return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_FIRSTLIST_instance;
+  }
+  var PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LASTLIST_instance;
+  function PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LASTLIST_getInstance() {
+    PspUtilitySavedataFocus_initFields();
+    return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LASTLIST_instance;
+  }
+  var PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LATEST_instance;
+  function PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LATEST_getInstance() {
+    PspUtilitySavedataFocus_initFields();
+    return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LATEST_instance;
+  }
+  var PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_OLDEST_instance;
+  function PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_OLDEST_getInstance() {
+    PspUtilitySavedataFocus_initFields();
+    return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_OLDEST_instance;
+  }
+  var PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN2_instance;
+  function PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN2_getInstance() {
+    PspUtilitySavedataFocus_initFields();
+    return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN2_instance;
+  }
+  var PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN3_instance;
+  function PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN3_getInstance() {
+    PspUtilitySavedataFocus_initFields();
+    return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN3_instance;
+  }
+  var PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_FIRSTEMPTY_instance;
+  function PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_FIRSTEMPTY_getInstance() {
+    PspUtilitySavedataFocus_initFields();
+    return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_FIRSTEMPTY_instance;
+  }
+  var PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LASTEMPTY_instance;
+  function PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LASTEMPTY_getInstance() {
+    PspUtilitySavedataFocus_initFields();
+    return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LASTEMPTY_instance;
+  }
+  function PspUtilitySavedataFocus$Companion() {
+    PspUtilitySavedataFocus$Companion_instance = this;
+    INT32_ENUM.call(this, PspUtilitySavedataFocus$values());
+  }
+  PspUtilitySavedataFocus$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [INT32_ENUM]
+  };
+  var PspUtilitySavedataFocus$Companion_instance = null;
+  function PspUtilitySavedataFocus$Companion_getInstance() {
+    PspUtilitySavedataFocus_initFields();
+    if (PspUtilitySavedataFocus$Companion_instance === null) {
+      new PspUtilitySavedataFocus$Companion();
+    }
+    return PspUtilitySavedataFocus$Companion_instance;
+  }
+  PspUtilitySavedataFocus.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PspUtilitySavedataFocus',
+    interfaces: [IdEnum, Enum]
+  };
+  function PspUtilitySavedataFocus$values() {
+    return [PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN_getInstance(), PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_FIRSTLIST_getInstance(), PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LASTLIST_getInstance(), PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LATEST_getInstance(), PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_OLDEST_getInstance(), PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN2_getInstance(), PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN3_getInstance(), PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_FIRSTEMPTY_getInstance(), PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LASTEMPTY_getInstance()];
+  }
+  PspUtilitySavedataFocus.values = PspUtilitySavedataFocus$values;
+  function PspUtilitySavedataFocus$valueOf(name) {
+    switch (name) {
+      case 'PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN':
+        return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN_getInstance();
+      case 'PSP_UTILITY_SAVEDATA_FOCUS_FIRSTLIST':
+        return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_FIRSTLIST_getInstance();
+      case 'PSP_UTILITY_SAVEDATA_FOCUS_LASTLIST':
+        return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LASTLIST_getInstance();
+      case 'PSP_UTILITY_SAVEDATA_FOCUS_LATEST':
+        return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LATEST_getInstance();
+      case 'PSP_UTILITY_SAVEDATA_FOCUS_OLDEST':
+        return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_OLDEST_getInstance();
+      case 'PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN2':
+        return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN2_getInstance();
+      case 'PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN3':
+        return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN3_getInstance();
+      case 'PSP_UTILITY_SAVEDATA_FOCUS_FIRSTEMPTY':
+        return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_FIRSTEMPTY_getInstance();
+      case 'PSP_UTILITY_SAVEDATA_FOCUS_LASTEMPTY':
+        return PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LASTEMPTY_getInstance();
+      default:throwISE('No enum constant com.soywiz.kpspemu.hle.modules.PspUtilitySavedataFocus.' + name);
+    }
+  }
+  PspUtilitySavedataFocus.valueOf_61zpoe$ = PspUtilitySavedataFocus$valueOf;
+  function PspUtilityDialogCommon(size, language, buttonSwap, graphicsThread, accessThread, fontThread, soundThread, result, reserved) {
+    PspUtilityDialogCommon$Companion_getInstance();
+    if (size === void 0)
+      size = 0;
+    if (language === void 0)
+      language = PspLanguages$SPANISH_getInstance();
+    if (buttonSwap === void 0)
+      buttonSwap = 0;
+    if (graphicsThread === void 0)
+      graphicsThread = 0;
+    if (accessThread === void 0)
+      accessThread = 0;
+    if (fontThread === void 0)
+      fontThread = 0;
+    if (soundThread === void 0)
+      soundThread = 0;
+    if (result === void 0)
+      result = SceKernelErrors_getInstance().ERROR_OK;
+    if (reserved === void 0)
+      reserved = arrayListOf([0, 0, 0, 0]);
+    this.size = size;
+    this.language = language;
+    this.buttonSwap = buttonSwap;
+    this.graphicsThread = graphicsThread;
+    this.accessThread = accessThread;
+    this.fontThread = fontThread;
+    this.soundThread = soundThread;
+    this.result = result;
+    this.reserved = reserved;
+  }
+  function PspUtilityDialogCommon$Companion() {
+    PspUtilityDialogCommon$Companion_instance = this;
+    Struct.call(this, PspUtilityDialogCommon$PspUtilityDialogCommon$Companion_init$lambda, [AS(getPropertyCallableRef('size', 1, function ($receiver) {
+      return $receiver.size;
+    }, function ($receiver, value) {
+      $receiver.size = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('language', 1, function ($receiver) {
+      return $receiver.language;
+    }, function ($receiver, value) {
+      $receiver.language = value;
+    }), PspLanguages$Companion_getInstance()), AS(getPropertyCallableRef('buttonSwap', 1, function ($receiver) {
+      return $receiver.buttonSwap;
+    }, function ($receiver, value) {
+      $receiver.buttonSwap = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('graphicsThread', 1, function ($receiver) {
+      return $receiver.graphicsThread;
+    }, function ($receiver, value) {
+      $receiver.graphicsThread = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('accessThread', 1, function ($receiver) {
+      return $receiver.accessThread;
+    }, function ($receiver, value) {
+      $receiver.accessThread = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('fontThread', 1, function ($receiver) {
+      return $receiver.fontThread;
+    }, function ($receiver, value) {
+      $receiver.fontThread = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('soundThread', 1, function ($receiver) {
+      return $receiver.soundThread;
+    }, function ($receiver, value) {
+      $receiver.soundThread = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('result', 1, function ($receiver) {
+      return $receiver.result;
+    }, function ($receiver, value) {
+      $receiver.result = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('reserved', 1, function ($receiver) {
+      return $receiver.reserved;
+    }, function ($receiver, value) {
+      $receiver.reserved = value;
+    }), new ARRAY(INT32_getInstance(), 4))]);
+  }
+  function PspUtilityDialogCommon$PspUtilityDialogCommon$Companion_init$lambda() {
+    return new PspUtilityDialogCommon();
+  }
+  PspUtilityDialogCommon$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [Struct]
+  };
+  var PspUtilityDialogCommon$Companion_instance = null;
+  function PspUtilityDialogCommon$Companion_getInstance() {
+    if (PspUtilityDialogCommon$Companion_instance === null) {
+      new PspUtilityDialogCommon$Companion();
+    }
+    return PspUtilityDialogCommon$Companion_instance;
+  }
+  PspUtilityDialogCommon.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PspUtilityDialogCommon',
+    interfaces: []
+  };
+  PspUtilityDialogCommon.prototype.component1 = function () {
+    return this.size;
+  };
+  PspUtilityDialogCommon.prototype.component2 = function () {
+    return this.language;
+  };
+  PspUtilityDialogCommon.prototype.component3 = function () {
+    return this.buttonSwap;
+  };
+  PspUtilityDialogCommon.prototype.component4 = function () {
+    return this.graphicsThread;
+  };
+  PspUtilityDialogCommon.prototype.component5 = function () {
+    return this.accessThread;
+  };
+  PspUtilityDialogCommon.prototype.component6 = function () {
+    return this.fontThread;
+  };
+  PspUtilityDialogCommon.prototype.component7 = function () {
+    return this.soundThread;
+  };
+  PspUtilityDialogCommon.prototype.component8 = function () {
+    return this.result;
+  };
+  PspUtilityDialogCommon.prototype.component9 = function () {
+    return this.reserved;
+  };
+  PspUtilityDialogCommon.prototype.copy_uuncng$ = function (size, language, buttonSwap, graphicsThread, accessThread, fontThread, soundThread, result, reserved) {
+    return new PspUtilityDialogCommon(size === void 0 ? this.size : size, language === void 0 ? this.language : language, buttonSwap === void 0 ? this.buttonSwap : buttonSwap, graphicsThread === void 0 ? this.graphicsThread : graphicsThread, accessThread === void 0 ? this.accessThread : accessThread, fontThread === void 0 ? this.fontThread : fontThread, soundThread === void 0 ? this.soundThread : soundThread, result === void 0 ? this.result : result, reserved === void 0 ? this.reserved : reserved);
+  };
+  PspUtilityDialogCommon.prototype.toString = function () {
+    return 'PspUtilityDialogCommon(size=' + Kotlin.toString(this.size) + (', language=' + Kotlin.toString(this.language)) + (', buttonSwap=' + Kotlin.toString(this.buttonSwap)) + (', graphicsThread=' + Kotlin.toString(this.graphicsThread)) + (', accessThread=' + Kotlin.toString(this.accessThread)) + (', fontThread=' + Kotlin.toString(this.fontThread)) + (', soundThread=' + Kotlin.toString(this.soundThread)) + (', result=' + Kotlin.toString(this.result)) + (', reserved=' + Kotlin.toString(this.reserved)) + ')';
+  };
+  PspUtilityDialogCommon.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.size) | 0;
+    result = result * 31 + Kotlin.hashCode(this.language) | 0;
+    result = result * 31 + Kotlin.hashCode(this.buttonSwap) | 0;
+    result = result * 31 + Kotlin.hashCode(this.graphicsThread) | 0;
+    result = result * 31 + Kotlin.hashCode(this.accessThread) | 0;
+    result = result * 31 + Kotlin.hashCode(this.fontThread) | 0;
+    result = result * 31 + Kotlin.hashCode(this.soundThread) | 0;
+    result = result * 31 + Kotlin.hashCode(this.result) | 0;
+    result = result * 31 + Kotlin.hashCode(this.reserved) | 0;
+    return result;
+  };
+  PspUtilityDialogCommon.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.size, other.size) && Kotlin.equals(this.language, other.language) && Kotlin.equals(this.buttonSwap, other.buttonSwap) && Kotlin.equals(this.graphicsThread, other.graphicsThread) && Kotlin.equals(this.accessThread, other.accessThread) && Kotlin.equals(this.fontThread, other.fontThread) && Kotlin.equals(this.soundThread, other.soundThread) && Kotlin.equals(this.result, other.result) && Kotlin.equals(this.reserved, other.reserved)))));
+  };
+  function PspUtilitySavedataSFOParam(title, savedataTitle, detail, parentalLevel, unknown) {
+    PspUtilitySavedataSFOParam$Companion_getInstance();
+    if (title === void 0)
+      title = '';
+    if (savedataTitle === void 0)
+      savedataTitle = '';
+    if (detail === void 0)
+      detail = '';
+    if (parentalLevel === void 0)
+      parentalLevel = 0;
+    if (unknown === void 0)
+      unknown = arrayListOf([0, 0, 0]);
+    this.title = title;
+    this.savedataTitle = savedataTitle;
+    this.detail = detail;
+    this.parentalLevel = parentalLevel;
+    this.unknown = unknown;
+  }
+  function PspUtilitySavedataSFOParam$Companion() {
+    PspUtilitySavedataSFOParam$Companion_instance = this;
+    Struct.call(this, PspUtilitySavedataSFOParam$PspUtilitySavedataSFOParam$Companion_init$lambda, [AS(getPropertyCallableRef('title', 1, function ($receiver) {
+      return $receiver.title;
+    }, function ($receiver, value) {
+      $receiver.title = value;
+    }), STRINGZ_init(128)), AS(getPropertyCallableRef('savedataTitle', 1, function ($receiver) {
+      return $receiver.savedataTitle;
+    }, function ($receiver, value) {
+      $receiver.savedataTitle = value;
+    }), STRINGZ_init(128)), AS(getPropertyCallableRef('detail', 1, function ($receiver) {
+      return $receiver.detail;
+    }, function ($receiver, value) {
+      $receiver.detail = value;
+    }), STRINGZ_init(1024)), AS(getPropertyCallableRef('parentalLevel', 1, function ($receiver) {
+      return $receiver.parentalLevel;
+    }, function ($receiver, value) {
+      $receiver.parentalLevel = value;
+    }), UINT8_getInstance()), AS(getPropertyCallableRef('unknown', 1, function ($receiver) {
+      return $receiver.unknown;
+    }, function ($receiver, value) {
+      $receiver.unknown = value;
+    }), new ARRAY(UINT8_getInstance(), 3))]);
+  }
+  function PspUtilitySavedataSFOParam$PspUtilitySavedataSFOParam$Companion_init$lambda() {
+    return new PspUtilitySavedataSFOParam();
+  }
+  PspUtilitySavedataSFOParam$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [Struct]
+  };
+  var PspUtilitySavedataSFOParam$Companion_instance = null;
+  function PspUtilitySavedataSFOParam$Companion_getInstance() {
+    if (PspUtilitySavedataSFOParam$Companion_instance === null) {
+      new PspUtilitySavedataSFOParam$Companion();
+    }
+    return PspUtilitySavedataSFOParam$Companion_instance;
+  }
+  PspUtilitySavedataSFOParam.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PspUtilitySavedataSFOParam',
+    interfaces: []
+  };
+  PspUtilitySavedataSFOParam.prototype.component1 = function () {
+    return this.title;
+  };
+  PspUtilitySavedataSFOParam.prototype.component2 = function () {
+    return this.savedataTitle;
+  };
+  PspUtilitySavedataSFOParam.prototype.component3 = function () {
+    return this.detail;
+  };
+  PspUtilitySavedataSFOParam.prototype.component4 = function () {
+    return this.parentalLevel;
+  };
+  PspUtilitySavedataSFOParam.prototype.component5 = function () {
+    return this.unknown;
+  };
+  PspUtilitySavedataSFOParam.prototype.copy_hupmi7$ = function (title, savedataTitle, detail, parentalLevel, unknown) {
+    return new PspUtilitySavedataSFOParam(title === void 0 ? this.title : title, savedataTitle === void 0 ? this.savedataTitle : savedataTitle, detail === void 0 ? this.detail : detail, parentalLevel === void 0 ? this.parentalLevel : parentalLevel, unknown === void 0 ? this.unknown : unknown);
+  };
+  PspUtilitySavedataSFOParam.prototype.toString = function () {
+    return 'PspUtilitySavedataSFOParam(title=' + Kotlin.toString(this.title) + (', savedataTitle=' + Kotlin.toString(this.savedataTitle)) + (', detail=' + Kotlin.toString(this.detail)) + (', parentalLevel=' + Kotlin.toString(this.parentalLevel)) + (', unknown=' + Kotlin.toString(this.unknown)) + ')';
+  };
+  PspUtilitySavedataSFOParam.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.title) | 0;
+    result = result * 31 + Kotlin.hashCode(this.savedataTitle) | 0;
+    result = result * 31 + Kotlin.hashCode(this.detail) | 0;
+    result = result * 31 + Kotlin.hashCode(this.parentalLevel) | 0;
+    result = result * 31 + Kotlin.hashCode(this.unknown) | 0;
+    return result;
+  };
+  PspUtilitySavedataSFOParam.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.title, other.title) && Kotlin.equals(this.savedataTitle, other.savedataTitle) && Kotlin.equals(this.detail, other.detail) && Kotlin.equals(this.parentalLevel, other.parentalLevel) && Kotlin.equals(this.unknown, other.unknown)))));
+  };
+  function PspUtilitySavedataFileData(bufferPointer, bufferSize, size, unknown) {
+    PspUtilitySavedataFileData$Companion_getInstance();
+    if (bufferPointer === void 0)
+      bufferPointer = 0;
+    if (bufferSize === void 0)
+      bufferSize = 0;
+    if (size === void 0)
+      size = 0;
+    if (unknown === void 0)
+      unknown = 0;
+    this.bufferPointer = bufferPointer;
+    this.bufferSize = bufferSize;
+    this.size = size;
+    this.unknown = unknown;
+  }
+  Object.defineProperty(PspUtilitySavedataFileData.prototype, 'used', {
+    get: function () {
+      if (this.bufferPointer === 0)
+        return false;
+      if (this.size === 0)
+        return false;
+      return true;
+    }
+  });
+  function PspUtilitySavedataFileData$Companion() {
+    PspUtilitySavedataFileData$Companion_instance = this;
+    Struct.call(this, PspUtilitySavedataFileData$PspUtilitySavedataFileData$Companion_init$lambda, [AS(getPropertyCallableRef('bufferPointer', 1, function ($receiver) {
+      return $receiver.bufferPointer;
+    }, function ($receiver, value) {
+      $receiver.bufferPointer = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('bufferSize', 1, function ($receiver) {
+      return $receiver.bufferSize;
+    }, function ($receiver, value) {
+      $receiver.bufferSize = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('size', 1, function ($receiver) {
+      return $receiver.size;
+    }, function ($receiver, value) {
+      $receiver.size = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('unknown', 1, function ($receiver) {
+      return $receiver.unknown;
+    }, function ($receiver, value) {
+      $receiver.unknown = value;
+    }), INT32_getInstance())]);
+  }
+  function PspUtilitySavedataFileData$PspUtilitySavedataFileData$Companion_init$lambda() {
+    return new PspUtilitySavedataFileData();
+  }
+  PspUtilitySavedataFileData$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [Struct]
+  };
+  var PspUtilitySavedataFileData$Companion_instance = null;
+  function PspUtilitySavedataFileData$Companion_getInstance() {
+    if (PspUtilitySavedataFileData$Companion_instance === null) {
+      new PspUtilitySavedataFileData$Companion();
+    }
+    return PspUtilitySavedataFileData$Companion_instance;
+  }
+  PspUtilitySavedataFileData.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PspUtilitySavedataFileData',
+    interfaces: []
+  };
+  PspUtilitySavedataFileData.prototype.component1 = function () {
+    return this.bufferPointer;
+  };
+  PspUtilitySavedataFileData.prototype.component2 = function () {
+    return this.bufferSize;
+  };
+  PspUtilitySavedataFileData.prototype.component3 = function () {
+    return this.size;
+  };
+  PspUtilitySavedataFileData.prototype.component4 = function () {
+    return this.unknown;
+  };
+  PspUtilitySavedataFileData.prototype.copy_tjonv8$ = function (bufferPointer, bufferSize, size, unknown) {
+    return new PspUtilitySavedataFileData(bufferPointer === void 0 ? this.bufferPointer : bufferPointer, bufferSize === void 0 ? this.bufferSize : bufferSize, size === void 0 ? this.size : size, unknown === void 0 ? this.unknown : unknown);
+  };
+  PspUtilitySavedataFileData.prototype.toString = function () {
+    return 'PspUtilitySavedataFileData(bufferPointer=' + Kotlin.toString(this.bufferPointer) + (', bufferSize=' + Kotlin.toString(this.bufferSize)) + (', size=' + Kotlin.toString(this.size)) + (', unknown=' + Kotlin.toString(this.unknown)) + ')';
+  };
+  PspUtilitySavedataFileData.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.bufferPointer) | 0;
+    result = result * 31 + Kotlin.hashCode(this.bufferSize) | 0;
+    result = result * 31 + Kotlin.hashCode(this.size) | 0;
+    result = result * 31 + Kotlin.hashCode(this.unknown) | 0;
+    return result;
+  };
+  PspUtilitySavedataFileData.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.bufferPointer, other.bufferPointer) && Kotlin.equals(this.bufferSize, other.bufferSize) && Kotlin.equals(this.size, other.size) && Kotlin.equals(this.unknown, other.unknown)))));
+  };
+  function SceUtilitySavedataParam(base, mode, unknown1, overwrite, gameName, saveName, saveNameListPointer, fileName, dataBufPointer, dataBufSize, dataSize, sfoParam, icon0FileData, icon1FileData, pic1FileData, snd0FileData, newDataPointer, focus, abortStatus, msFreeAddr, msDataAddr, utilityDataAddr, key, secureVersion, multiStatus, idListAddr, fileListAddr, sizeAddr, unknown3) {
+    SceUtilitySavedataParam$Companion_getInstance();
+    if (base === void 0)
+      base = new PspUtilityDialogCommon();
+    if (mode === void 0)
+      mode = PspUtilitySavedataMode$Autoload_getInstance();
+    if (unknown1 === void 0)
+      unknown1 = 0;
+    if (overwrite === void 0)
+      overwrite = 0;
+    if (gameName === void 0)
+      gameName = '';
+    if (saveName === void 0)
+      saveName = '';
+    if (saveNameListPointer === void 0)
+      saveNameListPointer = 0;
+    if (fileName === void 0)
+      fileName = '';
+    if (dataBufPointer === void 0)
+      dataBufPointer = 0;
+    if (dataBufSize === void 0)
+      dataBufSize = 0;
+    if (dataSize === void 0)
+      dataSize = 0;
+    if (sfoParam === void 0)
+      sfoParam = new PspUtilitySavedataSFOParam();
+    if (icon0FileData === void 0)
+      icon0FileData = new PspUtilitySavedataFileData();
+    if (icon1FileData === void 0)
+      icon1FileData = new PspUtilitySavedataFileData();
+    if (pic1FileData === void 0)
+      pic1FileData = new PspUtilitySavedataFileData();
+    if (snd0FileData === void 0)
+      snd0FileData = new PspUtilitySavedataFileData();
+    if (newDataPointer === void 0)
+      newDataPointer = 0;
+    if (focus === void 0)
+      focus = PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN_getInstance();
+    if (abortStatus === void 0)
+      abortStatus = 0;
+    if (msFreeAddr === void 0)
+      msFreeAddr = 0;
+    if (msDataAddr === void 0)
+      msDataAddr = 0;
+    if (utilityDataAddr === void 0)
+      utilityDataAddr = 0;
+    if (key === void 0)
+      key = arrayListOf([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    if (secureVersion === void 0)
+      secureVersion = 0;
+    if (multiStatus === void 0)
+      multiStatus = 0;
+    if (idListAddr === void 0)
+      idListAddr = 0;
+    if (fileListAddr === void 0)
+      fileListAddr = 0;
+    if (sizeAddr === void 0)
+      sizeAddr = 0;
+    if (unknown3 === void 0)
+      unknown3 = arrayListOf([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    this.base = base;
+    this.mode = mode;
+    this.unknown1 = unknown1;
+    this.overwrite = overwrite;
+    this.gameName = gameName;
+    this.saveName = saveName;
+    this.saveNameListPointer = saveNameListPointer;
+    this.fileName = fileName;
+    this.dataBufPointer = dataBufPointer;
+    this.dataBufSize = dataBufSize;
+    this.dataSize = dataSize;
+    this.sfoParam = sfoParam;
+    this.icon0FileData = icon0FileData;
+    this.icon1FileData = icon1FileData;
+    this.pic1FileData = pic1FileData;
+    this.snd0FileData = snd0FileData;
+    this.newDataPointer = newDataPointer;
+    this.focus = focus;
+    this.abortStatus = abortStatus;
+    this.msFreeAddr = msFreeAddr;
+    this.msDataAddr = msDataAddr;
+    this.utilityDataAddr = utilityDataAddr;
+    this.key = key;
+    this.secureVersion = secureVersion;
+    this.multiStatus = multiStatus;
+    this.idListAddr = idListAddr;
+    this.fileListAddr = fileListAddr;
+    this.sizeAddr = sizeAddr;
+    this.unknown3 = unknown3;
+  }
+  function SceUtilitySavedataParam$Companion() {
+    SceUtilitySavedataParam$Companion_instance = this;
+    Struct.call(this, SceUtilitySavedataParam$SceUtilitySavedataParam$Companion_init$lambda, [AS(getPropertyCallableRef('base', 1, function ($receiver) {
+      return $receiver.base;
+    }, function ($receiver, value) {
+      $receiver.base = value;
+    }), PspUtilityDialogCommon$Companion_getInstance()), AS(getPropertyCallableRef('mode', 1, function ($receiver) {
+      return $receiver.mode;
+    }, function ($receiver, value) {
+      $receiver.mode = value;
+    }), PspUtilitySavedataMode$Companion_getInstance()), AS(getPropertyCallableRef('unknown1', 1, function ($receiver) {
+      return $receiver.unknown1;
+    }, function ($receiver, value) {
+      $receiver.unknown1 = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('overwrite', 1, function ($receiver) {
+      return $receiver.overwrite;
+    }, function ($receiver, value) {
+      $receiver.overwrite = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('gameName', 1, function ($receiver) {
+      return $receiver.gameName;
+    }, function ($receiver, value) {
+      $receiver.gameName = value;
+    }), STRINGZ_init(16)), AS(getPropertyCallableRef('saveName', 1, function ($receiver) {
+      return $receiver.saveName;
+    }, function ($receiver, value) {
+      $receiver.saveName = value;
+    }), STRINGZ_init(20)), AS(getPropertyCallableRef('saveNameListPointer', 1, function ($receiver) {
+      return $receiver.saveNameListPointer;
+    }, function ($receiver, value) {
+      $receiver.saveNameListPointer = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('fileName', 1, function ($receiver) {
+      return $receiver.fileName;
+    }, function ($receiver, value) {
+      $receiver.fileName = value;
+    }), STRINGZ_init(16)), AS(getPropertyCallableRef('dataBufPointer', 1, function ($receiver) {
+      return $receiver.dataBufPointer;
+    }, function ($receiver, value) {
+      $receiver.dataBufPointer = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('dataBufSize', 1, function ($receiver) {
+      return $receiver.dataBufSize;
+    }, function ($receiver, value) {
+      $receiver.dataBufSize = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('dataSize', 1, function ($receiver) {
+      return $receiver.dataSize;
+    }, function ($receiver, value) {
+      $receiver.dataSize = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('sfoParam', 1, function ($receiver) {
+      return $receiver.sfoParam;
+    }, function ($receiver, value) {
+      $receiver.sfoParam = value;
+    }), PspUtilitySavedataSFOParam$Companion_getInstance()), AS(getPropertyCallableRef('icon0FileData', 1, function ($receiver) {
+      return $receiver.icon0FileData;
+    }, function ($receiver, value) {
+      $receiver.icon0FileData = value;
+    }), PspUtilitySavedataFileData$Companion_getInstance()), AS(getPropertyCallableRef('icon1FileData', 1, function ($receiver) {
+      return $receiver.icon1FileData;
+    }, function ($receiver, value) {
+      $receiver.icon1FileData = value;
+    }), PspUtilitySavedataFileData$Companion_getInstance()), AS(getPropertyCallableRef('pic1FileData', 1, function ($receiver) {
+      return $receiver.pic1FileData;
+    }, function ($receiver, value) {
+      $receiver.pic1FileData = value;
+    }), PspUtilitySavedataFileData$Companion_getInstance()), AS(getPropertyCallableRef('snd0FileData', 1, function ($receiver) {
+      return $receiver.snd0FileData;
+    }, function ($receiver, value) {
+      $receiver.snd0FileData = value;
+    }), PspUtilitySavedataFileData$Companion_getInstance()), AS(getPropertyCallableRef('newDataPointer', 1, function ($receiver) {
+      return $receiver.newDataPointer;
+    }, function ($receiver, value) {
+      $receiver.newDataPointer = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('focus', 1, function ($receiver) {
+      return $receiver.focus;
+    }, function ($receiver, value) {
+      $receiver.focus = value;
+    }), PspUtilitySavedataFocus$Companion_getInstance()), AS(getPropertyCallableRef('abortStatus', 1, function ($receiver) {
+      return $receiver.abortStatus;
+    }, function ($receiver, value) {
+      $receiver.abortStatus = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('msFreeAddr', 1, function ($receiver) {
+      return $receiver.msFreeAddr;
+    }, function ($receiver, value) {
+      $receiver.msFreeAddr = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('msDataAddr', 1, function ($receiver) {
+      return $receiver.msDataAddr;
+    }, function ($receiver, value) {
+      $receiver.msDataAddr = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('utilityDataAddr', 1, function ($receiver) {
+      return $receiver.utilityDataAddr;
+    }, function ($receiver, value) {
+      $receiver.utilityDataAddr = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('key', 1, function ($receiver) {
+      return $receiver.key;
+    }, function ($receiver, value) {
+      $receiver.key = value;
+    }), new ARRAY(UINT8_getInstance(), 16)), AS(getPropertyCallableRef('secureVersion', 1, function ($receiver) {
+      return $receiver.secureVersion;
+    }, function ($receiver, value) {
+      $receiver.secureVersion = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('multiStatus', 1, function ($receiver) {
+      return $receiver.multiStatus;
+    }, function ($receiver, value) {
+      $receiver.multiStatus = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('idListAddr', 1, function ($receiver) {
+      return $receiver.idListAddr;
+    }, function ($receiver, value) {
+      $receiver.idListAddr = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('fileListAddr', 1, function ($receiver) {
+      return $receiver.fileListAddr;
+    }, function ($receiver, value) {
+      $receiver.fileListAddr = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('sizeAddr', 1, function ($receiver) {
+      return $receiver.sizeAddr;
+    }, function ($receiver, value) {
+      $receiver.sizeAddr = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('unknown3', 1, function ($receiver) {
+      return $receiver.unknown3;
+    }, function ($receiver, value) {
+      $receiver.unknown3 = value;
+    }), new ARRAY(UINT8_getInstance(), 20 - 5 | 0))]);
+  }
+  function SceUtilitySavedataParam$SceUtilitySavedataParam$Companion_init$lambda() {
+    return new SceUtilitySavedataParam();
+  }
+  SceUtilitySavedataParam$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [Struct]
+  };
+  var SceUtilitySavedataParam$Companion_instance = null;
+  function SceUtilitySavedataParam$Companion_getInstance() {
+    if (SceUtilitySavedataParam$Companion_instance === null) {
+      new SceUtilitySavedataParam$Companion();
+    }
+    return SceUtilitySavedataParam$Companion_instance;
+  }
+  SceUtilitySavedataParam.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'SceUtilitySavedataParam',
+    interfaces: []
+  };
+  SceUtilitySavedataParam.prototype.component1 = function () {
+    return this.base;
+  };
+  SceUtilitySavedataParam.prototype.component2 = function () {
+    return this.mode;
+  };
+  SceUtilitySavedataParam.prototype.component3 = function () {
+    return this.unknown1;
+  };
+  SceUtilitySavedataParam.prototype.component4 = function () {
+    return this.overwrite;
+  };
+  SceUtilitySavedataParam.prototype.component5 = function () {
+    return this.gameName;
+  };
+  SceUtilitySavedataParam.prototype.component6 = function () {
+    return this.saveName;
+  };
+  SceUtilitySavedataParam.prototype.component7 = function () {
+    return this.saveNameListPointer;
+  };
+  SceUtilitySavedataParam.prototype.component8 = function () {
+    return this.fileName;
+  };
+  SceUtilitySavedataParam.prototype.component9 = function () {
+    return this.dataBufPointer;
+  };
+  SceUtilitySavedataParam.prototype.component10 = function () {
+    return this.dataBufSize;
+  };
+  SceUtilitySavedataParam.prototype.component11 = function () {
+    return this.dataSize;
+  };
+  SceUtilitySavedataParam.prototype.component12 = function () {
+    return this.sfoParam;
+  };
+  SceUtilitySavedataParam.prototype.component13 = function () {
+    return this.icon0FileData;
+  };
+  SceUtilitySavedataParam.prototype.component14 = function () {
+    return this.icon1FileData;
+  };
+  SceUtilitySavedataParam.prototype.component15 = function () {
+    return this.pic1FileData;
+  };
+  SceUtilitySavedataParam.prototype.component16 = function () {
+    return this.snd0FileData;
+  };
+  SceUtilitySavedataParam.prototype.component17 = function () {
+    return this.newDataPointer;
+  };
+  SceUtilitySavedataParam.prototype.component18 = function () {
+    return this.focus;
+  };
+  SceUtilitySavedataParam.prototype.component19 = function () {
+    return this.abortStatus;
+  };
+  SceUtilitySavedataParam.prototype.component20 = function () {
+    return this.msFreeAddr;
+  };
+  SceUtilitySavedataParam.prototype.component21 = function () {
+    return this.msDataAddr;
+  };
+  SceUtilitySavedataParam.prototype.component22 = function () {
+    return this.utilityDataAddr;
+  };
+  SceUtilitySavedataParam.prototype.component23 = function () {
+    return this.key;
+  };
+  SceUtilitySavedataParam.prototype.component24 = function () {
+    return this.secureVersion;
+  };
+  SceUtilitySavedataParam.prototype.component25 = function () {
+    return this.multiStatus;
+  };
+  SceUtilitySavedataParam.prototype.component26 = function () {
+    return this.idListAddr;
+  };
+  SceUtilitySavedataParam.prototype.component27 = function () {
+    return this.fileListAddr;
+  };
+  SceUtilitySavedataParam.prototype.component28 = function () {
+    return this.sizeAddr;
+  };
+  SceUtilitySavedataParam.prototype.component29 = function () {
+    return this.unknown3;
+  };
+  SceUtilitySavedataParam.prototype.copy_o1665a$ = function (base, mode, unknown1, overwrite, gameName, saveName, saveNameListPointer, fileName, dataBufPointer, dataBufSize, dataSize, sfoParam, icon0FileData, icon1FileData, pic1FileData, snd0FileData, newDataPointer, focus, abortStatus, msFreeAddr, msDataAddr, utilityDataAddr, key, secureVersion, multiStatus, idListAddr, fileListAddr, sizeAddr, unknown3) {
+    return new SceUtilitySavedataParam(base === void 0 ? this.base : base, mode === void 0 ? this.mode : mode, unknown1 === void 0 ? this.unknown1 : unknown1, overwrite === void 0 ? this.overwrite : overwrite, gameName === void 0 ? this.gameName : gameName, saveName === void 0 ? this.saveName : saveName, saveNameListPointer === void 0 ? this.saveNameListPointer : saveNameListPointer, fileName === void 0 ? this.fileName : fileName, dataBufPointer === void 0 ? this.dataBufPointer : dataBufPointer, dataBufSize === void 0 ? this.dataBufSize : dataBufSize, dataSize === void 0 ? this.dataSize : dataSize, sfoParam === void 0 ? this.sfoParam : sfoParam, icon0FileData === void 0 ? this.icon0FileData : icon0FileData, icon1FileData === void 0 ? this.icon1FileData : icon1FileData, pic1FileData === void 0 ? this.pic1FileData : pic1FileData, snd0FileData === void 0 ? this.snd0FileData : snd0FileData, newDataPointer === void 0 ? this.newDataPointer : newDataPointer, focus === void 0 ? this.focus : focus, abortStatus === void 0 ? this.abortStatus : abortStatus, msFreeAddr === void 0 ? this.msFreeAddr : msFreeAddr, msDataAddr === void 0 ? this.msDataAddr : msDataAddr, utilityDataAddr === void 0 ? this.utilityDataAddr : utilityDataAddr, key === void 0 ? this.key : key, secureVersion === void 0 ? this.secureVersion : secureVersion, multiStatus === void 0 ? this.multiStatus : multiStatus, idListAddr === void 0 ? this.idListAddr : idListAddr, fileListAddr === void 0 ? this.fileListAddr : fileListAddr, sizeAddr === void 0 ? this.sizeAddr : sizeAddr, unknown3 === void 0 ? this.unknown3 : unknown3);
+  };
+  SceUtilitySavedataParam.prototype.toString = function () {
+    return 'SceUtilitySavedataParam(base=' + Kotlin.toString(this.base) + (', mode=' + Kotlin.toString(this.mode)) + (', unknown1=' + Kotlin.toString(this.unknown1)) + (', overwrite=' + Kotlin.toString(this.overwrite)) + (', gameName=' + Kotlin.toString(this.gameName)) + (', saveName=' + Kotlin.toString(this.saveName)) + (', saveNameListPointer=' + Kotlin.toString(this.saveNameListPointer)) + (', fileName=' + Kotlin.toString(this.fileName)) + (', dataBufPointer=' + Kotlin.toString(this.dataBufPointer)) + (', dataBufSize=' + Kotlin.toString(this.dataBufSize)) + (', dataSize=' + Kotlin.toString(this.dataSize)) + (', sfoParam=' + Kotlin.toString(this.sfoParam)) + (', icon0FileData=' + Kotlin.toString(this.icon0FileData)) + (', icon1FileData=' + Kotlin.toString(this.icon1FileData)) + (', pic1FileData=' + Kotlin.toString(this.pic1FileData)) + (', snd0FileData=' + Kotlin.toString(this.snd0FileData)) + (', newDataPointer=' + Kotlin.toString(this.newDataPointer)) + (', focus=' + Kotlin.toString(this.focus)) + (', abortStatus=' + Kotlin.toString(this.abortStatus)) + (', msFreeAddr=' + Kotlin.toString(this.msFreeAddr)) + (', msDataAddr=' + Kotlin.toString(this.msDataAddr)) + (', utilityDataAddr=' + Kotlin.toString(this.utilityDataAddr)) + (', key=' + Kotlin.toString(this.key)) + (', secureVersion=' + Kotlin.toString(this.secureVersion)) + (', multiStatus=' + Kotlin.toString(this.multiStatus)) + (', idListAddr=' + Kotlin.toString(this.idListAddr)) + (', fileListAddr=' + Kotlin.toString(this.fileListAddr)) + (', sizeAddr=' + Kotlin.toString(this.sizeAddr)) + (', unknown3=' + Kotlin.toString(this.unknown3)) + ')';
+  };
+  SceUtilitySavedataParam.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.base) | 0;
+    result = result * 31 + Kotlin.hashCode(this.mode) | 0;
+    result = result * 31 + Kotlin.hashCode(this.unknown1) | 0;
+    result = result * 31 + Kotlin.hashCode(this.overwrite) | 0;
+    result = result * 31 + Kotlin.hashCode(this.gameName) | 0;
+    result = result * 31 + Kotlin.hashCode(this.saveName) | 0;
+    result = result * 31 + Kotlin.hashCode(this.saveNameListPointer) | 0;
+    result = result * 31 + Kotlin.hashCode(this.fileName) | 0;
+    result = result * 31 + Kotlin.hashCode(this.dataBufPointer) | 0;
+    result = result * 31 + Kotlin.hashCode(this.dataBufSize) | 0;
+    result = result * 31 + Kotlin.hashCode(this.dataSize) | 0;
+    result = result * 31 + Kotlin.hashCode(this.sfoParam) | 0;
+    result = result * 31 + Kotlin.hashCode(this.icon0FileData) | 0;
+    result = result * 31 + Kotlin.hashCode(this.icon1FileData) | 0;
+    result = result * 31 + Kotlin.hashCode(this.pic1FileData) | 0;
+    result = result * 31 + Kotlin.hashCode(this.snd0FileData) | 0;
+    result = result * 31 + Kotlin.hashCode(this.newDataPointer) | 0;
+    result = result * 31 + Kotlin.hashCode(this.focus) | 0;
+    result = result * 31 + Kotlin.hashCode(this.abortStatus) | 0;
+    result = result * 31 + Kotlin.hashCode(this.msFreeAddr) | 0;
+    result = result * 31 + Kotlin.hashCode(this.msDataAddr) | 0;
+    result = result * 31 + Kotlin.hashCode(this.utilityDataAddr) | 0;
+    result = result * 31 + Kotlin.hashCode(this.key) | 0;
+    result = result * 31 + Kotlin.hashCode(this.secureVersion) | 0;
+    result = result * 31 + Kotlin.hashCode(this.multiStatus) | 0;
+    result = result * 31 + Kotlin.hashCode(this.idListAddr) | 0;
+    result = result * 31 + Kotlin.hashCode(this.fileListAddr) | 0;
+    result = result * 31 + Kotlin.hashCode(this.sizeAddr) | 0;
+    result = result * 31 + Kotlin.hashCode(this.unknown3) | 0;
+    return result;
+  };
+  SceUtilitySavedataParam.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.base, other.base) && Kotlin.equals(this.mode, other.mode) && Kotlin.equals(this.unknown1, other.unknown1) && Kotlin.equals(this.overwrite, other.overwrite) && Kotlin.equals(this.gameName, other.gameName) && Kotlin.equals(this.saveName, other.saveName) && Kotlin.equals(this.saveNameListPointer, other.saveNameListPointer) && Kotlin.equals(this.fileName, other.fileName) && Kotlin.equals(this.dataBufPointer, other.dataBufPointer) && Kotlin.equals(this.dataBufSize, other.dataBufSize) && Kotlin.equals(this.dataSize, other.dataSize) && Kotlin.equals(this.sfoParam, other.sfoParam) && Kotlin.equals(this.icon0FileData, other.icon0FileData) && Kotlin.equals(this.icon1FileData, other.icon1FileData) && Kotlin.equals(this.pic1FileData, other.pic1FileData) && Kotlin.equals(this.snd0FileData, other.snd0FileData) && Kotlin.equals(this.newDataPointer, other.newDataPointer) && Kotlin.equals(this.focus, other.focus) && Kotlin.equals(this.abortStatus, other.abortStatus) && Kotlin.equals(this.msFreeAddr, other.msFreeAddr) && Kotlin.equals(this.msDataAddr, other.msDataAddr) && Kotlin.equals(this.utilityDataAddr, other.utilityDataAddr) && Kotlin.equals(this.key, other.key) && Kotlin.equals(this.secureVersion, other.secureVersion) && Kotlin.equals(this.multiStatus, other.multiStatus) && Kotlin.equals(this.idListAddr, other.idListAddr) && Kotlin.equals(this.fileListAddr, other.fileListAddr) && Kotlin.equals(this.sizeAddr, other.sizeAddr) && Kotlin.equals(this.unknown3, other.unknown3)))));
+  };
+  function PspUtilityMsgDialogMode(name, ordinal, id) {
+    Enum.call(this);
+    this.id_iz3byn$_0 = id;
+    this.name$ = name;
+    this.ordinal$ = ordinal;
+  }
+  function PspUtilityMsgDialogMode_initFields() {
+    PspUtilityMsgDialogMode_initFields = function () {
+    };
+    PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_ERROR_instance = new PspUtilityMsgDialogMode('PSP_UTILITY_MSGDIALOG_MODE_ERROR', 0, 0);
+    PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_TEXT_instance = new PspUtilityMsgDialogMode('PSP_UTILITY_MSGDIALOG_MODE_TEXT', 1, 1);
+    PspUtilityMsgDialogMode$Companion_getInstance();
+  }
+  Object.defineProperty(PspUtilityMsgDialogMode.prototype, 'id', {
+    get: function () {
+      return this.id_iz3byn$_0;
+    }
+  });
+  var PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_ERROR_instance;
+  function PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_ERROR_getInstance() {
+    PspUtilityMsgDialogMode_initFields();
+    return PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_ERROR_instance;
+  }
+  var PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_TEXT_instance;
+  function PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_TEXT_getInstance() {
+    PspUtilityMsgDialogMode_initFields();
+    return PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_TEXT_instance;
+  }
+  function PspUtilityMsgDialogMode$Companion() {
+    PspUtilityMsgDialogMode$Companion_instance = this;
+    INT32_ENUM.call(this, PspUtilityMsgDialogMode$values());
+  }
+  PspUtilityMsgDialogMode$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [INT32_ENUM]
+  };
+  var PspUtilityMsgDialogMode$Companion_instance = null;
+  function PspUtilityMsgDialogMode$Companion_getInstance() {
+    PspUtilityMsgDialogMode_initFields();
+    if (PspUtilityMsgDialogMode$Companion_instance === null) {
+      new PspUtilityMsgDialogMode$Companion();
+    }
+    return PspUtilityMsgDialogMode$Companion_instance;
+  }
+  PspUtilityMsgDialogMode.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PspUtilityMsgDialogMode',
+    interfaces: [IdEnum, Enum]
+  };
+  function PspUtilityMsgDialogMode$values() {
+    return [PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_ERROR_getInstance(), PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_TEXT_getInstance()];
+  }
+  PspUtilityMsgDialogMode.values = PspUtilityMsgDialogMode$values;
+  function PspUtilityMsgDialogMode$valueOf(name) {
+    switch (name) {
+      case 'PSP_UTILITY_MSGDIALOG_MODE_ERROR':
+        return PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_ERROR_getInstance();
+      case 'PSP_UTILITY_MSGDIALOG_MODE_TEXT':
+        return PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_TEXT_getInstance();
+      default:throwISE('No enum constant com.soywiz.kpspemu.hle.modules.PspUtilityMsgDialogMode.' + name);
+    }
+  }
+  PspUtilityMsgDialogMode.valueOf_61zpoe$ = PspUtilityMsgDialogMode$valueOf;
+  function PspUtilityMsgDialogOption(name, ordinal, id) {
+    Enum.call(this);
+    this.id_xroxq5$_0 = id;
+    this.name$ = name;
+    this.ordinal$ = ordinal;
+  }
+  function PspUtilityMsgDialogOption_initFields() {
+    PspUtilityMsgDialogOption_initFields = function () {
+    };
+    PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_ERROR_instance = new PspUtilityMsgDialogOption('PSP_UTILITY_MSGDIALOG_OPTION_ERROR', 0, 0);
+    PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_TEXT_instance = new PspUtilityMsgDialogOption('PSP_UTILITY_MSGDIALOG_OPTION_TEXT', 1, 1);
+    PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_YESNO_BUTTONS_instance = new PspUtilityMsgDialogOption('PSP_UTILITY_MSGDIALOG_OPTION_YESNO_BUTTONS', 2, 16);
+    PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_DEFAULT_NO_instance = new PspUtilityMsgDialogOption('PSP_UTILITY_MSGDIALOG_OPTION_DEFAULT_NO', 3, 256);
+    PspUtilityMsgDialogOption$Companion_getInstance();
+  }
+  Object.defineProperty(PspUtilityMsgDialogOption.prototype, 'id', {
+    get: function () {
+      return this.id_xroxq5$_0;
+    }
+  });
+  var PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_ERROR_instance;
+  function PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_ERROR_getInstance() {
+    PspUtilityMsgDialogOption_initFields();
+    return PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_ERROR_instance;
+  }
+  var PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_TEXT_instance;
+  function PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_TEXT_getInstance() {
+    PspUtilityMsgDialogOption_initFields();
+    return PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_TEXT_instance;
+  }
+  var PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_YESNO_BUTTONS_instance;
+  function PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_YESNO_BUTTONS_getInstance() {
+    PspUtilityMsgDialogOption_initFields();
+    return PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_YESNO_BUTTONS_instance;
+  }
+  var PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_DEFAULT_NO_instance;
+  function PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_DEFAULT_NO_getInstance() {
+    PspUtilityMsgDialogOption_initFields();
+    return PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_DEFAULT_NO_instance;
+  }
+  function PspUtilityMsgDialogOption$Companion() {
+    PspUtilityMsgDialogOption$Companion_instance = this;
+    INT32_ENUM.call(this, PspUtilityMsgDialogOption$values());
+  }
+  PspUtilityMsgDialogOption$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [INT32_ENUM]
+  };
+  var PspUtilityMsgDialogOption$Companion_instance = null;
+  function PspUtilityMsgDialogOption$Companion_getInstance() {
+    PspUtilityMsgDialogOption_initFields();
+    if (PspUtilityMsgDialogOption$Companion_instance === null) {
+      new PspUtilityMsgDialogOption$Companion();
+    }
+    return PspUtilityMsgDialogOption$Companion_instance;
+  }
+  PspUtilityMsgDialogOption.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PspUtilityMsgDialogOption',
+    interfaces: [IdEnum, Enum]
+  };
+  function PspUtilityMsgDialogOption$values() {
+    return [PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_ERROR_getInstance(), PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_TEXT_getInstance(), PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_YESNO_BUTTONS_getInstance(), PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_DEFAULT_NO_getInstance()];
+  }
+  PspUtilityMsgDialogOption.values = PspUtilityMsgDialogOption$values;
+  function PspUtilityMsgDialogOption$valueOf(name) {
+    switch (name) {
+      case 'PSP_UTILITY_MSGDIALOG_OPTION_ERROR':
+        return PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_ERROR_getInstance();
+      case 'PSP_UTILITY_MSGDIALOG_OPTION_TEXT':
+        return PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_TEXT_getInstance();
+      case 'PSP_UTILITY_MSGDIALOG_OPTION_YESNO_BUTTONS':
+        return PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_YESNO_BUTTONS_getInstance();
+      case 'PSP_UTILITY_MSGDIALOG_OPTION_DEFAULT_NO':
+        return PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_DEFAULT_NO_getInstance();
+      default:throwISE('No enum constant com.soywiz.kpspemu.hle.modules.PspUtilityMsgDialogOption.' + name);
+    }
+  }
+  PspUtilityMsgDialogOption.valueOf_61zpoe$ = PspUtilityMsgDialogOption$valueOf;
+  function PspUtilityMsgDialogPressed(name, ordinal, id) {
+    Enum.call(this);
+    this.id_734pd6$_0 = id;
+    this.name$ = name;
+    this.ordinal$ = ordinal;
+  }
+  function PspUtilityMsgDialogPressed_initFields() {
+    PspUtilityMsgDialogPressed_initFields = function () {
+    };
+    PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_UNKNOWN1_instance = new PspUtilityMsgDialogPressed('PSP_UTILITY_MSGDIALOG_RESULT_UNKNOWN1', 0, 0);
+    PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_YES_instance = new PspUtilityMsgDialogPressed('PSP_UTILITY_MSGDIALOG_RESULT_YES', 1, 1);
+    PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_NO_instance = new PspUtilityMsgDialogPressed('PSP_UTILITY_MSGDIALOG_RESULT_NO', 2, 2);
+    PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_BACK_instance = new PspUtilityMsgDialogPressed('PSP_UTILITY_MSGDIALOG_RESULT_BACK', 3, 3);
+    PspUtilityMsgDialogPressed$Companion_getInstance();
+  }
+  Object.defineProperty(PspUtilityMsgDialogPressed.prototype, 'id', {
+    get: function () {
+      return this.id_734pd6$_0;
+    }
+  });
+  var PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_UNKNOWN1_instance;
+  function PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_UNKNOWN1_getInstance() {
+    PspUtilityMsgDialogPressed_initFields();
+    return PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_UNKNOWN1_instance;
+  }
+  var PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_YES_instance;
+  function PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_YES_getInstance() {
+    PspUtilityMsgDialogPressed_initFields();
+    return PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_YES_instance;
+  }
+  var PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_NO_instance;
+  function PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_NO_getInstance() {
+    PspUtilityMsgDialogPressed_initFields();
+    return PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_NO_instance;
+  }
+  var PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_BACK_instance;
+  function PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_BACK_getInstance() {
+    PspUtilityMsgDialogPressed_initFields();
+    return PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_BACK_instance;
+  }
+  function PspUtilityMsgDialogPressed$Companion() {
+    PspUtilityMsgDialogPressed$Companion_instance = this;
+    INT32_ENUM.call(this, PspUtilityMsgDialogPressed$values());
+  }
+  PspUtilityMsgDialogPressed$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [INT32_ENUM]
+  };
+  var PspUtilityMsgDialogPressed$Companion_instance = null;
+  function PspUtilityMsgDialogPressed$Companion_getInstance() {
+    PspUtilityMsgDialogPressed_initFields();
+    if (PspUtilityMsgDialogPressed$Companion_instance === null) {
+      new PspUtilityMsgDialogPressed$Companion();
+    }
+    return PspUtilityMsgDialogPressed$Companion_instance;
+  }
+  PspUtilityMsgDialogPressed.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PspUtilityMsgDialogPressed',
+    interfaces: [IdEnum, Enum]
+  };
+  function PspUtilityMsgDialogPressed$values() {
+    return [PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_UNKNOWN1_getInstance(), PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_YES_getInstance(), PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_NO_getInstance(), PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_BACK_getInstance()];
+  }
+  PspUtilityMsgDialogPressed.values = PspUtilityMsgDialogPressed$values;
+  function PspUtilityMsgDialogPressed$valueOf(name) {
+    switch (name) {
+      case 'PSP_UTILITY_MSGDIALOG_RESULT_UNKNOWN1':
+        return PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_UNKNOWN1_getInstance();
+      case 'PSP_UTILITY_MSGDIALOG_RESULT_YES':
+        return PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_YES_getInstance();
+      case 'PSP_UTILITY_MSGDIALOG_RESULT_NO':
+        return PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_NO_getInstance();
+      case 'PSP_UTILITY_MSGDIALOG_RESULT_BACK':
+        return PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_BACK_getInstance();
+      default:throwISE('No enum constant com.soywiz.kpspemu.hle.modules.PspUtilityMsgDialogPressed.' + name);
+    }
+  }
+  PspUtilityMsgDialogPressed.valueOf_61zpoe$ = PspUtilityMsgDialogPressed$valueOf;
+  function DialogStepEnum(name, ordinal, id) {
+    Enum.call(this);
+    this.id_w08qb$_0 = id;
+    this.name$ = name;
+    this.ordinal$ = ordinal;
+  }
+  function DialogStepEnum_initFields() {
+    DialogStepEnum_initFields = function () {
+    };
+    DialogStepEnum$NONE_instance = new DialogStepEnum('NONE', 0, 0);
+    DialogStepEnum$INIT_instance = new DialogStepEnum('INIT', 1, 1);
+    DialogStepEnum$PROCESSING_instance = new DialogStepEnum('PROCESSING', 2, 2);
+    DialogStepEnum$SUCCESS_instance = new DialogStepEnum('SUCCESS', 3, 3);
+    DialogStepEnum$SHUTDOWN_instance = new DialogStepEnum('SHUTDOWN', 4, 4);
+    DialogStepEnum$Companion_getInstance();
+  }
+  Object.defineProperty(DialogStepEnum.prototype, 'id', {
+    get: function () {
+      return this.id_w08qb$_0;
+    }
+  });
+  var DialogStepEnum$NONE_instance;
+  function DialogStepEnum$NONE_getInstance() {
+    DialogStepEnum_initFields();
+    return DialogStepEnum$NONE_instance;
+  }
+  var DialogStepEnum$INIT_instance;
+  function DialogStepEnum$INIT_getInstance() {
+    DialogStepEnum_initFields();
+    return DialogStepEnum$INIT_instance;
+  }
+  var DialogStepEnum$PROCESSING_instance;
+  function DialogStepEnum$PROCESSING_getInstance() {
+    DialogStepEnum_initFields();
+    return DialogStepEnum$PROCESSING_instance;
+  }
+  var DialogStepEnum$SUCCESS_instance;
+  function DialogStepEnum$SUCCESS_getInstance() {
+    DialogStepEnum_initFields();
+    return DialogStepEnum$SUCCESS_instance;
+  }
+  var DialogStepEnum$SHUTDOWN_instance;
+  function DialogStepEnum$SHUTDOWN_getInstance() {
+    DialogStepEnum_initFields();
+    return DialogStepEnum$SHUTDOWN_instance;
+  }
+  function DialogStepEnum$Companion() {
+    DialogStepEnum$Companion_instance = this;
+    INT32_ENUM.call(this, DialogStepEnum$values());
+  }
+  DialogStepEnum$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [INT32_ENUM]
+  };
+  var DialogStepEnum$Companion_instance = null;
+  function DialogStepEnum$Companion_getInstance() {
+    DialogStepEnum_initFields();
+    if (DialogStepEnum$Companion_instance === null) {
+      new DialogStepEnum$Companion();
+    }
+    return DialogStepEnum$Companion_instance;
+  }
+  DialogStepEnum.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'DialogStepEnum',
+    interfaces: [IdEnum, Enum]
+  };
+  function DialogStepEnum$values() {
+    return [DialogStepEnum$NONE_getInstance(), DialogStepEnum$INIT_getInstance(), DialogStepEnum$PROCESSING_getInstance(), DialogStepEnum$SUCCESS_getInstance(), DialogStepEnum$SHUTDOWN_getInstance()];
+  }
+  DialogStepEnum.values = DialogStepEnum$values;
+  function DialogStepEnum$valueOf(name) {
+    switch (name) {
+      case 'NONE':
+        return DialogStepEnum$NONE_getInstance();
+      case 'INIT':
+        return DialogStepEnum$INIT_getInstance();
+      case 'PROCESSING':
+        return DialogStepEnum$PROCESSING_getInstance();
+      case 'SUCCESS':
+        return DialogStepEnum$SUCCESS_getInstance();
+      case 'SHUTDOWN':
+        return DialogStepEnum$SHUTDOWN_getInstance();
+      default:throwISE('No enum constant com.soywiz.kpspemu.hle.modules.DialogStepEnum.' + name);
+    }
+  }
+  DialogStepEnum.valueOf_61zpoe$ = DialogStepEnum$valueOf;
+  function PspUtilityMsgDialogParams(base, unknown, mnode, errorValue, message, options, buttonPressed) {
+    PspUtilityMsgDialogParams$Companion_getInstance();
+    if (base === void 0)
+      base = new PspUtilityDialogCommon();
+    if (unknown === void 0)
+      unknown = 0;
+    if (mnode === void 0)
+      mnode = PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_ERROR_getInstance();
+    if (errorValue === void 0)
+      errorValue = 0;
+    if (message === void 0)
+      message = '';
+    if (options === void 0)
+      options = PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_DEFAULT_NO_getInstance();
+    if (buttonPressed === void 0)
+      buttonPressed = PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_BACK_getInstance();
+    this.base = base;
+    this.unknown = unknown;
+    this.mnode = mnode;
+    this.errorValue = errorValue;
+    this.message = message;
+    this.options = options;
+    this.buttonPressed = buttonPressed;
+  }
+  function PspUtilityMsgDialogParams$Companion() {
+    PspUtilityMsgDialogParams$Companion_instance = this;
+    Struct.call(this, PspUtilityMsgDialogParams$PspUtilityMsgDialogParams$Companion_init$lambda, [AS(getPropertyCallableRef('base', 1, function ($receiver) {
+      return $receiver.base;
+    }, function ($receiver, value) {
+      $receiver.base = value;
+    }), PspUtilityDialogCommon$Companion_getInstance()), AS(getPropertyCallableRef('unknown', 1, function ($receiver) {
+      return $receiver.unknown;
+    }, function ($receiver, value) {
+      $receiver.unknown = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('mnode', 1, function ($receiver) {
+      return $receiver.mnode;
+    }, function ($receiver, value) {
+      $receiver.mnode = value;
+    }), PspUtilityMsgDialogMode$Companion_getInstance()), AS(getPropertyCallableRef('errorValue', 1, function ($receiver) {
+      return $receiver.errorValue;
+    }, function ($receiver, value) {
+      $receiver.errorValue = value;
+    }), INT32_getInstance()), AS(getPropertyCallableRef('message', 1, function ($receiver) {
+      return $receiver.message;
+    }, function ($receiver, value) {
+      $receiver.message = value;
+    }), STRINGZ_init(512)), AS(getPropertyCallableRef('options', 1, function ($receiver) {
+      return $receiver.options;
+    }, function ($receiver, value) {
+      $receiver.options = value;
+    }), PspUtilityMsgDialogOption$Companion_getInstance()), AS(getPropertyCallableRef('buttonPressed', 1, function ($receiver) {
+      return $receiver.buttonPressed;
+    }, function ($receiver, value) {
+      $receiver.buttonPressed = value;
+    }), PspUtilityMsgDialogPressed$Companion_getInstance())]);
+  }
+  function PspUtilityMsgDialogParams$PspUtilityMsgDialogParams$Companion_init$lambda() {
+    return new PspUtilityMsgDialogParams();
+  }
+  PspUtilityMsgDialogParams$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: [Struct]
+  };
+  var PspUtilityMsgDialogParams$Companion_instance = null;
+  function PspUtilityMsgDialogParams$Companion_getInstance() {
+    if (PspUtilityMsgDialogParams$Companion_instance === null) {
+      new PspUtilityMsgDialogParams$Companion();
+    }
+    return PspUtilityMsgDialogParams$Companion_instance;
+  }
+  PspUtilityMsgDialogParams.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PspUtilityMsgDialogParams',
+    interfaces: []
+  };
+  PspUtilityMsgDialogParams.prototype.component1 = function () {
+    return this.base;
+  };
+  PspUtilityMsgDialogParams.prototype.component2 = function () {
+    return this.unknown;
+  };
+  PspUtilityMsgDialogParams.prototype.component3 = function () {
+    return this.mnode;
+  };
+  PspUtilityMsgDialogParams.prototype.component4 = function () {
+    return this.errorValue;
+  };
+  PspUtilityMsgDialogParams.prototype.component5 = function () {
+    return this.message;
+  };
+  PspUtilityMsgDialogParams.prototype.component6 = function () {
+    return this.options;
+  };
+  PspUtilityMsgDialogParams.prototype.component7 = function () {
+    return this.buttonPressed;
+  };
+  PspUtilityMsgDialogParams.prototype.copy_amx59w$ = function (base, unknown, mnode, errorValue, message, options, buttonPressed) {
+    return new PspUtilityMsgDialogParams(base === void 0 ? this.base : base, unknown === void 0 ? this.unknown : unknown, mnode === void 0 ? this.mnode : mnode, errorValue === void 0 ? this.errorValue : errorValue, message === void 0 ? this.message : message, options === void 0 ? this.options : options, buttonPressed === void 0 ? this.buttonPressed : buttonPressed);
+  };
+  PspUtilityMsgDialogParams.prototype.toString = function () {
+    return 'PspUtilityMsgDialogParams(base=' + Kotlin.toString(this.base) + (', unknown=' + Kotlin.toString(this.unknown)) + (', mnode=' + Kotlin.toString(this.mnode)) + (', errorValue=' + Kotlin.toString(this.errorValue)) + (', message=' + Kotlin.toString(this.message)) + (', options=' + Kotlin.toString(this.options)) + (', buttonPressed=' + Kotlin.toString(this.buttonPressed)) + ')';
+  };
+  PspUtilityMsgDialogParams.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.base) | 0;
+    result = result * 31 + Kotlin.hashCode(this.unknown) | 0;
+    result = result * 31 + Kotlin.hashCode(this.mnode) | 0;
+    result = result * 31 + Kotlin.hashCode(this.errorValue) | 0;
+    result = result * 31 + Kotlin.hashCode(this.message) | 0;
+    result = result * 31 + Kotlin.hashCode(this.options) | 0;
+    result = result * 31 + Kotlin.hashCode(this.buttonPressed) | 0;
+    return result;
+  };
+  PspUtilityMsgDialogParams.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.base, other.base) && Kotlin.equals(this.unknown, other.unknown) && Kotlin.equals(this.mnode, other.mnode) && Kotlin.equals(this.errorValue, other.errorValue) && Kotlin.equals(this.message, other.message) && Kotlin.equals(this.options, other.options) && Kotlin.equals(this.buttonPressed, other.buttonPressed)))));
+  };
+  function sceWlanDrv(emulator) {
+    SceModule.call(this, emulator, 'sceWlanDrv', 1073807377, 'wlan.prx', 'sceWlan_Driver');
+  }
+  sceWlanDrv.prototype.sceWlanGetEtherAddr_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_za3lpa$(207757441);
+  };
+  sceWlanDrv.prototype.sceWlanDevIsPowerOn_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-1824257263, 0));
+  };
+  sceWlanDrv.prototype.sceWlanGetSwitchState_xt3zvs$ = function (cpu) {
+    this.UNIMPLEMENTED_s8cxhz$(new Kotlin.Long(-680118631, 0));
+  };
+  function sceWlanDrv$registerModule$lambda(this$sceWlanDrv) {
+    return function (it) {
+      this$sceWlanDrv.sceWlanGetEtherAddr_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceWlanDrv$registerModule$lambda_0(this$sceWlanDrv) {
+    return function (it) {
+      this$sceWlanDrv.sceWlanDevIsPowerOn_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  function sceWlanDrv$registerModule$lambda_1(this$sceWlanDrv) {
+    return function (it) {
+      this$sceWlanDrv.sceWlanGetSwitchState_xt3zvs$(it);
+      return Unit;
+    };
+  }
+  sceWlanDrv.prototype.registerModule = function () {
+    this.registerFunctionRaw_gh35x6$('sceWlanGetEtherAddr', Kotlin.Long.fromInt(207757441), 150, void 0, sceWlanDrv$registerModule$lambda(this));
+    this.registerFunctionRaw_gh35x6$('sceWlanDevIsPowerOn', new Kotlin.Long(-1824257263, 0), 150, void 0, sceWlanDrv$registerModule$lambda_0(this));
+    this.registerFunctionRaw_gh35x6$('sceWlanGetSwitchState', new Kotlin.Long(-680118631, 0), 150, void 0, sceWlanDrv$registerModule$lambda_1(this));
+  };
+  sceWlanDrv.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'sceWlanDrv',
     interfaces: [SceModule]
   };
   function LibDoc() {
@@ -31251,7 +36425,7 @@
     return this.i32[this.index_za3lpa$(address) >>> 2];
   };
   FastMemoryBacked.prototype.copy_qt1dr2$ = function (srcPos, dstPos, size) {
-    arraycopy_1(this.fmem.buffer, this.index_za3lpa$(srcPos), this.fmem.buffer, this.index_za3lpa$(dstPos), size);
+    arraycopy_2(this.fmem.buffer, this.index_za3lpa$(srcPos), this.fmem.buffer, this.index_za3lpa$(dstPos), size);
   };
   FastMemoryBacked.prototype.read_3fge6q$$default = function (srcPos, dst, dstPos, len) {
     this.fmem.getArrayInt8_3fge6q$(this.index_za3lpa$(srcPos), dst, dstPos, len);
@@ -31351,6 +36525,26 @@
   PtrArray.prototype.equals = function (other) {
     return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.ptr, other.ptr) && Kotlin.equals(this.size, other.size)))));
   };
+  function Ptr32(ptr) {
+    this.ptr = ptr;
+  }
+  Ptr32.prototype.get = function () {
+    return this.get_za3lpa$(0);
+  };
+  Ptr32.prototype.set_za3lpa$ = function (value) {
+    this.set_vux9f0$(0, value);
+  };
+  Ptr32.prototype.get_za3lpa$ = function (index) {
+    return this.ptr.lw_za3lpa$(index * 4 | 0);
+  };
+  Ptr32.prototype.set_vux9f0$ = function (index, value) {
+    this.ptr.sw_vux9f0$(index * 4 | 0, value);
+  };
+  Ptr32.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'Ptr32',
+    interfaces: []
+  };
   function Ptr() {
   }
   Ptr.prototype.sdw_6svq3l$ = function (offset, value) {
@@ -31367,6 +36561,63 @@
     simpleName: 'Ptr',
     interfaces: []
   };
+  function DummyPtr() {
+    DummyPtr_instance = this;
+    this.addr_g6zqcz$_0 = 0;
+  }
+  Object.defineProperty(DummyPtr.prototype, 'addr', {
+    get: function () {
+      return this.addr_g6zqcz$_0;
+    }
+  });
+  DummyPtr.prototype.sb_vux9f0$ = function (offset, value) {
+  };
+  DummyPtr.prototype.sh_vux9f0$ = function (offset, value) {
+  };
+  DummyPtr.prototype.sw_vux9f0$ = function (offset, value) {
+  };
+  DummyPtr.prototype.lb_za3lpa$ = function (offset) {
+    return 0;
+  };
+  DummyPtr.prototype.lh_za3lpa$ = function (offset) {
+    return 0;
+  };
+  DummyPtr.prototype.lw_za3lpa$ = function (offset) {
+    return 0;
+  };
+  DummyPtr.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'DummyPtr',
+    interfaces: [Ptr]
+  };
+  var DummyPtr_instance = null;
+  function DummyPtr_getInstance() {
+    if (DummyPtr_instance === null) {
+      new DummyPtr();
+    }
+    return DummyPtr_instance;
+  }
+  function read($receiver, struct) {
+    return read_0(openSync_1($receiver), struct);
+  }
+  function write($receiver, struct, value) {
+    write_0(openSync_1($receiver), struct, value);
+  }
+  var capture = defineInlineFunction('kpspemu.com.soywiz.kpspemu.mem.capture_r3ciq9$', wrapFunction(function () {
+    var openSync = _.com.soywiz.kpspemu.mem.openSync_luvok3$;
+    var read = _.com.soywiz.kpspemu.util.read_316kh2$;
+    var write = _.com.soywiz.kpspemu.util.write_qawobk$;
+    return function ($receiver, struct, callback) {
+      var ptr = $receiver;
+      var obj = read(openSync(ptr), struct);
+      try {
+        return callback(obj);
+      }
+      finally {
+        write(openSync(ptr), struct, obj);
+      }
+    };
+  }));
   function MemPtr(mem, addr) {
     this.mem = mem;
     this.addr_xq0922$_0 = addr;
@@ -31505,6 +36756,186 @@
     new PropertyMetadata('CurrentVfs');
     return CurrentVfs.value;
   }
+  function Resetable() {
+  }
+  Resetable.$metadata$ = {
+    kind: Kind_INTERFACE,
+    simpleName: 'Resetable',
+    interfaces: []
+  };
+  function PoolItem() {
+  }
+  PoolItem.$metadata$ = {
+    kind: Kind_INTERFACE,
+    simpleName: 'PoolItem',
+    interfaces: [Resetable]
+  };
+  function AsyncPool2(maxItems, initId, create) {
+    if (maxItems === void 0)
+      maxItems = kotlin_js_internal_IntCompanionObject.MAX_VALUE;
+    if (initId === void 0)
+      initId = 0;
+    this.maxItems = maxItems;
+    this.initId = initId;
+    this.create = create;
+    this.createdItems = new AtomicInteger();
+    this.freedItem_0 = new ProduceConsumer();
+    this.allocatedItems = LinkedHashMap_init();
+  }
+  AsyncPool2.prototype.get_za3lpa$ = function (id) {
+    return this.allocatedItems.get_11rb$(id);
+  };
+  AsyncPool2.prototype.tempAlloc_8bj7vc$ = function (callback_0, continuation_0, suspended) {
+    var instance = new Coroutine$tempAlloc_8bj7vc$(this, callback_0, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  };
+  function Coroutine$tempAlloc_8bj7vc$($this, callback_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 7;
+    this.$this = $this;
+    this.local$item = void 0;
+    this.local$callback = callback_0;
+  }
+  Coroutine$tempAlloc_8bj7vc$.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$tempAlloc_8bj7vc$.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$tempAlloc_8bj7vc$.prototype.constructor = Coroutine$tempAlloc_8bj7vc$;
+  Coroutine$tempAlloc_8bj7vc$.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 1;
+            this.result_0 = this.$this.alloc(this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            this.local$item = this.result_0;
+            this.exceptionState_0 = 5;
+            this.state_0 = 2;
+            this.result_0 = this.local$callback(this.local$item, this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 2:
+            this.exceptionState_0 = 7;
+            this.finallyPath_0 = [3];
+            this.state_0 = 6;
+            this.$returnValue = this.result_0;
+            continue;
+          case 3:
+            return this.$returnValue;
+          case 4:
+            return;
+          case 5:
+            this.finallyPath_0 = [7];
+            this.state_0 = 6;
+            continue;
+          case 6:
+            this.$this.free_ngi76a$(this.local$item);
+            this.state_0 = this.finallyPath_0.shift();
+            continue;
+          case 7:
+            throw this.exception_0;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 7)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  AsyncPool2.prototype.alloc = function (continuation_0, suspended) {
+    var instance = new Coroutine$alloc(this, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  };
+  function Coroutine$alloc($this, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.$this = $this;
+    this.local$tmp$_0 = void 0;
+  }
+  Coroutine$alloc.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$alloc.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$alloc.prototype.constructor = Coroutine$alloc;
+  Coroutine$alloc.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            var tmp$;
+            if (this.$this.createdItems.get() >= this.$this.maxItems) {
+              this.state_0 = 3;
+              this.result_0 = this.$this.freedItem_0.consume_4l50dc$(void 0, this);
+              if (this.result_0 === COROUTINE_SUSPENDED)
+                return COROUTINE_SUSPENDED;
+              break;
+            }
+             else {
+              this.$this.createdItems.addAndGet_za3lpa$(1);
+              this.state_0 = 2;
+              this.result_0 = this.$this.create((tmp$ = this.$this.initId, this.$this.initId = tmp$ + 1 | 0, tmp$), this);
+              if (this.result_0 === COROUTINE_SUSPENDED)
+                return COROUTINE_SUSPENDED;
+              break;
+            }
+
+          case 1:
+            throw this.exception_0;
+          case 2:
+            this.local$tmp$_0 = this.result_0;
+            this.state_0 = 4;
+            continue;
+          case 3:
+            this.local$tmp$_0 = ensureNotNull(this.result_0);
+            this.state_0 = 4;
+            continue;
+          case 4:
+            var res = this.local$tmp$_0;
+            res.reset();
+            var $receiver = this.$this.allocatedItems;
+            var key = res.id;
+            $receiver.put_xwzc9p$(key, res);
+            return res;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
+  AsyncPool2.prototype.free_ngi76a$ = function (item) {
+    this.freedItem_0.produce_11rb$(item);
+    this.allocatedItems.remove_11rb$(item.id);
+  };
+  AsyncPool2.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'AsyncPool2',
+    interfaces: []
+  };
   function currentTimeMicroInt($receiver) {
     var millisDouble = $receiver.currentTimeMillisDouble();
     var millisInt = numberToInt(millisDouble % 2147483647);
@@ -31575,6 +37006,379 @@
     simpleName: 'ResourceList',
     interfaces: []
   };
+  function Struct(create, items) {
+    this.create = create;
+    this.items = items;
+    var $receiver = this.items;
+    var destination = ArrayList_init($receiver.length);
+    var tmp$;
+    for (tmp$ = 0; tmp$ !== $receiver.length; ++tmp$) {
+      var item = $receiver[tmp$];
+      destination.add_11rb$(item.type.size);
+    }
+    this.size_27gi7n$_0 = sum(destination);
+  }
+  Object.defineProperty(Struct.prototype, 'size', {
+    get: function () {
+      return this.size_27gi7n$_0;
+    }
+  });
+  function Struct$Item(type, property) {
+    this.type = type;
+    this.property = property;
+  }
+  Struct$Item.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'Item',
+    interfaces: []
+  };
+  Struct$Item.prototype.component1 = function () {
+    return this.type;
+  };
+  Struct$Item.prototype.component2 = function () {
+    return this.property;
+  };
+  Struct$Item.prototype.copy_hawb8o$ = function (type, property) {
+    return new Struct$Item(type === void 0 ? this.type : type, property === void 0 ? this.property : property);
+  };
+  Struct$Item.prototype.toString = function () {
+    return 'Item(type=' + Kotlin.toString(this.type) + (', property=' + Kotlin.toString(this.property)) + ')';
+  };
+  Struct$Item.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.type) | 0;
+    result = result * 31 + Kotlin.hashCode(this.property) | 0;
+    return result;
+  };
+  Struct$Item.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.type, other.type) && Kotlin.equals(this.property, other.property)))));
+  };
+  Struct.prototype.write_paoklw$ = function (s, value) {
+    var tmp$, tmp$_0, tmp$_1;
+    tmp$ = this.items;
+    for (tmp$_0 = 0; tmp$_0 !== tmp$.length; ++tmp$_0) {
+      var item = tmp$[tmp$_0];
+      var i = Kotlin.isType(tmp$_1 = item, Struct$Item) ? tmp$_1 : throwCCE();
+      i.type.write_paoklw$(s, i.property.get(value));
+    }
+  };
+  Struct.prototype.read_39qel5$ = function (s) {
+    return this.read_paoklw$(s, this.create());
+  };
+  Struct.prototype.read_paoklw$ = function (s, value) {
+    var tmp$, tmp$_0, tmp$_1;
+    tmp$ = this.items;
+    for (tmp$_0 = 0; tmp$_0 !== tmp$.length; ++tmp$_0) {
+      var item = tmp$[tmp$_0];
+      var i = Kotlin.isType(tmp$_1 = item, Struct$Item) ? tmp$_1 : throwCCE();
+      i.property.set(value, i.type.read_39qel5$(s));
+    }
+    return value;
+  };
+  Struct.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'Struct',
+    interfaces: [StructType]
+  };
+  function AS($receiver, type) {
+    return new Struct$Item(type, $receiver);
+  }
+  function StructType() {
+  }
+  StructType.$metadata$ = {
+    kind: Kind_INTERFACE,
+    simpleName: 'StructType',
+    interfaces: []
+  };
+  function write_0($receiver, s, value) {
+    s.write_paoklw$($receiver, value);
+  }
+  function read_0($receiver, s) {
+    return s.read_39qel5$($receiver);
+  }
+  function UINT8() {
+    UINT8_instance = this;
+    this.size_pkn95i$_0 = 1;
+  }
+  Object.defineProperty(UINT8.prototype, 'size', {
+    get: function () {
+      return this.size_pkn95i$_0;
+    }
+  });
+  UINT8.prototype.write_paoklw$ = function (s, value) {
+    write8(s, value);
+  };
+  UINT8.prototype.read_39qel5$ = function (s) {
+    return readU8_0(s);
+  };
+  UINT8.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'UINT8',
+    interfaces: [StructType]
+  };
+  var UINT8_instance = null;
+  function UINT8_getInstance() {
+    if (UINT8_instance === null) {
+      new UINT8();
+    }
+    return UINT8_instance;
+  }
+  function UINT16() {
+    UINT16_instance = this;
+    this.size_ye732b$_0 = 2;
+  }
+  Object.defineProperty(UINT16.prototype, 'size', {
+    get: function () {
+      return this.size_ye732b$_0;
+    }
+  });
+  UINT16.prototype.write_paoklw$ = function (s, value) {
+    write16_le(s, value);
+  };
+  UINT16.prototype.read_39qel5$ = function (s) {
+    return readU16_le(s);
+  };
+  UINT16.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'UINT16',
+    interfaces: [StructType]
+  };
+  var UINT16_instance = null;
+  function UINT16_getInstance() {
+    if (UINT16_instance === null) {
+      new UINT16();
+    }
+    return UINT16_instance;
+  }
+  function INT32() {
+    INT32_instance = this;
+    this.size_9cjoa$_0 = 4;
+  }
+  Object.defineProperty(INT32.prototype, 'size', {
+    get: function () {
+      return this.size_9cjoa$_0;
+    }
+  });
+  INT32.prototype.write_paoklw$ = function (s, value) {
+    write32_le(s, value);
+  };
+  INT32.prototype.read_39qel5$ = function (s) {
+    return readS32_le_0(s);
+  };
+  INT32.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'INT32',
+    interfaces: [StructType]
+  };
+  var INT32_instance = null;
+  function INT32_getInstance() {
+    if (INT32_instance === null) {
+      new INT32();
+    }
+    return INT32_instance;
+  }
+  function INT64() {
+    INT64_instance = this;
+    this.size_qhwnzv$_0 = 8;
+  }
+  Object.defineProperty(INT64.prototype, 'size', {
+    get: function () {
+      return this.size_qhwnzv$_0;
+    }
+  });
+  INT64.prototype.write_paoklw$ = function (s, value) {
+    write64_le(s, value);
+  };
+  INT64.prototype.read_39qel5$ = function (s) {
+    return readS64_le_0(s);
+  };
+  INT64.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'INT64',
+    interfaces: [StructType]
+  };
+  var INT64_instance = null;
+  function INT64_getInstance() {
+    if (INT64_instance === null) {
+      new INT64();
+    }
+    return INT64_instance;
+  }
+  function FLOAT32() {
+    FLOAT32_instance = this;
+    this.size_1lz9t9$_0 = 4;
+  }
+  Object.defineProperty(FLOAT32.prototype, 'size', {
+    get: function () {
+      return this.size_1lz9t9$_0;
+    }
+  });
+  FLOAT32.prototype.write_paoklw$ = function (s, value) {
+    writeF32_le(s, value);
+  };
+  FLOAT32.prototype.read_39qel5$ = function (s) {
+    return readF32_le(s);
+  };
+  FLOAT32.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'FLOAT32',
+    interfaces: [StructType]
+  };
+  var FLOAT32_instance = null;
+  function FLOAT32_getInstance() {
+    if (FLOAT32_instance === null) {
+      new FLOAT32();
+    }
+    return FLOAT32_instance;
+  }
+  function STRINGZ(charset, len) {
+    if (len === void 0)
+      len = null;
+    this.charset = charset;
+    this.len = len;
+    var tmp$;
+    this.size_rdija7$_0 = (tmp$ = this.len) != null ? tmp$ : 0;
+  }
+  Object.defineProperty(STRINGZ.prototype, 'size', {
+    get: function () {
+      return this.size_rdija7$_0;
+    }
+  });
+  STRINGZ.prototype.write_paoklw$ = function (s, value) {
+    if (this.len == null)
+      writeStringz(s, value, this.charset);
+    else
+      writeStringz_0(s, value, this.len, this.charset);
+  };
+  STRINGZ.prototype.read_39qel5$ = function (s) {
+    if (this.len == null)
+      return readStringz_1(s, this.charset);
+    else
+      return readStringz(s, this.len, this.charset);
+  };
+  STRINGZ.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'STRINGZ',
+    interfaces: [StructType]
+  };
+  function STRINGZ_init(size, $this) {
+    if (size === void 0)
+      size = null;
+    $this = $this || Object.create(STRINGZ.prototype);
+    STRINGZ.call($this, lang.UTF8, size);
+    return $this;
+  }
+  function ARRAY(etype, len) {
+    this.etype = etype;
+    this.len = len;
+    this.size_ic2exb$_0 = Kotlin.imul(this.len, this.etype.size);
+  }
+  Object.defineProperty(ARRAY.prototype, 'size', {
+    get: function () {
+      return this.size_ic2exb$_0;
+    }
+  });
+  ARRAY.prototype.write_paoklw$ = function (s, value) {
+    var tmp$;
+    tmp$ = value.iterator();
+    while (tmp$.hasNext()) {
+      var v = tmp$.next();
+      write_0(s, this.etype, v);
+    }
+  };
+  ARRAY.prototype.read_39qel5$ = function (s) {
+    var tmp$;
+    var out = ArrayList_init();
+    tmp$ = this.len;
+    for (var n = 0; n < tmp$; n++) {
+      var element = read_0(s, this.etype);
+      out.add_11rb$(element);
+    }
+    return out;
+  };
+  ARRAY.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'ARRAY',
+    interfaces: [StructType]
+  };
+  function INTARRAY(etype, len) {
+    this.etype = etype;
+    this.len = len;
+    this.size_y9irnc$_0 = Kotlin.imul(this.len, this.etype.size);
+  }
+  Object.defineProperty(INTARRAY.prototype, 'size', {
+    get: function () {
+      return this.size_y9irnc$_0;
+    }
+  });
+  INTARRAY.prototype.write_paoklw$ = function (s, value) {
+    var tmp$;
+    for (tmp$ = 0; tmp$ !== value.length; ++tmp$) {
+      var v = value[tmp$];
+      write_0(s, this.etype, v);
+    }
+  };
+  INTARRAY.prototype.read_39qel5$ = function (s) {
+    var tmp$;
+    var out = new Int32Array(this.len);
+    tmp$ = this.len;
+    for (var n = 0; n < tmp$; n++)
+      out[n] = read_0(s, this.etype);
+    return out;
+  };
+  INTARRAY.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'INTARRAY',
+    interfaces: [StructType]
+  };
+  function INT32_ENUM(values) {
+    this.values = values;
+    this.size_cpxyo$_0 = 4 * this.values.length | 0;
+    this.defaultValue_h4udep$_0 = first_1(this.values);
+    var tmp$, tmp$_0, tmp$_1;
+    var $receiver = this.values;
+    var destination = ArrayList_init($receiver.length);
+    var tmp$_2;
+    for (tmp$_2 = 0; tmp$_2 !== $receiver.length; ++tmp$_2) {
+      var item = $receiver[tmp$_2];
+      destination.add_11rb$(item.id);
+    }
+    this.MAX_ID_ojsd7p$_0 = (tmp$ = max(destination)) != null ? tmp$ : 0;
+    var array = Array_0(this.MAX_ID_ojsd7p$_0 + 1 | 0);
+    var tmp$_3;
+    tmp$_3 = array.length - 1 | 0;
+    for (var i = 0; i <= tmp$_3; i++) {
+      array[i] = this.defaultValue_h4udep$_0;
+    }
+    this.valuesById_9j30ot$_0 = array;
+    tmp$_0 = this.values;
+    for (tmp$_1 = 0; tmp$_1 !== tmp$_0.length; ++tmp$_1) {
+      var v = tmp$_0[tmp$_1];
+      this.valuesById_9j30ot$_0[v.id] = v;
+    }
+  }
+  Object.defineProperty(INT32_ENUM.prototype, 'size', {
+    get: function () {
+      return this.size_cpxyo$_0;
+    }
+  });
+  INT32_ENUM.prototype.write_paoklw$ = function (s, value) {
+    write32_le(s, value.id);
+  };
+  INT32_ENUM.prototype.read_39qel5$ = function (s) {
+    return this.invoke_za3lpa$(readS32_le_0(s));
+  };
+  var get_lastIndex = Kotlin.kotlin.collections.get_lastIndex_m7z4lg$;
+  INT32_ENUM.prototype.invoke_za3lpa$ = function (id) {
+    var tmp$;
+    var $receiver = this.valuesById_9j30ot$_0;
+    return Kotlin.isType(tmp$ = id >= 0 && id <= get_lastIndex($receiver) ? $receiver[id] : this.defaultValue_h4udep$_0, IdEnum) ? tmp$ : throwCCE();
+  };
+  INT32_ENUM.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'INT32_ENUM',
+    interfaces: [StructType]
+  };
   function IsoVfs2(file_0, continuation_0, suspended) {
     var instance = new Coroutine$IsoVfs2(file_0, continuation_0);
     if (suspended)
@@ -31641,6 +37445,7 @@
     ISO2_instance = this;
     this.logger = Logger.Companion.invoke_61zpoe$('ISO2');
     this.SECTOR_SIZE = Kotlin.Long.fromInt(2048);
+    this.SCE_LBN_REGEX = Regex('^/?sce_lbn0x([0-9a-fA-F]+)_size0x([0-9a-fA-F]+)$');
   }
   ISO2.prototype.read_axnxby$ = function (s, continuation) {
     return (new ISO2$IsoReader(s)).read(continuation);
@@ -31652,7 +37457,7 @@
     this.isoFile = closure$iso;
   }
   ISO2$openVfs$lambda$ObjectLiteral.prototype.getVfsStat_rwxcyd$ = function (file) {
-    return this.createExistsStat_sjl0ub$(file.fullname, file.isDirectory, file.size);
+    return this.createExistsStat_sjl0ub$(file.fullname, file.isDirectory, file.size, void 0, void 0, void 0, void 0, void 0, void 0, void 0, void 0, new Int32Array([file.record.extent, 0, 0, 0, 0, 0]));
   };
   ISO2$openVfs$lambda$ObjectLiteral.prototype.stat_61zpoe$ = function (path, continuation) {
     try {
@@ -31667,7 +37472,20 @@
     }
   };
   ISO2$openVfs$lambda$ObjectLiteral.prototype.open_j4ip3x$ = function (path, mode, continuation) {
-    return this.isoFile.get_61zpoe$(path).open2_7c7tmz$(mode, continuation);
+    println('Opening ISO path: ' + path);
+    var result = ISO2_getInstance().SCE_LBN_REGEX.matchEntire_6bul2c$(path);
+    if (result != null) {
+      var tmp$ = result.groupValues;
+      var lbnString = tmp$.get_za3lpa$(1);
+      var sizeString = tmp$.get_za3lpa$(2);
+      var lbn = toInt(lbnString, 16);
+      var size = toInt(sizeString, 16);
+      println('Matching sce_lbn: ' + result.groupValues + ' : ' + lbn + ', ' + size);
+      return this.isoFile.reader.getSector_vux9f0$(lbn, size, continuation);
+    }
+     else {
+      return this.isoFile.get_61zpoe$(path).open2_7c7tmz$(mode, continuation);
+    }
   };
   function ISO2$openVfs$lambda$ObjectLiteral$list$lambda(this$_0, closure$path_0) {
     return function ($receiver_0, continuation_0, suspended) {
@@ -33770,7 +39588,7 @@
             break;
           case 3:
             this.state_0 = 4;
-            this.result_0 = this.local$s.setPosition_s8cxhz$(max(Math_0, this.local$tmp$_0, this.result_0.subtract(Kotlin.Long.fromInt(this.local$chunkSize))), this);
+            this.result_0 = this.local$s.setPosition_s8cxhz$(max_0(Math_0, this.local$tmp$_0, this.result_0.subtract(Kotlin.Long.fromInt(this.local$chunkSize))), this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
@@ -34006,31 +39824,31 @@
     simpleName: 'DosFileDateTime',
     interfaces: []
   };
-  function max_0(a, b, c) {
+  function max_1(a, b, c) {
     var a_0 = Math_0.max(a, b);
     return Math_0.max(a_0, c);
   }
-  function max_1(a, b, c, d) {
+  function max_2(a, b, c, d) {
     var a_0 = Math_0.max(a, b);
     var a_1 = Math_0.max(a_0, c);
     return Math_0.max(a_1, d);
   }
-  function max_2(a, b, c, d, e) {
+  function max_3(a, b, c, d, e) {
     var a_0 = Math_0.max(a, b);
     var a_1 = Math_0.max(a_0, c);
     var a_2 = Math_0.max(a_1, d);
     return Math_0.max(a_2, e);
   }
-  function max_3(a, b, c) {
+  function max_4(a, b, c) {
     var a_0 = Math_0.max(a, b);
     return Math_0.max(a_0, c);
   }
-  function max_4(a, b, c, d) {
+  function max_5(a, b, c, d) {
     var a_0 = Math_0.max(a, b);
     var a_1 = Math_0.max(a_0, c);
     return Math_0.max(a_1, d);
   }
-  function max_5(a, b, c, d, e) {
+  function max_6(a, b, c, d, e) {
     var a_0 = Math_0.max(a, b);
     var a_1 = Math_0.max(a_0, c);
     var a_2 = Math_0.max(a_1, d);
@@ -34082,6 +39900,7 @@
   package$kpspemu.Emulator = Emulator;
   package$kpspemu.WithEmulator = WithEmulator;
   package$kpspemu.get_mem_gja2zf$ = get_mem;
+  package$kpspemu.get_imem_gja2zf$ = get_imem;
   package$kpspemu.get_ge_gja2zf$ = get_ge;
   package$kpspemu.get_gpu_gja2zf$ = get_gpu;
   package$kpspemu.get_controller_gja2zf$ = get_controller;
@@ -34096,6 +39915,9 @@
   package$kpspemu.get_callbackManager_gja2zf$ = get_callbackManager;
   Object.defineProperty(package$kpspemu, 'Kpspemu', {
     get: Kpspemu_getInstance
+  });
+  Object.defineProperty(package$kpspemu, 'KpspemuAssets', {
+    get: KpspemuAssets_getInstance
   });
   Object.defineProperty(package$kpspemu, 'KPSPEMU_VERSION', {
     get: function () {
@@ -34162,9 +39984,10 @@
   package$cpu.set_FP_shbxjr$ = set_FP;
   package$cpu.get_RA_he8x89$ = get_RA;
   package$cpu.set_RA_shbxjr$ = set_RA;
+  Object.defineProperty(CpuState, 'Companion', {
+    get: CpuState$Companion_getInstance
+  });
   $$importsForInline$$['kmem-js'] = $module$kmem_js;
-  CpuState.Gpr = CpuState$Gpr;
-  CpuState.FprI = CpuState$FprI;
   package$cpu.CpuState = CpuState;
   package$cpu.GlobalCpuState = GlobalCpuState;
   $$importsForInline$$.kpspemu = _;
@@ -34247,6 +40070,11 @@
   package$dis.disasmMacro_w2yn32$ = disasmMacro;
   package$dis.getPrintInstructionAt_w2yn32$ = getPrintInstructionAt;
   package$dis.printInstructionAt_w2yn32$ = printInstructionAt;
+  $$importsForInline$$['dynarek-js'] = $module$dynarek_js;
+  var package$dynarec = package$cpu.dynarec || (package$cpu.dynarec = {});
+  package$dynarec.BaseDynarecMethodBuilder = BaseDynarecMethodBuilder;
+  package$dynarec.DynarekMethodBuilder = DynarekMethodBuilder;
+  package$dynarec.InstructionInfo = InstructionInfo;
   var package$interpreter = package$cpu.interpreter || (package$cpu.interpreter = {});
   package$interpreter.CpuInterpreter = CpuInterpreter;
   Object.defineProperty(InstructionInterpreter.prototype, 'VectorSize', {
@@ -34331,6 +40159,9 @@
     get: PspCtrlButtons$memoryStickPresent_getInstance
   });
   package$ctrl.PspCtrlButtons = PspCtrlButtons;
+  Object.defineProperty(PspDisplay, 'Companion', {
+    get: PspDisplay$Companion_getInstance
+  });
   var package$display = package$kpspemu.display || (package$kpspemu.display = {});
   package$display.PspDisplay = PspDisplay;
   Object.defineProperty(Cso, 'Companion', {
@@ -35040,7 +40871,13 @@
   package$manager.FileManager = FileManager;
   package$manager.FileDescriptor = FileDescriptor;
   package$manager.DirectoryDescriptor = DirectoryDescriptor;
+  Object.defineProperty(SceIoStat, 'Companion', {
+    get: SceIoStat$Companion_getInstance
+  });
   package$manager.SceIoStat = SceIoStat;
+  Object.defineProperty(HleIoDirent, 'Companion', {
+    get: HleIoDirent$Companion_getInstance
+  });
   package$manager.HleIoDirent = HleIoDirent;
   Object.defineProperty(package$manager, 'IOFileModes', {
     get: IOFileModes_getInstance
@@ -35051,7 +40888,12 @@
   Object.defineProperty(package$manager, 'FileOpenFlags', {
     get: FileOpenFlags_getInstance
   });
+  InterruptManager.InterruptHandler = InterruptManager$InterruptHandler;
+  InterruptManager.InterruptKind = InterruptManager$InterruptKind;
   package$manager.InterruptManager = InterruptManager;
+  Object.defineProperty(package$manager, 'PspInterrupts', {
+    get: PspInterrupts_getInstance
+  });
   package$manager.Manager = Manager;
   package$manager.Resource = Resource;
   package$manager.MemoryManager = MemoryManager;
@@ -35122,6 +40964,13 @@
   Object.defineProperty(package$manager, 'EventFlagWaitTypeSet', {
     get: EventFlagWaitTypeSet_getInstance
   });
+  Object.defineProperty(package$manager, 'ThreadStatus', {
+    get: ThreadStatus_getInstance
+  });
+  Object.defineProperty(SceKernelThreadInfo, 'Companion', {
+    get: SceKernelThreadInfo$Companion_getInstance
+  });
+  package$manager.SceKernelThreadInfo = SceKernelThreadInfo;
   package$manager.TimeManager = TimeManager;
   Object.defineProperty(ScePspDateTime, 'Companion', {
     get: ScePspDateTime$Companion_getInstance
@@ -35135,6 +40984,7 @@
   Object.defineProperty(IoFileMgrForUser, 'Companion', {
     get: IoFileMgrForUser$Companion_getInstance
   });
+  IoFileMgrForUser.AsyncHandle = IoFileMgrForUser$AsyncHandle;
   package$modules.IoFileMgrForUser = IoFileMgrForUser;
   package$modules.Kernel_Library = Kernel_Library;
   package$modules.LoadCoreForKernel = LoadCoreForKernel;
@@ -35150,6 +41000,7 @@
   package$modules.ThreadManForUser_EventFlags = ThreadManForUser_EventFlags;
   package$modules.UtilsForKernel = UtilsForKernel;
   package$modules.UtilsForUser = UtilsForUser;
+  sceAtrac3plus.AtracID = sceAtrac3plus$AtracID;
   package$modules.sceAtrac3plus = sceAtrac3plus;
   Object.defineProperty(sceAudio, 'AudioFormat', {
     get: sceAudio$AudioFormat_getInstance
@@ -35163,13 +41014,251 @@
   package$modules.sceHprm = sceHprm;
   package$modules.sceImpose = sceImpose;
   package$modules.sceMpeg = sceMpeg;
+  package$modules.sceNet = sceNet;
+  package$modules.sceNetAdhoc = sceNetAdhoc;
+  package$modules.sceNetAdhocMatching = sceNetAdhocMatching;
+  package$modules.sceNetAdhocctl = sceNetAdhocctl;
   package$modules.sceNetInet = sceNetInet;
   package$modules.scePower = scePower;
+  package$modules.sceReg = sceReg;
+  Object.defineProperty(RegParam, 'Companion', {
+    get: RegParam$Companion_getInstance
+  });
+  package$modules.RegParam = RegParam;
   package$modules.sceRtc = sceRtc;
   package$modules.sceSasCore = sceSasCore;
   package$modules.sceSuspendForUser = sceSuspendForUser;
   package$modules.sceUmdUser = sceUmdUser;
+  Object.defineProperty(sceUtility, 'Companion', {
+    get: sceUtility$Companion_getInstance
+  });
   package$modules.sceUtility = sceUtility;
+  Object.defineProperty(PspLanguages, 'JAPANESE', {
+    get: PspLanguages$JAPANESE_getInstance
+  });
+  Object.defineProperty(PspLanguages, 'ENGLISH', {
+    get: PspLanguages$ENGLISH_getInstance
+  });
+  Object.defineProperty(PspLanguages, 'FRENCH', {
+    get: PspLanguages$FRENCH_getInstance
+  });
+  Object.defineProperty(PspLanguages, 'SPANISH', {
+    get: PspLanguages$SPANISH_getInstance
+  });
+  Object.defineProperty(PspLanguages, 'GERMAN', {
+    get: PspLanguages$GERMAN_getInstance
+  });
+  Object.defineProperty(PspLanguages, 'ITALIAN', {
+    get: PspLanguages$ITALIAN_getInstance
+  });
+  Object.defineProperty(PspLanguages, 'DUTCH', {
+    get: PspLanguages$DUTCH_getInstance
+  });
+  Object.defineProperty(PspLanguages, 'PORTUGUESE', {
+    get: PspLanguages$PORTUGUESE_getInstance
+  });
+  Object.defineProperty(PspLanguages, 'RUSSIAN', {
+    get: PspLanguages$RUSSIAN_getInstance
+  });
+  Object.defineProperty(PspLanguages, 'KOREAN', {
+    get: PspLanguages$KOREAN_getInstance
+  });
+  Object.defineProperty(PspLanguages, 'TRADITIONAL_CHINESE', {
+    get: PspLanguages$TRADITIONAL_CHINESE_getInstance
+  });
+  Object.defineProperty(PspLanguages, 'SIMPLIFIED_CHINESE', {
+    get: PspLanguages$SIMPLIFIED_CHINESE_getInstance
+  });
+  Object.defineProperty(PspLanguages, 'Companion', {
+    get: PspLanguages$Companion_getInstance
+  });
+  package$modules.PspLanguages = PspLanguages;
+  Object.defineProperty(PspUtilitySavedataMode, 'Autoload', {
+    get: PspUtilitySavedataMode$Autoload_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'Autosave', {
+    get: PspUtilitySavedataMode$Autosave_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'Load', {
+    get: PspUtilitySavedataMode$Load_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'Save', {
+    get: PspUtilitySavedataMode$Save_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'ListLoad', {
+    get: PspUtilitySavedataMode$ListLoad_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'ListSave', {
+    get: PspUtilitySavedataMode$ListSave_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'ListDelete', {
+    get: PspUtilitySavedataMode$ListDelete_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'Delete', {
+    get: PspUtilitySavedataMode$Delete_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'Sizes', {
+    get: PspUtilitySavedataMode$Sizes_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'AutoDelete', {
+    get: PspUtilitySavedataMode$AutoDelete_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'SingleDelete', {
+    get: PspUtilitySavedataMode$SingleDelete_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'List', {
+    get: PspUtilitySavedataMode$List_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'Files', {
+    get: PspUtilitySavedataMode$Files_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'MakeDataSecure', {
+    get: PspUtilitySavedataMode$MakeDataSecure_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'MakeData', {
+    get: PspUtilitySavedataMode$MakeData_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'ReadSecure', {
+    get: PspUtilitySavedataMode$ReadSecure_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'Read', {
+    get: PspUtilitySavedataMode$Read_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'WriteSecure', {
+    get: PspUtilitySavedataMode$WriteSecure_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'Write', {
+    get: PspUtilitySavedataMode$Write_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'EraseSecure', {
+    get: PspUtilitySavedataMode$EraseSecure_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'Erase', {
+    get: PspUtilitySavedataMode$Erase_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'DeleteData', {
+    get: PspUtilitySavedataMode$DeleteData_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'GetSize', {
+    get: PspUtilitySavedataMode$GetSize_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataMode, 'Companion', {
+    get: PspUtilitySavedataMode$Companion_getInstance
+  });
+  package$modules.PspUtilitySavedataMode = PspUtilitySavedataMode;
+  Object.defineProperty(PspUtilitySavedataFocus, 'PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN', {
+    get: PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataFocus, 'PSP_UTILITY_SAVEDATA_FOCUS_FIRSTLIST', {
+    get: PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_FIRSTLIST_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataFocus, 'PSP_UTILITY_SAVEDATA_FOCUS_LASTLIST', {
+    get: PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LASTLIST_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataFocus, 'PSP_UTILITY_SAVEDATA_FOCUS_LATEST', {
+    get: PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LATEST_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataFocus, 'PSP_UTILITY_SAVEDATA_FOCUS_OLDEST', {
+    get: PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_OLDEST_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataFocus, 'PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN2', {
+    get: PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN2_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataFocus, 'PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN3', {
+    get: PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_UNKNOWN3_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataFocus, 'PSP_UTILITY_SAVEDATA_FOCUS_FIRSTEMPTY', {
+    get: PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_FIRSTEMPTY_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataFocus, 'PSP_UTILITY_SAVEDATA_FOCUS_LASTEMPTY', {
+    get: PspUtilitySavedataFocus$PSP_UTILITY_SAVEDATA_FOCUS_LASTEMPTY_getInstance
+  });
+  Object.defineProperty(PspUtilitySavedataFocus, 'Companion', {
+    get: PspUtilitySavedataFocus$Companion_getInstance
+  });
+  package$modules.PspUtilitySavedataFocus = PspUtilitySavedataFocus;
+  Object.defineProperty(PspUtilityDialogCommon, 'Companion', {
+    get: PspUtilityDialogCommon$Companion_getInstance
+  });
+  package$modules.PspUtilityDialogCommon = PspUtilityDialogCommon;
+  Object.defineProperty(PspUtilitySavedataSFOParam, 'Companion', {
+    get: PspUtilitySavedataSFOParam$Companion_getInstance
+  });
+  package$modules.PspUtilitySavedataSFOParam = PspUtilitySavedataSFOParam;
+  Object.defineProperty(PspUtilitySavedataFileData, 'Companion', {
+    get: PspUtilitySavedataFileData$Companion_getInstance
+  });
+  package$modules.PspUtilitySavedataFileData = PspUtilitySavedataFileData;
+  Object.defineProperty(SceUtilitySavedataParam, 'Companion', {
+    get: SceUtilitySavedataParam$Companion_getInstance
+  });
+  package$modules.SceUtilitySavedataParam = SceUtilitySavedataParam;
+  Object.defineProperty(PspUtilityMsgDialogMode, 'PSP_UTILITY_MSGDIALOG_MODE_ERROR', {
+    get: PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_ERROR_getInstance
+  });
+  Object.defineProperty(PspUtilityMsgDialogMode, 'PSP_UTILITY_MSGDIALOG_MODE_TEXT', {
+    get: PspUtilityMsgDialogMode$PSP_UTILITY_MSGDIALOG_MODE_TEXT_getInstance
+  });
+  Object.defineProperty(PspUtilityMsgDialogMode, 'Companion', {
+    get: PspUtilityMsgDialogMode$Companion_getInstance
+  });
+  package$modules.PspUtilityMsgDialogMode = PspUtilityMsgDialogMode;
+  Object.defineProperty(PspUtilityMsgDialogOption, 'PSP_UTILITY_MSGDIALOG_OPTION_ERROR', {
+    get: PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_ERROR_getInstance
+  });
+  Object.defineProperty(PspUtilityMsgDialogOption, 'PSP_UTILITY_MSGDIALOG_OPTION_TEXT', {
+    get: PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_TEXT_getInstance
+  });
+  Object.defineProperty(PspUtilityMsgDialogOption, 'PSP_UTILITY_MSGDIALOG_OPTION_YESNO_BUTTONS', {
+    get: PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_YESNO_BUTTONS_getInstance
+  });
+  Object.defineProperty(PspUtilityMsgDialogOption, 'PSP_UTILITY_MSGDIALOG_OPTION_DEFAULT_NO', {
+    get: PspUtilityMsgDialogOption$PSP_UTILITY_MSGDIALOG_OPTION_DEFAULT_NO_getInstance
+  });
+  Object.defineProperty(PspUtilityMsgDialogOption, 'Companion', {
+    get: PspUtilityMsgDialogOption$Companion_getInstance
+  });
+  package$modules.PspUtilityMsgDialogOption = PspUtilityMsgDialogOption;
+  Object.defineProperty(PspUtilityMsgDialogPressed, 'PSP_UTILITY_MSGDIALOG_RESULT_UNKNOWN1', {
+    get: PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_UNKNOWN1_getInstance
+  });
+  Object.defineProperty(PspUtilityMsgDialogPressed, 'PSP_UTILITY_MSGDIALOG_RESULT_YES', {
+    get: PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_YES_getInstance
+  });
+  Object.defineProperty(PspUtilityMsgDialogPressed, 'PSP_UTILITY_MSGDIALOG_RESULT_NO', {
+    get: PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_NO_getInstance
+  });
+  Object.defineProperty(PspUtilityMsgDialogPressed, 'PSP_UTILITY_MSGDIALOG_RESULT_BACK', {
+    get: PspUtilityMsgDialogPressed$PSP_UTILITY_MSGDIALOG_RESULT_BACK_getInstance
+  });
+  Object.defineProperty(PspUtilityMsgDialogPressed, 'Companion', {
+    get: PspUtilityMsgDialogPressed$Companion_getInstance
+  });
+  package$modules.PspUtilityMsgDialogPressed = PspUtilityMsgDialogPressed;
+  Object.defineProperty(DialogStepEnum, 'NONE', {
+    get: DialogStepEnum$NONE_getInstance
+  });
+  Object.defineProperty(DialogStepEnum, 'INIT', {
+    get: DialogStepEnum$INIT_getInstance
+  });
+  Object.defineProperty(DialogStepEnum, 'PROCESSING', {
+    get: DialogStepEnum$PROCESSING_getInstance
+  });
+  Object.defineProperty(DialogStepEnum, 'SUCCESS', {
+    get: DialogStepEnum$SUCCESS_getInstance
+  });
+  Object.defineProperty(DialogStepEnum, 'SHUTDOWN', {
+    get: DialogStepEnum$SHUTDOWN_getInstance
+  });
+  Object.defineProperty(DialogStepEnum, 'Companion', {
+    get: DialogStepEnum$Companion_getInstance
+  });
+  package$modules.DialogStepEnum = DialogStepEnum;
+  Object.defineProperty(PspUtilityMsgDialogParams, 'Companion', {
+    get: PspUtilityMsgDialogParams$Companion_getInstance
+  });
+  package$modules.PspUtilityMsgDialogParams = PspUtilityMsgDialogParams;
+  package$modules.sceWlanDrv = sceWlanDrv;
   LibDoc.prototype.Entry = LibDoc$Entry;
   LibDoc.prototype.Function = LibDoc$Function;
   LibDoc.prototype.Variable = LibDoc$Variable;
@@ -35198,7 +41287,18 @@
   package$mem.NormalMemory = NormalMemory;
   package$mem.SmallMemory = SmallMemory;
   package$mem.PtrArray = PtrArray;
+  package$mem.Ptr32 = Ptr32;
   package$mem.Ptr = Ptr;
+  Object.defineProperty(package$mem, 'DummyPtr', {
+    get: DummyPtr_getInstance
+  });
+  package$mem.read_n8zybn$ = read;
+  package$mem.write_6lso8t$ = write;
+  package$mem.openSync_luvok3$ = openSync_1;
+  var package$util = package$kpspemu.util || (package$kpspemu.util = {});
+  package$util.read_316kh2$ = read_0;
+  package$util.write_qawobk$ = write_0;
+  package$mem.capture_r3ciq9$ = capture;
   package$mem.MemPtr = MemPtr;
   package$mem.array_jk65or$ = array;
   package$mem.ptr_w2yn32$ = ptr;
@@ -35207,12 +41307,13 @@
   package$mem.writeBytes_yjewl3$ = writeBytes;
   package$mem.readBytes_gdi75l$ = readBytes_1;
   package$mem.readStringz_3jkzkn$ = readStringz_2;
-  package$mem.openSync_luvok3$ = openSync_1;
   var package$native = package$kpspemu.native || (package$kpspemu.native = {});
   Object.defineProperty(package$native, 'CurrentVfs', {
     get: get_CurrentVfs
   });
-  var package$util = package$kpspemu.util || (package$kpspemu.util = {});
+  package$util.Resetable = Resetable;
+  package$util.PoolItem = PoolItem;
+  package$util.AsyncPool2 = AsyncPool2;
   package$util.currentTimeMicroInt_llmgxl$ = currentTimeMicroInt;
   package$util.currentTimeMicroDouble_llmgxl$ = currentTimeMicroDouble;
   package$util.currentTimeMicro_llmgxl$ = currentTimeMicro;
@@ -35221,6 +41322,30 @@
   package$util.millisecondsToMicroseconds_lmwxhz$ = millisecondsToMicroseconds_1;
   package$util.ResourceItem = ResourceItem;
   package$util.ResourceList = ResourceList;
+  Struct.Item = Struct$Item;
+  package$util.Struct = Struct;
+  package$util.AS_66kbsz$ = AS;
+  package$util.StructType = StructType;
+  Object.defineProperty(package$util, 'UINT8', {
+    get: UINT8_getInstance
+  });
+  Object.defineProperty(package$util, 'UINT16', {
+    get: UINT16_getInstance
+  });
+  Object.defineProperty(package$util, 'INT32', {
+    get: INT32_getInstance
+  });
+  Object.defineProperty(package$util, 'INT64', {
+    get: INT64_getInstance
+  });
+  Object.defineProperty(package$util, 'FLOAT32', {
+    get: FLOAT32_getInstance
+  });
+  package$util.STRINGZ_init_s8ev37$ = STRINGZ_init;
+  package$util.STRINGZ = STRINGZ;
+  package$util.ARRAY = ARRAY;
+  package$util.INTARRAY = INTARRAY;
+  package$util.INT32_ENUM = INT32_ENUM;
   var package$io = package$util.io || (package$util.io = {});
   package$io.IsoVfs2_phxig4$ = IsoVfs2;
   package$io.IsoVfs2_axnxby$ = IsoVfs2_0;
@@ -35270,12 +41395,12 @@
   package$io.MountableVfsSync_d8a1fi$ = MountableVfsSync;
   package$io.MountableSync = MountableSync;
   package$io.ZipVfs2_960o6l$ = ZipVfs2;
-  package$util.max_y2kzbl$ = max_0;
-  package$util.max_7b5o5w$ = max_1;
-  package$util.max_s2l86p$ = max_2;
-  package$util.max_qt1dr2$ = max_3;
-  package$util.max_tjonv8$ = max_4;
-  package$util.max_4qozqa$ = max_5;
+  package$util.max_y2kzbl$ = max_1;
+  package$util.max_7b5o5w$ = max_2;
+  package$util.max_s2l86p$ = max_3;
+  package$util.max_qt1dr2$ = max_4;
+  package$util.max_tjonv8$ = max_5;
+  package$util.max_4qozqa$ = max_6;
   Object.defineProperty(package$native, 'KPspEmuNative', {
     get: KPspEmuNative_getInstance
   });
@@ -35283,18 +41408,21 @@
   ElfSectionHeaderType.prototype.hasFlag_89au20$ = Flags.prototype.hasFlag_89au20$;
   ElfSectionHeaderFlags.prototype.hasFlag_89au20$ = Flags.prototype.hasFlag_89au20$;
   ThreadManForUser.prototype.sceKernelCreateEventFlag_93yirb$ = ThreadManForUser_EventFlags.prototype.sceKernelCreateEventFlag_93yirb$;
+  ThreadManForUser.prototype.getEventFlag_a5wnmx$_0 = ThreadManForUser_EventFlags.prototype.getEventFlag_a5wnmx$_0;
   ThreadManForUser.prototype.sceKernelPollEventFlag_iavwqw$ = ThreadManForUser_EventFlags.prototype.sceKernelPollEventFlag_iavwqw$;
+  ThreadManForUser.prototype.sceKernelSetEventFlag_nxvkaa$ = ThreadManForUser_EventFlags.prototype.sceKernelSetEventFlag_nxvkaa$;
+  ThreadManForUser.prototype.sceKernelDeleteEventFlag_ecxtkw$ = ThreadManForUser_EventFlags.prototype.sceKernelDeleteEventFlag_ecxtkw$;
   ThreadManForUser.prototype.sceKernelCancelEventFlag_nqu1l6$ = ThreadManForUser_EventFlags.prototype.sceKernelCancelEventFlag_nqu1l6$;
   ThreadManForUser.prototype.sceKernelReferEventFlagStatus_nqu1l6$ = ThreadManForUser_EventFlags.prototype.sceKernelReferEventFlagStatus_nqu1l6$;
-  ThreadManForUser.prototype.sceKernelSetEventFlag_nqu1l6$ = ThreadManForUser_EventFlags.prototype.sceKernelSetEventFlag_nqu1l6$;
   ThreadManForUser.prototype.sceKernelWaitEventFlagCB_nqu1l6$ = ThreadManForUser_EventFlags.prototype.sceKernelWaitEventFlagCB_nqu1l6$;
   ThreadManForUser.prototype.sceKernelWaitEventFlag_nqu1l6$ = ThreadManForUser_EventFlags.prototype.sceKernelWaitEventFlag_nqu1l6$;
   ThreadManForUser.prototype.sceKernelClearEventFlag_nqu1l6$ = ThreadManForUser_EventFlags.prototype.sceKernelClearEventFlag_nqu1l6$;
-  ThreadManForUser.prototype.sceKernelDeleteEventFlag_nqu1l6$ = ThreadManForUser_EventFlags.prototype.sceKernelDeleteEventFlag_nqu1l6$;
   ThreadManForUser.prototype.registerModuleEventFlags_i7y6ea$ = ThreadManForUser_EventFlags.prototype.registerModuleEventFlags_i7y6ea$;
+  DummyPtr.prototype.sdw_6svq3l$ = Ptr.prototype.sdw_6svq3l$;
+  DummyPtr.prototype.ldw_za3lpa$ = Ptr.prototype.ldw_za3lpa$;
   MemPtr.prototype.sdw_6svq3l$ = Ptr.prototype.sdw_6svq3l$;
   MemPtr.prototype.ldw_za3lpa$ = Ptr.prototype.ldw_za3lpa$;
-  KPSPEMU_VERSION = '0.3.1-SNAPSHOT';
+  KPSPEMU_VERSION = '0.3.2-SNAPSHOT';
   ADDR_TYPE_NONE = 0;
   ADDR_TYPE_REG = 1;
   ADDR_TYPE_16 = 2;

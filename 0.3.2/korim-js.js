@@ -1,8 +1,8 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd)
-    define(['exports', 'kotlin', 'korma-js', 'korio-js', 'kds-js', 'kmem-js'], factory);
+    define(['exports', 'kotlin', 'korma-js', 'korio-js', 'kds-js', 'kmem-js', 'klogger-js'], factory);
   else if (typeof exports === 'object')
-    factory(module.exports, require('kotlin'), require('korma-js'), require('korio-js'), require('kds-js'), require('kmem-js'));
+    factory(module.exports, require('kotlin'), require('korma-js'), require('korio-js'), require('kds-js'), require('kmem-js'), require('klogger-js'));
   else {
     if (typeof kotlin === 'undefined') {
       throw new Error("Error loading module 'korim-js'. Its dependency 'kotlin' was not found. Please, check whether 'kotlin' is loaded prior to 'korim-js'.");
@@ -19,9 +19,12 @@
     if (typeof this['kmem-js'] === 'undefined') {
       throw new Error("Error loading module 'korim-js'. Its dependency 'kmem-js' was not found. Please, check whether 'kmem-js' is loaded prior to 'korim-js'.");
     }
-    root['korim-js'] = factory(typeof this['korim-js'] === 'undefined' ? {} : this['korim-js'], kotlin, this['korma-js'], this['korio-js'], this['kds-js'], this['kmem-js']);
+    if (typeof this['klogger-js'] === 'undefined') {
+      throw new Error("Error loading module 'korim-js'. Its dependency 'klogger-js' was not found. Please, check whether 'klogger-js' is loaded prior to 'korim-js'.");
+    }
+    root['korim-js'] = factory(typeof this['korim-js'] === 'undefined' ? {} : this['korim-js'], kotlin, this['korma-js'], this['korio-js'], this['kds-js'], this['kmem-js'], this['klogger-js']);
   }
-}(this, function (_, Kotlin, $module$korma_js, $module$korio_js, $module$kds_js, $module$kmem_js) {
+}(this, function (_, Kotlin, $module$korma_js, $module$korio_js, $module$kds_js, $module$kmem_js, $module$klogger_js) {
   'use strict';
   var $$importsForInline$$ = _.$$importsForInline$$ || (_.$$importsForInline$$ = {});
   var Kind_OBJECT = Kotlin.Kind.OBJECT;
@@ -82,10 +85,10 @@
   var substr_0 = $module$korio_js.com.soywiz.korio.util.substr_qgyqat$;
   var toInt = Kotlin.kotlin.text.toInt_6ic1pp$;
   var toString = Kotlin.toString;
+  var format = $module$korio_js.com.soywiz.korio.lang.format_e33kwl$;
   var to = Kotlin.kotlin.to_ujzrz7$;
   var mapOf = Kotlin.kotlin.collections.mapOf_qfcya0$;
   var extract8 = $module$korio_js.com.soywiz.korio.util.extract8_dqglrj$;
-  var format = $module$korio_js.com.soywiz.korio.lang.format_e33kwl$;
   var get_niceStr_0 = $module$korio_js.com.soywiz.korio.util.get_niceStr_81szk$;
   var insert8 = $module$korio_js.com.soywiz.korio.util.insert8_e4yvb3$;
   var iterator = Kotlin.kotlin.text.iterator_gw00vp$;
@@ -161,10 +164,10 @@
   var Matrix2d = $module$korma_js.com.soywiz.korma.Matrix2d;
   var math = Kotlin.kotlin.math;
   var Rectangle = $module$korma_js.com.soywiz.korma.geom.Rectangle;
-  var DoubleArrayList = $module$korma_js.com.soywiz.korma.ds.DoubleArrayList;
-  var IntArrayList = $module$korma_js.com.soywiz.korma.ds.IntArrayList;
   var DoubleArrayList_init = $module$korma_js.com.soywiz.korma.ds.DoubleArrayList_init_hlrnxz$;
   var IntArrayList_init = $module$korma_js.com.soywiz.korma.ds.IntArrayList_init_d3xoud$;
+  var DoubleArrayList = $module$korma_js.com.soywiz.korma.ds.DoubleArrayList;
+  var IntArrayList = $module$korma_js.com.soywiz.korma.ds.IntArrayList;
   var LinkedList = $module$kds_js.com.soywiz.kds.LinkedList;
   var getPropertyCallableRef = Kotlin.getPropertyCallableRef;
   var VectorPath$Winding = $module$korma_js.com.soywiz.korma.geom.VectorPath.Winding;
@@ -174,18 +177,28 @@
   var linkedMapOf = Kotlin.kotlin.collections.linkedMapOf_qfcya0$;
   var mapOf_0 = Kotlin.kotlin.collections.mapOf_x2b85n$;
   var Matrix2d$Type = $module$korma_js.com.soywiz.korma.Matrix2d.Type;
+  var split = Kotlin.kotlin.text.split_o64adg$;
+  var repeat = Kotlin.kotlin.text.repeat_94bcnn$;
+  var endsWith = Kotlin.kotlin.text.endsWith_sgbm27$;
   var BoundsBuilder = $module$korma_js.com.soywiz.korma.geom.BoundsBuilder;
   var plus = Kotlin.kotlin.collections.plus_iwxh38$;
-  var endsWith = Kotlin.kotlin.text.endsWith_7epoxm$;
+  var endsWith_0 = Kotlin.kotlin.text.endsWith_7epoxm$;
   var toDouble = Kotlin.kotlin.text.toDouble_pdl1vz$;
   var Pair = Kotlin.kotlin.Pair;
+  var trim = Kotlin.kotlin.text.trim_wqw3xr$;
   var get_allChildren = $module$korio_js.com.soywiz.korio.serialization.xml.get_allChildren_ibjdnu$;
+  var get_isComment = $module$korio_js.com.soywiz.korio.serialization.xml.get_isComment_byavcz$;
   var StrReader = $module$korio_js.com.soywiz.korio.util.StrReader;
   var get_isNumeric = $module$korio_js.com.soywiz.korio.util.get_isNumeric_myv2d0$;
   var mapWhile = $module$kds_js.com.soywiz.kds.ext.mapWhile_sj71nh$;
   var ListReader = $module$kds_js.com.soywiz.kds.ListReader;
+  var toDoubleOrNull = Kotlin.kotlin.text.toDoubleOrNull_pdl1vz$;
   var isDigit = $module$korio_js.com.soywiz.korio.util.isDigit_myv2d0$;
+  var isLetterOrUnderscore = $module$korio_js.com.soywiz.korio.util.isLetterOrUnderscore_myv2d0$;
+  var Logger = $module$klogger_js.com.soywiz.klogger.Logger;
   var Xml_0 = $module$korio_js.com.soywiz.korio.serialization.xml.Xml_61zpoe$;
+  var Vector2 = $module$korma_js.com.soywiz.korma.Vector2;
+  var util = $module$korio_js.com.soywiz.korio.util;
   var LocalVfs = $module$korio_js.com.soywiz.korio.vfs.LocalVfs;
   var UrlVfs = $module$korio_js.com.soywiz.korio.vfs.UrlVfs;
   var VfsSpecialReader = $module$korio_js.com.soywiz.korio.vfs.VfsSpecialReader;
@@ -297,12 +310,12 @@
   Context2d$HorizontalAlign.prototype.constructor = Context2d$HorizontalAlign;
   Context2d$ScaleMode.prototype = Object.create(Enum.prototype);
   Context2d$ScaleMode.prototype.constructor = Context2d$ScaleMode;
+  Context2d$Gradient$Kind.prototype = Object.create(Enum.prototype);
+  Context2d$Gradient$Kind.prototype.constructor = Context2d$Gradient$Kind;
+  Context2d$Gradient$Units.prototype = Object.create(Enum.prototype);
+  Context2d$Gradient$Units.prototype.constructor = Context2d$Gradient$Units;
   Context2d$Gradient$InterpolationMethod.prototype = Object.create(Enum.prototype);
   Context2d$Gradient$InterpolationMethod.prototype.constructor = Context2d$Gradient$InterpolationMethod;
-  Context2d$LinearGradient.prototype = Object.create(Context2d$Gradient.prototype);
-  Context2d$LinearGradient.prototype.constructor = Context2d$LinearGradient;
-  Context2d$RadialGradient.prototype = Object.create(Context2d$Gradient.prototype);
-  Context2d$RadialGradient.prototype.constructor = Context2d$RadialGradient;
   GraphicsPath.prototype = Object.create(VectorPath.prototype);
   GraphicsPath.prototype.constructor = GraphicsPath;
   SVG$GradientUnits.prototype = Object.create(Enum.prototype);
@@ -1212,7 +1225,13 @@
   function NativeImage(width, height, data, premultiplied) {
     Bitmap.call(this, width, height, 32, premultiplied);
     this.data = data;
+    this.name_vm0j7s$_0 = 'NativeImage';
   }
+  Object.defineProperty(NativeImage.prototype, 'name', {
+    get: function () {
+      return this.name_vm0j7s$_0;
+    }
+  });
   NativeImage.prototype.swapRows_vux9f0$ = function (y0, y1) {
     throw new UnsupportedOperationException();
   };
@@ -2113,6 +2132,9 @@
   };
   NamedColors.prototype.toHtmlString_za3lpa$ = function (color) {
     return 'RGBA(' + toString(RGBA_getInstance().getR_za3lpa$(color)) + ',' + toString(RGBA_getInstance().getG_za3lpa$(color)) + ',' + toString(RGBA_getInstance().getB_za3lpa$(color)) + ',' + toString(RGBA_getInstance().getAf_za3lpa$(color)) + ')';
+  };
+  NamedColors.prototype.toHtmlStringSimple_za3lpa$ = function (color) {
+    return format('#%02x%02x%02x', [RGBA_getInstance().getR_za3lpa$(color), RGBA_getInstance().getG_za3lpa$(color), RGBA_getInstance().getB_za3lpa$(color)]);
   };
   NamedColors.$metadata$ = {
     kind: Kind_OBJECT,
@@ -6919,6 +6941,51 @@
       }
      while (true);
   };
+  function showImageAndWait_0(image_0, continuation_0, suspended) {
+    var instance = new Coroutine$showImageAndWait_0(image_0, continuation_0);
+    if (suspended)
+      return instance;
+    else
+      return instance.doResume(null);
+  }
+  function Coroutine$showImageAndWait_0(image_0, continuation_0) {
+    CoroutineImpl.call(this, continuation_0);
+    this.exceptionState_0 = 1;
+    this.local$image = image_0;
+  }
+  Coroutine$showImageAndWait_0.$metadata$ = {
+    kind: Kotlin.Kind.CLASS,
+    simpleName: null,
+    interfaces: [CoroutineImpl]
+  };
+  Coroutine$showImageAndWait_0.prototype = Object.create(CoroutineImpl.prototype);
+  Coroutine$showImageAndWait_0.prototype.constructor = Coroutine$showImageAndWait_0;
+  Coroutine$showImageAndWait_0.prototype.doResume = function () {
+    do
+      try {
+        switch (this.state_0) {
+          case 0:
+            this.state_0 = 2;
+            this.result_0 = showImageAndWait(render_0(this.local$image).toBmp32(), this);
+            if (this.result_0 === COROUTINE_SUSPENDED)
+              return COROUTINE_SUSPENDED;
+            break;
+          case 1:
+            throw this.exception_0;
+          case 2:
+            return;
+        }
+      }
+       catch (e) {
+        if (this.state_0 === 1)
+          throw e;
+        else {
+          this.state_0 = this.exceptionState_0;
+          this.exception_0 = e;
+        }
+      }
+     while (true);
+  };
   function showImagesAndWait(image_0, continuation_0, suspended) {
     var instance = new Coroutine$showImagesAndWait(image_0, continuation_0);
     if (suspended)
@@ -7755,18 +7822,18 @@
     SVG_instance = this;
     ImageFormat.call(this, ['svg']);
   }
-  var trim = Kotlin.kotlin.text.trim_gw00vp$;
+  var trim_0 = Kotlin.kotlin.text.trim_gw00vp$;
   SVG.prototype.decodeHeader_1ooaqm$$default = function (s, props) {
     var tmp$ = slice(s);
     var b = s.length.toInt();
     var $receiver = readString(tmp$, Math_0.min(100, b));
     var tmp$_0;
-    var start = trim(Kotlin.isCharSequence(tmp$_0 = $receiver) ? tmp$_0 : throwCCE()).toString().toLowerCase();
+    var start = trim_0(Kotlin.isCharSequence(tmp$_0 = $receiver) ? tmp$_0 : throwCCE()).toString().toLowerCase();
     try {
       if (startsWith(start, '<svg') || startsWith(start, '<?xml')) {
         var $receiver_0 = toString_0(readAll(slice(s)), lang.Charsets.UTF_8);
         var tmp$_1;
-        var content = trim(Kotlin.isCharSequence(tmp$_1 = $receiver_0) ? tmp$_1 : throwCCE()).toString();
+        var content = trim_0(Kotlin.isCharSequence(tmp$_1 = $receiver_0) ? tmp$_1 : throwCCE()).toString();
         var svg = SVG_init(content);
         var $receiver_1 = new ImageInfo();
         $receiver_1.width = svg.width;
@@ -7788,7 +7855,7 @@
   SVG.prototype.readImage_1ooaqm$$default = function (s, props) {
     var $receiver = toString_0(readAll(slice(s)), lang.Charsets.UTF_8);
     var tmp$;
-    var content = trim(Kotlin.isCharSequence(tmp$ = $receiver) ? tmp$ : throwCCE()).toString();
+    var content = trim_0(Kotlin.isCharSequence(tmp$ = $receiver) ? tmp$ : throwCCE()).toString();
     var svg = SVG_init(content);
     return new ImageData(listOf(new ImageFrame(render_0(svg).toBmp32())));
   };
@@ -8786,17 +8853,53 @@
   Context2d.prototype.circle_yvo9jy$ = function (x, y, radius) {
     this.arc_1lq62i$(x, y, radius, 0.0, math.PI * 2.0);
   };
+  Context2d.prototype.rMoveTo_lu1900$ = function (x, y) {
+    this.state.path.rMoveTo_lu1900$(x, y);
+  };
   Context2d.prototype.moveTo_lu1900$ = function (x, y) {
     this.state.path.moveTo_lu1900$(x, y);
+  };
+  Context2d.prototype.moveToH_14dthe$ = function (x) {
+    this.state.path.moveToH_14dthe$(x);
+  };
+  Context2d.prototype.moveToV_14dthe$ = function (y) {
+    this.state.path.moveToV_14dthe$(y);
+  };
+  Context2d.prototype.rMoveToH_14dthe$ = function (x) {
+    this.state.path.rMoveToH_14dthe$(x);
+  };
+  Context2d.prototype.rMoveToV_14dthe$ = function (y) {
+    this.state.path.rMoveToV_14dthe$(y);
+  };
+  Context2d.prototype.lineToH_14dthe$ = function (x) {
+    this.state.path.lineToH_14dthe$(x);
+  };
+  Context2d.prototype.lineToV_14dthe$ = function (y) {
+    this.state.path.lineToV_14dthe$(y);
+  };
+  Context2d.prototype.rLineToH_14dthe$ = function (x) {
+    this.state.path.rLineToH_14dthe$(x);
+  };
+  Context2d.prototype.rLineToV_14dthe$ = function (y) {
+    this.state.path.rLineToV_14dthe$(y);
   };
   Context2d.prototype.lineTo_lu1900$ = function (x, y) {
     this.state.path.lineTo_lu1900$(x, y);
   };
+  Context2d.prototype.rLineTo_lu1900$ = function (x, y) {
+    this.state.path.rLineTo_lu1900$(x, y);
+  };
   Context2d.prototype.quadraticCurveTo_6y0v78$ = function (cx, cy, ax, ay) {
     this.state.path.quadTo_6y0v78$(cx, cy, ax, ay);
   };
+  Context2d.prototype.rQuadraticCurveTo_6y0v78$ = function (cx, cy, ax, ay) {
+    this.state.path.rQuadTo_6y0v78$(cx, cy, ax, ay);
+  };
   Context2d.prototype.bezierCurveTo_15yvbs$ = function (cx1, cy1, cx2, cy2, x, y) {
     this.state.path.cubicTo_15yvbs$(cx1, cy1, cx2, cy2, x, y);
+  };
+  Context2d.prototype.rBezierCurveTo_15yvbs$ = function (cx1, cy1, cx2, cy2, x, y) {
+    this.state.path.rCubicTo_15yvbs$(cx1, cy1, cx2, cy2, x, y);
   };
   Context2d.prototype.rect_6y0v78$ = function (x, y, width, height) {
     this.state.path.rect_6y0v78$(x, y, width, height);
@@ -8826,6 +8929,11 @@
   };
   Context2d.prototype.beginPath = function () {
     this.state.path = new GraphicsPath();
+  };
+  Context2d.prototype.getBounds_2da8yn$ = function (out) {
+    if (out === void 0)
+      out = new Rectangle();
+    return this.state.path.getBounds_iqjpvb$(out);
   };
   Context2d.prototype.closePath = function () {
     this.state.path.close();
@@ -8895,10 +9003,10 @@
     }
   };
   Context2d.prototype.createLinearGradient_6y0v78$ = function (x0, y0, x1, y1) {
-    return new Context2d$LinearGradient(x0, y0, x1, y1);
+    return new Context2d$Gradient(Context2d$Gradient$Kind$LINEAR_getInstance(), x0, y0, 0.0, x1, y1, 0.0);
   };
   Context2d.prototype.createRadialGradient_15yvbs$ = function (x0, y0, r0, x1, y1, r1) {
-    return new Context2d$RadialGradient(x0, y0, r0, x1, y1, r1);
+    return new Context2d$Gradient(Context2d$Gradient$Kind$RADIAL_getInstance(), x0, y0, r0, x1, y1, r1);
   };
   Context2d.prototype.createColor_za3lpa$ = function (color) {
     return new Context2d$Color(color);
@@ -9057,20 +9165,32 @@
     simpleName: 'TransformedPaint',
     interfaces: [Context2d$Paint]
   };
-  function Context2d$Gradient(x0, y0, x1, y1, stops, colors, cycle, transform, interpolationMethod) {
+  function Context2d$Gradient(kind, x0, y0, r0, x1, y1, r1, stops, colors, cycle, transform, interpolationMethod, units) {
     if (stops === void 0)
       stops = new DoubleArrayList();
     if (colors === void 0)
       colors = new IntArrayList();
+    if (cycle === void 0)
+      cycle = Context2d$CycleMethod$NO_CYCLE_getInstance();
+    if (transform === void 0)
+      transform = new Matrix2d();
+    if (interpolationMethod === void 0)
+      interpolationMethod = Context2d$Gradient$InterpolationMethod$NORMAL_getInstance();
+    if (units === void 0)
+      units = Context2d$Gradient$Units$OBJECT_BOUNDING_BOX_getInstance();
+    this.kind = kind;
     this.x0 = x0;
     this.y0 = y0;
+    this.r0 = r0;
     this.x1 = x1;
     this.y1 = y1;
+    this.r1 = r1;
     this.stops = stops;
     this.colors = colors;
     this.cycle = cycle;
     this.transform_llmwna$_0 = transform;
     this.interpolationMethod = interpolationMethod;
+    this.units = units;
     this.numberOfStops = this.stops.size;
   }
   Object.defineProperty(Context2d$Gradient.prototype, 'transform', {
@@ -9078,6 +9198,86 @@
       return this.transform_llmwna$_0;
     }
   });
+  function Context2d$Gradient$Kind(name, ordinal) {
+    Enum.call(this);
+    this.name$ = name;
+    this.ordinal$ = ordinal;
+  }
+  function Context2d$Gradient$Kind_initFields() {
+    Context2d$Gradient$Kind_initFields = function () {
+    };
+    Context2d$Gradient$Kind$LINEAR_instance = new Context2d$Gradient$Kind('LINEAR', 0);
+    Context2d$Gradient$Kind$RADIAL_instance = new Context2d$Gradient$Kind('RADIAL', 1);
+  }
+  var Context2d$Gradient$Kind$LINEAR_instance;
+  function Context2d$Gradient$Kind$LINEAR_getInstance() {
+    Context2d$Gradient$Kind_initFields();
+    return Context2d$Gradient$Kind$LINEAR_instance;
+  }
+  var Context2d$Gradient$Kind$RADIAL_instance;
+  function Context2d$Gradient$Kind$RADIAL_getInstance() {
+    Context2d$Gradient$Kind_initFields();
+    return Context2d$Gradient$Kind$RADIAL_instance;
+  }
+  Context2d$Gradient$Kind.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'Kind',
+    interfaces: [Enum]
+  };
+  function Context2d$Gradient$Kind$values() {
+    return [Context2d$Gradient$Kind$LINEAR_getInstance(), Context2d$Gradient$Kind$RADIAL_getInstance()];
+  }
+  Context2d$Gradient$Kind.values = Context2d$Gradient$Kind$values;
+  function Context2d$Gradient$Kind$valueOf(name) {
+    switch (name) {
+      case 'LINEAR':
+        return Context2d$Gradient$Kind$LINEAR_getInstance();
+      case 'RADIAL':
+        return Context2d$Gradient$Kind$RADIAL_getInstance();
+      default:throwISE('No enum constant com.soywiz.korim.vector.Context2d.Gradient.Kind.' + name);
+    }
+  }
+  Context2d$Gradient$Kind.valueOf_61zpoe$ = Context2d$Gradient$Kind$valueOf;
+  function Context2d$Gradient$Units(name, ordinal) {
+    Enum.call(this);
+    this.name$ = name;
+    this.ordinal$ = ordinal;
+  }
+  function Context2d$Gradient$Units_initFields() {
+    Context2d$Gradient$Units_initFields = function () {
+    };
+    Context2d$Gradient$Units$USER_SPACE_ON_USE_instance = new Context2d$Gradient$Units('USER_SPACE_ON_USE', 0);
+    Context2d$Gradient$Units$OBJECT_BOUNDING_BOX_instance = new Context2d$Gradient$Units('OBJECT_BOUNDING_BOX', 1);
+  }
+  var Context2d$Gradient$Units$USER_SPACE_ON_USE_instance;
+  function Context2d$Gradient$Units$USER_SPACE_ON_USE_getInstance() {
+    Context2d$Gradient$Units_initFields();
+    return Context2d$Gradient$Units$USER_SPACE_ON_USE_instance;
+  }
+  var Context2d$Gradient$Units$OBJECT_BOUNDING_BOX_instance;
+  function Context2d$Gradient$Units$OBJECT_BOUNDING_BOX_getInstance() {
+    Context2d$Gradient$Units_initFields();
+    return Context2d$Gradient$Units$OBJECT_BOUNDING_BOX_instance;
+  }
+  Context2d$Gradient$Units.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'Units',
+    interfaces: [Enum]
+  };
+  function Context2d$Gradient$Units$values() {
+    return [Context2d$Gradient$Units$USER_SPACE_ON_USE_getInstance(), Context2d$Gradient$Units$OBJECT_BOUNDING_BOX_getInstance()];
+  }
+  Context2d$Gradient$Units.values = Context2d$Gradient$Units$values;
+  function Context2d$Gradient$Units$valueOf(name) {
+    switch (name) {
+      case 'USER_SPACE_ON_USE':
+        return Context2d$Gradient$Units$USER_SPACE_ON_USE_getInstance();
+      case 'OBJECT_BOUNDING_BOX':
+        return Context2d$Gradient$Units$OBJECT_BOUNDING_BOX_getInstance();
+      default:throwISE('No enum constant com.soywiz.korim.vector.Context2d.Gradient.Units.' + name);
+    }
+  }
+  Context2d$Gradient$Units.valueOf_61zpoe$ = Context2d$Gradient$Units$valueOf;
   function Context2d$Gradient$InterpolationMethod(name, ordinal) {
     Enum.call(this);
     this.name$ = name;
@@ -9123,60 +9323,85 @@
     this.colors.plusAssign_za3lpa$(color);
     return this;
   };
+  Context2d$Gradient.prototype.applyMatrix_yx07kl$ = function (m) {
+    return new Context2d$Gradient(this.kind, m.transformX_lu1900$(this.x0, this.y0), m.transformY_lu1900$(this.x0, this.y0), this.r0, m.transformX_lu1900$(this.x1, this.y1), m.transformY_lu1900$(this.x1, this.y1), this.r1, DoubleArrayList_init(this.stops), IntArrayList_init(this.colors), this.cycle, new Matrix2d(), this.interpolationMethod, this.units);
+  };
+  Context2d$Gradient.prototype.toString = function () {
+    var tmp$;
+    tmp$ = this.kind;
+    if (equals(tmp$, Context2d$Gradient$Kind$LINEAR_getInstance()))
+      return 'LinearGradient(' + this.x0 + ', ' + this.y0 + ', ' + this.x1 + ', ' + this.y1 + ', ' + this.stops + ', ' + this.colors + ')';
+    else if (equals(tmp$, Context2d$Gradient$Kind$RADIAL_getInstance()))
+      return 'RadialGradient(' + this.x0 + ', ' + this.y0 + ', ' + this.r0 + ', ' + this.x1 + ', ' + this.y1 + ', ' + this.r1 + ', ' + this.stops + ', ' + this.colors + ')';
+    else
+      return Kotlin.noWhenBranchMatched();
+  };
   Context2d$Gradient.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'Gradient',
     interfaces: [Context2d$TransformedPaint]
   };
-  function Context2d$LinearGradient(x0, y0, x1, y1, stops, colors, cycle, transform, interpolationMethod) {
-    if (stops === void 0)
-      stops = new DoubleArrayList();
-    if (colors === void 0)
-      colors = new IntArrayList();
-    if (cycle === void 0)
-      cycle = Context2d$CycleMethod$NO_CYCLE_getInstance();
-    if (transform === void 0)
-      transform = new Matrix2d();
-    if (interpolationMethod === void 0)
-      interpolationMethod = Context2d$Gradient$InterpolationMethod$NORMAL_getInstance();
-    Context2d$Gradient.call(this, x0, y0, x1, y1, stops, colors, cycle, transform, interpolationMethod);
-  }
-  Context2d$LinearGradient.prototype.applyMatrix_yx07kl$ = function (m) {
-    return new Context2d$LinearGradient(m.transformX_lu1900$(this.x0, this.y0), m.transformY_lu1900$(this.x0, this.y0), m.transformX_lu1900$(this.x1, this.y1), m.transformY_lu1900$(this.x1, this.y1), DoubleArrayList_init(this.stops), IntArrayList_init(this.colors));
+  Context2d$Gradient.prototype.component1 = function () {
+    return this.kind;
   };
-  Context2d$LinearGradient.prototype.toString = function () {
-    return 'LinearGradient(' + this.x0 + ', ' + this.y0 + ', ' + this.x1 + ', ' + this.y1 + ', ' + this.stops + ', ' + this.colors + ')';
+  Context2d$Gradient.prototype.component2 = function () {
+    return this.x0;
   };
-  Context2d$LinearGradient.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'LinearGradient',
-    interfaces: [Context2d$Gradient]
+  Context2d$Gradient.prototype.component3 = function () {
+    return this.y0;
   };
-  function Context2d$RadialGradient(x0, y0, r0, x1, y1, r1, stops, colors, cycle, transform, interpolationMethod) {
-    if (stops === void 0)
-      stops = new DoubleArrayList();
-    if (colors === void 0)
-      colors = new IntArrayList();
-    if (cycle === void 0)
-      cycle = Context2d$CycleMethod$NO_CYCLE_getInstance();
-    if (transform === void 0)
-      transform = new Matrix2d();
-    if (interpolationMethod === void 0)
-      interpolationMethod = Context2d$Gradient$InterpolationMethod$NORMAL_getInstance();
-    Context2d$Gradient.call(this, x0, y0, x1, y1, stops, colors, cycle, transform, interpolationMethod);
-    this.r0 = r0;
-    this.r1 = r1;
-  }
-  Context2d$RadialGradient.prototype.applyMatrix_yx07kl$ = function (m) {
-    return new Context2d$RadialGradient(m.transformX_lu1900$(this.x0, this.y0), m.transformY_lu1900$(this.x0, this.y0), this.r0, m.transformX_lu1900$(this.x1, this.y1), m.transformY_lu1900$(this.x1, this.y1), this.r1, DoubleArrayList_init(this.stops), IntArrayList_init(this.colors));
+  Context2d$Gradient.prototype.component4 = function () {
+    return this.r0;
   };
-  Context2d$RadialGradient.prototype.toString = function () {
-    return 'RadialGradient(' + this.x0 + ', ' + this.y0 + ', ' + this.r0 + ', ' + this.x1 + ', ' + this.y1 + ', ' + this.r1 + ', ' + this.stops + ', ' + this.colors + ')';
+  Context2d$Gradient.prototype.component5 = function () {
+    return this.x1;
   };
-  Context2d$RadialGradient.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'RadialGradient',
-    interfaces: [Context2d$Gradient]
+  Context2d$Gradient.prototype.component6 = function () {
+    return this.y1;
+  };
+  Context2d$Gradient.prototype.component7 = function () {
+    return this.r1;
+  };
+  Context2d$Gradient.prototype.component8 = function () {
+    return this.stops;
+  };
+  Context2d$Gradient.prototype.component9 = function () {
+    return this.colors;
+  };
+  Context2d$Gradient.prototype.component10 = function () {
+    return this.cycle;
+  };
+  Context2d$Gradient.prototype.component11 = function () {
+    return this.transform;
+  };
+  Context2d$Gradient.prototype.component12 = function () {
+    return this.interpolationMethod;
+  };
+  Context2d$Gradient.prototype.component13 = function () {
+    return this.units;
+  };
+  Context2d$Gradient.prototype.copy_27q4tg$ = function (kind, x0, y0, r0, x1, y1, r1, stops, colors, cycle, transform, interpolationMethod, units) {
+    return new Context2d$Gradient(kind === void 0 ? this.kind : kind, x0 === void 0 ? this.x0 : x0, y0 === void 0 ? this.y0 : y0, r0 === void 0 ? this.r0 : r0, x1 === void 0 ? this.x1 : x1, y1 === void 0 ? this.y1 : y1, r1 === void 0 ? this.r1 : r1, stops === void 0 ? this.stops : stops, colors === void 0 ? this.colors : colors, cycle === void 0 ? this.cycle : cycle, transform === void 0 ? this.transform : transform, interpolationMethod === void 0 ? this.interpolationMethod : interpolationMethod, units === void 0 ? this.units : units);
+  };
+  Context2d$Gradient.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.kind) | 0;
+    result = result * 31 + Kotlin.hashCode(this.x0) | 0;
+    result = result * 31 + Kotlin.hashCode(this.y0) | 0;
+    result = result * 31 + Kotlin.hashCode(this.r0) | 0;
+    result = result * 31 + Kotlin.hashCode(this.x1) | 0;
+    result = result * 31 + Kotlin.hashCode(this.y1) | 0;
+    result = result * 31 + Kotlin.hashCode(this.r1) | 0;
+    result = result * 31 + Kotlin.hashCode(this.stops) | 0;
+    result = result * 31 + Kotlin.hashCode(this.colors) | 0;
+    result = result * 31 + Kotlin.hashCode(this.cycle) | 0;
+    result = result * 31 + Kotlin.hashCode(this.transform) | 0;
+    result = result * 31 + Kotlin.hashCode(this.interpolationMethod) | 0;
+    result = result * 31 + Kotlin.hashCode(this.units) | 0;
+    return result;
+  };
+  Context2d$Gradient.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && (Kotlin.equals(this.kind, other.kind) && Kotlin.equals(this.x0, other.x0) && Kotlin.equals(this.y0, other.y0) && Kotlin.equals(this.r0, other.r0) && Kotlin.equals(this.x1, other.x1) && Kotlin.equals(this.y1, other.y1) && Kotlin.equals(this.r1, other.r1) && Kotlin.equals(this.stops, other.stops) && Kotlin.equals(this.colors, other.colors) && Kotlin.equals(this.cycle, other.cycle) && Kotlin.equals(this.transform, other.transform) && Kotlin.equals(this.interpolationMethod, other.interpolationMethod) && Kotlin.equals(this.units, other.units)))));
   };
   function Context2d$BitmapPaint(bitmap, transform, repeat, smooth) {
     if (repeat === void 0)
@@ -9421,16 +9646,49 @@
     }
     return block$result;
   }
-  function toSvgPathString$fixX($receiver) {
-    return get_niceStr_1($receiver);
+  var get_lastIndex = Kotlin.kotlin.collections.get_lastIndex_55thoc$;
+  function toString_1($receiver, dplaces, skipTrailingZeros) {
+    if (skipTrailingZeros === void 0)
+      skipTrailingZeros = false;
+    var res = $receiver.toString();
+    var parts = split(res, Kotlin.charArrayOf(46), void 0, 2);
+    var integral = 0 >= 0 && 0 <= get_lastIndex(parts) ? parts.get_za3lpa$(0) : '0';
+    var decimal = 1 >= 0 && 1 <= get_lastIndex(parts) ? parts.get_za3lpa$(1) : '1';
+    if (dplaces === 0)
+      return integral;
+    var out = integral + '.' + substr_0(decimal + repeat('0', dplaces), 0, dplaces);
+    if (skipTrailingZeros) {
+      while (endsWith(out, 48)) {
+        var $receiver_0 = out;
+        var endIndex = out.length - 1 | 0;
+        out = $receiver_0.substring(0, endIndex);
+      }
+      if (endsWith(out, 46)) {
+        var $receiver_1 = out;
+        var endIndex_0 = out.length - 1 | 0;
+        out = $receiver_1.substring(0, endIndex_0);
+      }
+    }
+    return out;
   }
-  function toSvgPathString$fixY($receiver) {
-    return get_niceStr_1($receiver);
+  function toSvgPathString$fixX(closure$decimalPlaces) {
+    return function ($receiver) {
+      return toString_1($receiver, closure$decimalPlaces, true);
+    };
   }
-  function toSvgPathString($receiver) {
+  function toSvgPathString$fixY(closure$decimalPlaces) {
+    return function ($receiver) {
+      return toString_1($receiver, closure$decimalPlaces, true);
+    };
+  }
+  function toSvgPathString($receiver, separator, decimalPlaces) {
+    if (separator === void 0)
+      separator = ' ';
+    if (decimalPlaces === void 0)
+      decimalPlaces = 1;
     var parts = ArrayList_init();
-    var fixX = toSvgPathString$fixX;
-    var fixY = toSvgPathString$fixY;
+    var fixX = toSvgPathString$fixX(decimalPlaces);
+    var fixY = toSvgPathString$fixY(decimalPlaces);
     var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13;
     var n = 0;
     tmp$ = $receiver.commands.iterator();
@@ -9547,36 +9805,40 @@
     return 'rgba(' + r + ',' + g + ',' + b + ',' + af + ')';
   }
   function toSvg_1($receiver, svg) {
+    var tmp$;
     var id = svg.defs.size;
     if (Kotlin.isType($receiver, Context2d$Gradient)) {
       var $receiver_0 = until(0, $receiver.numberOfStops);
       var destination = ArrayList_init(collectionSizeOrDefault($receiver_0, 10));
-      var tmp$;
-      tmp$ = $receiver_0.iterator();
-      while (tmp$.hasNext()) {
-        var item = tmp$.next();
-        var tmp$_0 = destination.add_11rb$;
+      var tmp$_0;
+      tmp$_0 = $receiver_0.iterator();
+      while (tmp$_0.hasNext()) {
+        var item = tmp$_0.next();
+        var tmp$_1 = destination.add_11rb$;
         var ratio = $receiver.stops.get_za3lpa$(item);
         var color = $receiver.colors.get_za3lpa$(item);
-        tmp$_0.call(destination, Xml.Companion.Tag_imnfz6$('stop', mapOf([to('offset', (ratio * 100).toString() + '%'), to('stop-color', colorToSvg(color))]), emptyList()));
+        tmp$_1.call(destination, Xml.Companion.Tag_imnfz6$('stop', mapOf([to('offset', (ratio * 100).toString() + '%'), to('stop-color', colorToSvg(color))]), emptyList()));
       }
       var stops = destination;
-      if (Kotlin.isType($receiver, Context2d$LinearGradient)) {
-        var $receiver_1 = svg.defs;
-        var element = Xml.Companion.Tag_imnfz6$('linearGradient', mapOf([to('id', 'def' + id), to('x1', $receiver.x0.toString()), to('y1', $receiver.y0.toString()), to('x2', $receiver.x1.toString()), to('y2', $receiver.y1.toString()), to('gradientTransform', toSvg($receiver.transform))]), stops);
-        $receiver_1.add_11rb$(element);
-      }
-       else if (Kotlin.isType($receiver, Context2d$RadialGradient)) {
-        var $receiver_2 = svg.defs;
-        var element_0 = Xml.Companion.Tag_imnfz6$('radialGradient', mapOf([to('id', 'def' + id), to('cx', $receiver.x0.toString()), to('cy', $receiver.y0.toString()), to('fx', $receiver.x1.toString()), to('fy', $receiver.y1.toString()), to('r', $receiver.r1.toString()), to('gradientTransform', toSvg($receiver.transform))]), stops);
-        $receiver_2.add_11rb$(element_0);
+      if (Kotlin.isType($receiver, Context2d$Gradient)) {
+        tmp$ = $receiver.kind;
+        if (equals(tmp$, Context2d$Gradient$Kind$LINEAR_getInstance())) {
+          var $receiver_1 = svg.defs;
+          var element = Xml.Companion.Tag_imnfz6$('linearGradient', mapOf([to('id', 'def' + id), to('x1', $receiver.x0.toString()), to('y1', $receiver.y0.toString()), to('x2', $receiver.x1.toString()), to('y2', $receiver.y1.toString()), to('gradientTransform', toSvg($receiver.transform))]), stops);
+          $receiver_1.add_11rb$(element);
+        }
+         else if (equals(tmp$, Context2d$Gradient$Kind$RADIAL_getInstance())) {
+          var $receiver_2 = svg.defs;
+          var element_0 = Xml.Companion.Tag_imnfz6$('radialGradient', mapOf([to('id', 'def' + id), to('cx', $receiver.x0.toString()), to('cy', $receiver.y0.toString()), to('fx', $receiver.x1.toString()), to('fy', $receiver.y1.toString()), to('r', $receiver.r1.toString()), to('gradientTransform', toSvg($receiver.transform))]), stops);
+          $receiver_2.add_11rb$(element_0);
+        }
       }
       return 'url(#def' + id + ')';
     }
      else if (Kotlin.isType($receiver, Context2d$BitmapPaint)) {
-      var tmp$_1 = svg.defs;
+      var tmp$_2 = svg.defs;
       var element_1 = Xml.Companion.Tag_imnfz6$('pattern', mapOf([to('id', 'def' + id), to('patternUnits', 'userSpaceOnUse'), to('width', $receiver.bitmap.width.toString()), to('height', $receiver.bitmap.height.toString()), to('patternTransform', toSvg($receiver.transform))]), listOf(Xml.Companion.Tag_imnfz6$('image', mapOf([to('xlink:href', toUri($receiver.bitmap)), to('width', $receiver.bitmap.width.toString()), to('height', $receiver.bitmap.height.toString())]), emptyList())));
-      tmp$_1.add_11rb$(element_1);
+      tmp$_2.add_11rb$(element_1);
       return 'url(#def' + id + ')';
     }
      else if (Kotlin.isType($receiver, Context2d$Color))
@@ -9788,24 +10050,45 @@
   };
   var HashMap_init = Kotlin.kotlin.collections.HashMap_init_q3lmfv$;
   function SVG_0(root) {
+    SVG$Companion_getInstance();
     this.root = root;
+    this.logger = Logger.Companion.invoke_61zpoe$('SVG');
     this.x = this.root.int_bm4lxs$('x', 0);
     this.y = this.root.int_bm4lxs$('y', 0);
-    this.width_q93f0k$_0 = this.root.int_bm4lxs$('width', 128);
-    this.height_tn4usr$_0 = this.root.int_bm4lxs$('height', 128);
+    this.dwidth = this.root.double_io5o9c$('width', 128.0);
+    this.dheight = this.root.double_io5o9c$('height', 128.0);
     var tmp$;
-    this.viewBox = (tmp$ = this.root.getString_61zpoe$('viewBox')) != null ? tmp$ : '0 0 ' + this.width + ' ' + this.height;
+    this.viewBox = (tmp$ = this.root.getString_61zpoe$('viewBox')) != null ? tmp$ : '0 0 ' + this.dwidth + ' ' + this.dheight;
+    var $receiver = split(this.viewBox, Kotlin.charArrayOf(32));
+    var destination = ArrayList_init(collectionSizeOrDefault($receiver, 10));
+    var tmp$_0;
+    tmp$_0 = $receiver.iterator();
+    while (tmp$_0.hasNext()) {
+      var item = tmp$_0.next();
+      var tmp$_1 = destination.add_11rb$;
+      var throwCCE = Kotlin.throwCCE;
+      var trim = Kotlin.kotlin.text.trim_gw00vp$;
+      var tmp$_2;
+      var tmp$_3;
+      tmp$_1.call(destination, (tmp$_2 = toDoubleOrNull(trim(Kotlin.isCharSequence(tmp$_3 = item) ? tmp$_3 : throwCCE()).toString())) != null ? tmp$_2 : 0.0);
+    }
+    this.viewBoxNumbers = destination;
+    var $receiver_0 = this.viewBoxNumbers;
+    var $receiver_1 = this.viewBoxNumbers;
+    var $receiver_2 = this.viewBoxNumbers;
+    var $receiver_3 = this.viewBoxNumbers;
+    this.viewBoxRectangle = new Rectangle(0 >= 0 && 0 <= get_lastIndex($receiver_0) ? $receiver_0.get_za3lpa$(0) : 0.0, 1 >= 0 && 1 <= get_lastIndex($receiver_1) ? $receiver_1.get_za3lpa$(1) : 0.0, 2 >= 0 && 2 <= get_lastIndex($receiver_2) ? $receiver_2.get_za3lpa$(2) : this.dwidth, 3 >= 0 && 3 <= get_lastIndex($receiver_3) ? $receiver_3.get_za3lpa$(3) : this.dheight);
     this.defs = HashMap_init();
     this.parseDefs();
   }
   Object.defineProperty(SVG_0.prototype, 'width', {
     get: function () {
-      return this.width_q93f0k$_0;
+      return numberToInt(this.viewBoxRectangle.width);
     }
   });
   Object.defineProperty(SVG_0.prototype, 'height', {
     get: function () {
-      return this.height_tn4usr$_0;
+      return numberToInt(this.viewBoxRectangle.height);
     }
   });
   function SVG$Style() {
@@ -9858,7 +10141,7 @@
   SVG$GradientUnits.valueOf_61zpoe$ = SVG$GradientUnits$valueOf;
   SVG_0.prototype.parsePercent_61zpoe$ = function (str) {
     var tmp$;
-    if (endsWith(str, '%')) {
+    if (endsWith_0(str, '%')) {
       tmp$ = toDouble(substr_0(str, 0, -1)) / 100.0;
     }
      else {
@@ -9881,7 +10164,7 @@
     return out;
   };
   SVG_0.prototype.parseDef_473e7m$ = function (def) {
-    var tmp$, tmp$_0;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2;
     var type = def.nameLC;
     if (equals(type, 'lineargradient') || equals(type, 'radialgradient')) {
       var id = def.str_puj7f4$('id').toLowerCase();
@@ -9890,21 +10173,34 @@
       var x1 = def.double_io5o9c$('x2', 1.0);
       var y1 = def.double_io5o9c$('y2', 1.0);
       var stops = this.parseStops_473e7m$(def);
+      var href = def.strNull_61zpoe$('xlink:href');
       if (equals(type, 'lineargradient')) {
-        tmp$ = new Context2d$LinearGradient(x0, y0, x1, y1);
+        tmp$ = new Context2d$Gradient(Context2d$Gradient$Kind$LINEAR_getInstance(), x0, y0, 0.0, x1, y1, 0.0);
       }
        else {
         var r0 = def.double_io5o9c$('r0', 0.0);
         var r1 = def.double_io5o9c$('r1', 0.0);
-        tmp$ = new Context2d$RadialGradient(x0, y0, r0, x1, y1, r1);
+        tmp$ = new Context2d$Gradient(Context2d$Gradient$Kind$RADIAL_getInstance(), x0, y0, r0, x1, y1, r1);
       }
       var g = tmp$;
-      tmp$_0 = stops.iterator();
-      while (tmp$_0.hasNext()) {
-        var tmp$_1 = tmp$_0.next();
-        var offset = tmp$_1.component1()
-        , color = tmp$_1.component2();
+      if ((tmp$_0 = def.strNull_61zpoe$('xlink:href')) != null) {
+        var tmp$_3;
+        var id_0 = trim(tmp$_0, Kotlin.charArrayOf(35));
+        var original = (tmp$_3 = this.defs.get_11rb$(id_0)) == null || Kotlin.isType(tmp$_3, Context2d$Gradient) ? tmp$_3 : null;
+        if (original != null) {
+          g.stops.add_hlrnxz$(original.stops);
+          g.colors.add_d3xoud$(original.colors);
+        }
+      }
+      tmp$_1 = stops.iterator();
+      while (tmp$_1.hasNext()) {
+        var tmp$_4 = tmp$_1.next();
+        var offset = tmp$_4.component1()
+        , color = tmp$_4.component2();
         g.addColorStop_12fank$(offset, color);
+      }
+      if ((tmp$_2 = def.getString_61zpoe$('gradientTransform')) != null) {
+        g.transform.premultiply_7f5bc6$(this.parseTransform_61zpoe$(tmp$_2));
       }
       this.defs.put_xwzc9p$(id, g);
     }
@@ -9915,7 +10211,16 @@
   };
   SVG_0.prototype.parseDefs = function () {
     var tmp$;
-    tmp$ = get_allChildren(this.root.get_61zpoe$('defs')).iterator();
+    var $receiver = get_allChildren(this.root.get_61zpoe$('defs'));
+    var destination = ArrayList_init();
+    var tmp$_0;
+    tmp$_0 = $receiver.iterator();
+    while (tmp$_0.hasNext()) {
+      var element = tmp$_0.next();
+      if (!get_isComment(element))
+        destination.add_11rb$(element);
+    }
+    tmp$ = destination.iterator();
     while (tmp$.hasNext()) {
       var def = tmp$.next();
       this.parseDef_473e7m$(def);
@@ -10031,22 +10336,61 @@
       return out;
     };
   }
-  function SVG$drawElement$lambda$readNumber($receiver) {
-    var $this = $receiver.skipSpaces();
-    var tmp$;
-    var start = $this.pos;
-    while (true) {
-      var tmp$_0 = $this.hasMore;
-      if (tmp$_0) {
-        var it = $this.peekChar();
-        tmp$_0 = isDigit(unboxChar(it)) || unboxChar(it) === 45 || unboxChar(it) === 46;
+  var LogLevel = $module$klogger_js.com.soywiz.klogger.LogLevel;
+  function SVG$drawElement$lambda$dumpTokens(closure$tokens, this$SVG, this$) {
+    return function () {
+      var closure$tokens_0 = closure$tokens;
+      var this$SVG_0 = this$SVG;
+      var tmp$;
+      tmp$ = withIndex_0(closure$tokens_0).iterator();
+      while (tmp$.hasNext()) {
+        var tmp$_0 = tmp$.next();
+        var n = tmp$_0.component1()
+        , token = tmp$_0.component2();
+        var $this = this$SVG_0.logger;
+        var level = LogLevel.WARN;
+        if (level.index <= $this.processedLevel.index) {
+          $this.processedOutput.output_k2sdp4$($this, level, '- ' + n + ': ' + token);
+        }
       }
-      if (!tmp$_0)
-        break;
-      $this.readChar();
-    }
-    var end = $this.pos;
-    return toDouble((tmp$ = end > start ? $this.slice_vux9f0$(start, end) : null) != null ? tmp$ : '');
+    };
+  }
+  function SVG$drawElement$lambda$isNextNumber(closure$tl) {
+    return function () {
+      return closure$tl.hasMore ? Kotlin.isType(closure$tl.peek(), SVG$PathTokenNumber) : false;
+    };
+  }
+  function SVG$drawElement$lambda$readNumber(closure$tl, this$SVG, closure$dumpTokens) {
+    return function () {
+      while (closure$tl.hasMore) {
+        var token = closure$tl.read();
+        if (Kotlin.isType(token, SVG$PathTokenNumber))
+          return token.value;
+        var $this = this$SVG.logger;
+        var level = LogLevel.WARN;
+        if (level.index <= $this.processedLevel.index) {
+          $this.processedOutput.output_k2sdp4$($this, level, 'Invalid path (expected number but found ' + token + ') at ' + (closure$tl.position - 1 | 0));
+        }
+        closure$dumpTokens();
+      }
+      return 0.0;
+    };
+  }
+  function SVG$drawElement$lambda$readNextTokenCmd(closure$tl, this$SVG, closure$dumpTokens) {
+    return function () {
+      while (closure$tl.hasMore) {
+        var token = closure$tl.read();
+        if (Kotlin.isType(token, SVG$PathTokenCmd))
+          return unboxChar(token.id);
+        var $this = this$SVG.logger;
+        var level = LogLevel.WARN;
+        if (level.index <= $this.processedLevel.index) {
+          $this.processedOutput.output_k2sdp4$($this, level, 'Invalid path (expected command but found ' + token + ') at ' + (closure$tl.position - 1 | 0));
+        }
+        closure$dumpTokens();
+      }
+      return null;
+    };
   }
   var Context2d$keepApply$lambda$lambda = wrapFunction(function () {
     return function (closure$callback, this$) {
@@ -10073,7 +10417,7 @@
   SVG_0.prototype.drawElement_97uusy$ = function (xml, c) {
     c.save();
     try {
-      var tmp$, tmp$_0;
+      var tmp$, tmp$_0, tmp$_1;
       var bounds = new Rectangle();
       var nodeName = xml.nameLC;
       if (!equals(nodeName, '_text_'))
@@ -10131,47 +10475,83 @@
             c.fillText_ai6r6m$(xml.text, xml.double_io5o9c$('x') + xml.double_io5o9c$('dx'), xml.double_io5o9c$('y') + xml.double_io5o9c$('dy'));
           else if (equals(nodeName, 'path')) {
             var d = xml.str_puj7f4$('d');
-            var dr = new StrReader(d);
-            var readNumber = SVG$drawElement$lambda$readNumber;
-            var path_0 = new GraphicsPath();
-            while (!dr.eof) {
-              dr.skipSpaces();
-              var cmd = unboxChar(dr.read());
-              if (cmd === 77)
-                path_0.moveTo_lu1900$(readNumber(dr), readNumber(dr));
-              else if (cmd === 109)
-                path_0.rMoveTo_lu1900$(readNumber(dr), readNumber(dr));
-              else if (cmd === 76)
-                path_0.lineTo_lu1900$(readNumber(dr), readNumber(dr));
+            var tokens = SVG$Companion_getInstance().tokenizePath_61zpoe$(d);
+            var tl = new ListReader(tokens);
+            var dumpTokens = SVG$drawElement$lambda$dumpTokens(tokens, this, c);
+            var isNextNumber = SVG$drawElement$lambda$isNextNumber(tl);
+            var readNumber = SVG$drawElement$lambda$readNumber(tl, this, dumpTokens);
+            var readNextTokenCmd = SVG$drawElement$lambda$readNextTokenCmd(tl, this, dumpTokens);
+            c.beginPath();
+            while (tl.hasMore) {
+              tmp$ = readNextTokenCmd();
+              if (tmp$ == null) {
+                break;
+              }
+              var cmd = tmp$;
+              if (cmd === 77) {
+                c.moveTo_lu1900$(readNumber(), readNumber());
+                while (isNextNumber())
+                  c.lineTo_lu1900$(readNumber(), readNumber());
+              }
+               else if (cmd === 109) {
+                c.rMoveTo_lu1900$(readNumber(), readNumber());
+                while (isNextNumber())
+                  c.rLineTo_lu1900$(readNumber(), readNumber());
+              }
+               else if (cmd === 76)
+                while (isNextNumber())
+                  c.lineTo_lu1900$(readNumber(), readNumber());
               else if (cmd === 108)
-                path_0.rLineTo_lu1900$(readNumber(dr), readNumber(dr));
-              else if (cmd === 81)
-                path_0.quadTo_6y0v78$(readNumber(dr), readNumber(dr), readNumber(dr), readNumber(dr));
-              else if (cmd === 113)
-                path_0.rQuadTo_6y0v78$(readNumber(dr), readNumber(dr), readNumber(dr), readNumber(dr));
-              else if (cmd === 67)
-                path_0.cubicTo_15yvbs$(readNumber(dr), readNumber(dr), readNumber(dr), readNumber(dr), readNumber(dr), readNumber(dr));
-              else if (cmd === 99)
-                path_0.rCubicTo_15yvbs$(readNumber(dr), readNumber(dr), readNumber(dr), readNumber(dr), readNumber(dr), readNumber(dr));
+                while (isNextNumber())
+                  c.rLineTo_lu1900$(readNumber(), readNumber());
               else if (cmd === 72)
-                path_0.moveToH_14dthe$(readNumber(dr));
+                while (isNextNumber())
+                  c.lineToH_14dthe$(readNumber());
               else if (cmd === 104)
-                path_0.rMoveToH_14dthe$(readNumber(dr));
+                while (isNextNumber())
+                  c.rLineToH_14dthe$(readNumber());
               else if (cmd === 86)
-                path_0.moveToV_14dthe$(readNumber(dr));
+                while (isNextNumber())
+                  c.lineToV_14dthe$(readNumber());
               else if (cmd === 118)
-                path_0.rMoveToV_14dthe$(readNumber(dr));
+                while (isNextNumber())
+                  c.rLineToV_14dthe$(readNumber());
+              else if (cmd === 81)
+                while (isNextNumber())
+                  c.quadraticCurveTo_6y0v78$(readNumber(), readNumber(), readNumber(), readNumber());
+              else if (cmd === 113)
+                while (isNextNumber())
+                  c.rQuadraticCurveTo_6y0v78$(readNumber(), readNumber(), readNumber(), readNumber());
+              else if (cmd === 67)
+                while (isNextNumber())
+                  c.bezierCurveTo_15yvbs$(readNumber(), readNumber(), readNumber(), readNumber(), readNumber(), readNumber());
+              else if (cmd === 99)
+                while (isNextNumber())
+                  c.rBezierCurveTo_15yvbs$(readNumber(), readNumber(), readNumber(), readNumber(), readNumber(), readNumber());
               else if (cmd === 90)
-                path_0.close();
+                c.closePath();
               else if (cmd === 122)
-                path_0.close();
+                c.closePath();
               else {
-                throw new NotImplementedError_init('An operation is not implemented: ' + ('Unsupported ' + String.fromCharCode(cmd)));
+                throw new NotImplementedError_init('An operation is not implemented: ' + ("Unsupported command '" + String.fromCharCode(cmd) + "' : Parsed: '" + toSvgPathString(c.state.path) + "', Original: '" + d + "'"));
               }
             }
-            path_0.getBounds_iqjpvb$(bounds);
-            c.beginPath();
-            c.path_lcui0n$(path_0);
+            var $this = this.logger;
+            var level = LogLevel.TRACE;
+            if (level.index <= $this.processedLevel.index) {
+              $this.processedOutput.output_k2sdp4$($this, level, "Parsed SVG Path: '" + toSvgPathString(c.state.path) + "'");
+            }
+            var $this_0 = this.logger;
+            var level_0 = LogLevel.TRACE;
+            if (level_0.index <= $this_0.processedLevel.index) {
+              $this_0.processedOutput.output_k2sdp4$($this_0, level_0, "Original SVG Path: '" + d + "'");
+            }
+            var $this_1 = this.logger;
+            var level_1 = LogLevel.TRACE;
+            if (level_1.index <= $this_1.processedLevel.index) {
+              $this_1.processedOutput.output_k2sdp4$($this_1, level_1, 'Points: ' + c.state.path.getPoints());
+            }
+            c.getBounds_2da8yn$(bounds);
           }
       if (xml.hasAttribute_61zpoe$('stroke-width')) {
         c.lineWidth = xml.double_io5o9c$('stroke-width', 1.0);
@@ -10179,26 +10559,31 @@
       if (xml.hasAttribute_61zpoe$('stroke')) {
         c.strokeStyle = this.parseFillStroke_vgfctv$(c, xml.str_puj7f4$('stroke'), bounds);
       }
-      if (xml.hasAttribute_61zpoe$('fill')) {
-        c.fillStyle = this.parseFillStroke_vgfctv$(c, xml.str_puj7f4$('fill'), bounds);
-      }
+      if (xml.hasAttribute_61zpoe$('fill'))
+        this.applyFill_vgfctv$(c, xml.str_puj7f4$('fill'), bounds);
       if (xml.hasAttribute_61zpoe$('font-size')) {
         c.font = c.font.copy_io5o9c$(void 0, xml.double_io5o9c$('font-size'));
       }
       if (xml.hasAttribute_61zpoe$('font-family')) {
         c.font = c.font.copy_io5o9c$(xml.str_puj7f4$('font-family'));
       }
+      if (xml.hasAttribute_61zpoe$('style')) {
+        this.applyStyle_0(c, SVG$SvgStyle$Companion_getInstance().parse_61zpoe$(xml.str_puj7f4$('style')), bounds);
+      }
+      if (xml.hasAttribute_61zpoe$('transform')) {
+        this.applyTransform_0(c.state, this.parseTransform_61zpoe$(xml.str_puj7f4$('transform')));
+      }
       if (xml.hasAttribute_61zpoe$('text-anchor')) {
-        tmp$ = xml.str_puj7f4$('text-anchor').toLowerCase();
-        if (equals(tmp$, 'left'))
-          tmp$_0 = Context2d$HorizontalAlign$LEFT_getInstance();
-        else if (equals(tmp$, 'center') || equals(tmp$, 'middle'))
-          tmp$_0 = Context2d$HorizontalAlign$CENTER_getInstance();
-        else if (equals(tmp$, 'right'))
-          tmp$_0 = Context2d$HorizontalAlign$RIGHT_getInstance();
+        tmp$_0 = xml.str_puj7f4$('text-anchor').toLowerCase();
+        if (equals(tmp$_0, 'left'))
+          tmp$_1 = Context2d$HorizontalAlign$LEFT_getInstance();
+        else if (equals(tmp$_0, 'center') || equals(tmp$_0, 'middle'))
+          tmp$_1 = Context2d$HorizontalAlign$CENTER_getInstance();
+        else if (equals(tmp$_0, 'right'))
+          tmp$_1 = Context2d$HorizontalAlign$RIGHT_getInstance();
         else
-          tmp$_0 = c.horizontalAlign;
-        c.horizontalAlign = tmp$_0;
+          tmp$_1 = c.horizontalAlign;
+        c.horizontalAlign = tmp$_1;
       }
       if (xml.hasAttribute_61zpoe$('fill-opacity')) {
         c.globalAlpha = xml.double_io5o9c$('fill-opacity', 1.0);
@@ -10212,6 +10597,345 @@
     }
     return c;
   };
+  SVG_0.prototype.applyFill_vgfctv$ = function (c, str, bounds) {
+    c.fillStyle = this.parseFillStroke_vgfctv$(c, str, bounds);
+  };
+  SVG_0.prototype.applyTransform_0 = function (state, transform) {
+    state.transform.premultiply_7f5bc6$(transform);
+  };
+  SVG_0.prototype.applyStyle_0 = function (c, style, bounds) {
+    var tmp$;
+    tmp$ = style.styles.entries.iterator();
+    while (tmp$.hasNext()) {
+      var tmp$_0 = tmp$.next();
+      var k = tmp$_0.key;
+      var v = tmp$_0.value;
+      if (equals(k, 'fill'))
+        this.applyFill_vgfctv$(c, v, bounds);
+      else {
+        var $this = this.logger;
+        var level = LogLevel.WARN;
+        if (level.index <= $this.processedLevel.index) {
+          $this.processedOutput.output_k2sdp4$($this, level, 'Unsupported style ' + k + ' in css');
+        }
+      }
+    }
+  };
+  function SVG$parseTransform$double(closure$doubleArgs) {
+    return function (index) {
+      var $receiver = closure$doubleArgs;
+      return index >= 0 && index <= get_lastIndex($receiver) ? $receiver.get_za3lpa$(index) : 0.0;
+    };
+  }
+  SVG_0.prototype.parseTransform_61zpoe$ = function (str) {
+    var tokens = SVG$SvgStyle$Companion_getInstance().tokenize_61zpoe$(str);
+    var tr = new ListReader(tokens);
+    var out = new Matrix2d();
+    while (tr.hasMore) {
+      var id = tr.read().toLowerCase();
+      var args = ArrayList_init();
+      if (equals(tr.peek(), '(')) {
+        tr.read();
+        while (true) {
+          if (equals(tr.peek(), ')')) {
+            tr.read();
+            break;
+          }
+          if (equals(tr.peek(), ',')) {
+            tr.read();
+            continue;
+          }
+          var element = tr.read();
+          args.add_11rb$(element);
+        }
+      }
+      var destination = ArrayList_init(collectionSizeOrDefault(args, 10));
+      var tmp$;
+      tmp$ = args.iterator();
+      while (tmp$.hasNext()) {
+        var item = tmp$.next();
+        var tmp$_0;
+        destination.add_11rb$((tmp$_0 = toDoubleOrNull(item)) != null ? tmp$_0 : 0.0);
+      }
+      var doubleArgs = destination;
+      var double = SVG$parseTransform$double(doubleArgs);
+      if (equals(id, 'translate'))
+        out.pretranslate_lu1900$(double(0), double(1));
+      else if (equals(id, 'scale'))
+        out.prescale_lu1900$(double(0), double(1));
+      else if (equals(id, 'matrix'))
+        out.premultiply_15yvbs$(double(0), double(1), double(2), double(3), double(4), double(5));
+      else
+        invalidOp('Unsupported transform ' + id + ' : ' + args + ' : ' + doubleArgs + ' (' + str + ')');
+    }
+    return out;
+  };
+  function SVG$Companion() {
+    SVG$Companion_instance = this;
+  }
+  function SVG$Companion$tokenizePath$skipSeparators($receiver) {
+    while (true) {
+      var tmp$ = $receiver.hasMore;
+      if (tmp$) {
+        var it = $receiver.peekChar();
+        tmp$ = unboxChar(it) === 44 || unboxChar(it) === 32 || unboxChar(it) === 9 || unboxChar(it) === 10 || unboxChar(it) === 13;
+      }
+      if (!tmp$)
+        break;
+      $receiver.readChar();
+    }
+  }
+  function SVG$Companion$tokenizePath$readNumber(closure$skipSeparators) {
+    return function ($receiver) {
+      var tmp$;
+      closure$skipSeparators($receiver);
+      var first = {v: true};
+      var tmp$_0;
+      var start = $receiver.pos;
+      while (true) {
+        var tmp$_1 = $receiver.hasMore;
+        if (tmp$_1) {
+          var it = $receiver.peekChar();
+          var filter$result;
+          if (first.v) {
+            first.v = false;
+            filter$result = isDigit(unboxChar(it)) || unboxChar(it) === 45 || unboxChar(it) === 43;
+          }
+           else {
+            filter$result = isDigit(unboxChar(it)) || unboxChar(it) === 46;
+          }
+          tmp$_1 = filter$result;
+        }
+        if (!tmp$_1)
+          break;
+        $receiver.readChar();
+      }
+      var end = $receiver.pos;
+      var str = (tmp$_0 = end > start ? $receiver.slice_vux9f0$(start, end) : null) != null ? tmp$_0 : '';
+      if (str.length === 0)
+        tmp$ = 0.0;
+      else
+        try {
+          tmp$ = toDouble(str);
+        }
+         catch (e) {
+          if (Kotlin.isType(e, Throwable)) {
+            printStackTrace(e);
+            tmp$ = 0.0;
+          }
+           else
+            throw e;
+        }
+      return tmp$;
+    };
+  }
+  SVG$Companion.prototype.tokenizePath_61zpoe$ = function (str) {
+    var sr = new StrReader(str);
+    var skipSeparators = SVG$Companion$tokenizePath$skipSeparators;
+    var readNumber = SVG$Companion$tokenizePath$readNumber(skipSeparators);
+    var out = ArrayList_init();
+    while (sr.hasMore) {
+      skipSeparators(sr);
+      var c = unboxChar(sr.peekChar());
+      if ((new CharRange(48, 57)).contains_mef7kx$(c) || c === 45 || c === 43) {
+        var element = new SVG$PathTokenNumber(readNumber(sr));
+        out.add_11rb$(element);
+      }
+       else {
+        var element_0 = new SVG$PathTokenCmd(unboxChar(sr.readChar()));
+        out.add_11rb$(element_0);
+      }
+    }
+    return out;
+  };
+  SVG$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: []
+  };
+  var SVG$Companion_instance = null;
+  function SVG$Companion_getInstance() {
+    if (SVG$Companion_instance === null) {
+      new SVG$Companion();
+    }
+    return SVG$Companion_instance;
+  }
+  function SVG$PathToken() {
+  }
+  SVG$PathToken.$metadata$ = {
+    kind: Kind_INTERFACE,
+    simpleName: 'PathToken',
+    interfaces: []
+  };
+  function SVG$PathTokenNumber(value) {
+    this.value = value;
+  }
+  SVG$PathTokenNumber.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PathTokenNumber',
+    interfaces: [SVG$PathToken]
+  };
+  SVG$PathTokenNumber.prototype.component1 = function () {
+    return this.value;
+  };
+  SVG$PathTokenNumber.prototype.copy_14dthe$ = function (value) {
+    return new SVG$PathTokenNumber(value === void 0 ? this.value : value);
+  };
+  SVG$PathTokenNumber.prototype.toString = function () {
+    return 'PathTokenNumber(value=' + Kotlin.toString(this.value) + ')';
+  };
+  SVG$PathTokenNumber.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.value) | 0;
+    return result;
+  };
+  SVG$PathTokenNumber.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && Kotlin.equals(this.value, other.value))));
+  };
+  function SVG$PathTokenCmd(id) {
+    this.id = id;
+  }
+  SVG$PathTokenCmd.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'PathTokenCmd',
+    interfaces: [SVG$PathToken]
+  };
+  SVG$PathTokenCmd.prototype.component1 = function () {
+    return this.id;
+  };
+  SVG$PathTokenCmd.prototype.copy_s8itvh$ = function (id) {
+    return new SVG$PathTokenCmd(id === void 0 ? this.id : id);
+  };
+  SVG$PathTokenCmd.prototype.toString = function () {
+    return 'PathTokenCmd(id=' + Kotlin.toString(this.id) + ')';
+  };
+  SVG$PathTokenCmd.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.id) | 0;
+    return result;
+  };
+  SVG$PathTokenCmd.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && Kotlin.equals(this.id, other.id))));
+  };
+  function SVG$SvgStyle(styles) {
+    SVG$SvgStyle$Companion_getInstance();
+    if (styles === void 0) {
+      styles = HashMap_init();
+    }
+    this.styles = styles;
+  }
+  function SVG$SvgStyle$Companion() {
+    SVG$SvgStyle$Companion_instance = this;
+    this.logger = Logger.Companion.invoke_61zpoe$('SVG');
+  }
+  SVG$SvgStyle$Companion.prototype.tokenize_61zpoe$ = function (str) {
+    var sr = new StrReader(str);
+    var out = ArrayList_init();
+    while (sr.hasMore) {
+      while (true) {
+        sr.skipSpaces();
+        var tmp$;
+        var start = sr.pos;
+        while (true) {
+          var tmp$_0 = sr.hasMore;
+          if (tmp$_0) {
+            var it = sr.peekChar();
+            tmp$_0 = isLetterOrUnderscore(unboxChar(it)) || get_isNumeric(unboxChar(it)) || unboxChar(it) === 45 || unboxChar(it) === 35;
+          }
+          if (!tmp$_0)
+            break;
+          sr.readChar();
+        }
+        var end = sr.pos;
+        var id = (tmp$ = end > start ? sr.slice_vux9f0$(start, end) : null) != null ? tmp$ : '';
+        if (id.length > 0) {
+          out.add_11rb$(id);
+        }
+         else {
+          break;
+        }
+      }
+      if (sr.eof)
+        break;
+      sr.skipSpaces();
+      var symbol = unboxChar(sr.read());
+      var element = String.fromCharCode(symbol);
+      out.add_11rb$(element);
+    }
+    return out;
+  };
+  SVG$SvgStyle$Companion.prototype.readId_mr88w2$ = function ($receiver) {
+    return $receiver.read();
+  };
+  SVG$SvgStyle$Companion.prototype.readColon_mr88w2$ = function ($receiver) {
+    return expect($receiver, ':');
+  };
+  SVG$SvgStyle$Companion.prototype.readExpression_mr88w2$ = function ($receiver) {
+    return $receiver.read();
+  };
+  SVG$SvgStyle$Companion.prototype.parse_61zpoe$ = function (str) {
+    var tokens = this.tokenize_61zpoe$(str);
+    var tr = new ListReader(tokens);
+    var style = new SVG$SvgStyle();
+    while (tr.hasMore) {
+      var id = this.readId_mr88w2$(tr);
+      if (tr.eof) {
+        var $this = this.logger;
+        var level = LogLevel.ERROR;
+        if (level.index <= $this.processedLevel.index) {
+          $this.processedOutput.output_k2sdp4$($this, level, "EOF. Parsing (ID='" + id + "'): '" + str + "', " + tokens);
+        }
+        break;
+      }
+      this.readColon_mr88w2$(tr);
+      var rexpr = ArrayList_init();
+      while (tr.hasMore && !equals(tr.peek(), ';')) {
+        var element = this.readExpression_mr88w2$(tr);
+        rexpr.add_11rb$(element);
+      }
+      var tmp$ = style.styles;
+      var key = id.toLowerCase();
+      var value = joinToString(rexpr, '');
+      tmp$.put_xwzc9p$(key, value);
+      if (tr.hasMore)
+        expect(tr, ';');
+    }
+    return style;
+  };
+  SVG$SvgStyle$Companion.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'Companion',
+    interfaces: []
+  };
+  var SVG$SvgStyle$Companion_instance = null;
+  function SVG$SvgStyle$Companion_getInstance() {
+    if (SVG$SvgStyle$Companion_instance === null) {
+      new SVG$SvgStyle$Companion();
+    }
+    return SVG$SvgStyle$Companion_instance;
+  }
+  SVG$SvgStyle.$metadata$ = {
+    kind: Kind_CLASS,
+    simpleName: 'SvgStyle',
+    interfaces: []
+  };
+  SVG$SvgStyle.prototype.component1 = function () {
+    return this.styles;
+  };
+  SVG$SvgStyle.prototype.copy_gtra9a$ = function (styles) {
+    return new SVG$SvgStyle(styles === void 0 ? this.styles : styles);
+  };
+  SVG$SvgStyle.prototype.toString = function () {
+    return 'SvgStyle(styles=' + Kotlin.toString(this.styles) + ')';
+  };
+  SVG$SvgStyle.prototype.hashCode = function () {
+    var result = 0;
+    result = result * 31 + Kotlin.hashCode(this.styles) | 0;
+    return result;
+  };
+  SVG$SvgStyle.prototype.equals = function (other) {
+    return this === other || (other !== null && (typeof other === 'object' && (Object.getPrototypeOf(this) === Object.getPrototypeOf(other) && Kotlin.equals(this.styles, other.styles))));
+  };
   SVG_0.$metadata$ = {
     kind: Kind_CLASS,
     simpleName: 'SVG',
@@ -10221,6 +10945,54 @@
     $this = $this || Object.create(SVG_0.prototype);
     SVG_0.call($this, Xml_0(str));
     return $this;
+  }
+  function expect($receiver, value) {
+    var v = $receiver.read();
+    if (!equals(v, value))
+      invalidOp("Expecting '" + value + "' but found '" + v + "'");
+    return v;
+  }
+  function getPoints($receiver) {
+    var points = ArrayList_init();
+    var tmp$, tmp$_0, tmp$_1, tmp$_2, tmp$_3, tmp$_4, tmp$_5, tmp$_6, tmp$_7, tmp$_8, tmp$_9, tmp$_10, tmp$_11, tmp$_12, tmp$_13;
+    var n = 0;
+    tmp$ = $receiver.commands.iterator();
+    while (tmp$.hasNext()) {
+      var cmd = tmp$.next();
+      if (cmd === VectorPath.Command.MOVE_TO) {
+        var x = $receiver.data.get_za3lpa$((tmp$_0 = n, n = tmp$_0 + 1 | 0, tmp$_0));
+        var y = $receiver.data.get_za3lpa$((tmp$_1 = n, n = tmp$_1 + 1 | 0, tmp$_1));
+        var element = new Vector2(x, y);
+        points.add_11rb$(element);
+      }
+       else if (cmd === VectorPath.Command.LINE_TO) {
+        var x_0 = $receiver.data.get_za3lpa$((tmp$_2 = n, n = tmp$_2 + 1 | 0, tmp$_2));
+        var y_0 = $receiver.data.get_za3lpa$((tmp$_3 = n, n = tmp$_3 + 1 | 0, tmp$_3));
+        var element_0 = new Vector2(x_0, y_0);
+        points.add_11rb$(element_0);
+      }
+       else if (cmd === VectorPath.Command.QUAD_TO) {
+        var x1 = $receiver.data.get_za3lpa$((tmp$_4 = n, n = tmp$_4 + 1 | 0, tmp$_4));
+        var y1 = $receiver.data.get_za3lpa$((tmp$_5 = n, n = tmp$_5 + 1 | 0, tmp$_5));
+        var x2 = $receiver.data.get_za3lpa$((tmp$_6 = n, n = tmp$_6 + 1 | 0, tmp$_6));
+        var y2 = $receiver.data.get_za3lpa$((tmp$_7 = n, n = tmp$_7 + 1 | 0, tmp$_7));
+        var element_1 = new Vector2(x2, y2);
+        points.add_11rb$(element_1);
+      }
+       else if (cmd === VectorPath.Command.BEZIER_TO) {
+        var x1_0 = $receiver.data.get_za3lpa$((tmp$_8 = n, n = tmp$_8 + 1 | 0, tmp$_8));
+        var y1_0 = $receiver.data.get_za3lpa$((tmp$_9 = n, n = tmp$_9 + 1 | 0, tmp$_9));
+        var x2_0 = $receiver.data.get_za3lpa$((tmp$_10 = n, n = tmp$_10 + 1 | 0, tmp$_10));
+        var y2_0 = $receiver.data.get_za3lpa$((tmp$_11 = n, n = tmp$_11 + 1 | 0, tmp$_11));
+        var x3 = $receiver.data.get_za3lpa$((tmp$_12 = n, n = tmp$_12 + 1 | 0, tmp$_12));
+        var y3 = $receiver.data.get_za3lpa$((tmp$_13 = n, n = tmp$_13 + 1 | 0, tmp$_13));
+        var element_2 = new Vector2(x3, y3);
+        points.add_11rb$(element_2);
+      }
+       else
+        VectorPath.Command.CLOSE;
+    }
+    return points;
   }
   function NativeImageSpecialReader() {
     NativeImageSpecialReader_instance = this;
@@ -10248,11 +11020,37 @@
     }
     return NativeImageSpecialReader_instance;
   }
+  function HtmlCanvas() {
+    HtmlCanvas_instance = this;
+  }
+  HtmlCanvas.prototype.createCanvas_vux9f0$ = function (width, height) {
+    if (util.OS.isNodejs) {
+      return new (require('canvas'))(width, height);
+    }
+     else {
+      var out = document.createElement('canvas');
+      out.width = width;
+      out.height = height;
+      return out;
+    }
+  };
+  HtmlCanvas.$metadata$ = {
+    kind: Kind_OBJECT,
+    simpleName: 'HtmlCanvas',
+    interfaces: []
+  };
+  var HtmlCanvas_instance = null;
+  function HtmlCanvas_getInstance() {
+    if (HtmlCanvas_instance === null) {
+      new HtmlCanvas();
+    }
+    return HtmlCanvas_instance;
+  }
   function HtmlImage() {
     HtmlImage_instance = this;
   }
   HtmlImage.prototype.createHtmlCanvas_vux9f0$ = function (width, height) {
-    var canvas = document.createElement('canvas');
+    var canvas = HtmlCanvas_getInstance().createCanvas_vux9f0$(width, height);
     canvas.width = width;
     canvas.height = height;
     return canvas;
@@ -10504,10 +11302,7 @@
      while (true);
   };
   NativeImageFormatProvider.prototype.create_vux9f0$ = function (width, height) {
-    var canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = height;
-    return new CanvasNativeImage(canvas);
+    return new CanvasNativeImage(HtmlCanvas_getInstance().createCanvas_vux9f0$(width, height));
   };
   NativeImageFormatProvider.prototype.copy_uler2c$ = function (bmp) {
     return new CanvasNativeImage(HtmlImage_getInstance().bitmapToHtmlCanvas_59u9qz$(bmp.toBMP32()));
@@ -10604,18 +11399,28 @@
       }
      while (true);
   };
-  function NativeImageFormatProvider$BrowserImage$loadImage$lambda$lambda(closure$img, closure$c) {
+  function NativeImageFormatProvider$BrowserImage$loadImage$lambda$lambda(closure$c) {
+    return function (v) {
+      closure$c.resume_11rb$(v);
+      return Unit;
+    };
+  }
+  function NativeImageFormatProvider$BrowserImage$loadImage$lambda$lambda_0(closure$c) {
+    return function (v) {
+      closure$c.resumeWithException_tcv7n7$(v);
+      return Unit;
+    };
+  }
+  function NativeImageFormatProvider$BrowserImage$loadImage$lambda$lambda_1(closure$img, closure$c) {
     return function (it) {
-      var canvas = document.createElement('canvas');
-      canvas.width = closure$img.width;
-      canvas.height = closure$img.height;
+      var canvas = HtmlCanvas_getInstance().createCanvas_vux9f0$(closure$img.width, closure$img.height);
       var ctx = canvas.getContext('2d');
       ctx.drawImage(closure$img, 0.0, 0.0);
       closure$c.resume_11rb$(canvas);
       return Unit;
     };
   }
-  function NativeImageFormatProvider$BrowserImage$loadImage$lambda$lambda_0(closure$c) {
+  function NativeImageFormatProvider$BrowserImage$loadImage$lambda$lambda_2(closure$c) {
     return function (f, f_0, f_1, f_2, f_3) {
       closure$c.resumeWithException_tcv7n7$(new RuntimeException('error loading image'));
       return Unit;
@@ -10623,10 +11428,15 @@
   }
   function NativeImageFormatProvider$BrowserImage$loadImage$lambda(closure$jsUrl) {
     return function (c) {
-      var img = new Image();
-      img.onload = NativeImageFormatProvider$BrowserImage$loadImage$lambda$lambda(img, c);
-      img.onerror = NativeImageFormatProvider$BrowserImage$loadImage$lambda$lambda_0(c);
-      img.src = closure$jsUrl;
+      if (util.OS.isNodejs) {
+        require('canvas').loadImage(closure$jsUrl).then(NativeImageFormatProvider$BrowserImage$loadImage$lambda$lambda(c), NativeImageFormatProvider$BrowserImage$loadImage$lambda$lambda_0(c));
+      }
+       else {
+        var img = document.createElement('image');
+        img.onload = NativeImageFormatProvider$BrowserImage$loadImage$lambda$lambda_1(img, c);
+        img.onerror = NativeImageFormatProvider$BrowserImage$loadImage$lambda$lambda_2(c);
+        img.src = closure$jsUrl;
+      }
       return Unit;
     };
   }
@@ -10697,36 +11507,41 @@
     }
   });
   CanvasContext2dRenderer.prototype.toJsStr_2y61xz$ = function ($receiver) {
-    var tmp$, tmp$_0, tmp$_1;
+    var tmp$, tmp$_0, tmp$_1, tmp$_2;
     if (Kotlin.isType($receiver, Context2d$None))
-      tmp$_1 = 'none';
+      tmp$_2 = 'none';
     else if (Kotlin.isType($receiver, Context2d$Color))
-      tmp$_1 = NamedColors_getInstance().toHtmlString_za3lpa$($receiver.color);
-    else if (Kotlin.isType($receiver, Context2d$LinearGradient)) {
-      var grad = this.ctx.createLinearGradient($receiver.x0, $receiver.y0, $receiver.x1, $receiver.y1);
-      tmp$ = $receiver.stops.size;
-      for (var n = 0; n < tmp$; n++) {
-        var stop = $receiver.stops.get_za3lpa$(n);
-        var color = $receiver.colors.get_za3lpa$(n);
-        grad.addColorStop(stop, NamedColors_getInstance().toHtmlString_za3lpa$(color));
+      tmp$_2 = NamedColors_getInstance().toHtmlStringSimple_za3lpa$($receiver.color);
+    else if (Kotlin.isType($receiver, Context2d$Gradient)) {
+      tmp$ = $receiver.kind;
+      if (equals(tmp$, Context2d$Gradient$Kind$LINEAR_getInstance())) {
+        var grad = this.ctx.createLinearGradient($receiver.x0, $receiver.y0, $receiver.x1, $receiver.y1);
+        tmp$_0 = $receiver.stops.size;
+        for (var n = 0; n < tmp$_0; n++) {
+          var stop = $receiver.stops.get_za3lpa$(n);
+          var color = $receiver.colors.get_za3lpa$(n);
+          grad.addColorStop(stop, NamedColors_getInstance().toHtmlStringSimple_za3lpa$(color));
+        }
+        tmp$_2 = grad;
       }
-      tmp$_1 = grad;
-    }
-     else if (Kotlin.isType($receiver, Context2d$RadialGradient)) {
-      var grad_0 = this.ctx.createRadialGradient($receiver.x0, $receiver.y0, $receiver.r0, $receiver.x1, $receiver.y1, $receiver.r1);
-      tmp$_0 = $receiver.stops.size;
-      for (var n_0 = 0; n_0 < tmp$_0; n_0++) {
-        var stop_0 = $receiver.stops.get_za3lpa$(n_0);
-        var color_0 = $receiver.colors.get_za3lpa$(n_0);
-        grad_0.addColorStop(stop_0, NamedColors_getInstance().toHtmlString_za3lpa$(color_0));
+       else if (equals(tmp$, Context2d$Gradient$Kind$RADIAL_getInstance())) {
+        var grad_0 = this.ctx.createRadialGradient($receiver.x0, $receiver.y0, $receiver.r0, $receiver.x1, $receiver.y1, $receiver.r1);
+        tmp$_1 = $receiver.stops.size;
+        for (var n_0 = 0; n_0 < tmp$_1; n_0++) {
+          var stop_0 = $receiver.stops.get_za3lpa$(n_0);
+          var color_0 = $receiver.colors.get_za3lpa$(n_0);
+          grad_0.addColorStop(stop_0, NamedColors_getInstance().toHtmlStringSimple_za3lpa$(color_0));
+        }
+        tmp$_2 = grad_0;
       }
-      tmp$_1 = grad_0;
+       else
+        tmp$_2 = Kotlin.noWhenBranchMatched();
     }
      else if (Kotlin.isType($receiver, Context2d$BitmapPaint))
-      tmp$_1 = this.ctx.createPattern(toHtmlNative($receiver.bitmap).canvas, $receiver.repeat ? 'repeat' : 'no-repeat');
+      tmp$_2 = this.ctx.createPattern(toHtmlNative($receiver.bitmap).canvas, $receiver.repeat ? 'repeat' : 'no-repeat');
     else
-      tmp$_1 = 'black';
-    return tmp$_1;
+      tmp$_2 = 'black';
+    return tmp$_2;
   };
   CanvasContext2dRenderer.prototype.keep_0 = function (callback) {
     this.ctx.save();
@@ -11146,6 +11961,7 @@
   package$format.showImageAndWaitExt_p18lal$ = showImageAndWaitExt;
   package$format.showImagesAndWaitExt_qlwqpb$ = showImagesAndWaitExt;
   package$format.showImageAndWait_uler2c$ = showImageAndWait;
+  package$format.showImageAndWait_7fmkw5$ = showImageAndWait_0;
   package$format.showImagesAndWait_eltpmo$ = showImagesAndWait;
   Object.defineProperty(PNG$Colorspace, 'GRAYSCALE', {
     get: PNG$Colorspace$GRAYSCALE_getInstance
@@ -11290,6 +12106,20 @@
   });
   Context2d.Color = Context2d$Color;
   Context2d.TransformedPaint = Context2d$TransformedPaint;
+  Object.defineProperty(Context2d$Gradient$Kind, 'LINEAR', {
+    get: Context2d$Gradient$Kind$LINEAR_getInstance
+  });
+  Object.defineProperty(Context2d$Gradient$Kind, 'RADIAL', {
+    get: Context2d$Gradient$Kind$RADIAL_getInstance
+  });
+  Context2d$Gradient.Kind = Context2d$Gradient$Kind;
+  Object.defineProperty(Context2d$Gradient$Units, 'USER_SPACE_ON_USE', {
+    get: Context2d$Gradient$Units$USER_SPACE_ON_USE_getInstance
+  });
+  Object.defineProperty(Context2d$Gradient$Units, 'OBJECT_BOUNDING_BOX', {
+    get: Context2d$Gradient$Units$OBJECT_BOUNDING_BOX_getInstance
+  });
+  Context2d$Gradient.Units = Context2d$Gradient$Units;
   Object.defineProperty(Context2d$Gradient$InterpolationMethod, 'LINEAR', {
     get: Context2d$Gradient$InterpolationMethod$LINEAR_getInstance
   });
@@ -11298,8 +12128,6 @@
   });
   Context2d$Gradient.InterpolationMethod = Context2d$Gradient$InterpolationMethod;
   Context2d.Gradient = Context2d$Gradient;
-  Context2d.LinearGradient = Context2d$LinearGradient;
-  Context2d.RadialGradient = Context2d$RadialGradient;
   Context2d.BitmapPaint = Context2d$BitmapPaint;
   Context2d.Drawable = Context2d$Drawable;
   Context2d.BoundsDrawable = Context2d$BoundsDrawable;
@@ -11310,7 +12138,8 @@
   package$vector.render_hd3tpo$ = render_0;
   package$vector.GraphicsPath = GraphicsPath;
   package$vector.SvgBuilder = SvgBuilder;
-  package$vector.toSvgPathString_krcd5j$ = toSvgPathString;
+  package$vector.toString_9rbwic$ = toString_1;
+  package$vector.toSvgPathString_2918ih$ = toSvgPathString;
   package$vector.Shape = Shape;
   package$vector.getBounds_infsew$ = getBounds;
   package$vector.toSvg_wxx4ll$ = toSvg_0;
@@ -11327,11 +12156,27 @@
     get: SVG$GradientUnits$OBJECT_BOUNDING_BOX_getInstance
   });
   SVG_0.GradientUnits = SVG$GradientUnits;
+  $$importsForInline$$['klogger-js'] = $module$klogger_js;
+  Object.defineProperty(SVG_0, 'Companion', {
+    get: SVG$Companion_getInstance
+  });
+  SVG_0.PathToken = SVG$PathToken;
+  SVG_0.PathTokenNumber = SVG$PathTokenNumber;
+  SVG_0.PathTokenCmd = SVG$PathTokenCmd;
+  Object.defineProperty(SVG$SvgStyle, 'Companion', {
+    get: SVG$SvgStyle$Companion_getInstance
+  });
+  SVG_0.SvgStyle = SVG$SvgStyle;
   var package$format_0 = package$vector.format || (package$vector.format = {});
   package$format_0.SVG_init_61zpoe$ = SVG_init;
   package$format_0.SVG = SVG_0;
+  package$format_0.expect_2mact2$ = expect;
+  package$format_0.getPoints_krcd5j$ = getPoints;
   Object.defineProperty(package$korim, 'NativeImageSpecialReader', {
     get: NativeImageSpecialReader_getInstance
+  });
+  Object.defineProperty(package$format, 'HtmlCanvas', {
+    get: HtmlCanvas_getInstance
   });
   Object.defineProperty(package$format, 'HtmlImage', {
     get: HtmlImage_getInstance
@@ -11352,7 +12197,7 @@
   PolylineShape.prototype.addBounds_w97n1m$ = StyledShape.prototype.addBounds_w97n1m$;
   PolylineShape.prototype.buildSvg_b7xfbk$ = StyledShape.prototype.buildSvg_b7xfbk$;
   PolylineShape.prototype.draw_vuz2tk$ = StyledShape.prototype.draw_vuz2tk$;
-  KORIM_VERSION = '0.17.2-SNAPSHOT';
+  KORIM_VERSION = '0.17.5-SNAPSHOT';
   defaultImageFormats = new ImageFormats();
   nativeImageFormatProviders = lazy(nativeImageFormatProviders$lambda);
   nativeImageFormatProvider = NativeImageFormatProvider_getInstance();

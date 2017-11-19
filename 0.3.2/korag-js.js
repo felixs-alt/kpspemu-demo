@@ -4107,14 +4107,13 @@
     }
     this.onRender.invoke_11rb$(this);
   };
-  var WebGLRenderingContext$Companion = WebGLRenderingContext;
   AGWebgl.prototype.setViewport_tjonv8$ = function (x, y, width, height) {
     AG.prototype.setViewport_tjonv8$.call(this, x, y, width, height);
     this.gl.viewport(x, y, width, height);
     var res = Unit;
     if (this.checkErrors) {
       var error = this.gl.getError();
-      if (error !== WebGLRenderingContext$Companion.NO_ERROR) {
+      if (error !== 0) {
         lang.Console.error_s8jyv4$('OpenGL error: ' + error);
         printStackTrace(Kotlin.newThrowable());
       }
@@ -4597,7 +4596,7 @@
       var res = Unit;
       if (this.checkErrors) {
         var error = this.gl.getError();
-        if (error !== WebGLRenderingContext$Companion.NO_ERROR) {
+        if (error !== 0) {
           lang.Console.error_s8jyv4$('OpenGL error: ' + error);
           printStackTrace(Kotlin.newThrowable());
         }
@@ -4606,7 +4605,7 @@
       var res_0 = Unit;
       if (this.checkErrors) {
         var error_0 = this.gl.getError();
-        if (error_0 !== WebGLRenderingContext$Companion.NO_ERROR) {
+        if (error_0 !== 0) {
           lang.Console.error_s8jyv4$('OpenGL error: ' + error_0);
           printStackTrace(Kotlin.newThrowable());
         }
@@ -4617,7 +4616,7 @@
       var res_1 = Unit;
       if (this.checkErrors) {
         var error_1 = this.gl.getError();
-        if (error_1 !== WebGLRenderingContext$Companion.NO_ERROR) {
+        if (error_1 !== 0) {
           lang.Console.error_s8jyv4$('OpenGL error: ' + error_1);
           printStackTrace(Kotlin.newThrowable());
         }
@@ -4724,14 +4723,13 @@
     return new AGWebgl$WebglRenderBuffer(this);
   };
   AGWebgl.prototype.checkErrors_klfg04$ = defineInlineFunction('korag-js.com.soywiz.korag.AGWebgl.checkErrors_klfg04$', wrapFunction(function () {
-    var WebGLRenderingContext$Companion = WebGLRenderingContext;
     var lang = _.$$importsForInline$$['korio-js'].com.soywiz.korio.lang;
     var printStackTrace = _.$$importsForInline$$['korio-js'].com.soywiz.korio.lang.printStackTrace_dbl4o4$;
     return function (callback) {
       var res = callback();
       if (this.checkErrors) {
         var error = this.gl.getError();
-        if (error !== WebGLRenderingContext$Companion.NO_ERROR) {
+        if (error !== 0) {
           lang.Console.error_s8jyv4$('OpenGL error: ' + error);
           printStackTrace(Kotlin.newThrowable());
         }
@@ -5176,7 +5174,7 @@
   package$korag.AGWebgl = AGWebgl;
   defaultFactory = lazy(defaultFactory$lambda);
   agFactory = lazy(agFactory$lambda);
-  KORAG_VERSION = '0.17.2-SNAPSHOT';
+  KORAG_VERSION = '0.17.4';
   Kotlin.defineModule('korag-js', _);
   return _;
 }));

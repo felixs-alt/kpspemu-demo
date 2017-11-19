@@ -1,8 +1,8 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd)
-    define(['exports', 'kotlin', 'korio-js', 'korinject-js', 'korag-js', 'korui-js', 'korim-js', 'korma-js', 'kds-js', 'kmem-js', 'korau-js'], factory);
+    define(['exports', 'kotlin', 'korio-js', 'korinject-js', 'korag-js', 'korui-js', 'korim-js', 'korma-js', 'klogger-js', 'kds-js', 'kmem-js', 'korau-js'], factory);
   else if (typeof exports === 'object')
-    factory(module.exports, require('kotlin'), require('korio-js'), require('korinject-js'), require('korag-js'), require('korui-js'), require('korim-js'), require('korma-js'), require('kds-js'), require('kmem-js'), require('korau-js'));
+    factory(module.exports, require('kotlin'), require('korio-js'), require('korinject-js'), require('korag-js'), require('korui-js'), require('korim-js'), require('korma-js'), require('klogger-js'), require('kds-js'), require('kmem-js'), require('korau-js'));
   else {
     if (typeof kotlin === 'undefined') {
       throw new Error("Error loading module 'korge-js'. Its dependency 'kotlin' was not found. Please, check whether 'kotlin' is loaded prior to 'korge-js'.");
@@ -25,6 +25,9 @@
     if (typeof this['korma-js'] === 'undefined') {
       throw new Error("Error loading module 'korge-js'. Its dependency 'korma-js' was not found. Please, check whether 'korma-js' is loaded prior to 'korge-js'.");
     }
+    if (typeof this['klogger-js'] === 'undefined') {
+      throw new Error("Error loading module 'korge-js'. Its dependency 'klogger-js' was not found. Please, check whether 'klogger-js' is loaded prior to 'korge-js'.");
+    }
     if (typeof this['kds-js'] === 'undefined') {
       throw new Error("Error loading module 'korge-js'. Its dependency 'kds-js' was not found. Please, check whether 'kds-js' is loaded prior to 'korge-js'.");
     }
@@ -34,9 +37,9 @@
     if (typeof this['korau-js'] === 'undefined') {
       throw new Error("Error loading module 'korge-js'. Its dependency 'korau-js' was not found. Please, check whether 'korau-js' is loaded prior to 'korge-js'.");
     }
-    root['korge-js'] = factory(typeof this['korge-js'] === 'undefined' ? {} : this['korge-js'], kotlin, this['korio-js'], this['korinject-js'], this['korag-js'], this['korui-js'], this['korim-js'], this['korma-js'], this['kds-js'], this['kmem-js'], this['korau-js']);
+    root['korge-js'] = factory(typeof this['korge-js'] === 'undefined' ? {} : this['korge-js'], kotlin, this['korio-js'], this['korinject-js'], this['korag-js'], this['korui-js'], this['korim-js'], this['korma-js'], this['klogger-js'], this['kds-js'], this['kmem-js'], this['korau-js']);
   }
-}(this, function (_, Kotlin, $module$korio_js, $module$korinject_js, $module$korag_js, $module$korui_js, $module$korim_js, $module$korma_js, $module$kds_js, $module$kmem_js, $module$korau_js) {
+}(this, function (_, Kotlin, $module$korio_js, $module$korinject_js, $module$korag_js, $module$korui_js, $module$korim_js, $module$korma_js, $module$klogger_js, $module$kds_js, $module$kmem_js, $module$korau_js) {
   'use strict';
   var $$importsForInline$$ = _.$$importsForInline$$ || (_.$$importsForInline$$ = {});
   var CoroutineImpl = Kotlin.kotlin.coroutines.experimental.CoroutineImpl;
@@ -58,12 +61,14 @@
   var korui = $module$korui_js.com.soywiz.korui;
   var Kind_CLASS = Kotlin.Kind.CLASS;
   var Promise$Deferred = $module$korio_js.com.soywiz.korio.async.Promise.Deferred;
+  var render = $module$korim_js.com.soywiz.korim.vector.render_hd3tpo$;
   var vfs = $module$korio_js.com.soywiz.korio.vfs;
   var readBitmap = $module$korim_js.com.soywiz.korim.format.readBitmap_ub4gzs$;
   var printStackTrace = $module$korio_js.com.soywiz.korio.lang.printStackTrace_dbl4o4$;
   var Throwable = Error;
   var go = $module$korio_js.com.soywiz.korio.async.go_3hy5wj$;
   var CanvasApplicationEx = $module$korui_js.com.soywiz.korui.CanvasApplicationEx_ig5l1g$;
+  var Logger = $module$klogger_js.com.soywiz.klogger.Logger;
   var Kind_OBJECT = Kotlin.Kind.OBJECT;
   var Kind_INTERFACE = Kotlin.Kind.INTERFACE;
   var throwCCE = Kotlin.throwCCE;
@@ -310,12 +315,6 @@
   KeysComponent.prototype.constructor = KeysComponent;
   MouseComponent.prototype = Object.create(Component.prototype);
   MouseComponent.prototype.constructor = MouseComponent;
-  Logger$Level.prototype = Object.create(Enum.prototype);
-  Logger$Level.prototype.constructor = Logger$Level;
-  Logger$ObjectLiteral.prototype = Object.create(Logger.prototype);
-  Logger$ObjectLiteral.prototype.constructor = Logger$ObjectLiteral;
-  Logger$ObjectLiteral_0.prototype = Object.create(Logger.prototype);
-  Logger$ObjectLiteral_0.prototype.constructor = Logger$ObjectLiteral_0;
   ScaledScene.prototype = Object.create(Scene.prototype);
   ScaledScene.prototype.constructor = ScaledScene;
   EmptyScene.prototype = Object.create(Scene.prototype);
@@ -365,6 +364,7 @@
   function Korge() {
     Korge_instance = this;
     this.VERSION = KORGE_VERSION;
+    this.logger = Logger.Companion.invoke_61zpoe$('Korge');
   }
   function Korge$setupCanvas$lambda($receiver_0, continuation_0, suspended) {
     var instance = new Coroutine$Korge$setupCanvas$lambda($receiver_0, this, continuation_0);
@@ -1139,6 +1139,7 @@
       }
      while (true);
   };
+  var LogLevel = $module$klogger_js.com.soywiz.klogger.LogLevel;
   Korge.prototype.test_dnucxw$ = function (config_0, continuation_0, suspended) {
     var instance = new Coroutine$test_dnucxw$(this, config_0, continuation_0);
     if (suspended)
@@ -1148,7 +1149,7 @@
   };
   function Coroutine$test_dnucxw$($this, config_0, continuation_0) {
     CoroutineImpl.call(this, continuation_0);
-    this.exceptionState_0 = 6;
+    this.exceptionState_0 = 7;
     this.$this = $this;
     this.local$tmp$ = void 0;
     this.local$done = void 0;
@@ -1168,75 +1169,91 @@
           case 0:
             this.local$done = new Promise$Deferred();
             if (this.local$config.container != null) {
-              this.state_0 = 7;
+              this.state_0 = 8;
               this.result_0 = this.$this.setupCanvas_dnucxw$(this.local$config, this);
               if (this.result_0 === COROUTINE_SUSPENDED)
                 return COROUTINE_SUSPENDED;
               break;
             }
              else {
-              if (this.local$config.module.icon != null) {
-                this.exceptionState_0 = 2;
-                this.state_0 = 1;
-                this.result_0 = readBitmap(vfs.ResourcesVfs.get_61zpoe$(ensureNotNull(this.local$config.module.icon)), void 0, void 0, this);
-                if (this.result_0 === COROUTINE_SUSPENDED)
-                  return COROUTINE_SUSPENDED;
-                break;
+              var module_0 = this.local$config.module;
+              this.exceptionState_0 = 4;
+              if (module_0.iconImage != null) {
+                this.local$tmp$ = render(ensureNotNull(module_0.iconImage));
+                this.state_0 = 3;
+                continue;
               }
                else {
-                this.local$tmp$ = null;
-                this.state_0 = 4;
-                continue;
+                if (module_0.icon != null) {
+                  this.state_0 = 1;
+                  this.result_0 = readBitmap(vfs.ResourcesVfs.get_61zpoe$(ensureNotNull(module_0.icon)), void 0, void 0, this);
+                  if (this.result_0 === COROUTINE_SUSPENDED)
+                    return COROUTINE_SUSPENDED;
+                  break;
+                }
+                 else {
+                  this.local$tmp$ = null;
+                  this.state_0 = 2;
+                  continue;
+                }
               }
             }
 
           case 1:
             this.local$tmp$ = this.result_0;
-            this.exceptionState_0 = 6;
-            this.state_0 = 3;
+            this.state_0 = 2;
             continue;
           case 2:
-            this.exceptionState_0 = 6;
+            this.state_0 = 3;
+            continue;
+          case 3:
+            this.exceptionState_0 = 7;
+            this.state_0 = 5;
+            continue;
+          case 4:
+            this.exceptionState_0 = 7;
             var e = this.exception_0;
             if (Kotlin.isType(e, Throwable)) {
+              var $this = this.$this.logger;
+              var level = LogLevel.ERROR;
+              if (level.index <= $this.processedLevel.index) {
+                $this.actualLog_t189ph$(level, "Couldn't get the application icon");
+              }
               printStackTrace(e);
               this.local$tmp$ = null;
             }
              else
               throw e;
-            this.state_0 = 3;
-            continue;
-          case 3:
-            this.state_0 = 4;
-            continue;
-          case 4:
-            var icon = this.local$tmp$;
             this.state_0 = 5;
+            continue;
+          case 5:
+            var icon = this.local$tmp$;
+            this.state_0 = 6;
             this.result_0 = CanvasApplicationEx(this.local$config.module.title, this.local$config.module.windowSize.width, this.local$config.module.windowSize.height, icon, void 0, Korge$test$lambda(this.local$done, this.local$config, this.$this), this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
-          case 5:
-            this.state_0 = 8;
-            continue;
           case 6:
-            throw this.exception_0;
-          case 7:
-            this.local$done.resolve_11rb$(this.result_0);
-            this.state_0 = 8;
-            continue;
-          case 8:
             this.state_0 = 9;
+            continue;
+          case 7:
+            throw this.exception_0;
+          case 8:
+            this.local$done.resolve_11rb$(this.result_0);
+            this.state_0 = 9;
+            continue;
+          case 9:
+            this.state_0 = 10;
             this.result_0 = this.local$done.promise.await(this);
             if (this.result_0 === COROUTINE_SUSPENDED)
               return COROUTINE_SUSPENDED;
             break;
-          case 9:
+          case 10:
             return this.result_0;
         }
       }
        catch (e) {
-        if (this.state_0 === 6)
+        if (this.state_0 === 7)
           throw e;
         else {
           this.state_0 = this.exceptionState_0;
@@ -9950,111 +9967,6 @@
       return $receiver;
     };
   }));
-  function Logger() {
-  }
-  function Logger$Level(name, ordinal) {
-    Enum.call(this);
-    this.name$ = name;
-    this.ordinal$ = ordinal;
-  }
-  function Logger$Level_initFields() {
-    Logger$Level_initFields = function () {
-    };
-    Logger$Level$DEBUG_instance = new Logger$Level('DEBUG', 0);
-    Logger$Level$INFO_instance = new Logger$Level('INFO', 1);
-    Logger$Level$WARNING_instance = new Logger$Level('WARNING', 2);
-    Logger$Level$ERROR_instance = new Logger$Level('ERROR', 3);
-  }
-  var Logger$Level$DEBUG_instance;
-  function Logger$Level$DEBUG_getInstance() {
-    Logger$Level_initFields();
-    return Logger$Level$DEBUG_instance;
-  }
-  var Logger$Level$INFO_instance;
-  function Logger$Level$INFO_getInstance() {
-    Logger$Level_initFields();
-    return Logger$Level$INFO_instance;
-  }
-  var Logger$Level$WARNING_instance;
-  function Logger$Level$WARNING_getInstance() {
-    Logger$Level_initFields();
-    return Logger$Level$WARNING_instance;
-  }
-  var Logger$Level$ERROR_instance;
-  function Logger$Level$ERROR_getInstance() {
-    Logger$Level_initFields();
-    return Logger$Level$ERROR_instance;
-  }
-  Logger$Level.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'Level',
-    interfaces: [Enum]
-  };
-  function Logger$Level$values() {
-    return [Logger$Level$DEBUG_getInstance(), Logger$Level$INFO_getInstance(), Logger$Level$WARNING_getInstance(), Logger$Level$ERROR_getInstance()];
-  }
-  Logger$Level.values = Logger$Level$values;
-  function Logger$Level$valueOf(name) {
-    switch (name) {
-      case 'DEBUG':
-        return Logger$Level$DEBUG_getInstance();
-      case 'INFO':
-        return Logger$Level$INFO_getInstance();
-      case 'WARNING':
-        return Logger$Level$WARNING_getInstance();
-      case 'ERROR':
-        return Logger$Level$ERROR_getInstance();
-      default:throwISE('No enum constant com.soywiz.korge.log.Logger.Level.' + name);
-    }
-  }
-  Logger$Level.valueOf_61zpoe$ = Logger$Level$valueOf;
-  Logger.prototype.debug_61zpoe$ = function (msg) {
-    this.log_a6fzoa$(Logger$Level$DEBUG_getInstance(), msg);
-  };
-  Logger.prototype.info_61zpoe$ = function (msg) {
-    this.log_a6fzoa$(Logger$Level$INFO_getInstance(), msg);
-  };
-  Logger.prototype.warning_61zpoe$ = function (msg) {
-    this.log_a6fzoa$(Logger$Level$WARNING_getInstance(), msg);
-  };
-  Logger.prototype.error_61zpoe$ = function (msg) {
-    this.log_a6fzoa$(Logger$Level$ERROR_getInstance(), msg);
-  };
-  Logger.prototype.log_a6fzoa$ = function (level, msg) {
-  };
-  Logger.$metadata$ = {
-    kind: Kind_CLASS,
-    simpleName: 'Logger',
-    interfaces: []
-  };
-  function Logger$ObjectLiteral(closure$handler) {
-    this.closure$handler = closure$handler;
-    Logger.call(this);
-  }
-  Logger$ObjectLiteral.prototype.log_a6fzoa$ = function (level, msg) {
-    this.closure$handler(level, msg);
-  };
-  Logger$ObjectLiteral.$metadata$ = {
-    kind: Kind_CLASS,
-    interfaces: [Logger]
-  };
-  function Logger_0(handler) {
-    return new Logger$ObjectLiteral(handler);
-  }
-  function Logger$ObjectLiteral_0(closure$handler) {
-    this.closure$handler = closure$handler;
-    Logger.call(this);
-  }
-  Logger$ObjectLiteral_0.prototype.log_a6fzoa$ = function (level, msg) {
-    this.closure$handler(msg);
-  };
-  Logger$ObjectLiteral_0.$metadata$ = {
-    kind: Kind_CLASS,
-    interfaces: [Logger]
-  };
-  function Logger_1(handler) {
-    return new Logger$ObjectLiteral_0(handler);
-  }
   function KorgePlugin() {
   }
   KorgePlugin.$metadata$ = {
@@ -11233,6 +11145,7 @@
     this.bgcolor_pdzsck$_0 = color.Colors.BLACK;
     this.title_vbpu3a$_0 = 'Game';
     this.icon_sodvon$_0 = null;
+    this.iconImage_k6m3z4$_0 = null;
     this.size_sirvvz$_0 = new SizeInt(640, 480);
     this.windowSize_350i0v$_0 = this.size;
     this.plugins_dhad5u$_0 = emptyList();
@@ -11252,6 +11165,11 @@
   Object.defineProperty(Module.prototype, 'icon', {
     get: function () {
       return this.icon_sodvon$_0;
+    }
+  });
+  Object.defineProperty(Module.prototype, 'iconImage', {
+    get: function () {
+      return this.iconImage_k6m3z4$_0;
     }
   });
   Object.defineProperty(Module.prototype, 'size', {
@@ -11489,20 +11407,22 @@
   };
   function LogScene() {
     Scene.call(this);
-    var tmp$;
-    this.name = (tmp$ = '' + toString(Kotlin.getKClassFromExpression(this))) != null ? tmp$ : 'LogSceneUnknown';
-    this.logger_v0o1cu$_0 = this.logger_v0o1cu$_0;
+    this.name_oxd2nx$_0 = 'LogScene';
+    this.log_c9euda$_0 = ArrayList_init_0();
   }
-  Object.defineProperty(LogScene.prototype, 'logger', {
+  Object.defineProperty(LogScene.prototype, 'name', {
     get: function () {
-      if (this.logger_v0o1cu$_0 == null)
-        return throwUPAE('logger');
-      return this.logger_v0o1cu$_0;
-    },
-    set: function (logger) {
-      this.logger_v0o1cu$_0 = logger;
+      return this.name_oxd2nx$_0;
     }
   });
+  Object.defineProperty(LogScene.prototype, 'log', {
+    get: function () {
+      return this.log_c9euda$_0;
+    }
+  });
+  LogScene.prototype.log_61zpoe$ = function (msg) {
+    this.log.add_11rb$(msg);
+  };
   LogScene.prototype.init_y6n311$ = function (injector_0, continuation_0, suspended) {
     var instance = new Coroutine$init_y6n311$_0(this, injector_0, continuation_0);
     if (suspended)
@@ -11536,8 +11456,6 @@
           case 1:
             throw this.exception_0;
           case 2:
-            this.result_0 = this.local$injector.get_wx4qjr$(getKClass(Logger), void 0, this);
-            this.$this.logger = this.result_0;
             return;
         }
       }
@@ -11575,7 +11493,7 @@
       try {
         switch (this.state_0) {
           case 0:
-            this.$this.logger.info_61zpoe$(this.$this.name + '.sceneInit');
+            this.$this.log_61zpoe$(this.$this.name + '.sceneInit');
             this.state_0 = 2;
             this.result_0 = Scene.prototype.sceneAfterInit.call(this.$this, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
@@ -11621,7 +11539,7 @@
       try {
         switch (this.state_0) {
           case 0:
-            this.$this.logger.info_61zpoe$(this.$this.name + '.sceneAfterInit');
+            this.$this.log_61zpoe$(this.$this.name + '.sceneAfterInit');
             this.state_0 = 2;
             this.result_0 = Scene.prototype.sceneAfterInit.call(this.$this, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
@@ -11667,7 +11585,7 @@
       try {
         switch (this.state_0) {
           case 0:
-            this.$this.logger.info_61zpoe$(this.$this.name + '.sceneDestroy');
+            this.$this.log_61zpoe$(this.$this.name + '.sceneDestroy');
             this.state_0 = 2;
             this.result_0 = Scene.prototype.sceneDestroy.call(this.$this, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
@@ -11713,7 +11631,7 @@
       try {
         switch (this.state_0) {
           case 0:
-            this.$this.logger.info_61zpoe$(this.$this.name + '.sceneAfterDestroy');
+            this.$this.log_61zpoe$(this.$this.name + '.sceneAfterDestroy');
             this.state_0 = 2;
             this.result_0 = Scene.prototype.sceneAfterDestroy.call(this.$this, this);
             if (this.result_0 === COROUTINE_SUSPENDED)
@@ -17404,6 +17322,7 @@
   $$importsForInline$$['korma-js'] = $module$korma_js;
   $$importsForInline$$['korge-js'] = _;
   Korge.prototype.Config = Korge$Config;
+  $$importsForInline$$['klogger-js'] = $module$klogger_js;
   Korge.prototype.ModuleArgs = Korge$ModuleArgs;
   var package$com = _.com || (_.com = {});
   var package$soywiz = package$com.soywiz || (package$com.soywiz = {});
@@ -17628,23 +17547,6 @@
   package$input.onUpOutside_uqlhil$ = onUpOutside;
   package$input.onUpAnywhere_uqlhil$ = onUpAnywhere;
   package$input.onMove_uqlhil$ = onMove;
-  Object.defineProperty(Logger$Level, 'DEBUG', {
-    get: Logger$Level$DEBUG_getInstance
-  });
-  Object.defineProperty(Logger$Level, 'INFO', {
-    get: Logger$Level$INFO_getInstance
-  });
-  Object.defineProperty(Logger$Level, 'WARNING', {
-    get: Logger$Level$WARNING_getInstance
-  });
-  Object.defineProperty(Logger$Level, 'ERROR', {
-    get: Logger$Level$ERROR_getInstance
-  });
-  Logger.Level = Logger$Level;
-  var package$log = package$korge.log || (package$korge.log = {});
-  package$log.Logger = Logger;
-  package$log.Logger_ggii2p$ = Logger_0;
-  package$log.Logger_ep0k5p$ = Logger_1;
   var package$plugin = package$korge.plugin || (package$korge.plugin = {});
   package$plugin.KorgePlugin = KorgePlugin;
   Object.defineProperty(package$plugin, 'defaultKorgePlugins', {
@@ -17934,7 +17836,7 @@
   CancellableGroup.prototype.cancel_tcv7n7$ = Cancellable.prototype.cancel_tcv7n7$;
   View$addUpdatable$ObjectLiteral.prototype.cancel_tcv7n7$ = Cancellable.prototype.cancel_tcv7n7$;
   Views.prototype.dispatch_gdt21f$ = EventDispatcher.prototype.dispatch_gdt21f$;
-  KORGE_VERSION = '0.17.2-SNAPSHOT';
+  KORGE_VERSION = '0.17.3-SNAPSHOT';
   stencilIndex = new Extra$Property(void 0, stencilIndex$lambda);
   animateLibraryLoaders = new Extra$Property(void 0, animateLibraryLoaders$lambda);
   soundSystem = new Extra$PropertyThis(void 0, soundSystem$lambda);
